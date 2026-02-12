@@ -1,0 +1,12 @@
+fastapi>=0.135.0
+slowapi>=0.1.9
+uvicorn[standard]>=0.44.0
+sqlalchemy[asyncio]>=2.0.0
+asyncpg>=0.30.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+pydantic[email]>=2.0.0
+bcrypt>=4.2.0
+pyjwt[crypto]>=2.9.0
+alembic>=1.14.0
+strawberry-graphql[fastapi]>=0.243.0

@@ -1,0 +1,15 @@
+.git
+.gitignore
+.claude
+.vscode
+.env
+.env.*
+*.md
+node_modules
+**/__pycache__
+**/.pytest_cache
+**/.next
+**/.expo
+**/dist
+analytics
+docs

@@ -1,0 +1,189 @@
+/* ===============================================================
+ * CityHero · base.css
+ * Custom styles extracted from the monolithic prototype.
+ * Tokens live in Tailwind config (brand, civic palettes, shadow-soft).
+ * This file carries component-level CSS that would be painful to
+ * replicate with utility classes alone (frame shadow, before/after
+ * slider, animated pins, rotating tagline, ...).
+ * =============================================================== */
+
+html, body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+/* Ambient page texture (used by the landing canvas, not by phone screens). */
+.grain {
+  background-image:
+    radial-gradient(circle at 25% 20%, rgba(249,115,22,.08), transparent 45%),
+    radial-gradient(circle at 80% 60%, rgba(124,58,237,.08), transparent 45%),
+    radial-gradient(circle at 50% 100%, rgba(14,165,233,.08), transparent 45%);
+}
+
+/* ============ Phone frame (organism primitive) ============ */
+.phone {
+  width: 320px; height: 660px; border-radius: 44px; overflow: hidden;
+  background: #fff; position: relative;
+  box-shadow: 0 30px 60px -20px rgba(15,23,42,.35), 0 0 0 10px #111827, 0 0 0 11px #374151;
+}
+.phone .notch {
+  position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+  width: 110px; height: 22px; background: #111827; border-radius: 999px; z-index: 40;
+}
+.phone .notch::after {
+  content: ""; position: absolute; right: 10px; top: 8px;
+  width: 6px; height: 6px; border-radius: 999px; background: #334155;
+}
+.phone-scroll { height: 100%; overflow-y: auto; scrollbar-width: none; }
+.phone-scroll::-webkit-scrollbar { display: none; }
+
+/* ============ Status bar (atom) ============ */
+.status-bar {
+  height: 44px; padding: 8px 22px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12px; font-weight: 700; color: #0F172A;
+}
+.status-bar .right { display: flex; align-items: center; gap: 4px; }
+
+/* ============ Decorative map background (organism) ============ */
+.map-bg { background: linear-gradient(135deg, #EFF6FF 0%, #F0FDFA 100%); position: relative; }
+.streets {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(90deg, rgba(15,23,42,.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(15,23,42,.08) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(124,58,237,.06) 2px, transparent 2px);
+  background-size: 44px 44px, 44px 44px, 120px 120px;
+}
+.park {
+  position: absolute;
+  background: radial-gradient(ellipse at center, #bbf7d0 0%, #86efac 60%, transparent 100%);
+  filter: blur(2px); opacity: .8; border-radius: 40% 60% 55% 45%;
+}
+.water {
+  position: absolute;
+  background: linear-gradient(135deg, #bae6fd, #7dd3fc);
+  border-radius: 40% 70% 50% 60%; opacity: .85;
+}
+
+/* ============ Pin (atom) ============ */
+.pin {
+  position: absolute; display: flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; border-radius: 50% 50% 50% 4px; transform: rotate(-45deg);
+  box-shadow: 0 6px 14px -2px rgba(15,23,42,.4); border: 3px solid #fff;
+}
+.pin > * { transform: rotate(45deg); font-size: 16px; }
+.pin.sm { width: 28px; height: 28px; border-width: 2px; }
+.pin.sm > * { font-size: 12px; }
+.pin::after {
+  content: ""; position: absolute; left: 50%; bottom: -3px;
+  transform: translateX(-50%) rotate(45deg);
+  width: 6px; height: 6px; background: inherit;
+}
+
+/* ============ Pulse dot (atom) ============ */
+.pulse-dot {
+  position: relative; width: 16px; height: 16px;
+  background: #2563eb; border-radius: 999px; border: 3px solid #fff;
+  box-shadow: 0 0 0 0 rgba(37,99,235,.6);
+  animation: pulse 1.8s infinite;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(37,99,235,.55); }
+  70%  { box-shadow: 0 0 0 22px rgba(37,99,235,0);   }
+  100% { box-shadow: 0 0 0 0   rgba(37,99,235,0);   }
+}
+
+/* ============ XP bar (atom) ============ */
+.xp-track { background: #F1F5F9; border-radius: 999px; height: 10px; overflow: hidden; }
+.xp-fill  { height: 100%; background: linear-gradient(90deg, #F97316, #F59E0B); border-radius: 999px; }
+
+/* ============ Pill tabs (used on landing, not inside phone) ============ */
+.pill-active { background: #0F172A; color: #fff; }
+.pill        { transition: all .15s ease; }
+
+/* ============ Screen card (grid-mode wrapper) ============ */
+.screen-card     { transition: transform .2s ease, box-shadow .2s ease; }
+.screen-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -20px rgba(15,23,42,.35); }
+.screen-label    { background: linear-gradient(180deg, #fff 0%, #F8FAFC 100%); }
+
+/* ============ Detect box (atom, camera screen) ============ */
+.detect-box {
+  position: absolute; border: 3px solid #22D3EE; border-radius: 12px;
+  box-shadow: 0 0 0 2px rgba(34,211,238,.25), inset 0 0 0 1px rgba(255,255,255,.4);
+  animation: scan 2s ease-in-out infinite alternate;
+}
+@keyframes scan { from { transform: translate(0,0); } to { transform: translate(4px,-3px); } }
+
+/* ============ Confetti (atom, splash) ============ */
+.confetti {
+  position: absolute; width: 8px; height: 8px; border-radius: 2px; opacity: .9;
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-10px) rotate(20deg); } }
+
+/* ============ Before/after slider (molecule) ============ */
+.ba-wrap  { position: relative; overflow: hidden; border-radius: 18px; }
+.ba-after { position: absolute; inset: 0; clip-path: inset(0 0 0 50%); }
+.ba-handle {
+  position: absolute; top: 0; bottom: 0; left: 50%;
+  width: 3px; background: #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.2);
+}
+.ba-handle::after {
+  content: "⇆"; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 32px; height: 32px; border-radius: 999px; background: #fff;
+  color: #0F172A; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+}
+
+/* ============ Toggle switch (atom) ============ */
+.toggle { width: 44px; height: 24px; border-radius: 999px; background: #E2E8F0; position: relative; transition: background .2s; }
+.toggle.on { background: #10B981; }
+.toggle .knob {
+  position: absolute; top: 2px; left: 2px;
+  width: 20px; height: 20px; border-radius: 999px; background: #fff;
+  transition: left .2s; box-shadow: 0 2px 4px rgba(0,0,0,.2);
+}
+.toggle.on .knob { left: 22px; }
+
+/* ============ Bottom nav tab state (organism) ============ */
+.tab-btn           { color: #94A3B8; }
+.tab-btn.active    { color: #F97316; }
+.tab-btn.active svg{ stroke: #F97316; }
+
+/* ============ Badge shine (atom, gamification) ============ */
+.shine { background: linear-gradient(135deg, #FCD34D 0%, #F97316 50%, #7C3AED 100%); }
+
+/* ============ Section label (template) ============ */
+.section-title {
+  font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+  color: #64748B; font-weight: 700;
+}
+
+/* ============ Rotating tagline (molecule, splash) ============ */
+.rot-wrap { position: relative; width: 100%; min-height: 44px; }
+.rot-line {
+  position: absolute; inset: 0; text-align: center;
+  opacity: 0; transform: translateY(6px);
+  animation: rot-cycle 18s infinite;
+  will-change: opacity, transform;
+}
+.rot-line:nth-child(1){ animation-delay: 0s;  }
+.rot-line:nth-child(2){ animation-delay: 3s;  }
+.rot-line:nth-child(3){ animation-delay: 6s;  }
+.rot-line:nth-child(4){ animation-delay: 9s;  }
+.rot-line:nth-child(5){ animation-delay: 12s; }
+.rot-line:nth-child(6){ animation-delay: 15s; }
+@keyframes rot-cycle {
+  0%   { opacity: 0; transform: translateY(6px); }
+  3%   { opacity: 1; transform: translateY(0);   }
+  14%  { opacity: 1; transform: translateY(0);   }
+  17%  { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 0; transform: translateY(-6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rot-line { animation: none; }
+  .rot-line:nth-child(n+2) { display: none; }
+  .rot-line:nth-child(1)   { opacity: 1; transform: none; }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
