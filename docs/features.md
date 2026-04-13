@@ -8,6 +8,7 @@
 - **Strict Geographic Validation:** Blocking uploads from gallery or distant locations; user must be physically at report location (1 km tolerance).
 - **City Hall Reporting:** Develop an integration layer for the City Hall’s grievance system/forms. This will automatically populate all relevant data to open a ticket when the municipality does not officially use CityHero. Include a brief promotion for the app within the ticket description.
 - **Ticket Tracking:** Develop an integration layer to pull updates from the City Hall’s system and display summary responses directly within the app.
+- **Projects in Progress:** Much like our reports, all ongoing municipal projects will be integrated into the city map. This provides full visibility into active developments, such as bridge construction, road paving, and the building of new schools and healthcare facilities. Key details—including start/end dates, cost, project milestones, and current status — will be added to the project details.
 - **Offline Mode:** Ability to save a report (photo + GPS) when having no signal and automatically synchronize when connection returns.
 - **Manual Report (Fallback):** Map interface for pin selection and category list for cases where AI fails.
 - **Hyperlocal Civic Feed:** Timeline showing neighbor reports within a configurable radius (e.g., 10km).
