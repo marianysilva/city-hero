@@ -7,6 +7,8 @@ This document consolidates all technical, strategic, and product discussions we 
 **Version:** 1.0
 **Concept:** Intelligent Urban Maintenance & Citizen Engagement Platform.
 
+![CityHero-Example](docs/example.png)
+
 ---
 
 ## 1. Product Overview
