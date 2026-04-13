@@ -6,6 +6,8 @@
 - **Edge AI Camera:** Automatic and instant detection of the problem type (pothole, trash, graffiti) when pointing the camera, without needing internet.
 - **Automatic Anonymization:** Automatic blurring of faces and license plates in photos before upload (GDPR compliance). Search for more sensive things that can appear in the photo.
 - **Strict Geographic Validation:** Blocking uploads from gallery or distant locations; user must be physically at report location (1 km tolerance).
+- **City Hall Reporting:** Develop an integration layer for the City Hall’s grievance system/forms. This will automatically populate all relevant data to open a ticket when the municipality does not officially use CityHero. Include a brief promotion for the app within the ticket description.
+- **Ticket Tracking:** Develop an integration layer to pull updates from the City Hall’s system and display summary responses directly within the app.
 - **Offline Mode:** Ability to save a report (photo + GPS) when having no signal and automatically synchronize when connection returns.
 - **Manual Report (Fallback):** Map interface for pin selection and category list for cases where AI fails.
 - **Hyperlocal Civic Feed:** Timeline showing neighbor reports within a configurable radius (e.g., 10km).
