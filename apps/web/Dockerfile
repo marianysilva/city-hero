@@ -13,21 +13,14 @@ RUN mkdir -p apps/backend apps/mobile packages/design_system packages/ia_researc
     echo '{"name":"@city-hero/design-system","private":true}' > packages/design_system/package.json && \
     echo '{"name":"@city-hero/ia-research","private":true}' > packages/ia_research/package.json
 
-RUN npm ci
+RUN npm install --ignore-scripts
 
 # Stage 2: Build
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/packages/types/node_modules ./packages/types/node_modules 2>/dev/null || true
-COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules 2>/dev/null || true
-COPY --from=deps /app/package.json ./package.json
-COPY --from=deps /app/package-lock.json ./package-lock.json
-COPY --from=deps /app/apps/backend/package.json ./apps/backend/package.json
-COPY --from=deps /app/apps/mobile/package.json ./apps/mobile/package.json
-COPY --from=deps /app/packages/design_system/package.json ./packages/design_system/package.json
-COPY --from=deps /app/packages/ia_research/package.json ./packages/ia_research/package.json
+# Copy entire deps stage to avoid missing node_modules issues
+COPY --from=deps /app ./
 
 COPY packages/types ./packages/types
 COPY apps/web ./apps/web
