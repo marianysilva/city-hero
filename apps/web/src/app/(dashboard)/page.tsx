@@ -1,21 +1,25 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import type { User } from "@city-hero/types";
 import { api } from "@/lib/api";
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     api
-      .get<User>("/users/me")
+      .get<User>("/api/auth/me")
       .then(setUser)
-      .catch(() => {})
+      .catch(() => {
+        router.replace("/login");
+      })
       .finally(() => setLoading(false));
-  }, []);
+  }, [router]);
 
   if (loading) {
     return <p className="text-gray-400">Carregando...</p>;

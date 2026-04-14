@@ -1,9 +1,8 @@
-FROM node:20-alpine
-
+# Stage 1: Install dependencies
+FROM node:20-alpine AS deps
 WORKDIR /app
 
-# Copy workspace config files
-COPY package.json ./
+COPY package.json package-lock.json ./
 COPY packages/types/package.json ./packages/types/
 COPY apps/web/package.json ./apps/web/
 
@@ -14,18 +13,50 @@ RUN mkdir -p apps/backend apps/mobile packages/design_system packages/ia_researc
     echo '{"name":"@city-hero/design-system","private":true}' > packages/design_system/package.json && \
     echo '{"name":"@city-hero/ia-research","private":true}' > packages/ia_research/package.json
 
-# Install deps
-RUN npm install
+RUN npm ci
 
-# Copy actual source code
+# Stage 2: Build
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/packages/types/node_modules ./packages/types/node_modules 2>/dev/null || true
+COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules 2>/dev/null || true
+COPY --from=deps /app/package.json ./package.json
+COPY --from=deps /app/package-lock.json ./package-lock.json
+COPY --from=deps /app/apps/backend/package.json ./apps/backend/package.json
+COPY --from=deps /app/apps/mobile/package.json ./apps/mobile/package.json
+COPY --from=deps /app/packages/design_system/package.json ./packages/design_system/package.json
+COPY --from=deps /app/packages/ia_research/package.json ./packages/ia_research/package.json
+
 COPY packages/types ./packages/types
 COPY apps/web ./apps/web
 
-# Next.js bakes NEXT_PUBLIC_* at build time
 ARG NEXT_PUBLIC_API_URL=http://localhost:8000
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 ENV NEXT_TELEMETRY_DISABLED=1
 
+RUN npm run build --workspace=apps/web
+
+# Stage 3: Production runner
+FROM node:20-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs
+
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
+
+USER nextjs
+
 EXPOSE 3000
 
-CMD ["npm", "run", "dev", "--workspace=apps/web"]
+ENV HOSTNAME="0.0.0.0"
+ENV PORT=3000
+
+CMD ["node", "apps/web/server.js"]

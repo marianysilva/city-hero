@@ -5,3 +5,8 @@ __pycache__
 .venv
 *.pyc
 .git
+tests/
+requirements-dev.txt
+pytest.ini
+.env.sample
+alembic/versions/

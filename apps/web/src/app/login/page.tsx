@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import type { AuthResponse } from "@city-hero/types";
 import { api } from "@/lib/api";
 
 export default function LoginPage() {
@@ -19,12 +18,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const data = await api.post<AuthResponse>("/auth/login", {
-        email,
-        password,
-      });
-
-      localStorage.setItem("token", data.accessToken);
+      await api.post("/api/auth/login", { email, password });
       router.push("/dashboard");
     } catch {
       setError("Email ou senha inválidos.");
