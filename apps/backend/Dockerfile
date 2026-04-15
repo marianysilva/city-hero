@@ -5,7 +5,15 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+# Copy only what the production image needs. Explicit list keeps tests/,
+# dev-only scripts, and requirements-dev.txt out of the final image regardless
+# of .dockerignore rules.
+COPY app ./app
+COPY alembic ./alembic
+COPY alembic.ini ./
+COPY main.py ./
+COPY entrypoint.sh ./
+COPY wait_for_db.py ./
 
 RUN chmod +x entrypoint.sh && \
     addgroup --system app && adduser --system --ingroup app app

@@ -1,0 +1,64 @@
+# Development overrides — auto-loaded by `docker compose up` on top of docker-compose.yml.
+# Switches backend and web into hot-reload mode and enables `compose watch` for live sync.
+#
+# Usage:
+#   podman compose up --watch
+#
+# Without --watch, this file still applies (hot-reload works for anything already
+# inside the container), but file changes on the host won't be synced in.
+
+services:
+  db:
+    # Expose Postgres to the host for local tools (psql, DBeaver, VS Code).
+    # Kept out of docker-compose.yml so production stays network-isolated.
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile.dev
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    ports:
+      - "8000:8000"
+      - "5678:5678"  # debugpy remote debugging
+    develop:
+      watch:
+        - action: sync
+          path: ./apps/backend
+          target: /app
+          ignore:
+            - __pycache__/
+            - "*.pyc"
+            - .pytest_cache/
+            - .venv/
+            - tests/
+            - alembic/versions/
+        - action: rebuild
+          path: ./apps/backend/requirements.txt
+        - action: rebuild
+          path: ./apps/backend/Dockerfile
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile.dev
+    command: ["npm", "run", "dev", "--workspace=apps/web"]
+    develop:
+      watch:
+        - action: sync
+          path: ./apps/web/src
+          target: /app/apps/web/src
+        - action: sync
+          path: ./apps/web/public
+          target: /app/apps/web/public
+        - action: sync+restart
+          path: ./apps/web/next.config.ts
+          target: /app/apps/web/next.config.ts
+        - action: sync
+          path: ./packages/types/src
+          target: /app/packages/types/src
+        - action: rebuild
+          path: ./apps/web/package.json
+        - action: rebuild
+          path: ./package.json

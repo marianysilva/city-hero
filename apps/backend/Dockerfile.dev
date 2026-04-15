@@ -1,0 +1,25 @@
+# Development image for the backend.
+# Used only by docker-compose.override.yml.
+# Production uses apps/backend/Dockerfile.
+#
+# Differences from prod:
+#   - Installs requirements-dev.txt (pytest, ruff, httpx, debugpy)
+#   - Runs as root so you can `pip install` / write files at runtime from `exec`
+#   - Exposes 5678 for VS Code remote debugging (debugpy)
+#   - CMD is uvicorn --reload (overridden in compose anyway)
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY requirements.txt requirements-dev.txt ./
+RUN pip install --no-cache-dir -r requirements-dev.txt
+
+COPY . .
+
+RUN chmod +x entrypoint.sh
+
+ENTRYPOINT ["/app/entrypoint.sh"]
+
+EXPOSE 8000 5678
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
