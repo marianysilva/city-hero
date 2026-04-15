@@ -1,7 +1,7 @@
 import pytest
 from httpx import AsyncClient
 
-pytestmark = pytest.mark.asyncio
+pytestmark = pytest.mark.asyncio(loop_scope="session")
 
 
 async def test_register_success(client: AsyncClient):

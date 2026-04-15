@@ -1,13 +1,20 @@
-import asyncio
 import os
-from collections.abc import AsyncGenerator
 
-import pytest
-from httpx import ASGITransport, AsyncClient
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+# Disable rate limiting before importing the app: the limiter is constructed
+# at import time from this env var. Without this, slowapi's per-IP counters
+# persist across requests in a single pytest run and the 7th call to
+# /auth/register would return 429.
+os.environ.setdefault("RATE_LIMIT_ENABLED", "false")
 
-from app.core.database import Base, get_db
-from main import app
+from collections.abc import AsyncGenerator  # noqa: E402
+
+import pytest_asyncio  # noqa: E402
+from httpx import ASGITransport, AsyncClient  # noqa: E402
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine  # noqa: E402
+from sqlalchemy.pool import NullPool  # noqa: E402
+
+from app.core.database import Base, get_db  # noqa: E402
+from main import app  # noqa: E402
 
 TEST_DATABASE_URL = os.environ.get("TEST_DATABASE_URL")
 if not TEST_DATABASE_URL:
@@ -16,37 +23,41 @@ if not TEST_DATABASE_URL:
         "Set it to a dedicated test database URL."
     )
 
-engine = create_async_engine(TEST_DATABASE_URL, echo=False)
 
-
-@pytest.fixture(scope="session")
-def event_loop():
-    loop = asyncio.new_event_loop()
-    yield loop
-    loop.close()
-
-
-@pytest.fixture(scope="session", autouse=True)
-async def setup_db():
-    async with engine.begin() as conn:
+@pytest_asyncio.fixture(scope="session", loop_scope="session")
+async def engine():
+    # NullPool avoids asyncpg connection-to-loop binding issues:
+    # with pooling, pooled connections stay bound to the loop that
+    # created them and break when reused in another test's loop.
+    eng = create_async_engine(TEST_DATABASE_URL, echo=False, poolclass=NullPool)
+    async with eng.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-    yield
-    async with engine.begin() as conn:
+    yield eng
+    async with eng.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
+    await eng.dispose()
 
 
-@pytest.fixture
-async def db() -> AsyncGenerator[AsyncSession, None]:
+@pytest_asyncio.fixture(loop_scope="session")
+async def db(engine) -> AsyncGenerator[AsyncSession, None]:
+    # Per-test isolation via outer transaction + SAVEPOINT: the session
+    # runs inside a savepoint, session.commit() releases the savepoint,
+    # and the outer rollback undoes everything at teardown.
     async with engine.connect() as conn:
-        async with conn.begin() as _txn:
-            async with conn.begin_nested():
-                session = AsyncSession(bind=conn, expire_on_commit=False)
-                yield session
-            # savepoint rolled back on exit
-        # outer transaction rolled back on exit
+        trans = await conn.begin()
+        session = AsyncSession(
+            bind=conn,
+            expire_on_commit=False,
+            join_transaction_mode="create_savepoint",
+        )
+        try:
+            yield session
+        finally:
+            await session.close()
+            await trans.rollback()
 
 
-@pytest.fixture
+@pytest_asyncio.fixture(loop_scope="session")
 async def client(db: AsyncSession) -> AsyncGenerator[AsyncClient, None]:
     async def override_get_db():
         yield db
