@@ -26,10 +26,12 @@ async def get_user(
 ):
     query = select(User).where(User.id == user_id, User.is_active.is_(True))
     if current_user.role != UserRole.ADMIN:
-        if current_user.city_id is not None:
-            query = query.where(User.city_id == current_user.city_id)
-        else:
-            query = query.where(User.id == current_user.id)
+        if current_user.city_id is None:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Insufficient permissions",
+            )
+        query = query.where(User.city_id == current_user.city_id)
     result = await db.execute(query)
     user = result.scalar_one_or_none()
     if user is None:

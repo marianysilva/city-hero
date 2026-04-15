@@ -6,8 +6,10 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_DB_TEST: ${POSTGRES_DB_TEST}
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./scripts/db/init-test-db.sh:/docker-entrypoint-initdb.d/init-test-db.sh:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
       interval: 5s
@@ -50,6 +52,7 @@ services:
     environment:
       API_URL: http://backend:8000
       COOKIE_SECURE: "true"
+      SECRET_KEY: ${SECRET_KEY}
     ports:
       - "3000:3000"
     depends_on:

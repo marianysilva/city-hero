@@ -22,6 +22,11 @@ if not TEST_DATABASE_URL:
         "TEST_DATABASE_URL environment variable is required. "
         "Set it to a dedicated test database URL."
     )
+if TEST_DATABASE_URL == os.environ.get("DATABASE_URL"):
+    raise RuntimeError(
+        "TEST_DATABASE_URL must point to a different database than DATABASE_URL "
+        "to avoid wiping development data."
+    )
 
 
 @pytest_asyncio.fixture(scope="session", loop_scope="session")
