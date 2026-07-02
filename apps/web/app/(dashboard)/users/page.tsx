@@ -40,7 +40,12 @@ export default function UsersPage() {
   const urlTab: UserStatus = VALID_TABS.includes(rawTab as UserStatus) ? (rawTab as UserStatus) : 'active'
 
   const [inputValue, setInputValue] = useState(urlQ)
-  useEffect(() => { setInputValue(urlQ) }, [urlQ])
+  useEffect(() => {
+    // Re-sync the editable search box when urlQ changes from outside this
+    // component (e.g. back/forward navigation), without clobbering in-progress typing.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setInputValue(urlQ)
+  }, [urlQ])
 
   const [sort, setSort] = useState<SortEntry[]>(() =>
     urlTab === 'deleted' ? DEFAULT_SORT_DELETED : DEFAULT_SORT
