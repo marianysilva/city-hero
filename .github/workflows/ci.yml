@@ -1,0 +1,151 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel superseded runs on the same ref (e.g. rapid pushes to a PR branch).
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ── Backend ────────────────────────────────────────────────────────────────
+  backend-lint:
+    name: Backend · Lint (ruff)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      # ruff is not pinned in requirements-dev.txt; install it standalone so the
+      # lint job stays fast (no app deps needed just to lint).
+      - run: pip install ruff
+      - run: ruff check .
+
+  backend-test:
+    name: Backend · Tests (pytest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/backend
+    services:
+      postgres:
+        image: postgis/postgis:16-3.4-alpine
+        env:
+          POSTGRES_USER: cityhero
+          POSTGRES_PASSWORD: ci-test-password-only
+          POSTGRES_DB: cityhero
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U cityhero"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      # conftest.py reads TEST_DATABASE_URL and applies Alembic migrations itself,
+      # so CI only needs an empty, PostGIS-enabled cityhero_test database.
+      TEST_DATABASE_URL: postgresql+asyncpg://cityhero:ci-test-password-only@localhost:5432/cityhero_test
+      DATABASE_URL: postgresql+asyncpg://cityhero:ci-test-password-only@localhost:5432/cityhero_test
+      SECRET_KEY: ci-test-secret-key-minimum-32-characters-long
+      PGPASSWORD: ci-test-password-only
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Create PostGIS test database
+        run: |
+          psql -h localhost -U cityhero -d cityhero -c "CREATE DATABASE cityhero_test;"
+          psql -h localhost -U cityhero -d cityhero_test -c "CREATE EXTENSION IF NOT EXISTS postgis;"
+      # requirements-dev.txt only pins test tooling (pytest/httpx); the app deps
+      # in requirements.txt are needed to import the app and run migrations.
+      - run: pip install -r requirements.txt -r requirements-dev.txt
+      - run: pytest -v
+
+  # ── Web (Next.js) ──────────────────────────────────────────────────────────
+  web-quality:
+    name: Web · Lint + Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Type check
+        run: npx tsc --noEmit
+        working-directory: apps/web
+      - name: Lint
+        run: npx eslint .
+        working-directory: apps/web
+
+  web-build:
+    name: Web · Build (next build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build --workspace=apps/web
+
+  # ── Mobile (Expo / React Native) ──────────────────────────────────────────
+  mobile-typecheck:
+    name: Mobile · Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx tsc --noEmit --project apps/city-hero/tsconfig.json
+
+  mobile-lint:
+    name: Mobile · Lint (eslint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx eslint .
+        working-directory: apps/city-hero
+
+  mobile-test:
+    name: Mobile · Tests (jest-expo)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx jest --ci
+        working-directory: apps/city-hero
+
+  # ── Container build ────────────────────────────────────────────────────────
+  docker-build:
+    name: Docker · Backend image builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build backend image
+        run: docker build -t cityhero-backend ./apps/backend

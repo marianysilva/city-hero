@@ -9,7 +9,6 @@ import time
 from uuid import uuid4
 
 import jwt
-import pytest
 from httpx import AsyncClient
 
 from app.core.config import settings

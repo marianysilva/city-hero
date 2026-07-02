@@ -40,6 +40,8 @@ python3 -m http.server 5173
 >
 > On **Linux** you can alternatively skip both and follow the individual setup instructions in each project's own README (`apps/backend/README.md`, `apps/web/README.md`, etc.), running the services directly (e.g. `docker compose up`, `uvicorn`, `npm run dev`).
 
+> **Live reload:** all three apps pick up source changes without a manual restart. Web (`next dev`) and mobile (`expo start`) use Fast Refresh; the backend runs `uvicorn --reload` with its source bind-mounted via `docker-compose.override.yml`, so editing a `.py` under `apps/backend/` restarts the API in place. **Still needs a rebuild:** new Python deps (`docker-compose up -d --build backend`) and new JS deps (`npm install`). New Alembic migrations apply on the next `migrate` run.
+
 ### First-time setup (macOS)
 
 > Everything under this heading (through **Stopping**) is the **macOS** workflow — it uses `make` + Colima. Windows and Linux users: skip to [Windows and Linux](#windows-and-linux).
