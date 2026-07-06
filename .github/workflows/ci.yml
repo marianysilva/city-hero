@@ -21,7 +21,7 @@ jobs:
         working-directory: apps/backend
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: pip
@@ -59,7 +59,7 @@ jobs:
       PGPASSWORD: ci-test-password-only
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: pip
