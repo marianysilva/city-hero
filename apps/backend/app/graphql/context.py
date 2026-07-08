@@ -1,13 +1,13 @@
-from fastapi import Depends, Request
-from sqlalchemy.ext.asyncio import AsyncSession
 from uuid import UUID
 
 import jwt
+from fastapi import Depends, Request
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.core.database import get_db
 from app.models.user import User
-from sqlalchemy import select
 
 
 async def _user_from_request(request: Request, db: AsyncSession) -> User | None:

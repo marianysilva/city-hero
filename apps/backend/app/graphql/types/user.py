@@ -1,6 +1,7 @@
-import strawberry
 from datetime import datetime
 from uuid import UUID
+
+import strawberry
 
 
 @strawberry.type

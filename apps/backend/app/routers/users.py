@@ -9,7 +9,7 @@ from app.core.permissions import RoleSlug, require_permission, require_role
 from app.core.security import get_current_user
 from app.models.user import User
 from app.schemas.auth import MeResponse, UserOut
-from app.schemas.user import AdminUserCreateRequest, ResetPasswordRequest, UserUpdateRequest, UsersListResponse
+from app.schemas.user import AdminUserCreateRequest, ResetPasswordRequest, UsersListResponse, UserUpdateRequest
 from app.services import user_service
 
 router = APIRouter()

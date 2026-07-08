@@ -25,7 +25,7 @@ from app.schemas.auth import (
     UserOut,
     user_to_out,
 )
-from app.schemas.user import AdminUserCreateRequest, ResetPasswordRequest, UserUpdateRequest, UsersListResponse
+from app.schemas.user import AdminUserCreateRequest, ResetPasswordRequest, UsersListResponse, UserUpdateRequest
 
 # Role hierarchy: lower number = higher privilege (sorts first when ASC).
 # Used only for ORDER BY — canonical rank lives in roles.rank in the DB.

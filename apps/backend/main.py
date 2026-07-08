@@ -6,19 +6,19 @@ from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIASGIMiddleware
 
+import app.models  # noqa: F401 — registers all SQLAlchemy models with Base.metadata
 from app.core.config import settings
 from app.core.limiter import limiter
 from app.graphql.schema import graphql_router
 from app.routers import auth, users
-import app.models  # noqa: F401 — registers all SQLAlchemy models with Base.metadata
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Migrations run before startup via `alembic upgrade head` (see Dockerfile/docker-compose).
     # Lifespan is only for runtime initialisation: loading caches, seeding runtime data.
-    from app.core.rbac_cache import load_permission_cache
     from app.core.database import async_session
+    from app.core.rbac_cache import load_permission_cache
     async with async_session() as db:
         await load_permission_cache(db)
     yield

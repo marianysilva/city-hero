@@ -18,11 +18,12 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # Import all models so their tables appear in target_metadata.
-from app.core.database import Base  # noqa: E402
 import app.models  # noqa: E402, F401
 
 # Override sqlalchemy.url from app settings (reads DATABASE_URL from .env).
 from app.core.config import settings  # noqa: E402
+from app.core.database import Base  # noqa: E402
+
 config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
 
 target_metadata = Base.metadata

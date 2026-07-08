@@ -10,7 +10,6 @@ from httpx import AsyncClient
 
 from app.core.security import create_access_token
 
-
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def _auth(user) -> dict:
@@ -19,8 +18,8 @@ def _auth(user) -> dict:
 
 async def _make_user(session_factory, role: str, email: str, name: str):
     """Create a user with the given role and return the ORM object."""
-    from app.core.security import hash_password
     from app.core.rbac_cache import get_role_id
+    from app.core.security import hash_password
     from app.models.user import User
     async with session_factory() as session:
         user = User(
@@ -305,9 +304,11 @@ async def test_delete_user_sets_deleted_at_and_is_active_false(
 ):
     await client.delete(f"/users/{target_citizen.id}", headers=_auth(admin_user))
 
-    from sqlalchemy import select
-    from app.models.user import User
     from uuid import UUID
+
+    from sqlalchemy import select
+
+    from app.models.user import User
     async with conftest_session_factory() as session:
         result = await session.execute(
             select(User).where(User.id == UUID(str(target_citizen.id)))
@@ -360,9 +361,11 @@ async def test_restore_user_sets_is_active_true(
     await client.delete(f"/users/{target_citizen.id}", headers=_auth(admin_user))
     await client.post(f"/users/{target_citizen.id}/restore", headers=_auth(admin_user))
 
-    from sqlalchemy import select
-    from app.models.user import User
     from uuid import UUID
+
+    from sqlalchemy import select
+
+    from app.models.user import User
     async with conftest_session_factory() as session:
         result = await session.execute(
             select(User).where(User.id == UUID(str(target_citizen.id)))

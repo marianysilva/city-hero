@@ -10,7 +10,6 @@ import pytest
 from app.core.config import settings
 from app.core.security import DUMMY_PASSWORD_HASH, create_access_token, hash_password, verify_password
 
-
 # ── Password hashing ──────────────────────────────────────────────────────────
 
 def test_hash_password_produces_bcrypt_string():
