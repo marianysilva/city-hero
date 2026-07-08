@@ -107,7 +107,7 @@ card's tap target or an inline button for failed items:
 ### Where it lives
 
 ```
-apps/mobile/src/screens/SyncQueue/
+apps/city-hero/src/screens/SyncQueue/
 ├── components/
 │   ├── ItemActionsSheet.tsx
 │   ├── DiscardConfirmModal.tsx

@@ -111,7 +111,7 @@ and post-capture the user lands on a slimmed confirmation flow.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Camera/
+apps/city-hero/src/screens/Camera/
 ├── components/
 │   ├── EnrichTargetChip.tsx
 │   └── EnrichConfirmationScreen.tsx

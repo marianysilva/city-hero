@@ -62,7 +62,7 @@ A 3-column grid of medal cards. Each card: medal emoji (color when unlocked, gra
 ## Frontend
 
 ```
-apps/mobile/src/screens/AchievementsBadges/
+apps/city-hero/src/screens/AchievementsBadges/
 ├── components/
 │   ├── MedalGrid.tsx
 │   └── MedalGridCard.tsx

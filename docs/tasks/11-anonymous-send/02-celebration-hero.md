@@ -81,7 +81,7 @@ the background add depth without distracting.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/AnonymousSend/
+apps/city-hero/src/screens/AnonymousSend/
 └── components/
     ├── CelebrationHero.tsx
     └── DecorativeBlobs.tsx

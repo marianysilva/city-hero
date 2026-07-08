@@ -109,7 +109,7 @@ neighborhood, category, and time.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/NpsFeedback/
+apps/city-hero/src/screens/NpsFeedback/
 ├── hooks/
 │   └── useSubmitNps.ts
 └── services/

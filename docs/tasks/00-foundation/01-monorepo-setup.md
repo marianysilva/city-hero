@@ -65,7 +65,7 @@ city-hero/
 ├── apps/
 │   ├── backend/                 # FastAPI (Python)
 │   ├── web/                     # Next.js
-│   ├── mobile/                  # Expo
+│   ├── city-hero/               # Expo
 │   └── ai_service/              # YOLOv8 inference (FastAPI, separate)
 ├── packages/
 │   ├── design_system/           # Shared RN+Web components

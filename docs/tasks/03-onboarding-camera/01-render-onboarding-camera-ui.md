@@ -85,7 +85,7 @@ detection brackets and a reduced-motion alternative are covered by task 03.
 ### Component location
 
 ```
-apps/mobile/src/screens/Onboarding/CameraAI/
+apps/city-hero/src/screens/Onboarding/CameraAI/
 ├── CameraAIScreen.tsx
 ├── CameraAIScreen.styles.ts
 ├── CameraAIScreen.test.tsx

@@ -65,7 +65,7 @@ All photos go through the same anonymization pipeline as citizen photos.
 ## Frontend
 
 ```
-apps/mobile/src/screens/PublicWorkDetail/
+apps/city-hero/src/screens/PublicWorkDetail/
 └── components/
     ├── ConstructionPhotoGallery.tsx
     └── PhotoLightbox.tsx

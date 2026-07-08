@@ -105,11 +105,11 @@ that flips a report's `anonymous` flag from true to false).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/AnonymousSend/
+apps/city-hero/src/screens/AnonymousSend/
 └── components/
     └── ReversibilityHint.tsx
 
-apps/mobile/src/services/reports/
+apps/city-hero/src/services/reports/
 ├── toggleAnonymityAction.ts
 └── hooks/
     └── useToggleAnonymity.ts

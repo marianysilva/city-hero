@@ -71,7 +71,7 @@ Each card shows the authority's logo (emoji), name, scope (federal/state/municip
 ## Frontend
 
 ```
-apps/mobile/src/screens/IrregularityReport/
+apps/city-hero/src/screens/IrregularityReport/
 ├── steps/
 │   └── Step2AuthoritySelection.tsx
 └── hooks/

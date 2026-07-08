@@ -105,7 +105,7 @@ primitives. See:
 - [`docs/engineering/component-inventory.md`](../engineering/component-inventory.md) — the catalog of every shared component with the screens that consume it.
 
 Where a task spec's "Where it lives" section mentions a generic
-component in a screen folder (e.g., `apps/mobile/src/screens/Foo/components/Bar.tsx`),
+component in a screen folder (e.g., `apps/city-hero/src/screens/Foo/components/Bar.tsx`),
 that path is the task's draft starting point. If `Bar` is used by 2+
 screens (or fits an existing atom/molecule from the inventory), the
 inventory and the design-system rules win: `Bar` moves to

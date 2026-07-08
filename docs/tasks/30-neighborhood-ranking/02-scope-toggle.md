@@ -54,7 +54,7 @@ A two-tile toggle: **Meu bairro** (default) vs **Cidade toda**. Switching change
 ## Frontend
 
 ```
-apps/mobile/src/screens/NeighborhoodRanking/
+apps/city-hero/src/screens/NeighborhoodRanking/
 ├── components/
 │   └── ScopeToggle.tsx
 └── hooks/

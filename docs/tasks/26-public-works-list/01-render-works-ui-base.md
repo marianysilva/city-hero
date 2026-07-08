@@ -55,7 +55,7 @@ Header (back + "Obras em andamento · N" title + view toggle), small map preview
 ## Frontend
 
 ```
-apps/mobile/src/screens/PublicWorks/
+apps/city-hero/src/screens/PublicWorks/
 ├── PublicWorksScreen.tsx
 ├── PublicWorksScreen.styles.ts
 ├── PublicWorksScreen.test.tsx

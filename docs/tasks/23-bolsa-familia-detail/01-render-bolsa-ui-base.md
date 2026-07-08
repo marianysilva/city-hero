@@ -49,7 +49,7 @@ The base layout: a slate-50 background, a header with back button + program bran
 ## Frontend
 
 ```
-apps/mobile/src/screens/BolsaFamiliaDetail/
+apps/city-hero/src/screens/BolsaFamiliaDetail/
 ├── BolsaFamiliaDetailScreen.tsx
 ├── BolsaFamiliaDetailScreen.styles.ts
 ├── BolsaFamiliaDetailScreen.test.tsx

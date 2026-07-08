@@ -71,7 +71,7 @@ The scrollable list below the chips. Each row card shows: status pill (colored),
 ## Frontend
 
 ```
-apps/mobile/src/screens/PublicWorks/
+apps/city-hero/src/screens/PublicWorks/
 ├── components/
 │   ├── WorksList.tsx
 │   └── WorkCard.tsx

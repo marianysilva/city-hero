@@ -119,7 +119,7 @@ discoverable.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/DetailInProgress/
+apps/city-hero/src/screens/DetailInProgress/
 ├── components/
 │   ├── OverflowMenu.tsx
 │   ├── ReportProblemSheet.tsx

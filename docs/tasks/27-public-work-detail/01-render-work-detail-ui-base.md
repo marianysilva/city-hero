@@ -48,7 +48,7 @@ Reuses the shared **DetailShell** from `13-detail-in-progress/01` (hero, scroll 
 ## Frontend
 
 ```
-apps/mobile/src/screens/PublicWorkDetail/
+apps/city-hero/src/screens/PublicWorkDetail/
 ├── PublicWorkDetailScreen.tsx
 ├── PublicWorkDetailScreen.styles.ts
 ├── PublicWorkDetailScreen.test.tsx

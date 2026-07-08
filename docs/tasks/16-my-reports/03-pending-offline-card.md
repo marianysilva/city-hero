@@ -87,7 +87,7 @@ button navigates to SCREEN 18 (Sync Queue) for details.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/MyReports/
+apps/city-hero/src/screens/MyReports/
 └── components/
     └── PendingOfflineCard.tsx
 ```

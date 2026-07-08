@@ -100,7 +100,7 @@ covered by task 02. The reduced-motion variant is task 03.
 ### Component location
 
 ```
-apps/mobile/src/screens/Onboarding/Neighborhood/
+apps/city-hero/src/screens/Onboarding/Neighborhood/
 ├── NeighborhoodScreen.tsx
 ├── NeighborhoodScreen.styles.ts
 ├── NeighborhoodScreen.test.tsx

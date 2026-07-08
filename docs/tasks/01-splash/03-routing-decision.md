@@ -114,7 +114,7 @@ The user's onboarding progress is persisted server-side (or locally with sync) s
 ### Where it lives
 
 ```
-apps/mobile/src/services/init/
+apps/city-hero/src/services/init/
 ├── router.ts          ← decision tree
 ├── postLoginBuffer.ts ← stash deep-link target during login redirect
 └── routerMap.ts       ← rule → navigation action

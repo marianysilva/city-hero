@@ -117,7 +117,7 @@ isn't viable for the platform or category.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Camera/
+apps/city-hero/src/screens/Camera/
 ├── components/
 │   └── DetectionOverlay.tsx
 └── hooks/

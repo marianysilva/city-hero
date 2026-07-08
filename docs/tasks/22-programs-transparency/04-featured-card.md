@@ -80,7 +80,7 @@ spotlight different programs.
 ## Frontend
 
 ```
-apps/mobile/src/screens/Programs/
+apps/city-hero/src/screens/Programs/
 ├── components/
 │   └── FeaturedProgramCard.tsx
 └── hooks/

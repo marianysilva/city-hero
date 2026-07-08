@@ -62,7 +62,7 @@ A small filter row below the scope toggle with three options: **Mensal** (defaul
 ## Frontend
 
 ```
-apps/mobile/src/screens/NeighborhoodRanking/
+apps/city-hero/src/screens/NeighborhoodRanking/
 ├── components/
 │   └── PeriodFilter.tsx
 └── hooks/

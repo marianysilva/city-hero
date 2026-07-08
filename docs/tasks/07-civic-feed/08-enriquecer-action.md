@@ -109,7 +109,7 @@ report).
 ### Where it lives
 
 ```
-apps/mobile/src/services/reports/
+apps/city-hero/src/services/reports/
 ├── enrichAction.ts
 └── hooks/
     └── useEnrichReport.ts

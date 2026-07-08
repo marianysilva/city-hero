@@ -73,7 +73,7 @@ A presentational row used in the leaderboard and pelotão sections. Each row: po
 ## Frontend
 
 ```
-apps/mobile/src/screens/NeighborhoodRanking/
+apps/city-hero/src/screens/NeighborhoodRanking/
 └── components/
     └── LeaderboardRow.tsx
 ```

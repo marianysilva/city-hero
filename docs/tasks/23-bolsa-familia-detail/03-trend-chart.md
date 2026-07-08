@@ -56,7 +56,7 @@ A line or bar chart showing the program's evolution semester-by-semester (or mon
 ## Frontend
 
 ```
-apps/mobile/src/screens/BolsaFamiliaDetail/
+apps/city-hero/src/screens/BolsaFamiliaDetail/
 └── components/
     └── ProgramTrendChart.tsx
 ```

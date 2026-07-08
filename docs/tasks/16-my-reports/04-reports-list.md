@@ -126,7 +126,7 @@ a row routes to the correct detail screen based on status.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/MyReports/
+apps/city-hero/src/screens/MyReports/
 ├── components/
 │   ├── ReportRow.tsx
 │   └── ReportsList.tsx

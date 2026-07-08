@@ -63,7 +63,7 @@ A multi-step layout. Header with back button + "Passo N de 5" indicator + screen
 ## Frontend
 
 ```
-apps/mobile/src/screens/IrregularityReport/
+apps/city-hero/src/screens/IrregularityReport/
 ├── IrregularityReportScreen.tsx
 ├── IrregularityReportScreen.styles.ts
 ├── IrregularityReportScreen.test.tsx

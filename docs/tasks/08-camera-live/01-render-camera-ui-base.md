@@ -98,7 +98,7 @@ permission + the platform's camera library), the live AI detection
 ### Component location
 
 ```
-apps/mobile/src/screens/Camera/
+apps/city-hero/src/screens/Camera/
 ├── CameraScreen.tsx
 ├── CameraScreen.styles.ts
 ├── CameraScreen.test.tsx

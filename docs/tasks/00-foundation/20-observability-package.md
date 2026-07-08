@@ -33,7 +33,7 @@ import and never write Sentry config or logging boilerplate themselves.
 
 ### Scenario · Single package, three consumers
 
-**Given** the monorepo has `apps/backend`, `apps/mobile`, and `apps/web`
+**Given** the monorepo has `apps/backend`, `apps/city-hero`, and `apps/web`
 **When** any of them needs to log or capture an error
 **Then** they import from `@cityhero/observability` (the package's public API)
 **And** never call Sentry SDKs or stdlib logging directly

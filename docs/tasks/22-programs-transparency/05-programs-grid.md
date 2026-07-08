@@ -77,7 +77,7 @@ others share a similar generic detail UX).
 ## Frontend
 
 ```
-apps/mobile/src/screens/Programs/
+apps/city-hero/src/screens/Programs/
 ├── components/
 │   ├── ProgramsGrid.tsx
 │   └── ProgramCard.tsx

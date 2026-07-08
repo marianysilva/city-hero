@@ -139,7 +139,7 @@ queue, gamification, and deep-link-safe navigation.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ReportConfirm/
+apps/city-hero/src/screens/ReportConfirm/
 ├── hooks/
 │   └── useSubmitReport.ts
 └── services/

@@ -97,7 +97,7 @@ fallback via task 08 of this folder).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Camera/
+apps/city-hero/src/screens/Camera/
 ├── components/
 │   ├── CameraPermissionPrePrompt.tsx
 │   └── CameraPermissionDeniedOverlay.tsx

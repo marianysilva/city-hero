@@ -77,7 +77,7 @@ flickering when initialization checks complete instantly.
 ### Component location
 
 ```
-apps/mobile/src/screens/Splash/
+apps/city-hero/src/screens/Splash/
 ├── SplashScreen.tsx
 ├── SplashScreen.styles.ts
 ├── SplashScreen.test.tsx

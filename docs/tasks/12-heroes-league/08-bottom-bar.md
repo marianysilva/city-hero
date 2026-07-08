@@ -112,7 +112,7 @@ clearly tappable — no dark patterns.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/HeroesLeague/
+apps/city-hero/src/screens/HeroesLeague/
 └── components/
     └── BottomBar.tsx
 ```

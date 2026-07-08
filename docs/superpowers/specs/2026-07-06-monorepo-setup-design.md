@@ -21,9 +21,9 @@ In practice, part of the monorepo already exists and works:
   Docker image build, CodeQL, and security scans (pip-audit, npm audit,
   bandit, gitleaks) — all green on the current `main`.
 - The mobile app already exists as `apps/city-hero/` — an **untouched Expo
-  Router (`create-expo-app`) template**, not `apps/mobile/` as `CLAUDE.md` and
+  Router (`create-expo-app`) template**, not `apps/city-hero/` as `CLAUDE.md` and
   every task spec assume. Decision (confirmed): **keep the folder name
-  `apps/city-hero`**, not rename it to `apps/mobile`.
+  `apps/city-hero`**, not rename it to `apps/city-hero`.
 - `packages/design_system`, `packages/ia_research`, and `packages/types`
   already exist. `packages/api_client`, `packages/i18n`, and `apps/ai_service`
   do not — they belong to later foundation tasks (05, 13, 16) and are **not**
@@ -36,8 +36,8 @@ or duplicating scope owned by later tasks.
 ## Decisions already confirmed with the user
 
 1. Keep npm workspaces + Turborepo. Do not migrate to Yarn Berry.
-2. Keep the `apps/city-hero` folder name. Do not rename to `apps/mobile`.
-3. Because of (2), every reference to `apps/mobile` across `CLAUDE.md` and
+2. Keep the `apps/city-hero` folder name. Do not rename to `apps/city-hero`.
+3. Because of (2), every reference to `apps/city-hero` across `CLAUDE.md` and
    `docs/` (184 files) must be corrected to `apps/city-hero` so the docs match
    reality. This is a mechanical path rename, not a scope change to any
    individual screen task.
@@ -46,7 +46,7 @@ or duplicating scope owned by later tasks.
 
 ### In scope
 
-1. **Global path rename**: `apps/mobile` → `apps/city-hero` in `CLAUDE.md` and
+1. **Global path rename**: `apps/city-hero` → `apps/city-hero` in `CLAUDE.md` and
    every file under `docs/` (currently 184 files matched). Plain string/path
    substitution — no content/requirements changes beyond the path itself.
 2. **Root ESLint + Prettier**: a shared root config that `apps/web` and
@@ -85,7 +85,7 @@ or duplicating scope owned by later tasks.
 
 ## Risks / edge cases
 
-- **Rename sweep false positives**: `apps/mobile` must be replaced only as a
+- **Rename sweep false positives**: `apps/city-hero` must be replaced only as a
   path segment, not inside unrelated prose. A dry-run diff will be reviewed
   before committing.
 - **Husky in CI**: must be a no-op in CI runners (already-passing CI jobs must
@@ -105,12 +105,12 @@ or duplicating scope owned by later tasks.
   confirm it's rejected.
 - Confirm branch protection via `gh api repos/.../branches/main/protection`
   returns the configured rules (no more 404).
-- Grep confirms zero remaining `apps/mobile` references outside of this
+- Grep confirms zero remaining `apps/city-hero` references outside of this
   design doc's own history/changelog mentions.
 
 ## Definition of Done
 
-- [ ] `apps/mobile` renamed to `apps/city-hero` across `CLAUDE.md` + `docs/`
+- [ ] `apps/city-hero` renamed to `apps/city-hero` across `CLAUDE.md` + `docs/`
 - [ ] Root ESLint + Prettier config in place, `apps/web` and `apps/city-hero`
       extend it
 - [ ] `tsconfig.base.json` created and referenced by all TS packages/apps

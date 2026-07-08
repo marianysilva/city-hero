@@ -67,7 +67,7 @@ for task 04.
 ### Component location
 
 ```
-apps/mobile/src/screens/DetailMerged/
+apps/city-hero/src/screens/DetailMerged/
 ├── DetailMergedScreen.tsx
 ├── DetailMergedScreen.styles.ts
 ├── DetailMergedScreen.test.tsx

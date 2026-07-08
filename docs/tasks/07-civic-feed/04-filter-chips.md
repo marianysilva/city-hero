@@ -80,7 +80,7 @@ selections persist across sessions per user preference.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CivicFeed/
+apps/city-hero/src/screens/CivicFeed/
 └── hooks/
     └── useFeedFilters.ts
 ```

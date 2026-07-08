@@ -77,7 +77,7 @@ energy, and momentum.
 ### Component location
 
 ```
-apps/mobile/src/screens/HeroesLeague/
+apps/city-hero/src/screens/HeroesLeague/
 ├── HeroesLeagueScreen.tsx
 ├── HeroesLeagueScreen.styles.ts
 ├── HeroesLeagueScreen.test.tsx

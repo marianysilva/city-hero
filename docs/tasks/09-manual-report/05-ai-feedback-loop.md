@@ -95,7 +95,7 @@ for the model versioning service. The retraining itself lives in
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ManualReport/
+apps/city-hero/src/screens/ManualReport/
 └── hooks/
     └── useAiFeedbackConsent.ts
 ```

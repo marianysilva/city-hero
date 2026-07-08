@@ -43,7 +43,7 @@ Header (back + "Ranking" title), scope toggle (task 02), period filter (task 05)
 ## Frontend
 
 ```
-apps/mobile/src/screens/NeighborhoodRanking/
+apps/city-hero/src/screens/NeighborhoodRanking/
 ├── NeighborhoodRankingScreen.tsx
 ├── NeighborhoodRankingScreen.styles.ts
 ├── NeighborhoodRankingScreen.test.tsx

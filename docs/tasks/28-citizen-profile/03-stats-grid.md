@@ -57,7 +57,7 @@ A 4-cell stats grid below the hero: **Reportes** (count), **Apoios** (given), **
 ## Frontend
 
 ```
-apps/mobile/src/screens/CitizenProfile/
+apps/city-hero/src/screens/CitizenProfile/
 ├── components/
 │   ├── StatsGrid.tsx
 │   └── ImpactExplainerSheet.tsx

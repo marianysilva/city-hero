@@ -86,7 +86,7 @@ or submit logic — those live in tasks 02–06.
 ### Component location
 
 ```
-apps/mobile/src/screens/ManualReport/
+apps/city-hero/src/screens/ManualReport/
 ├── ManualReportScreen.tsx
 ├── ManualReportScreen.styles.ts
 ├── ManualReportScreen.test.tsx

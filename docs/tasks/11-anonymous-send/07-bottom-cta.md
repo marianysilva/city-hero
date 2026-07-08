@@ -77,7 +77,7 @@ only the primary CTA — the share UX (task 05) and reversibility
 ### Where it lives
 
 ```
-apps/mobile/src/screens/AnonymousSend/
+apps/city-hero/src/screens/AnonymousSend/
 └── components/
     └── BottomCtaBar.tsx
 ```

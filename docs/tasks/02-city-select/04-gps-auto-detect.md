@@ -94,7 +94,7 @@ significant friction reduction.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CitySelect/
+apps/city-hero/src/screens/CitySelect/
 ├── hooks/
 │   ├── useLocationPermission.ts
 │   └── useCityFromGps.ts

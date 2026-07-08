@@ -94,7 +94,7 @@ by its respective foundation: auth (06), API client (05), deep links (12).
 ### Where the orchestrator lives
 
 ```
-apps/mobile/src/services/init/
+apps/city-hero/src/services/init/
 ├── orchestrator.ts        ← runs the parallel sequence
 ├── checks/
 │   ├── auth.ts            ← validate token + fetch profile

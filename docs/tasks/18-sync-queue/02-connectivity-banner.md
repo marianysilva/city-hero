@@ -96,7 +96,7 @@ celebratory when sync completes.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/SyncQueue/
+apps/city-hero/src/screens/SyncQueue/
 └── components/
     └── ConnectivityBanner.tsx
 ```

@@ -86,7 +86,7 @@ visual consistency with the actual feed is guaranteed.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/AnonymousSend/
+apps/city-hero/src/screens/AnonymousSend/
 └── components/
     └── AnonymousFeedPreview.tsx
 ```

@@ -59,7 +59,7 @@ A vertical timeline of the work's milestones (similar pattern to `13-detail-in-p
 ## Frontend
 
 ```
-apps/mobile/src/screens/PublicWorkDetail/
+apps/city-hero/src/screens/PublicWorkDetail/
 └── components/
     ├── MilestonesTimeline.tsx
     ├── MilestoneEntry.tsx

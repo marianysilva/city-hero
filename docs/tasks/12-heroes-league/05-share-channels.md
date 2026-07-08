@@ -119,7 +119,7 @@ sharing happens.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/HeroesLeague/
+apps/city-hero/src/screens/HeroesLeague/
 └── components/
     ├── ShareChannelsRow.tsx
     └── ShareChannelButton.tsx

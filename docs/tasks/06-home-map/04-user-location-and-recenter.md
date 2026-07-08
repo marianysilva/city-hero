@@ -95,7 +95,7 @@ button takes the user to the active city's centroid instead.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 ├── components/
 │   └── RecenterButton.tsx
 └── hooks/

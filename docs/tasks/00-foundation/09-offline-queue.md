@@ -84,7 +84,7 @@ silently offline.
 ### Local storage
 
 ```
-apps/mobile/src/services/offline-queue/
+apps/city-hero/src/services/offline-queue/
 ├── QueueDatabase.ts         ← WatermelonDB schema and accessors
 ├── QueueOrchestrator.ts     ← processes queue
 ├── connectivity.ts          ← NetInfo wrapper

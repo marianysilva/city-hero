@@ -97,7 +97,7 @@ This task ties together:
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 └── components/
     └── OfflineBanner.tsx
 ```

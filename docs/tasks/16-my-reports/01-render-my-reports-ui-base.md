@@ -65,7 +65,7 @@ highlighted depending on entry point.
 ### Component location
 
 ```
-apps/mobile/src/screens/MyReports/
+apps/city-hero/src/screens/MyReports/
 ├── MyReportsScreen.tsx
 ├── MyReportsScreen.styles.ts
 ├── MyReportsScreen.test.tsx

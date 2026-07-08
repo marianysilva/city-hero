@@ -56,7 +56,7 @@ A white card overlapping the hero with the work's primary facts: title, address,
 ## Frontend
 
 ```
-apps/mobile/src/screens/PublicWorkDetail/
+apps/city-hero/src/screens/PublicWorkDetail/
 └── components/
     └── WorkSummaryCard.tsx
 ```

@@ -94,7 +94,7 @@ Server-side moderation applies (same patterns as `10-report-confirm/05`).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/NpsFeedback/
+apps/city-hero/src/screens/NpsFeedback/
 └── components/
     └── CommentInput.tsx
 ```

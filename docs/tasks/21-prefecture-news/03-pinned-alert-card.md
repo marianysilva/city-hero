@@ -101,7 +101,7 @@ Routine announcements use the standard news card (task 04).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/PrefectureNews/
+apps/city-hero/src/screens/PrefectureNews/
 └── components/
     ├── PinnedAlertCard.tsx
     └── AlertShareAction.tsx

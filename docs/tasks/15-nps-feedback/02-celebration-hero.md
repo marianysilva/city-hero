@@ -91,7 +91,7 @@ before being asked to rate it.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/NpsFeedback/
+apps/city-hero/src/screens/NpsFeedback/
 └── components/
     └── CelebrationHero.tsx
 ```

@@ -50,7 +50,7 @@ A short educational block explaining what's public (per STF MS 36.020/2020) and 
 ## Frontend
 
 ```
-apps/mobile/src/screens/BolsaFamiliaDetail/
+apps/city-hero/src/screens/BolsaFamiliaDetail/
 └── components/
     ├── TransparencyNotes.tsx
     └── DenunciarBottomCta.tsx

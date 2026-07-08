@@ -74,7 +74,7 @@ codebase avoids duplicating layout logic.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/DetailTicket/
+apps/city-hero/src/screens/DetailTicket/
 ├── DetailTicketScreen.tsx
 ├── DetailTicketScreen.styles.ts
 ├── DetailTicketScreen.test.tsx

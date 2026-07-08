@@ -70,7 +70,7 @@ when the catalog grows.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CitySelect/
+apps/city-hero/src/screens/CitySelect/
 ├── hooks/
 │   └── useCitySearch.ts
 └── components/

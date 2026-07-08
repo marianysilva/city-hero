@@ -97,7 +97,7 @@ slot the map fills. It does include the visual scaffolding around the map.
 ### Component location
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 ├── HomeScreen.tsx
 ├── HomeScreen.styles.ts
 ├── HomeScreen.test.tsx

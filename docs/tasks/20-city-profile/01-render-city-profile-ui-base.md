@@ -70,7 +70,7 @@ extras (tasks 03–06).
 ### Component location
 
 ```
-apps/mobile/src/screens/CityProfile/
+apps/city-hero/src/screens/CityProfile/
 ├── CityProfileScreen.tsx
 ├── CityProfileScreen.styles.ts
 ├── CityProfileScreen.test.tsx

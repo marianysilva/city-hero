@@ -93,7 +93,7 @@ three tutorial screens.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Onboarding/
+apps/city-hero/src/screens/Onboarding/
 ├── stateMachine/
 │   ├── store.ts            ← Zustand or similar
 │   ├── steps.ts            ← step keys and order

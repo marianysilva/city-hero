@@ -91,7 +91,7 @@ processing in aggregate.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CityProfile/
+apps/city-hero/src/screens/CityProfile/
 └── components/
     ├── ReportStatusDashboard.tsx
     └── StatusCard.tsx

@@ -83,10 +83,10 @@ bottom CTA bar with Apoiar + Compartilhar (task 06). The overflow menu
 
 ### Component location
 
-The screen lives in `apps/mobile/src/screens/DetailInProgress/`:
+The screen lives in `apps/city-hero/src/screens/DetailInProgress/`:
 
 ```
-apps/mobile/src/screens/DetailInProgress/
+apps/city-hero/src/screens/DetailInProgress/
 ├── DetailInProgressScreen.tsx
 ├── DetailInProgressScreen.styles.ts
 └── DetailInProgressScreen.test.tsx

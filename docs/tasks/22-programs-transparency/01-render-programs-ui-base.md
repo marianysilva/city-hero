@@ -64,7 +64,7 @@ footer (tasks 02–06). The bottom nav is visible.
 ### Component location
 
 ```
-apps/mobile/src/screens/Programs/
+apps/city-hero/src/screens/Programs/
 ├── ProgramsScreen.tsx
 ├── ProgramsScreen.styles.ts
 ├── ProgramsScreen.test.tsx

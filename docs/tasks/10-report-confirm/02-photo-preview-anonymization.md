@@ -109,7 +109,7 @@ counts, and failed (allows retry).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ReportConfirm/
+apps/city-hero/src/screens/ReportConfirm/
 ├── components/
 │   ├── PhotoPreview.tsx
 │   └── AnonymizationDetailsSheet.tsx

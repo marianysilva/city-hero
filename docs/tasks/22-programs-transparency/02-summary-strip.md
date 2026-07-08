@@ -52,7 +52,7 @@ anchors the user in the scale of what they're about to see.
 ## Frontend
 
 ```
-apps/mobile/src/screens/Programs/
+apps/city-hero/src/screens/Programs/
 ├── components/
 │   └── SummaryStrip.tsx
 └── hooks/

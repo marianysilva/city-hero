@@ -100,7 +100,7 @@ guess is a starting point, the user calibrates.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ReportConfirm/
+apps/city-hero/src/screens/ReportConfirm/
 ├── components/
 │   ├── CategoryField.tsx
 │   ├── ConfidenceBadge.tsx

@@ -96,7 +96,7 @@ will be submitted without one.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ReportConfirm/
+apps/city-hero/src/screens/ReportConfirm/
 └── components/
     └── DescriptionInput.tsx
 ```

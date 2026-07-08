@@ -107,7 +107,7 @@ it to the next screen.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Camera/
+apps/city-hero/src/screens/Camera/
 ├── hooks/
 │   └── useCapture.ts
 └── components/

@@ -83,7 +83,7 @@ usage.
 ### Component location
 
 ```
-apps/mobile/src/screens/NpsFeedback/
+apps/city-hero/src/screens/NpsFeedback/
 ├── NpsFeedbackScreen.tsx
 ├── NpsFeedbackScreen.styles.ts
 ├── NpsFeedbackScreen.test.tsx

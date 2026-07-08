@@ -86,7 +86,7 @@ is **non-dismissible** by design.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ForceUpdate/
+apps/city-hero/src/screens/ForceUpdate/
 ├── ForceUpdateScreen.tsx
 ├── ForceUpdateScreen.styles.ts
 └── ForceUpdateScreen.test.tsx

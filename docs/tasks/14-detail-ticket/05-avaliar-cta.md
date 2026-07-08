@@ -107,7 +107,7 @@ re-rate.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/DetailTicket/
+apps/city-hero/src/screens/DetailTicket/
 └── components/
     └── BottomCtaBar.tsx
 ```

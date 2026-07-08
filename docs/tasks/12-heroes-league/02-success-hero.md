@@ -96,7 +96,7 @@ resonant this lands, the more likely they'll share.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/HeroesLeague/
+apps/city-hero/src/screens/HeroesLeague/
 └── components/
     ├── SuccessHero.tsx
     ├── ConfettiBackground.tsx

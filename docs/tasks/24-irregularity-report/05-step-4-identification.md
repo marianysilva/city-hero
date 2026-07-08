@@ -68,7 +68,7 @@ The screen explains the trade-offs honestly per LAI and each authority's policy 
 ## Frontend
 
 ```
-apps/mobile/src/screens/IrregularityReport/
+apps/city-hero/src/screens/IrregularityReport/
 └── steps/
     └── Step4Identification.tsx
 ```

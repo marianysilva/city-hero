@@ -70,7 +70,7 @@ A scrollable list of the user's recent gamification activity: level-ups, medal u
 ## Frontend
 
 ```
-apps/mobile/src/screens/CitizenProfile/
+apps/city-hero/src/screens/CitizenProfile/
 ├── components/
 │   ├── ActivityFeed.tsx
 │   └── ActivityRow.tsx

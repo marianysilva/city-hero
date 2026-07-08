@@ -105,7 +105,7 @@ support count, and a primary "Apoiar" CTA.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 ├── components/
 │   └── FloatingTicketCard.tsx
 └── hooks/

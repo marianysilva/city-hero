@@ -93,7 +93,7 @@ happens to my data?".
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Camera/
+apps/city-hero/src/screens/Camera/
 └── components/
     └── AnonymizationExplainerModal.tsx
 ```

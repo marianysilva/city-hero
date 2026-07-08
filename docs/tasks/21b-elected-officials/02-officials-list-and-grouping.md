@@ -24,7 +24,7 @@ deeplink behavior itself is task 04). The card layout, copy, and
 secondary share button match the prototype exactly.
 
 > **Promotion rule:** `OfficialCard` lives at
-> `apps/mobile/src/screens/ElectedOfficials/components/OfficialCard.tsx`
+> `apps/city-hero/src/screens/ElectedOfficials/components/OfficialCard.tsx`
 > until a second consumer appears. If any other screen needs an
 > "official-style person card", promote it to `packages/design_system`
 > per the design-system promotion rule and update
@@ -124,7 +124,7 @@ secondary share button match the prototype exactly.
 ## Frontend (React Native)
 
 ```
-apps/mobile/src/screens/ElectedOfficials/
+apps/city-hero/src/screens/ElectedOfficials/
 ├── components/
 │   ├── OfficialsGroup.tsx
 │   ├── OfficialCard.tsx

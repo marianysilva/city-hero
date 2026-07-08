@@ -48,7 +48,7 @@ A gradient hero card (sky → teal) showing program KPIs for the active city: fa
 ## Frontend
 
 ```
-apps/mobile/src/screens/BolsaFamiliaDetail/
+apps/city-hero/src/screens/BolsaFamiliaDetail/
 ├── components/
 │   └── HeroMetricsCard.tsx
 └── hooks/

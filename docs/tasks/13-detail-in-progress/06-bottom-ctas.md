@@ -104,7 +104,7 @@ self-support is blocked.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/DetailInProgress/
+apps/city-hero/src/screens/DetailInProgress/
 └── components/
     └── BottomCtaBar.tsx
 ```

@@ -96,7 +96,7 @@ onboarding screens.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ManualReport/
+apps/city-hero/src/screens/ManualReport/
 ├── components/
 │   ├── MiniMap.tsx
 │   └── AdjustMapScreen.tsx

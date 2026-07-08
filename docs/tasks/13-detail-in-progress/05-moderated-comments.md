@@ -127,7 +127,7 @@ earns the user +2 XP (small but cumulative).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/DetailInProgress/
+apps/city-hero/src/screens/DetailInProgress/
 ├── components/
 │   ├── CommentsSection.tsx
 │   ├── TagRow.tsx

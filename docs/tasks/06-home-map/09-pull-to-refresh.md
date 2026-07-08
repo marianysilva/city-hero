@@ -98,7 +98,7 @@ The home screen uses a top-level scroll/refresh container. Since the map fills t
 A simpler alternative: include a small "Atualizar" affordance somewhere accessible (next to the recenter button or as a visual cue at the top).
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 └── components/
     └── PullToRefreshOverlay.tsx
 ```

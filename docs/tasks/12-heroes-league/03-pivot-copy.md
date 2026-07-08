@@ -85,7 +85,7 @@ buttons below feel pushy.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/HeroesLeague/
+apps/city-hero/src/screens/HeroesLeague/
 └── components/
     ├── PivotCopySection.tsx
     └── DataSourceSheet.tsx

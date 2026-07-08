@@ -121,7 +121,7 @@ Stage 3 is enforced when the report is created.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Camera/
+apps/city-hero/src/screens/Camera/
 ├── hooks/
 │   └── useGpsValidation.ts
 └── components/

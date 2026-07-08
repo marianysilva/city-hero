@@ -85,7 +85,7 @@ stay visible as the user scrolls.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/PrefectureNews/
+apps/city-hero/src/screens/PrefectureNews/
 └── hooks/
     └── useNewsCategoryFilter.ts
 ```

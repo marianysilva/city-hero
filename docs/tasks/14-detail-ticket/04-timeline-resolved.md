@@ -89,7 +89,7 @@ Reuses `TimelineCard`, `TimelineEntry`, `EntryDetailSheet` from `13-detail-in-pr
 - An extension to `TimelineEntry` to support the SLA pill and resolution photo thumbnail.
 
 ```
-apps/mobile/src/screens/DetailTicket/
+apps/city-hero/src/screens/DetailTicket/
 └── components/
     └── (reuses TimelineCard from DetailInProgress)
 ```

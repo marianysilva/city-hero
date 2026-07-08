@@ -56,7 +56,7 @@ A scrollable table listing the city's neighborhoods with their Bolsa Família me
 ## Frontend
 
 ```
-apps/mobile/src/screens/BolsaFamiliaDetail/
+apps/city-hero/src/screens/BolsaFamiliaDetail/
 └── components/
     └── NeighborhoodBreakdown.tsx
 ```

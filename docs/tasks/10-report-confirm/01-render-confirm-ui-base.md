@@ -85,7 +85,7 @@ bifurcation — only the layout and slot system the other tasks fill.
 ### Component location
 
 ```
-apps/mobile/src/screens/ReportConfirm/
+apps/city-hero/src/screens/ReportConfirm/
 ├── ReportConfirmScreen.tsx
 ├── ReportConfirmScreen.styles.ts
 ├── ReportConfirmScreen.test.tsx

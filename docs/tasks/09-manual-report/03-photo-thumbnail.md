@@ -98,7 +98,7 @@ the camera shutter flow — they always land here, marked as such).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ManualReport/
+apps/city-hero/src/screens/ManualReport/
 ├── components/
 │   ├── PhotoThumbnail.tsx
 │   └── PhotoSourceSheet.tsx

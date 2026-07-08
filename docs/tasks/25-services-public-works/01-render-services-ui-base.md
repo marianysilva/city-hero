@@ -49,7 +49,7 @@ The base layout: header with back button + "Serviços & Obras" title + search ic
 ## Frontend
 
 ```
-apps/mobile/src/screens/ServicesPublicWorks/
+apps/city-hero/src/screens/ServicesPublicWorks/
 ├── ServicesPublicWorksScreen.tsx
 ├── ServicesPublicWorksScreen.styles.ts
 ├── ServicesPublicWorksScreen.test.tsx

@@ -100,7 +100,7 @@ when the user sees the actual change, they feel the system worked.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/DetailTicket/
+apps/city-hero/src/screens/DetailTicket/
 └── components/
     └── BeforeAfterSlider.tsx
 ```

@@ -48,7 +48,7 @@ Header (back + title + share button) → completion stats + filter chips → med
 ## Frontend
 
 ```
-apps/mobile/src/screens/AchievementsBadges/
+apps/city-hero/src/screens/AchievementsBadges/
 ├── AchievementsBadgesScreen.tsx
 ├── AchievementsBadgesScreen.styles.ts
 ├── AchievementsBadgesScreen.test.tsx

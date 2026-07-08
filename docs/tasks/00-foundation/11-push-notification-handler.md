@@ -96,7 +96,7 @@ handling on the device, and tap routing into the right screen.
 ### Where the handler lives
 
 ```
-apps/mobile/src/services/notifications/
+apps/city-hero/src/services/notifications/
 ├── permission.ts
 ├── tokenManager.ts
 ├── foregroundHandler.ts

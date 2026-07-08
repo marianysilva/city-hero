@@ -99,7 +99,7 @@ into.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CivicFeed/
+apps/city-hero/src/screens/CivicFeed/
 ├── hooks/
 │   └── useFeedItems.ts        ← TanStack infinite query
 └── components/

@@ -111,7 +111,7 @@ SCREEN 12 (Liga de Heróis); Anonymous → SCREEN 11 (Envio Anônimo).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ReportConfirm/
+apps/city-hero/src/screens/ReportConfirm/
 ├── components/
 │   ├── IdentificationToggle.tsx
 │   └── LaiDisclosureHint.tsx

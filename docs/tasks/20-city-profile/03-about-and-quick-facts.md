@@ -91,7 +91,7 @@ dashboard.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CityProfile/
+apps/city-hero/src/screens/CityProfile/
 └── components/
     ├── AboutCard.tsx
     ├── QuickFactsGrid.tsx

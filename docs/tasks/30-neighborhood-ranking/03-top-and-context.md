@@ -75,7 +75,7 @@ If the user is not on the top 10, their rank is shown separately in "Seu pelotã
 ## Frontend
 
 ```
-apps/mobile/src/screens/NeighborhoodRanking/
+apps/city-hero/src/screens/NeighborhoodRanking/
 ├── components/
 │   ├── Podium.tsx
 │   ├── LeaderboardSection.tsx

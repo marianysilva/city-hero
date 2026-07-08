@@ -64,7 +64,7 @@ A small map preview at the top of the screen (~140-180dp tall) showing all activ
 ## Frontend
 
 ```
-apps/mobile/src/screens/PublicWorks/
+apps/city-hero/src/screens/PublicWorks/
 └── components/
     └── WorksMapPreview.tsx
 ```

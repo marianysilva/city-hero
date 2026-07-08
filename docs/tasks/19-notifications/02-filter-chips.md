@@ -84,7 +84,7 @@ don't scroll out of view as the user scrolls the list.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Notifications/
+apps/city-hero/src/screens/Notifications/
 └── hooks/
     └── useNotificationFilter.ts
 ```

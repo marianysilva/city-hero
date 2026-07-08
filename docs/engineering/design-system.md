@@ -19,7 +19,7 @@ We use a five-tier mental model:
 | Molecules | FilterChipRow, StatsRow, StatusBadge, EmptyState, KpiCard, ConfidenceBadge, XpProgressBar, XpMedalPill, AvatarStack, AnonymizationBadge, LaiExplainerSheet | `packages/design_system/src/molecules/`        |
 | Organisms | FeedCard, BottomNav, OverflowMenu, TimelineCard, DetailHero, BeforeAfterSlider, CategoryGrid, ShareSheet | `packages/design_system/src/organisms/`        |
 | Templates | DetailShell, EmptyScreen, ScreenContainer (header + scroll + bottom CTA shells) | `packages/design_system/src/templates/`        |
-| Screens   | HomeScreen, FeedCivicoScreen, CitizenProfileScreen, etc. — concrete screens compose templates + organisms | `apps/mobile/src/screens/<Screen>/`            |
+| Screens   | HomeScreen, FeedCivicoScreen, CitizenProfileScreen, etc. — concrete screens compose templates + organisms | `apps/city-hero/src/screens/<Screen>/`            |
 
 **The rule:** if a UI piece is used by **two or more screens** (or
 could plausibly be), it lives in the design system at the appropriate

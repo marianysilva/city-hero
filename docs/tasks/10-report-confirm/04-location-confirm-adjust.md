@@ -81,7 +81,7 @@ correction if needed.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ReportConfirm/
+apps/city-hero/src/screens/ReportConfirm/
 └── components/
     └── LocationField.tsx
 ```

@@ -97,7 +97,7 @@ from SCREEN 13's task 07 with these differences in the option set:
 Reuses the `OverflowMenu` from `13-detail-in-progress/07` with a `screenVariant: 'in_progress' | 'resolved'` prop and per-variant option lists.
 
 ```
-apps/mobile/src/screens/DetailTicket/
+apps/city-hero/src/screens/DetailTicket/
 └── components/
     └── (reuses OverflowMenu from DetailInProgress with screenVariant prop)
 └── components/

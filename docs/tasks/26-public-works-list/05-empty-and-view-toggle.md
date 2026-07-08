@@ -65,7 +65,7 @@ Two related behaviors:
 ## Frontend
 
 ```
-apps/mobile/src/screens/PublicWorks/
+apps/city-hero/src/screens/PublicWorks/
 ├── components/
 │   ├── WorksEmptyState.tsx
 │   ├── FullScreenMapView.tsx

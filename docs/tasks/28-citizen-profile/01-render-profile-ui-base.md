@@ -43,7 +43,7 @@ The base layout: gradient hero slot at the top (task 02), scrollable content are
 ## Frontend
 
 ```
-apps/mobile/src/screens/CitizenProfile/
+apps/city-hero/src/screens/CitizenProfile/
 ├── CitizenProfileScreen.tsx
 ├── CitizenProfileScreen.styles.ts
 ├── CitizenProfileScreen.test.tsx

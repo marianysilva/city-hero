@@ -65,7 +65,7 @@ not a substitute for the official channels — it routes to them.
 ## Frontend
 
 ```
-apps/mobile/src/screens/Programs/
+apps/city-hero/src/screens/Programs/
 └── components/
     ├── ControleSocialFooter.tsx
     └── DenunciarCtaButton.tsx

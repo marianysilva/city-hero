@@ -73,7 +73,7 @@ A gradient hero (brand → civic-purple) with: user avatar, name + level title (
 ## Frontend
 
 ```
-apps/mobile/src/screens/CitizenProfile/
+apps/city-hero/src/screens/CitizenProfile/
 └── components/
     ├── ProfileHero.tsx
     ├── XpProgressBar.tsx (reused from `10-report-confirm/07`)

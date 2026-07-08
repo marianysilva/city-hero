@@ -89,7 +89,7 @@ proxies).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 ├── hooks/
 │   ├── useReportsRealtime.ts
 │   └── useReportsPolling.ts

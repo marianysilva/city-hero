@@ -89,7 +89,7 @@ Two URL forms are supported:
 ### Where the handler lives
 
 ```
-apps/mobile/src/services/deep-links/
+apps/city-hero/src/services/deep-links/
 ├── parser.ts            ← URL → typed intent
 ├── router.ts            ← intent → navigation action
 ├── linkingConfig.ts     ← React Navigation linking spec

@@ -79,7 +79,7 @@ variant covered by task 02.
 ### Component location
 
 ```
-apps/mobile/src/screens/Onboarding/Gamification/
+apps/city-hero/src/screens/Onboarding/Gamification/
 ├── GamificationScreen.tsx
 ├── GamificationScreen.styles.ts
 ├── GamificationScreen.test.tsx

@@ -99,7 +99,7 @@ behavior, and selection are implemented by their own tasks.
 ### Component location
 
 ```
-apps/mobile/src/screens/CitySelect/
+apps/city-hero/src/screens/CitySelect/
 ├── CitySelectScreen.tsx
 ├── CitySelectScreen.styles.ts
 ├── CitySelectScreen.test.tsx

@@ -115,7 +115,7 @@ define a local search input or a local chip component.
 ## Frontend (React Native)
 
 ```
-apps/mobile/src/screens/ElectedOfficials/
+apps/city-hero/src/screens/ElectedOfficials/
 ├── components/
 │   └── OfficialsResultsList.tsx     (flat list shown when filter/search active)
 ├── hooks/

@@ -97,7 +97,7 @@ remembered for fast re-runs.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CivicFeed/
+apps/city-hero/src/screens/CivicFeed/
 ├── components/
 │   ├── FeedSearchOverlay.tsx
 │   └── SearchResultRow.tsx

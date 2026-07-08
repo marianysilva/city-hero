@@ -105,7 +105,7 @@ card, the backend toggle, the XP credit, and the anti-fraud rate limit.
 ### Where it lives
 
 ```
-apps/mobile/src/services/reports/
+apps/city-hero/src/services/reports/
 ├── supportAction.ts           ← shared by Feed, Home, Detail screens
 └── hooks/
     └── useSupportToggle.ts
@@ -196,7 +196,7 @@ The `xp_events` table (defined elsewhere in gamification tasks) records the +10 
 
 ## Definition of Done
 
-- [ ] Shared support action service in `apps/mobile/src/services/reports`
+- [ ] Shared support action service in `apps/city-hero/src/services/reports`
 - [ ] `useSupportToggle` hook with optimistic + rollback + cache update
 - [ ] Backend endpoints with idempotency, rate limit, self-support reject
 - [ ] `report_supports` table + Alembic migration

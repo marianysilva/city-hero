@@ -76,7 +76,7 @@ time-grouped scrollable list (task 03).
 ### Component location
 
 ```
-apps/mobile/src/screens/Notifications/
+apps/city-hero/src/screens/Notifications/
 ├── NotificationsScreen.tsx
 ├── NotificationsScreen.styles.ts
 ├── NotificationsScreen.test.tsx

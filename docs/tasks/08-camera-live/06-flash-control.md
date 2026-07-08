@@ -78,7 +78,7 @@ users want the camera to do the right thing by default.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Camera/
+apps/city-hero/src/screens/Camera/
 ├── components/
 │   └── FlashToggle.tsx
 └── hooks/

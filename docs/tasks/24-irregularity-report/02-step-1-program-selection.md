@@ -69,7 +69,7 @@ Bolsa Família), the program is **pre-selected** as a convenience.
 ## Frontend
 
 ```
-apps/mobile/src/screens/IrregularityReport/
+apps/city-hero/src/screens/IrregularityReport/
 ├── steps/
 │   └── Step1ProgramSelection.tsx
 └── hooks/

@@ -67,7 +67,7 @@ intent, so the message ("AI recognizes objects") still lands.
 The `HeroIllustration` component (from task 01) accepts a `reducedMotion: boolean` prop. The screen reads the OS preference and passes the prop accordingly:
 
 ```
-apps/mobile/src/screens/Onboarding/CameraAI/
+apps/city-hero/src/screens/Onboarding/CameraAI/
 ├── components/
 │   └── HeroIllustration.tsx     ← accepts reducedMotion prop
 └── hooks/

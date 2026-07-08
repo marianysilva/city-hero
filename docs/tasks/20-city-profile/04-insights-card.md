@@ -102,7 +102,7 @@ prove it.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CityProfile/
+apps/city-hero/src/screens/CityProfile/
 └── components/
     ├── ImprovementInsightsCard.tsx
     └── MonthlyTrendChart.tsx

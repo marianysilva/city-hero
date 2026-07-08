@@ -95,7 +95,7 @@ category chip uses an emoji and changes its visual state when active.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 └── hooks/
     └── useReportFilters.ts
 ```

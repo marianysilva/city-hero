@@ -101,7 +101,7 @@ Wraps the screen's secondary affordances:
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CityProfile/
+apps/city-hero/src/screens/CityProfile/
 └── components/
     ├── ShareCityButton.tsx
     ├── ProgramsBridge.tsx

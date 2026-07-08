@@ -10,7 +10,7 @@ CityHero is an intelligent urban maintenance and citizen engagement platform. It
 
 - `apps/backend/` — Python backend (FastAPI), AI models, Open311-compliant API
 - `apps/web/` — React.js / Next.js manager dashboard (War Room, Kanban, Smart Routing)
-- `apps/mobile/` — React Native (Expo) citizen app (AI Camera, Civic Feed, Gamification)
+- `apps/city-hero/` — React Native (Expo) citizen app (AI Camera, Civic Feed, Gamification)
 - `packages/design_system/` — Shared UI component library
 - `packages/ia_research/` — AI/ML research and model training (YOLOv8)
 - `analytics/pipelines/` — Apache Airflow DAGs for data orchestration
@@ -48,7 +48,7 @@ IMPORTANT: Every photo upload pipeline MUST include the automatic anonymization 
 
 - Run backend tests: `cd apps/backend && pytest`
 - Run web tests: `cd apps/web && npm test`
-- Run mobile tests: `cd apps/mobile && npx expo test`
+- Run mobile tests: `cd apps/city-hero && npx expo test`
 - Lint Python: `ruff check .`
 - Lint TypeScript: `npx eslint .`
 - Type-check web: `cd apps/web && npx tsc --noEmit`

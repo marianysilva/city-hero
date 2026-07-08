@@ -113,7 +113,7 @@ recipients will see.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/HeroesLeague/
+apps/city-hero/src/screens/HeroesLeague/
 └── components/
     └── ShareablePreviewCard.tsx
 ```

@@ -103,7 +103,7 @@ accordingly. Offline support routes through the offline queue.
 ### Where it lives
 
 ```
-apps/mobile/src/services/notifications/
+apps/city-hero/src/services/notifications/
 ├── markReadAction.ts
 └── hooks/
     └── useMarkRead.ts

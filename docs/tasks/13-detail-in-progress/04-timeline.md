@@ -101,7 +101,7 @@ progress through a real pipeline (vs disappearing into a black box).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/DetailInProgress/
+apps/city-hero/src/screens/DetailInProgress/
 └── components/
     ├── TimelineCard.tsx
     ├── TimelineEntry.tsx

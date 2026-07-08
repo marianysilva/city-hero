@@ -84,7 +84,7 @@ visual connection between "what happened" and "where to go next".
 ### Where it lives
 
 ```
-apps/mobile/src/screens/DetailMerged/
+apps/city-hero/src/screens/DetailMerged/
 └── components/
     └── BottomCtaNavigate.tsx
 ```

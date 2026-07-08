@@ -76,7 +76,7 @@ A 2-column grid of large cards covering city services. Each card: emoji, label, 
 ## Frontend
 
 ```
-apps/mobile/src/screens/ServicesPublicWorks/
+apps/city-hero/src/screens/ServicesPublicWorks/
 ├── components/
 │   ├── ServiceCardsGrid.tsx
 │   └── ServiceCard.tsx

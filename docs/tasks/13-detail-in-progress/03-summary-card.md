@@ -105,7 +105,7 @@ dias · 120m de você" without exposing identity.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/DetailInProgress/
+apps/city-hero/src/screens/DetailInProgress/
 └── components/
     ├── SummaryCard.tsx
     └── StatsRow.tsx

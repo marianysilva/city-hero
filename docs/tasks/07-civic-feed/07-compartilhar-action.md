@@ -98,7 +98,7 @@ potential new install.
 ### Where it lives
 
 ```
-apps/mobile/src/services/reports/
+apps/city-hero/src/services/reports/
 └── shareAction.ts             ← shared by Feed, Detail, Liga
 ```
 

@@ -56,7 +56,7 @@ Horizontal scrollable chips for status (Todas, Em planejamento, Em execução, C
 ## Frontend
 
 ```
-apps/mobile/src/screens/PublicWorks/
+apps/city-hero/src/screens/PublicWorks/
 └── hooks/
     └── useWorksFilters.ts
 ```

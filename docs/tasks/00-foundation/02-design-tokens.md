@@ -15,7 +15,7 @@ themes), (2) atomic folder structure (atoms, molecules, organisms,
 templates, hooks), (3) Storybook configured for both web and mobile, (4)
 Tailwind preset for the Next.js admin, (5) the theme provider for
 React Native, and (6) the public API (`index.ts`) that re-exports
-everything consumed by `apps/mobile` and `apps/web`.
+everything consumed by `apps/city-hero` and `apps/web`.
 
 This is the **prerequisite for every UI task** in the project — every
 shared component lives here per [`design-system.md`](../../engineering/design-system.md).
@@ -162,7 +162,7 @@ packages/design_system/
 
 ### React Native integration
 
-`packages/design_system/src/theme/ThemeProvider.tsx` wraps `apps/mobile`
+`packages/design_system/src/theme/ThemeProvider.tsx` wraps `apps/city-hero`
 and exposes tokens via context. Components consume via `useTheme()`.
 
 ### Storybook

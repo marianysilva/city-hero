@@ -103,7 +103,7 @@ publication time, the prefecture's source / department, and CTAs
 ### Where it lives
 
 ```
-apps/mobile/src/screens/PrefectureNews/
+apps/city-hero/src/screens/PrefectureNews/
 └── components/
     ├── NewsDetailSheet.tsx
     ├── RichTextRenderer.tsx

@@ -93,7 +93,7 @@ OS share sheet).
 ## Frontend (React Native)
 
 ```
-apps/mobile/src/screens/ElectedOfficials/
+apps/city-hero/src/screens/ElectedOfficials/
 ├── components/
 │   ├── TransparencyCta.tsx
 │   ├── TransparencyDisabledBottomSheet.tsx

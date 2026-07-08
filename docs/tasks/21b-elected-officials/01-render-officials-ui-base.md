@@ -89,7 +89,7 @@ are filled in by tasks 02–04.
 ### Component location
 
 ```
-apps/mobile/src/screens/ElectedOfficials/
+apps/city-hero/src/screens/ElectedOfficials/
 ├── ElectedOfficialsScreen.tsx
 ├── ElectedOfficialsScreen.styles.ts
 ├── ElectedOfficialsScreen.test.tsx

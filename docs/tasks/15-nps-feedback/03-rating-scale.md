@@ -102,7 +102,7 @@ to a positive median while still capturing nuance.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/NpsFeedback/
+apps/city-hero/src/screens/NpsFeedback/
 ├── components/
 │   ├── RatingScale.tsx
 │   └── RatingFace.tsx

@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Close out `docs/tasks/00-foundation/01-monorepo-setup.md` by adding the root tooling (Prettier, Husky, lint-staged, commitlint, PR template, branch protection, shared `tsconfig`) that doesn't exist yet, and by correcting every doc reference from `apps/mobile` to the real folder name `apps/city-hero`.
+**Goal:** Close out `docs/tasks/00-foundation/01-monorepo-setup.md` by adding the root tooling (Prettier, Husky, lint-staged, commitlint, PR template, branch protection, shared `tsconfig`) that doesn't exist yet, and by correcting every doc reference from `apps/city-hero` to the real folder name `apps/city-hero`.
 
 **Architecture:** No new runtime code. This is pure repo-tooling work: one root-level config file per concern (Prettier, tsconfig base, lint-staged, commitlint), two Husky git hooks wired to those configs, a GitHub PR template, a GitHub branch-protection API call, and a scripted docs find/replace.
 
@@ -11,7 +11,7 @@
 ## Global Constraints
 
 - Do not migrate off npm/Turborepo — Yarn Berry from the original task spec is explicitly rejected (confirmed by user).
-- Do not rename `apps/city-hero` to `apps/mobile` — the folder name stays; docs get corrected instead (confirmed by user).
+- Do not rename `apps/city-hero` to `apps/city-hero` — the folder name stays; docs get corrected instead (confirmed by user).
 - Do not create `packages/api_client`, `packages/i18n`, or `apps/ai_service` — those belong to foundation tasks 05, 13, 16 respectively (YAGNI).
 - Conventional Commits prefixes allowed: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `perf`, `ci` (from `CLAUDE.md` → Git Conventions).
 - Git hooks must not break the existing CI jobs (`Backend · Lint (ruff)`, `Backend · Tests (pytest)`, `Web · Lint + Type Check`, `Web · Build (next build)`, `Mobile · Type Check`, `Mobile · Lint (eslint)`, `Mobile · Tests (jest-expo)`, `Docker · Backend image builds`) — CI never runs `git commit`, so hook installation via `npm ci`'s `prepare` script is harmless, but each task's verification step must confirm the corresponding `turbo run lint` / `turbo run typecheck` still passes repo-wide.
@@ -19,12 +19,12 @@
 
 ---
 
-### Task 1: Rename sweep — `apps/mobile` → `apps/city-hero` in docs
+### Task 1: Rename sweep — `apps/city-hero` → `apps/city-hero` in docs
 
 **Files:**
 - Modify: `CLAUDE.md` (2 occurrences)
-- Modify: 183 files under `docs/**` (206 total occurrences of the literal string `apps/mobile`)
-- Modify: `docs/tasks/00-foundation/01-monorepo-setup.md:68` (one occurrence that is NOT the `apps/mobile` string — it's a bare `mobile/` line inside an ASCII folder-tree diagram, handled separately since a blind `mobile` → `city-hero` replace would corrupt unrelated prose elsewhere in the same files, e.g. "mobile-first", "React Native (mobile)")
+- Modify: 183 files under `docs/**` (206 total occurrences of the literal string `apps/city-hero`)
+- Modify: `docs/tasks/00-foundation/01-monorepo-setup.md:68` (one occurrence that is NOT the `apps/city-hero` string — it's a bare `mobile/` line inside an ASCII folder-tree diagram, handled separately since a blind `mobile` → `city-hero` replace would corrupt unrelated prose elsewhere in the same files, e.g. "mobile-first", "React Native (mobile)")
 
 **Interfaces:**
 - Consumes: nothing (first task, no code dependency)
@@ -32,13 +32,13 @@
 
 - [ ] **Step 1: Confirm current occurrence count**
 
-Run: `grep -rlo "apps/mobile" docs/ CLAUDE.md | wc -l` (counts matching files)
+Run: `grep -rlo "apps/city-hero" docs/ CLAUDE.md | wc -l` (counts matching files)
 Expected: `184`
 
 - [ ] **Step 2: Run the scripted replace**
 
 ```bash
-git grep -lz "apps/mobile" -- docs CLAUDE.md | xargs -0 sed -i 's#apps/mobile#apps/city-hero#g'
+git grep -lz "apps/city-hero" -- docs CLAUDE.md | xargs -0 sed -i 's#apps/city-hero#apps/city-hero#g'
 ```
 
 - [ ] **Step 3: Fix the one bare tree-diagram line by hand**
@@ -56,15 +56,15 @@ to:
 │   ├── city-hero/               # Expo
 ```
 
-- [ ] **Step 4: Verify zero remaining `apps/mobile` references**
+- [ ] **Step 4: Verify zero remaining `apps/city-hero` references**
 
-Run: `grep -rn "apps/mobile" docs/ CLAUDE.md`
+Run: `grep -rn "apps/city-hero" docs/ CLAUDE.md`
 Expected: no output (exit code 1)
 
 - [ ] **Step 5: Verify no unintended damage to unrelated "mobile" prose**
 
 Run: `git diff --stat`
-Expected: only files that legitimately contained `apps/mobile` are listed
+Expected: only files that legitimately contained `apps/city-hero` are listed
 (184 files + the one manual edit = 185). Spot-check 3 random files from the
 diff to confirm only the path string changed, e.g.:
 
@@ -76,7 +76,7 @@ git diff docs/tasks/01-splash/02-app-initialization.md | head -20
 
 ```bash
 git add -A -- docs CLAUDE.md
-git commit -m "docs: correct apps/mobile references to the real apps/city-hero path"
+git commit -m "docs: correct apps/city-hero references to the real apps/city-hero path"
 ```
 
 ---
@@ -646,7 +646,7 @@ Replace the full Definition of Done list with one reflecting reality:
 ```
 ## Definition of Done
 
-- [x] Folder structure per the layout above (`apps/city-hero` instead of `apps/mobile` — folder name decision, see `docs/superpowers/specs/2026-07-06-monorepo-setup-design.md`)
+- [x] Folder structure per the layout above (`apps/city-hero` instead of `apps/city-hero` — folder name decision, see `docs/superpowers/specs/2026-07-06-monorepo-setup-design.md`)
 - [x] npm workspaces + Turborepo functional (superseding the original Yarn plan)
 - [x] ESLint (shared root `eslint.config.base.js` spread into each app's Next.js/Expo config) + Prettier (shared root config) configured
 - [x] Husky pre-commit and commit-msg hooks

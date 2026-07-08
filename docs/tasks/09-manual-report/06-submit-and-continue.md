@@ -86,7 +86,7 @@ and the report-create endpoint. Here we hand off the validated payload.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ManualReport/
+apps/city-hero/src/screens/ManualReport/
 └── hooks/
     └── useContinueManualReport.ts
 ```

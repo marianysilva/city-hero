@@ -116,7 +116,7 @@ Tapping a notification:
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Notifications/
+apps/city-hero/src/screens/Notifications/
 ├── components/
 │   └── NotificationCard.tsx
 └── services/

@@ -124,7 +124,7 @@ Initial seed (Alembic data migration): Pôrto Belo (active), Bombinhas, Itapema,
 ### Where the data layer lives
 
 ```
-apps/mobile/src/screens/CitySelect/
+apps/city-hero/src/screens/CitySelect/
 ├── hooks/
 │   └── useCitiesCatalog.ts
 └── api/

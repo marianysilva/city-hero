@@ -81,7 +81,7 @@ CityHero **never stores** the complaint content; only telemetry records that a h
 ## Frontend
 
 ```
-apps/mobile/src/screens/IrregularityReport/
+apps/city-hero/src/screens/IrregularityReport/
 ├── steps/
 │   ├── Step5Handoff.tsx
 │   └── HandoffConfirmation.tsx

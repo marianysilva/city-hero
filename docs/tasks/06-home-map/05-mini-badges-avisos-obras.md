@@ -89,7 +89,7 @@ map content but stay visible enough to be discovered.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 ├── components/
 │   ├── PrefectureNewsBadge.tsx
 │   └── NearbyWorkBadge.tsx
@@ -158,7 +158,7 @@ The prefecture-news read tracking and public-works geometry are owned by their d
 
 ## Definition of Done
 
-- [ ] Two badge components in `apps/mobile/src/screens/Home`
+- [ ] Two badge components in `apps/city-hero/src/screens/Home`
 - [ ] Hooks for unread count and nearest work
 - [ ] Backend endpoints
 - [ ] Layout positioning into the "right-mid-overlay" slot

@@ -100,7 +100,7 @@ nearby push alerts.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Onboarding/Neighborhood/
+apps/city-hero/src/screens/Onboarding/Neighborhood/
 ├── hooks/
 │   ├── useLocationPermission.ts
 │   └── useFinalizeOnboarding.ts

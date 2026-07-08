@@ -104,7 +104,7 @@ problem.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/DetailMerged/
+apps/city-hero/src/screens/DetailMerged/
 └── components/
     ├── YourReportCard.tsx
     └── ParentTicketCard.tsx

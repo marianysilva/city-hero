@@ -119,7 +119,7 @@ synced disappears from this list).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/SyncQueue/
+apps/city-hero/src/screens/SyncQueue/
 ├── components/
 │   ├── QueueList.tsx
 │   └── QueueItemCard.tsx

@@ -59,7 +59,7 @@ A horizontal carousel of the user's most recent medals (last 5-7). Each medal: e
 ## Frontend
 
 ```
-apps/mobile/src/screens/CitizenProfile/
+apps/city-hero/src/screens/CitizenProfile/
 ├── components/
 │   ├── MedalsCarousel.tsx
 │   └── MedalCard.tsx

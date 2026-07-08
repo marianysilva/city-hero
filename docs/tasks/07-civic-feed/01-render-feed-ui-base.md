@@ -80,7 +80,7 @@ implement filter behavior.
 ### Component location
 
 ```
-apps/mobile/src/screens/CivicFeed/
+apps/city-hero/src/screens/CivicFeed/
 ├── CivicFeedScreen.tsx
 ├── CivicFeedScreen.styles.ts
 ├── CivicFeedScreen.test.tsx

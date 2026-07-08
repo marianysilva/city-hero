@@ -72,7 +72,7 @@ Pre-fills use context from steps 1-2 plus the user's current location. The form 
 ## Frontend
 
 ```
-apps/mobile/src/screens/IrregularityReport/
+apps/city-hero/src/screens/IrregularityReport/
 ├── steps/
 │   └── Step3FormFields.tsx
 └── hooks/

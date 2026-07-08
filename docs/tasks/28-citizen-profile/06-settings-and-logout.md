@@ -83,7 +83,7 @@ but disabled with a "Em breve" hint.
 ## Frontend
 
 ```
-apps/mobile/src/screens/CitizenProfile/
+apps/city-hero/src/screens/CitizenProfile/
 ├── components/
 │   ├── SettingsList.tsx
 │   ├── SettingsRow.tsx

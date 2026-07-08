@@ -85,7 +85,7 @@ identically.
 Reuses the `SummaryCard` and `StatsRow` components from `13-detail-in-progress/03`. This task adds a `variant: 'resolved' | 'in_progress'` prop and the conditional stat content.
 
 ```
-apps/mobile/src/screens/DetailTicket/
+apps/city-hero/src/screens/DetailTicket/
 └── components/
     └── (reuses SummaryCard from DetailInProgress, with variant prop)
 ```

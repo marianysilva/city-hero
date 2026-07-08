@@ -107,7 +107,7 @@ Tap any item to open the full detail (task 05).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/PrefectureNews/
+apps/city-hero/src/screens/PrefectureNews/
 ├── components/
 │   ├── NewsList.tsx
 │   └── NewsCard.tsx

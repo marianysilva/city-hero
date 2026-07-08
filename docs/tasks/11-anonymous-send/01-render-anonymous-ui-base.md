@@ -75,7 +75,7 @@ more private.
 ### Component location
 
 ```
-apps/mobile/src/screens/AnonymousSend/
+apps/city-hero/src/screens/AnonymousSend/
 ├── AnonymousSendScreen.tsx
 ├── AnonymousSendScreen.styles.ts
 ├── AnonymousSendScreen.test.tsx

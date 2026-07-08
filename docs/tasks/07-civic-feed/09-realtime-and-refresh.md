@@ -106,7 +106,7 @@ Together they make the feed feel "alive" without disturbing reading.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CivicFeed/
+apps/city-hero/src/screens/CivicFeed/
 ├── hooks/
 │   ├── useFeedRealtime.ts
 │   └── useFeedPolling.ts

@@ -84,7 +84,7 @@ clear understanding in a few seconds.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/AnonymousSend/
+apps/city-hero/src/screens/AnonymousSend/
 └── components/
     ├── KeptBenefitsPanel.tsx
     └── WhoSeesYourNamePanel.tsx

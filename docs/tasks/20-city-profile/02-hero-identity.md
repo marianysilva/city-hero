@@ -89,7 +89,7 @@ the screen energy.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CityProfile/
+apps/city-hero/src/screens/CityProfile/
 └── components/
     ├── CityHero.tsx
     └── CityHeroWaves.tsx

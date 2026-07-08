@@ -86,7 +86,7 @@ because it's offering a related path, not a one-time tip.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/MyReports/
+apps/city-hero/src/screens/MyReports/
 └── components/
     └── BridgeCardToPrograms.tsx
 ```

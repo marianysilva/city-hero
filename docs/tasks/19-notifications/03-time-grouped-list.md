@@ -110,7 +110,7 @@ animation), and an empty state per filter.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Notifications/
+apps/city-hero/src/screens/Notifications/
 ├── components/
 │   ├── NotificationList.tsx
 │   └── SectionHeader.tsx

@@ -99,7 +99,7 @@ Title and copy reinforce: "Amplificar sem se expor".
 ### Where it lives
 
 ```
-apps/mobile/src/screens/AnonymousSend/
+apps/city-hero/src/screens/AnonymousSend/
 └── components/
     └── AnonymousShareCard.tsx
 ```

@@ -93,7 +93,7 @@ animals, irregular construction, sidewalk obstruction, etc. from
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ManualReport/
+apps/city-hero/src/screens/ManualReport/
 ├── components/
 │   ├── CategoryGrid.tsx
 │   ├── CategoryTile.tsx

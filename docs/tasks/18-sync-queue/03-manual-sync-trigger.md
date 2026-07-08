@@ -89,7 +89,7 @@ hiding the option entirely.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/SyncQueue/
+apps/city-hero/src/screens/SyncQueue/
 └── components/
     └── ManualSyncButton.tsx
 ```

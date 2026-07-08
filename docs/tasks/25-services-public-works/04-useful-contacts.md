@@ -67,7 +67,7 @@ when the user needs them most.
 ## Frontend
 
 ```
-apps/mobile/src/screens/ServicesPublicWorks/
+apps/city-hero/src/screens/ServicesPublicWorks/
 └── components/
     └── UsefulContactsFooter.tsx
 ```

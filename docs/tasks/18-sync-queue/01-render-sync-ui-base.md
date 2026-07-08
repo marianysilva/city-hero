@@ -80,7 +80,7 @@ navigation returns to the entry point naturally.
 ### Component location
 
 ```
-apps/mobile/src/screens/SyncQueue/
+apps/city-hero/src/screens/SyncQueue/
 ├── SyncQueueScreen.tsx
 ├── SyncQueueScreen.styles.ts
 ├── SyncQueueScreen.test.tsx

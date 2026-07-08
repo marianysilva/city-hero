@@ -90,7 +90,7 @@ or real-time updates (task 08) — but is the substrate they all build on.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 ├── hooks/
 │   ├── useReportsInBbox.ts
 │   └── useDebouncedBbox.ts

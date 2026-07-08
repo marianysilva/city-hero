@@ -69,7 +69,7 @@ Tapping a medal opens a large bottom sheet showing: large medal art, name, descr
 ## Frontend
 
 ```
-apps/mobile/src/screens/AchievementsBadges/
+apps/city-hero/src/screens/AchievementsBadges/
 └── components/
     ├── MedalDetailSheet.tsx
     └── UnlockCelebration.tsx

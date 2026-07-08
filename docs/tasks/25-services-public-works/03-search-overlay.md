@@ -69,7 +69,7 @@ A modal overlay opened from the search icon. The user types a keyword (e.g., "il
 ## Frontend
 
 ```
-apps/mobile/src/screens/ServicesPublicWorks/
+apps/city-hero/src/screens/ServicesPublicWorks/
 ├── components/
 │   └── ServicesSearchOverlay.tsx
 └── hooks/

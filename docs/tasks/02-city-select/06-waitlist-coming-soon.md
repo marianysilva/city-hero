@@ -100,7 +100,7 @@ catalog city ("we don't support your city yet — sign up for updates").
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CitySelect/
+apps/city-hero/src/screens/CitySelect/
 ├── components/
 │   └── WaitlistSheet.tsx
 └── hooks/

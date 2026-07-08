@@ -97,11 +97,11 @@ under the new identity.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CitizenProfile/
+apps/city-hero/src/screens/CitizenProfile/
 └── components/
     └── ProfileSwitcherRow.tsx     ← rendered conditionally by SettingsList
 
-apps/mobile/src/dev/
+apps/city-hero/src/dev/
 ├── personas.ts                    ← hardcoded persona definitions + mock JWTs
 ├── DevModeBadge.tsx               ← global "DEV MODE" chip
 └── useDevPersona.ts               ← hook + setter
@@ -116,7 +116,7 @@ apps/mobile/src/dev/
 
 ### Build gating
 
-- The whole `apps/mobile/src/dev/` tree is excluded from the production bundle via the bundler's environment-based dead-code elimination.
+- The whole `apps/city-hero/src/dev/` tree is excluded from the production bundle via the bundler's environment-based dead-code elimination.
 - A unit test asserts that production builds do not include any string from `personas.ts`.
 
 ## Backend
@@ -133,7 +133,7 @@ Not applicable. Persona data is local.
 
 - **Persona's mock JWT expires**: the picker refreshes the mock JWT on each persona switch so expiry doesn't bite during long QA sessions.
 - **Picking the same persona twice**: no-op; the app does not reload.
-- **Production build accidentally ships dev personas**: the unit test in `apps/mobile/__tests__/devModeAbsentInProd.test.ts` fails CI.
+- **Production build accidentally ships dev personas**: the unit test in `apps/city-hero/__tests__/devModeAbsentInProd.test.ts` fails CI.
 
 ## Privacy / LGPD
 
@@ -155,7 +155,7 @@ Not applicable — the personas are fictional mock data.
 
 ## Definition of Done
 
-- [ ] `apps/mobile/src/dev/` package with personas + hook
+- [ ] `apps/city-hero/src/dev/` package with personas + hook
 - [ ] `ProfileSwitcherRow` conditionally rendered in Settings
 - [ ] Global `DevModeBadge` on the Profile hero
 - [ ] Persona persistence across cold starts

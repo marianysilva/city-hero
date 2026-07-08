@@ -82,7 +82,7 @@ on the camera screen — never a "stuck" state.
 The fallback affordances live in components owned by other tasks (the denied overlay from task 02, the no-detection hint from task 03, etc.). This task wires them to a shared navigation hook:
 
 ```
-apps/mobile/src/screens/Camera/
+apps/city-hero/src/screens/Camera/
 └── hooks/
     └── useFallbackToManual.ts
 ```
