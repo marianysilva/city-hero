@@ -10,8 +10,12 @@ function scopedEslint(appDir) {
   return (filenames) => {
     const files = filenames
       .map((file) => path.relative(path.resolve(appDir), file).split(path.sep).join("/"))
+      .map((file) => JSON.stringify(file))
       .join(" ");
-    return `sh -c "cd ${appDir} && npx eslint --fix ${files}"`;
+    // Single-quote the outer `-c` argument so the double-quoted filenames
+    // inside it (needed for paths containing spaces) aren't consumed by
+    // lint-staged's own command-string parser before reaching `sh`.
+    return `sh -c 'cd ${appDir} && npx eslint --fix ${files}'`;
   };
 }
 
