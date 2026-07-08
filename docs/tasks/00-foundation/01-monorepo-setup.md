@@ -4,7 +4,7 @@
 > **Screen(s):** All
 > **Effort:** M (2 days)
 > **Dependencies:** none (first task)
-> **Status:** ⬜ Not started
+> **Status:** ✅ Done
 > **Labels:** `infrastructure`, `foundation`, `tooling`, `ci-cd`
 
 ## Context
@@ -122,9 +122,9 @@ Caches: dependency cache for the JS package manager and pip.
 
 `main` requires:
 
-- One approving review on a PR.
-- All required CI checks green.
-- No force pushes.
+- A pull request (no direct pushes), with all 9 required CI checks green (`Format (prettier --check)`, `Backend · Lint (ruff)`, `Backend · Tests (pytest)`, `Web · Lint + Type Check`, `Web · Build (next build)`, `Mobile · Type Check`, `Mobile · Lint (eslint)`, `Mobile · Tests (jest-expo)`, `Docker · Backend image builds`).
+- 0 required approving reviews — solo project, no second developer to review.
+- No force pushes, no deletions.
 - Linear history (squash or rebase merge only).
 
 ## Edge Cases
@@ -156,7 +156,7 @@ Not applicable.
 - [x] ESLint (shared root `eslint.config.base.js` spread into each app's Next.js/Expo config) + Prettier (shared root config) configured
 - [x] Husky pre-commit and commit-msg hooks
 - [x] CI pipeline running lint / typecheck / test / python-lint / python-test (already existed before this task)
-- [ ] Branch protection enabled on `main`
+- [x] Branch protection enabled on `main`
 - [x] PR template
 - [x] Root README with setup instructions (already existed)
 - [x] Comprehensive `.gitignore` (already existed)
