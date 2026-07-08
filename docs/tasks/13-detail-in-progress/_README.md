@@ -29,15 +29,15 @@ where the prefecture's responsiveness becomes visible.
 
 ## Features (7 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · layout, sticky CTA, slots](./01-render-detail-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Hero with status chips and SLA badge](./02-hero-status-chips.md) | S | task 01 |
-| 03 | [Summary card · title, reporter, stats](./03-summary-card.md) | S | task 01 |
-| 04 | [Timeline of ticket states](./04-timeline.md) | M | task 01 |
-| 05 | [Moderated comments · tag-based engagement](./05-moderated-comments.md) | M | task 01, `07-civic-feed/06-apoiar-action.md` |
-| 06 | [Bottom CTAs · Apoiar + Compartilhar](./06-bottom-ctas.md) | S | task 01, `07-civic-feed/06-apoiar-action.md`, `07-civic-feed/07-compartilhar-action.md` |
-| 07 | [Overflow menu · Enriquecer + extras](./07-overflow-menu.md) | M | task 01, `07-civic-feed/08-enriquecer-action.md`, `11-anonymous-send/06-reversibility.md` |
+| #   | Task                                                                        | Effort | Depends on                                                                                |
+| --- | --------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------- |
+| 01  | [Render UI base · layout, sticky CTA, slots](./01-render-detail-ui-base.md) | S      | `00-foundation/02-design-tokens.md`                                                       |
+| 02  | [Hero with status chips and SLA badge](./02-hero-status-chips.md)           | S      | task 01                                                                                   |
+| 03  | [Summary card · title, reporter, stats](./03-summary-card.md)               | S      | task 01                                                                                   |
+| 04  | [Timeline of ticket states](./04-timeline.md)                               | M      | task 01                                                                                   |
+| 05  | [Moderated comments · tag-based engagement](./05-moderated-comments.md)     | M      | task 01, `07-civic-feed/06-apoiar-action.md`                                              |
+| 06  | [Bottom CTAs · Apoiar + Compartilhar](./06-bottom-ctas.md)                  | S      | task 01, `07-civic-feed/06-apoiar-action.md`, `07-civic-feed/07-compartilhar-action.md`   |
+| 07  | [Overflow menu · Enriquecer + extras](./07-overflow-menu.md)                | M      | task 01, `07-civic-feed/08-enriquecer-action.md`, `11-anonymous-send/06-reversibility.md` |
 
 ## Suggested implementation order
 

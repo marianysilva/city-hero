@@ -17,11 +17,11 @@ finished.
 
 ## Features (3 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI · stylized neighborhood map illustration, copy, pagination, buttons](./01-render-onboarding-neighborhood-ui.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Location permission request and feed radius default](./02-location-permission.md) | M | task 01, `02-city-select/04-gps-auto-detect.md` |
-| 03 | [Reduced-motion variant of the illustration](./03-reduced-motion-illustration.md) | S | task 01, shared `useReducedMotion` hook |
+| #   | Task                                                                                                                       | Effort | Depends on                                      |
+| --- | -------------------------------------------------------------------------------------------------------------------------- | ------ | ----------------------------------------------- |
+| 01  | [Render UI · stylized neighborhood map illustration, copy, pagination, buttons](./01-render-onboarding-neighborhood-ui.md) | S      | `00-foundation/02-design-tokens.md`             |
+| 02  | [Location permission request and feed radius default](./02-location-permission.md)                                         | M      | task 01, `02-city-select/04-gps-auto-detect.md` |
+| 03  | [Reduced-motion variant of the illustration](./03-reduced-motion-illustration.md)                                          | S      | task 01, shared `useReducedMotion` hook         |
 
 ## Suggested implementation order
 

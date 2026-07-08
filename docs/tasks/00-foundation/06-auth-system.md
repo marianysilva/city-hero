@@ -141,20 +141,20 @@ After login, offer Face ID / fingerprint to unlock subsequent app opens. The bio
 
 ### Endpoints
 
-| Method | Path                              | Purpose                                         |
-|--------|-----------------------------------|-------------------------------------------------|
-| POST   | `/auth/signup`                    | Create account                                  |
-| POST   | `/auth/login`                     | Email + password login                          |
-| POST   | `/auth/logout`                    | Invalidate the current refresh token            |
-| POST   | `/auth/refresh`                   | Rotate access + refresh tokens                  |
-| POST   | `/auth/verify-email`              | Activate account from email link                |
-| POST   | `/auth/resend-verification`       | Resend verification email                       |
-| POST   | `/auth/forgot-password`           | Send reset email                                |
-| POST   | `/auth/reset-password`            | Set new password from reset token               |
-| GET    | `/auth/me`                        | Get current user                                |
-| DELETE | `/auth/me`                        | Account deletion (LGPD)                         |
-| GET    | `/auth/govbr/login`               | Redirect to Gov.br OAuth                        |
-| GET    | `/auth/govbr/callback`            | Handle Gov.br callback                          |
+| Method | Path                        | Purpose                              |
+| ------ | --------------------------- | ------------------------------------ |
+| POST   | `/auth/signup`              | Create account                       |
+| POST   | `/auth/login`               | Email + password login               |
+| POST   | `/auth/logout`              | Invalidate the current refresh token |
+| POST   | `/auth/refresh`             | Rotate access + refresh tokens       |
+| POST   | `/auth/verify-email`        | Activate account from email link     |
+| POST   | `/auth/resend-verification` | Resend verification email            |
+| POST   | `/auth/forgot-password`     | Send reset email                     |
+| POST   | `/auth/reset-password`      | Set new password from reset token    |
+| GET    | `/auth/me`                  | Get current user                     |
+| DELETE | `/auth/me`                  | Account deletion (LGPD)              |
+| GET    | `/auth/govbr/login`         | Redirect to Gov.br OAuth             |
+| GET    | `/auth/govbr/callback`      | Handle Gov.br callback               |
 
 ### JWT structure
 
@@ -176,51 +176,51 @@ Standard hardening: HSTS, X-Content-Type-Options, Referrer-Policy, etc.
 
 #### `users`
 
-| Column                 | Type           | Notes                                        |
-|------------------------|----------------|----------------------------------------------|
-| `id`                   | UUID PK        | `gen_random_uuid()`                          |
-| `email`                | varchar unique | Required                                     |
-| `password_hash`        | varchar        | Nullable for Gov.br-only users               |
-| `name`                 | varchar        | Required                                     |
-| `cpf_hash`             | varchar(64)    | Nullable, SHA-256 of CPF for Gov.br users    |
-| `city_id`              | UUID FK        | Multi-tenant scope                           |
-| `status`               | varchar        | `pending_verification`, `active`, `deleted`  |
-| `email_verified_at`    | timestamptz    | Nullable                                     |
-| `language`             | varchar(10)    | Default `pt-BR`                              |
-| `reputation`           | int            | Default 50                                   |
-| `created_at`           | timestamptz    |                                              |
-| `updated_at`           | timestamptz    |                                              |
-| `deleted_at`           | timestamptz    | Soft delete                                  |
+| Column              | Type           | Notes                                       |
+| ------------------- | -------------- | ------------------------------------------- |
+| `id`                | UUID PK        | `gen_random_uuid()`                         |
+| `email`             | varchar unique | Required                                    |
+| `password_hash`     | varchar        | Nullable for Gov.br-only users              |
+| `name`              | varchar        | Required                                    |
+| `cpf_hash`          | varchar(64)    | Nullable, SHA-256 of CPF for Gov.br users   |
+| `city_id`           | UUID FK        | Multi-tenant scope                          |
+| `status`            | varchar        | `pending_verification`, `active`, `deleted` |
+| `email_verified_at` | timestamptz    | Nullable                                    |
+| `language`          | varchar(10)    | Default `pt-BR`                             |
+| `reputation`        | int            | Default 50                                  |
+| `created_at`        | timestamptz    |                                             |
+| `updated_at`        | timestamptz    |                                             |
+| `deleted_at`        | timestamptz    | Soft delete                                 |
 
 Indexes on `city_id` and on `email` (where not deleted).
 
 #### `auth_refresh_tokens`
 
-| Column           | Type         | Notes                                           |
-|------------------|--------------|-------------------------------------------------|
-| `id`             | UUID PK      |                                                  |
-| `user_id`        | UUID FK      | Cascading delete                                 |
-| `token_hash`     | varchar(64)  | SHA-256 of the token; never store raw tokens     |
-| `expires_at`     | timestamptz  |                                                  |
-| `revoked_at`     | timestamptz  | Nullable                                         |
-| `rotated_to_id`  | UUID FK      | Self-reference to the next token in the chain    |
-| `user_agent`     | text         | For audit                                        |
-| `ip`             | inet         | For audit                                        |
-| `created_at`     | timestamptz  |                                                  |
+| Column          | Type        | Notes                                         |
+| --------------- | ----------- | --------------------------------------------- |
+| `id`            | UUID PK     |                                               |
+| `user_id`       | UUID FK     | Cascading delete                              |
+| `token_hash`    | varchar(64) | SHA-256 of the token; never store raw tokens  |
+| `expires_at`    | timestamptz |                                               |
+| `revoked_at`    | timestamptz | Nullable                                      |
+| `rotated_to_id` | UUID FK     | Self-reference to the next token in the chain |
+| `user_agent`    | text        | For audit                                     |
+| `ip`            | inet        | For audit                                     |
+| `created_at`    | timestamptz |                                               |
 
 Index on `user_id` where not revoked.
 
 #### `auth_audit_log`
 
-| Column         | Type         | Notes                                 |
-|----------------|--------------|----------------------------------------|
-| `id`           | UUID PK      |                                        |
-| `user_id`      | UUID FK      | Set null on user deletion              |
-| `event`        | varchar(50)  | `login`, `logout`, `failed_login`, etc.|
-| `ip`           | inet         |                                        |
-| `user_agent`   | text         |                                        |
-| `metadata`     | jsonb        | Event-specific context                  |
-| `occurred_at`  | timestamptz  |                                        |
+| Column        | Type        | Notes                                   |
+| ------------- | ----------- | --------------------------------------- |
+| `id`          | UUID PK     |                                         |
+| `user_id`     | UUID FK     | Set null on user deletion               |
+| `event`       | varchar(50) | `login`, `logout`, `failed_login`, etc. |
+| `ip`          | inet        |                                         |
+| `user_agent`  | text        |                                         |
+| `metadata`    | jsonb       | Event-specific context                  |
+| `occurred_at` | timestamptz |                                         |
 
 Index on `(user_id, occurred_at desc)`.
 
@@ -246,16 +246,16 @@ See `security-baseline.md` for the broader baseline.
 
 ## Analytics
 
-| Event                          | Where     | Props                              |
-|--------------------------------|-----------|-------------------------------------|
-| `auth.signup_started`          | Mobile    | `method: email|govbr`              |
-| `auth.signup_succeeded`        | Backend   | `method`                           |
-| `auth.signup_failed`           | Both      | `reason`                           |
-| `auth.login_succeeded`         | Backend   | `method`                           |
-| `auth.login_failed`            | Backend   | `reason`                           |
-| `auth.token_refreshed`         | Backend   | —                                  |
-| `auth.logout`                  | Both      | `voluntary: bool`                  |
-| `auth.account_deleted`         | Backend   | —                                  |
+| Event                   | Where   | Props             |
+| ----------------------- | ------- | ----------------- |
+| `auth.signup_started`   | Mobile  | `method: email    | govbr` |
+| `auth.signup_succeeded` | Backend | `method`          |
+| `auth.signup_failed`    | Both    | `reason`          |
+| `auth.login_succeeded`  | Backend | `method`          |
+| `auth.login_failed`     | Backend | `reason`          |
+| `auth.token_refreshed`  | Backend | —                 |
+| `auth.logout`           | Both    | `voluntary: bool` |
+| `auth.account_deleted`  | Backend | —                 |
 
 ## Tests
 
@@ -282,6 +282,7 @@ See `security-baseline.md` for the broader baseline.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Security: `docs/engineering/security-baseline.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
@@ -289,10 +290,12 @@ See `security-baseline.md` for the broader baseline.
 - Observability: `docs/engineering/observability.md`
 
 ### Library / framework references
+
 - Gov.br Developer Portal: https://manual-roteiro-integracao-login-unico.servicos.gov.br/
 - LGPD (Brazilian data protection law): Lei nº 13.709/2018
 - Expo Auth Session: https://docs.expo.dev/versions/latest/sdk/auth-session/
 - bcrypt: https://en.wikipedia.org/wiki/Bcrypt
 
 ### Project context
+
 - `CLAUDE.md`

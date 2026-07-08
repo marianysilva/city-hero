@@ -1,14 +1,14 @@
-import { statusBar } from '../atoms/StatusBar.js';
+import { statusBar } from "../atoms/StatusBar.js";
 
 /** Tela 11 · Envio Anônimo (pós-envio paralelo · modo sombra) */
 export default {
-  title: 'Envio Anônimo',
-  group: 'core',
-  summary: 'Pós-envio anônimo · privado, sem apelo viral',
+  title: "Envio Anônimo",
+  group: "core",
+  summary: "Pós-envio anônimo · privado, sem apelo viral",
   note: `Versão alternativa da <b>Liga de Heróis</b> quando o toggle 🥷 estiver on na Confirmação do Reporte. Não pede compartilhamento social (contradiz o modo), mas oferece link anônimo compartilhável. Reforça o que o herói mantém (XP, titularidade, updates) e deixa transparente quem vê o nome real (só prefeitura, por LAI). CTA principal: acompanhar no Meus Reportes.`,
   html: () => `
     <div class="relative h-full bg-white flex flex-col overflow-hidden">
-      ${statusBar('light')}
+      ${statusBar("light")}
 
       <div class="relative px-4 pt-3 pb-5 text-white overflow-hidden shrink-0" style="background:linear-gradient(135deg,#0F172A 0%,#4C1D95 55%,#6366F1 100%)">
         <svg class="absolute -top-4 -right-6 opacity-[0.12]" width="180" height="180" viewBox="0 0 100 100" fill="none">
@@ -55,11 +55,13 @@ export default {
           </div>
           <div class="grid grid-cols-2 gap-2.5 text-[12px]">
             ${[
-              ['XP e medalhas',   'sem penalidade'],
-              ['Atualizações',    'push a cada mudança'],
-              ['Titularidade',    'só você edita'],
-              ['Ranking e Liga',  'conta pro seu nível'],
-            ].map(([title, sub]) => `
+              ["XP e medalhas", "sem penalidade"],
+              ["Atualizações", "push a cada mudança"],
+              ["Titularidade", "só você edita"],
+              ["Ranking e Liga", "conta pro seu nível"],
+            ]
+              .map(
+                ([title, sub]) => `
               <div class="flex items-start gap-2">
                 <span class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">✓</span>
                 <div class="leading-tight">
@@ -67,7 +69,9 @@ export default {
                   <div class="text-[10px] text-slate-600">${sub}</div>
                 </div>
               </div>
-            `).join('')}
+            `,
+              )
+              .join("")}
           </div>
         </div>
 
@@ -125,5 +129,5 @@ export default {
           Acompanhar reporte →
         </button>
       </div>
-    </div>`
+    </div>`,
 };

@@ -18,15 +18,15 @@ themselves as a hero, with concrete proof.
 
 ## Features (7 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · hero, scroll, slots, bottom nav](./01-render-profile-ui-base.md) | S | `00-foundation/02-design-tokens.md`, `00-foundation/03-bottom-nav-component.md` |
-| 02 | [Profile hero · avatar, name, level, XP bar](./02-profile-hero.md) | M | task 01 |
-| 03 | [Stats grid · reportes, apoios, comentários, impact](./03-stats-grid.md) | S | task 01, `00-foundation/05-api-client.md` |
-| 04 | [Recent medals carousel + link to Achievements](./04-medals-carousel.md) | M | task 01 |
-| 05 | [Recent activity feed](./05-activity-feed.md) | M | task 01 |
-| 06 | [Settings + edit profile + logout](./06-settings-and-logout.md) | M | task 01, `00-foundation/06-auth-system.md` |
-| 07 | [Profile switcher (dev only) · test persona swap](./07-profile-switcher.md) | S | task 06 |
+| #   | Task                                                                               | Effort | Depends on                                                                      |
+| --- | ---------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------- |
+| 01  | [Render UI base · hero, scroll, slots, bottom nav](./01-render-profile-ui-base.md) | S      | `00-foundation/02-design-tokens.md`, `00-foundation/03-bottom-nav-component.md` |
+| 02  | [Profile hero · avatar, name, level, XP bar](./02-profile-hero.md)                 | M      | task 01                                                                         |
+| 03  | [Stats grid · reportes, apoios, comentários, impact](./03-stats-grid.md)           | S      | task 01, `00-foundation/05-api-client.md`                                       |
+| 04  | [Recent medals carousel + link to Achievements](./04-medals-carousel.md)           | M      | task 01                                                                         |
+| 05  | [Recent activity feed](./05-activity-feed.md)                                      | M      | task 01                                                                         |
+| 06  | [Settings + edit profile + logout](./06-settings-and-logout.md)                    | M      | task 01, `00-foundation/06-auth-system.md`                                      |
+| 07  | [Profile switcher (dev only) · test persona swap](./07-profile-switcher.md)        | S      | task 06                                                                         |
 
 ## Suggested implementation order
 

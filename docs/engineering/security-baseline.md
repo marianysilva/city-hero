@@ -123,18 +123,18 @@ When a breach is detected or suspected:
 
 We explicitly defend against:
 
-| Risk                              | Defense                                    |
-|-----------------------------------|---------------------------------------------|
-| A01 Broken Access Control         | RBAC + per-resource checks + multi-tenant scoping |
-| A02 Cryptographic Failures        | TLS, bcrypt, secrets manager                |
-| A03 Injection                     | Parameterized queries, input validation    |
-| A04 Insecure Design               | Threat modeling for new features           |
-| A05 Security Misconfiguration     | Hardened Docker images, CIS benchmarks     |
-| A06 Vulnerable Components         | Dependabot, npm/pip audit                  |
-| A07 Authentication Failures       | Strong hashing, rate limit, MFA (admins)   |
-| A08 Software/Data Integrity       | Signed releases, image scanning            |
-| A09 Logging Failures              | Structured logs, audit trail               |
-| A10 SSRF                          | Allowlist, block private ranges            |
+| Risk                          | Defense                                           |
+| ----------------------------- | ------------------------------------------------- |
+| A01 Broken Access Control     | RBAC + per-resource checks + multi-tenant scoping |
+| A02 Cryptographic Failures    | TLS, bcrypt, secrets manager                      |
+| A03 Injection                 | Parameterized queries, input validation           |
+| A04 Insecure Design           | Threat modeling for new features                  |
+| A05 Security Misconfiguration | Hardened Docker images, CIS benchmarks            |
+| A06 Vulnerable Components     | Dependabot, npm/pip audit                         |
+| A07 Authentication Failures   | Strong hashing, rate limit, MFA (admins)          |
+| A08 Software/Data Integrity   | Signed releases, image scanning                   |
+| A09 Logging Failures          | Structured logs, audit trail                      |
+| A10 SSRF                      | Allowlist, block private ranges                   |
 
 ## References
 

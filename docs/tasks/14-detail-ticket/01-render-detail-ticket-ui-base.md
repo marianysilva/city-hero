@@ -121,10 +121,10 @@ Not applicable to this task.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `detail_ticket.viewed`         | Screen mounts                              | `report_id`, `source: feed|push|share|my_reports` |
-| `detail_ticket.back_pressed`   | User taps back                             | —                                     |
+| Event                        | When           | Props                      |
+| ---------------------------- | -------------- | -------------------------- |
+| `detail_ticket.viewed`       | Screen mounts  | `report_id`, `source: feed | push | share | my_reports` |
+| `detail_ticket.back_pressed` | User taps back | —                          |
 
 ## Tests
 
@@ -144,11 +144,13 @@ Not applicable to this task.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (component reuse): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Detalhe do Ticket'`)
 - Sibling screen (open state): `docs/tasks/13-detail-in-progress/`
 - Shared shell components are extracted from SCREEN 13's task 01

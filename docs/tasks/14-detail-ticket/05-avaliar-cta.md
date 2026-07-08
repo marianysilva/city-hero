@@ -130,11 +130,11 @@ owns the submission endpoint; this task just navigates there.
 
 The detail response includes the user's NPS state:
 
-| Field                  | Description                                    |
-|------------------------|------------------------------------------------|
-| `nps.has_submitted`    | Boolean                                        |
-| `nps.rating`           | 1-5 (if submitted)                            |
-| `nps.submitted_at`     | Timestamp                                       |
+| Field               | Description        |
+| ------------------- | ------------------ |
+| `nps.has_submitted` | Boolean            |
+| `nps.rating`        | 1-5 (if submitted) |
+| `nps.submitted_at`  | Timestamp          |
 
 ## Database
 
@@ -151,10 +151,10 @@ NPS submissions are personally identifying (the user's rating + identity), but t
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `detail_ticket.avaliar_pressed`    | User tapped Avaliar                        | `was_previously_submitted: bool`     |
-| `detail_ticket.share_pressed`      | User tapped Compartilhar                   | `is_resolved: true`                   |
+| Event                           | When                     | Props                            |
+| ------------------------------- | ------------------------ | -------------------------------- |
+| `detail_ticket.avaliar_pressed` | User tapped Avaliar      | `was_previously_submitted: bool` |
+| `detail_ticket.share_pressed`   | User tapped Compartilhar | `is_resolved: true`              |
 
 ## Tests
 
@@ -174,13 +174,16 @@ NPS submissions are personally identifying (the user's rating + identity), but t
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native Haptics: https://docs.expo.dev/versions/latest/sdk/haptics/
 
 ### Project context
+
 - Render UI base: `01-render-detail-ticket-ui-base.md`
 - Share action (shared): `07-civic-feed/07-compartilhar-action.md`
 - NPS Feedback (destination): `docs/tasks/15-nps-feedback/`

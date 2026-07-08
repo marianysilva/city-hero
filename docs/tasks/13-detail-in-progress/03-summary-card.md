@@ -148,9 +148,9 @@ No new schema. SLA fields are computed at query time from the report's timeline 
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `detail_in_progress.summary_rendered` | Card mounted                            | `is_owner: bool`, `is_anonymous: bool` |
+| Event                                 | When         | Props                                  |
+| ------------------------------------- | ------------ | -------------------------------------- |
+| `detail_in_progress.summary_rendered` | Card mounted | `is_owner: bool`, `is_anonymous: bool` |
 
 ## Tests
 
@@ -172,12 +172,14 @@ No new schema. SLA fields are computed at query time from the report's timeline 
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-detail-ui-base.md`
 - Title compose (shared with): `12-heroes-league/04-shareable-preview-card.md`
 - Real-time updates: `06-home-map/08-realtime-pin-updates.md`

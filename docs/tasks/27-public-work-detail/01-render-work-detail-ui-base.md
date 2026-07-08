@@ -74,10 +74,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `public_work_detail.viewed`    | Screen mounts                              | `work_id`, `source`                  |
-| `public_work_detail.back_pressed` | User taps back                          | —                                     |
+| Event                             | When           | Props               |
+| --------------------------------- | -------------- | ------------------- |
+| `public_work_detail.viewed`       | Screen mounts  | `work_id`, `source` |
+| `public_work_detail.back_pressed` | User taps back | —                   |
 
 ## Tests
 

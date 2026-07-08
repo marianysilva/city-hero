@@ -14,10 +14,10 @@ The promise: "Reportar é trabalhar pela cidade — e a gente reconhece."
 
 ## Features (2 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI · badge illustration, levels, copy, pagination, buttons](./01-render-onboarding-gamification-ui.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Reduced-motion variant of the illustration](./02-reduced-motion-illustration.md) | S | task 01, shared `useReducedMotion` hook from `03-onboarding-camera/03` |
+| #   | Task                                                                                                           | Effort | Depends on                                                             |
+| --- | -------------------------------------------------------------------------------------------------------------- | ------ | ---------------------------------------------------------------------- |
+| 01  | [Render UI · badge illustration, levels, copy, pagination, buttons](./01-render-onboarding-gamification-ui.md) | S      | `00-foundation/02-design-tokens.md`                                    |
+| 02  | [Reduced-motion variant of the illustration](./02-reduced-motion-illustration.md)                              | S      | task 01, shared `useReducedMotion` hook from `03-onboarding-camera/03` |
 
 ## Suggested implementation order
 

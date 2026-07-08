@@ -142,10 +142,10 @@ No new schema.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `detail_in_progress.apoiar_pressed`| User tapped Apoiar                         | `is_supporting_now: bool`, `is_owner: bool` |
-| `detail_in_progress.share_pressed` | User tapped Compartilhar                   | `is_owner: bool`                      |
+| Event                               | When                     | Props                                       |
+| ----------------------------------- | ------------------------ | ------------------------------------------- |
+| `detail_in_progress.apoiar_pressed` | User tapped Apoiar       | `is_supporting_now: bool`, `is_owner: bool` |
+| `detail_in_progress.share_pressed`  | User tapped Compartilhar | `is_owner: bool`                            |
 
 ## Tests
 
@@ -164,14 +164,17 @@ No new schema.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (shared services): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native Haptics: https://docs.expo.dev/versions/latest/sdk/haptics/
 
 ### Project context
+
 - Render UI base: `01-render-detail-ui-base.md`
 - Support action (shared): `07-civic-feed/06-apoiar-action.md`
 - Share action (shared): `07-civic-feed/07-compartilhar-action.md`

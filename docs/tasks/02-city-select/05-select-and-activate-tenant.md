@@ -125,9 +125,9 @@ The destination is computed by the same routing logic as the splash (foundation-
 
 ### Endpoints
 
-| Method | Path                              | Purpose                                              |
-|--------|-----------------------------------|------------------------------------------------------|
-| PATCH  | `/api/v1/auth/me`                 | Update the current user (including `city_id`)        |
+| Method | Path              | Purpose                                       |
+| ------ | ----------------- | --------------------------------------------- |
+| PATCH  | `/api/v1/auth/me` | Update the current user (including `city_id`) |
 
 The backend enforces:
 
@@ -158,11 +158,11 @@ The `users.city_id` field is updated. No new tables.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `city_select.selection_started`    | User confirms a city                       | `source: gps|search|list`            |
-| `city_select.selection_succeeded`  | Tenant activated                           | `city_id`, `previous_city_id` (if any)|
-| `city_select.selection_failed`     | Activation errored                         | `code`                                |
+| Event                             | When                 | Props                                  |
+| --------------------------------- | -------------------- | -------------------------------------- |
+| `city_select.selection_started`   | User confirms a city | `source: gps                           | search | list` |
+| `city_select.selection_succeeded` | Tenant activated     | `city_id`, `previous_city_id` (if any) |
+| `city_select.selection_failed`    | Activation errored   | `code`                                 |
 
 ## Tests
 
@@ -184,15 +184,18 @@ The `users.city_id` field is updated. No new tables.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (multi-tenant): `docs/engineering/architecture-patterns.md`
 - Security: `docs/engineering/security-baseline.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - TanStack Query cache invalidation: https://tanstack.com/query/latest/docs/react/guides/query-invalidation
 - AsyncStorage: https://docs.expo.dev/versions/latest/sdk/async-storage/
 
 ### Project context
+
 - Auth system: `00-foundation/06-auth-system.md`
 - API client (header propagation): `00-foundation/05-api-client.md`
 - `CLAUDE.md`

@@ -26,18 +26,18 @@ auth state, location services, push notifications, and the offline queue.
 
 ## Features (10 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · top bar, layout, FAB position](./01-render-home-ui-base.md) | M | `00-foundation/02-design-tokens.md`, `00-foundation/03-bottom-nav-component.md` |
-| 02 | [Map integration with pins (uses Leaflet wrapper)](./02-map-integration-with-pins.md) | M | `00-foundation/10-leaflet-map-wrapper.md`, `00-foundation/05-api-client.md` |
-| 03 | [Filter chips (categories) and applied state](./03-filter-chips.md) | S | task 01, task 02 |
-| 04 | [User location pulse + recenter button](./04-user-location-and-recenter.md) | S | task 02, location permission |
-| 05 | [Mini badges · Avisos + Obras (entry points)](./05-mini-badges-avisos-obras.md) | S | task 01 |
-| 06 | [Floating ticket card · nearby high-priority report](./06-floating-ticket-card.md) | S | task 01, task 02 |
-| 07 | [One-time discovery card · Programs & Transparency](./07-discovery-card-programs.md) | S | task 01 |
-| 08 | [Real-time pin updates (WebSocket / polling fallback)](./08-realtime-pin-updates.md) | M | task 02 |
-| 09 | [Pull-to-refresh + manual refresh](./09-pull-to-refresh.md) | S | task 02 |
-| 10 | [Offline banner + cached pins behavior](./10-offline-banner-and-cache.md) | M | task 02, `00-foundation/09-offline-queue.md` |
+| #   | Task                                                                                  | Effort | Depends on                                                                      |
+| --- | ------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------- |
+| 01  | [Render UI base · top bar, layout, FAB position](./01-render-home-ui-base.md)         | M      | `00-foundation/02-design-tokens.md`, `00-foundation/03-bottom-nav-component.md` |
+| 02  | [Map integration with pins (uses Leaflet wrapper)](./02-map-integration-with-pins.md) | M      | `00-foundation/10-leaflet-map-wrapper.md`, `00-foundation/05-api-client.md`     |
+| 03  | [Filter chips (categories) and applied state](./03-filter-chips.md)                   | S      | task 01, task 02                                                                |
+| 04  | [User location pulse + recenter button](./04-user-location-and-recenter.md)           | S      | task 02, location permission                                                    |
+| 05  | [Mini badges · Avisos + Obras (entry points)](./05-mini-badges-avisos-obras.md)       | S      | task 01                                                                         |
+| 06  | [Floating ticket card · nearby high-priority report](./06-floating-ticket-card.md)    | S      | task 01, task 02                                                                |
+| 07  | [One-time discovery card · Programs & Transparency](./07-discovery-card-programs.md)  | S      | task 01                                                                         |
+| 08  | [Real-time pin updates (WebSocket / polling fallback)](./08-realtime-pin-updates.md)  | M      | task 02                                                                         |
+| 09  | [Pull-to-refresh + manual refresh](./09-pull-to-refresh.md)                           | S      | task 02                                                                         |
+| 10  | [Offline banner + cached pins behavior](./10-offline-banner-and-cache.md)             | M      | task 02, `00-foundation/09-offline-queue.md`                                    |
 
 ## Suggested implementation order
 

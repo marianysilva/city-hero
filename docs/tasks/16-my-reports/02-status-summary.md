@@ -142,10 +142,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `my_reports.kpi_pressed`           | User tapped a KPI card                     | `kpi: total|resolved|in_progress|triage` |
-| `my_reports.filter_changed`        | Chip tapped                                | `from`, `to`                          |
+| Event                       | When                   | Props        |
+| --------------------------- | ---------------------- | ------------ |
+| `my_reports.kpi_pressed`    | User tapped a KPI card | `kpi: total  | resolved | in_progress | triage` |
+| `my_reports.filter_changed` | Chip tapped            | `from`, `to` |
 
 ## Tests
 
@@ -167,11 +167,13 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-my-reports-ui-base.md`
 - Reports list (consumes filters): `04-reports-list.md`
 - Shared chip molecule: `docs/engineering/component-inventory.md` (row `FilterChipRow`)

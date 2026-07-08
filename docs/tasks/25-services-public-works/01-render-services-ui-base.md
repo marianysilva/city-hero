@@ -75,10 +75,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `services.viewed`              | Screen mounts                              | `city_id`                             |
-| `services.search_pressed`      | User tapped search                         | —                                     |
+| Event                     | When               | Props     |
+| ------------------------- | ------------------ | --------- |
+| `services.viewed`         | Screen mounts      | `city_id` |
+| `services.search_pressed` | User tapped search | —         |
 
 ## Tests
 

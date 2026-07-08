@@ -1,20 +1,46 @@
-import { statusBar } from '../atoms/StatusBar.js';
+import { statusBar } from "../atoms/StatusBar.js";
 
 const STEPS = [
-  { c: 'bg-slate-400',   t: 'Reporte enviado',               d: '20/03 · 10:14', sub: 'Maria S. · foto anonimizada' },
-  { c: 'bg-sky-500',     t: 'Triagem pela IA',               d: '20/03 · 10:15', sub: 'Score 87 · prioridade alta' },
-  { c: 'bg-indigo-500',  t: 'Chamado aberto na prefeitura',  d: '20/03 · 10:22', sub: 'Secretaria de Obras · SLA 15 dias' },
-  { c: 'bg-amber-500',   t: 'Reenviado automaticamente',     d: '04/04 · 10:22', sub: '15 dias sem resposta · escalado', flag: true },
-  { c: 'bg-sky-500',     t: 'Resposta da prefeitura',        d: '05/04 · 14:30', sub: 'Equipe designada · vistoria agendada' },
-  { c: 'bg-amber-500',   t: 'Agendado para reparo',          d: '06/04 · 08:00', sub: 'Pavimentação Zona Sul' },
-  { c: 'bg-emerald-500', t: 'Resolvido',                     d: '08/04 · 16:40', sub: 'Foto "depois" anexada' },
+  {
+    c: "bg-slate-400",
+    t: "Reporte enviado",
+    d: "20/03 · 10:14",
+    sub: "Maria S. · foto anonimizada",
+  },
+  { c: "bg-sky-500", t: "Triagem pela IA", d: "20/03 · 10:15", sub: "Score 87 · prioridade alta" },
+  {
+    c: "bg-indigo-500",
+    t: "Chamado aberto na prefeitura",
+    d: "20/03 · 10:22",
+    sub: "Secretaria de Obras · SLA 15 dias",
+  },
+  {
+    c: "bg-amber-500",
+    t: "Reenviado automaticamente",
+    d: "04/04 · 10:22",
+    sub: "15 dias sem resposta · escalado",
+    flag: true,
+  },
+  {
+    c: "bg-sky-500",
+    t: "Resposta da prefeitura",
+    d: "05/04 · 14:30",
+    sub: "Equipe designada · vistoria agendada",
+  },
+  {
+    c: "bg-amber-500",
+    t: "Agendado para reparo",
+    d: "06/04 · 08:00",
+    sub: "Pavimentação Zona Sul",
+  },
+  { c: "bg-emerald-500", t: "Resolvido", d: "08/04 · 16:40", sub: 'Foto "depois" anexada' },
 ];
 
 /** Tela 14 · Detalhe do Ticket (resolvido · before/after) */
 export default {
-  title: 'Detalhe do Ticket',
-  group: 'support',
-  summary: 'Before/after · timeline · apoios',
+  title: "Detalhe do Ticket",
+  group: "support",
+  summary: "Before/after · timeline · apoios",
   note: `Tela que fecha o ciclo de confiança. <b>Slider "antes × depois"</b> é o prova-visual. Timeline mostra trajeto do ticket. Botão "Apoiar" é persistente e visível.`,
   html: () => `
     <div class="relative h-full bg-slate-50 flex flex-col overflow-hidden">
@@ -36,7 +62,7 @@ export default {
         </div>
       </div>
 
-      ${statusBar('dark')}
+      ${statusBar("dark")}
 
       <div class="px-4 -mt-10 relative z-10">
         <div class="bg-white rounded-2xl p-4 shadow-soft">
@@ -56,20 +82,22 @@ export default {
           <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Trajeto do ticket</div>
           <div class="text-[10px] font-bold text-slate-400">Protocolo #48219</div>
         </div>
-        ${STEPS.map((ev, i, arr) => `
-          <div class="flex gap-2.5 ${i < arr.length - 1 ? 'pb-3' : ''} relative">
+        ${STEPS.map(
+          (ev, i, arr) => `
+          <div class="flex gap-2.5 ${i < arr.length - 1 ? "pb-3" : ""} relative">
             <div class="flex flex-col items-center">
-              <div class="w-3 h-3 rounded-full ${ev.c} ring-4 ring-white ${ev.flag ? 'animate-pulse' : ''}"></div>
-              ${i < arr.length - 1 ? '<div class="w-0.5 flex-1 bg-slate-200 -mt-0.5"></div>' : ''}
+              <div class="w-3 h-3 rounded-full ${ev.c} ring-4 ring-white ${ev.flag ? "animate-pulse" : ""}"></div>
+              ${i < arr.length - 1 ? '<div class="w-0.5 flex-1 bg-slate-200 -mt-0.5"></div>' : ""}
             </div>
             <div class="flex-1 pb-1">
               <div class="text-[12px] font-bold text-slate-900 flex items-center gap-1.5">
                 ${ev.t}
-                ${ev.flag ? '<span class="text-[9px] font-black text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded">SLA</span>' : ''}
+                ${ev.flag ? '<span class="text-[9px] font-black text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded">SLA</span>' : ""}
               </div>
               <div class="text-[10px] text-slate-500">${ev.d} · ${ev.sub}</div>
             </div>
-          </div>`).join('')}
+          </div>`,
+        ).join("")}
       </div>
 
       <div class="mx-4 mt-3 bg-white rounded-2xl p-4 shadow-soft">
@@ -92,5 +120,5 @@ export default {
         </button>
         <button data-nav="goto" data-target="NPS · Feedback" class="flex-1 py-3 rounded-full bg-emerald-500 text-white font-extrabold text-sm shadow-lg">⭐ Avaliar +15 XP</button>
       </div>
-    </div>`
+    </div>`,
 };

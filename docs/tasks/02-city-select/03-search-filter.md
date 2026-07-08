@@ -99,9 +99,9 @@ The matched substring within the city name is wrapped in a styled span (semi-bol
 
 If the catalog grows large, a search endpoint could be added:
 
-| Method | Path                          | Purpose                          |
-|--------|-------------------------------|-----------------------------------|
-| GET    | `/api/v1/cities/search`       | Returns up to 20 matches by `q`  |
+| Method | Path                    | Purpose                         |
+| ------ | ----------------------- | ------------------------------- |
+| GET    | `/api/v1/cities/search` | Returns up to 20 matches by `q` |
 
 For MVP, this is **not** built — local filtering on the catalog is enough.
 
@@ -124,11 +124,11 @@ Not applicable for MVP (local filter). For server-side search (future), a trigra
 
 ## Analytics
 
-| Event                      | When                                | Props                                |
-|----------------------------|-------------------------------------|---------------------------------------|
-| `city_select.search_typed` | User types into the input (debounced) | `query_length`                       |
-| `city_select.search_no_result` | Filter yields 0 results          | `query` (truncated)                   |
-| `city_select.search_clear` | User taps the clear button          | —                                     |
+| Event                          | When                                  | Props               |
+| ------------------------------ | ------------------------------------- | ------------------- |
+| `city_select.search_typed`     | User types into the input (debounced) | `query_length`      |
+| `city_select.search_no_result` | Filter yields 0 results               | `query` (truncated) |
+| `city_select.search_clear`     | User taps the clear button            | —                   |
 
 ## Tests
 
@@ -148,14 +148,17 @@ Not applicable for MVP (local filter). For server-side search (future), a trigra
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 
 ### Library / framework references
+
 - String normalization (diacritics): https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String/normalize
 
 ### Project context
+
 - Cities catalog: `02-cities-catalog-api.md`
 - Waitlist: `06-waitlist-coming-soon.md`
 - `CLAUDE.md`

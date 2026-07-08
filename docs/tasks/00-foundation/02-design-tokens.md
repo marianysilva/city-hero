@@ -42,13 +42,14 @@ lives, how it's themed, and how its variants are documented visually.
 **Given** the package is scaffolded
 **When** a developer adds a new component
 **Then** the location matches its tier per [`design-system.md`](../../engineering/design-system.md):
-  - `src/tokens/` for design primitives
-  - `src/atoms/` for primitives (Button, Pill, Chip, Switch, etc.)
-  - `src/molecules/` for compositions (FilterChipRow, EmptyState, etc.)
-  - `src/organisms/` for complex composites (FeedCard, BottomNav, etc.)
-  - `src/templates/` for page-shell shells (DetailShell, ScreenContainer)
-  - `src/hooks/` for behavior hooks (useTheme, useReducedMotion, useSwipeable)
-  - `index.ts` re-exports the public API
+
+- `src/tokens/` for design primitives
+- `src/atoms/` for primitives (Button, Pill, Chip, Switch, etc.)
+- `src/molecules/` for compositions (FilterChipRow, EmptyState, etc.)
+- `src/organisms/` for complex composites (FeedCard, BottomNav, etc.)
+- `src/templates/` for page-shell shells (DetailShell, ScreenContainer)
+- `src/hooks/` for behavior hooks (useTheme, useReducedMotion, useSwipeable)
+- `index.ts` re-exports the public API
 
 ### Scenario · Storybook for the package
 
@@ -206,10 +207,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                       | When                              | Props                          |
-|-----------------------------|-----------------------------------|---------------------------------|
-| `theme.changed_to_dark`     | User toggles dark                 | `source: system|manual`        |
-| `theme.changed_to_light`    | User toggles light                | `source: system|manual`        |
+| Event                    | When               | Props           |
+| ------------------------ | ------------------ | --------------- |
+| `theme.changed_to_dark`  | User toggles dark  | `source: system | manual` |
+| `theme.changed_to_light` | User toggles light | `source: system | manual` |
 
 ## Tests
 
@@ -236,6 +237,7 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - **Design system rules**: `docs/engineering/design-system.md`
 - **Component inventory**: `docs/engineering/component-inventory.md`
 - Architecture (component patterns): `docs/engineering/architecture-patterns.md`
@@ -243,6 +245,7 @@ Not applicable.
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - Atomic Design: https://atomicdesign.bradfrost.com/
 - Tailwind presets: https://tailwindcss.com/docs/presets
 - Storybook: https://storybook.js.org/
@@ -250,5 +253,6 @@ Not applicable.
 - Chromatic: https://www.chromatic.com/
 
 ### Project context
+
 - Prototype: `design/index.html` (Tailwind config and CSS variables)
 - `CLAUDE.md`

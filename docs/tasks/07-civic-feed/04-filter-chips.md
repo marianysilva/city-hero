@@ -115,10 +115,10 @@ The feed endpoint (task 02) already accepts `radius_km` and `sort`. No new endpo
 
 For persistence, the user record has fields:
 
-| Column                 | Type    | Notes                              |
-|------------------------|---------|-------------------------------------|
-| `feed_radius_km`       | int     | Default 10                          |
-| `feed_sort_default`    | varchar | Default `recent`                    |
+| Column              | Type    | Notes            |
+| ------------------- | ------- | ---------------- |
+| `feed_radius_km`    | int     | Default 10       |
+| `feed_sort_default` | varchar | Default `recent` |
 
 These are updated via the existing `PATCH /api/v1/auth/me`.
 
@@ -138,11 +138,11 @@ The radius and sort preferences are non-sensitive. Stored within the user record
 
 ## Analytics
 
-| Event                              | When                                       | Props                              |
-|------------------------------------|--------------------------------------------|-------------------------------------|
-| `feed.radius_changed`              | User picks a new radius                    | `from_km`, `to_km`                 |
-| `feed.sort_changed`                | User toggles sort                          | `from`, `to`                       |
-| `feed.broaden_radius_suggested`    | Empty state suggests broader               | `current_km`, `suggested_km`       |
+| Event                           | When                         | Props                        |
+| ------------------------------- | ---------------------------- | ---------------------------- |
+| `feed.radius_changed`           | User picks a new radius      | `from_km`, `to_km`           |
+| `feed.sort_changed`             | User toggles sort            | `from`, `to`                 |
+| `feed.broaden_radius_suggested` | Empty state suggests broader | `current_km`, `suggested_km` |
 
 ## Tests
 
@@ -164,15 +164,18 @@ The radius and sort preferences are non-sensitive. Stored within the user record
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - Bottom Sheet (`@gorhom/bottom-sheet`): https://gorhom.dev/react-native-bottom-sheet
 - Zustand: https://github.com/pmndrs/zustand
 
 ### Project context
+
 - Render UI base: `01-render-feed-ui-base.md`
 - Feed list: `02-feed-list-and-pagination.md`
 - City switch: `02-city-select/05-select-and-activate-tenant.md`

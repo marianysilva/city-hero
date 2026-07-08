@@ -63,9 +63,9 @@ apps/city-hero/src/screens/PublicWorkDetail/
 
 ## Backend
 
-| Method | Path                                          | Purpose                              |
-|--------|-----------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/public-works/{id}`                   | Full detail                          |
+| Method | Path                        | Purpose     |
+| ------ | --------------------------- | ----------- |
+| GET    | `/api/v1/public-works/{id}` | Full detail |
 
 ## Database
 
@@ -82,9 +82,9 @@ Public data.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `public_work_detail.summary_rendered` | Mounted                                | `progress_bucket`, `status`          |
+| Event                                 | When    | Props                       |
+| ------------------------------------- | ------- | --------------------------- |
+| `public_work_detail.summary_rendered` | Mounted | `progress_bucket`, `status` |
 
 ## Tests
 

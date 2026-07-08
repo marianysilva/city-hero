@@ -98,11 +98,11 @@ Name shown is the user's chosen display name; can be edited.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `citizen_profile.hero_rendered`    | Mounted                                    | `level`                               |
-| `citizen_profile.level_up_celebrated` | Level transition                       | `from_level`, `to_level`             |
-| `citizen_profile.edit_pressed`     | User tapped Edit                           | —                                     |
+| Event                                 | When             | Props                    |
+| ------------------------------------- | ---------------- | ------------------------ |
+| `citizen_profile.hero_rendered`       | Mounted          | `level`                  |
+| `citizen_profile.level_up_celebrated` | Level transition | `from_level`, `to_level` |
+| `citizen_profile.edit_pressed`        | User tapped Edit | —                        |
 
 ## Tests
 

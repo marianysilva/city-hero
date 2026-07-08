@@ -1,15 +1,15 @@
-import { statusBar } from '../atoms/StatusBar.js';
+import { statusBar } from "../atoms/StatusBar.js";
 
 /** Tela 09 · Reporte Manual (fallback da IA) */
 export default {
-  title: 'Reporte Manual',
-  group: 'core',
-  summary: 'Fallback quando IA não reconhece',
+  title: "Reporte Manual",
+  group: "core",
+  summary: "Fallback quando IA não reconhece",
   note: `Quando o YOLOv8 não tem confiança alta (<60%), ou o usuário clica em "escolher manualmente", cai aqui. <b>Grid de 9 categorias</b> cobre o catálogo (features 11). Mini-mapa confirma localização. Footer reforça que a IA aprende a cada reporte — converte "falha" em "contribuição pro modelo".`,
   html: () => `
     <div class="relative h-full bg-slate-50 flex flex-col overflow-hidden">
       <div class="flex-1 min-h-0 overflow-y-auto">
-        ${statusBar('dark')}
+        ${statusBar("dark")}
         <div class="px-4 flex items-center gap-3">
           <button class="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-sm">←</button>
           <div>
@@ -39,22 +39,26 @@ export default {
           <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Categoria</div>
           <div class="grid grid-cols-3 gap-2">
             ${[
-              { ic: '🕳️', l: 'Buraco',        c: 'bg-amber-100 text-amber-800', active: true },
-              { ic: '🗑️', l: 'Lixo',          c: 'bg-emerald-50 text-emerald-700' },
-              { ic: '💡', l: 'Iluminação',    c: 'bg-yellow-50 text-yellow-700' },
-              { ic: '🎨', l: 'Pichação',      c: 'bg-fuchsia-50 text-fuchsia-700' },
-              { ic: '🚦', l: 'Semáforo',      c: 'bg-rose-50 text-rose-700' },
-              { ic: '🌳', l: 'Árvore / Poda', c: 'bg-green-50 text-green-700' },
-              { ic: '💧', l: 'Alagamento',    c: 'bg-sky-50 text-sky-700' },
-              { ic: '🚧', l: 'Sinalização',   c: 'bg-orange-50 text-orange-700' },
-              { ic: '➕', l: 'Outro',         c: 'bg-slate-100 text-slate-700' },
-            ].map(cat => `
-              <button class="relative p-3 rounded-xl ${cat.c} flex flex-col items-center gap-1 ${cat.active ? 'ring-2 ring-brand-500 bg-brand-50 text-brand-700' : ''}">
+              { ic: "🕳️", l: "Buraco", c: "bg-amber-100 text-amber-800", active: true },
+              { ic: "🗑️", l: "Lixo", c: "bg-emerald-50 text-emerald-700" },
+              { ic: "💡", l: "Iluminação", c: "bg-yellow-50 text-yellow-700" },
+              { ic: "🎨", l: "Pichação", c: "bg-fuchsia-50 text-fuchsia-700" },
+              { ic: "🚦", l: "Semáforo", c: "bg-rose-50 text-rose-700" },
+              { ic: "🌳", l: "Árvore / Poda", c: "bg-green-50 text-green-700" },
+              { ic: "💧", l: "Alagamento", c: "bg-sky-50 text-sky-700" },
+              { ic: "🚧", l: "Sinalização", c: "bg-orange-50 text-orange-700" },
+              { ic: "➕", l: "Outro", c: "bg-slate-100 text-slate-700" },
+            ]
+              .map(
+                (cat) => `
+              <button class="relative p-3 rounded-xl ${cat.c} flex flex-col items-center gap-1 ${cat.active ? "ring-2 ring-brand-500 bg-brand-50 text-brand-700" : ""}">
                 <span class="text-xl">${cat.ic}</span>
                 <span class="text-[10px] font-extrabold leading-tight text-center">${cat.l}</span>
-                ${cat.active ? '<span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-brand-500 text-white text-[9px] font-black flex items-center justify-center">✓</span>' : ''}
+                ${cat.active ? '<span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-brand-500 text-white text-[9px] font-black flex items-center justify-center">✓</span>' : ""}
               </button>
-            `).join('')}
+            `,
+              )
+              .join("")}
           </div>
         </div>
 
@@ -95,5 +99,5 @@ export default {
           🤖 A IA aprende com cada reporte manual. Obrigada!
         </p>
       </div>
-    </div>`
+    </div>`,
 };

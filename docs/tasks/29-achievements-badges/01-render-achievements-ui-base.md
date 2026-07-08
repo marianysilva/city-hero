@@ -74,9 +74,9 @@ Personal collection.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `achievements.viewed`          | Screen mounts                              | `unlocked_count`, `total_count`      |
+| Event                 | When          | Props                           |
+| --------------------- | ------------- | ------------------------------- |
+| `achievements.viewed` | Screen mounts | `unlocked_count`, `total_count` |
 
 ## Tests
 

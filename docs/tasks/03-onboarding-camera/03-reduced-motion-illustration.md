@@ -107,9 +107,9 @@ Not applicable.
 
 ## Analytics
 
-| Event                                  | When                          | Props                  |
-|----------------------------------------|-------------------------------|-------------------------|
-| `accessibility.reduced_motion_active`  | Onboarding screen mounts      | `enabled: bool`        |
+| Event                                 | When                     | Props           |
+| ------------------------------------- | ------------------------ | --------------- |
+| `accessibility.reduced_motion_active` | Onboarding screen mounts | `enabled: bool` |
 
 (The event is fired once per session at the first onboarding screen mount.)
 
@@ -130,14 +130,17 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (component patterns): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native AccessibilityInfo: https://reactnative.dev/docs/accessibilityinfo#isreducemotionenabled
 - WCAG 2.1 — Animation from Interactions: https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html
 
 ### Project context
+
 - Render UI: `01-render-onboarding-camera-ui.md`
 - `CLAUDE.md`

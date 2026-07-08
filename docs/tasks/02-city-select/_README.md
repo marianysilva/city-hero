@@ -18,14 +18,14 @@ turning a friction step into a lead-capture moment.
 
 ## Features (6 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI · header, GPS card, search, list, footer](./01-render-city-select-ui.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Cities catalog API + render list](./02-cities-catalog-api.md) | S | `00-foundation/05-api-client.md` |
-| 03 | [Search/filter cities](./03-search-filter.md) | S | task 02 |
-| 04 | [GPS auto-detect closest active city](./04-gps-auto-detect.md) | M | task 02, location permission |
-| 05 | [Select and activate tenant](./05-select-and-activate-tenant.md) | M | task 02, `00-foundation/06-auth-system.md` |
-| 06 | [Waitlist for "coming soon" cities](./06-waitlist-coming-soon.md) | S | task 02 |
+| #   | Task                                                                                | Effort | Depends on                                 |
+| --- | ----------------------------------------------------------------------------------- | ------ | ------------------------------------------ |
+| 01  | [Render UI · header, GPS card, search, list, footer](./01-render-city-select-ui.md) | S      | `00-foundation/02-design-tokens.md`        |
+| 02  | [Cities catalog API + render list](./02-cities-catalog-api.md)                      | S      | `00-foundation/05-api-client.md`           |
+| 03  | [Search/filter cities](./03-search-filter.md)                                       | S      | task 02                                    |
+| 04  | [GPS auto-detect closest active city](./04-gps-auto-detect.md)                      | M      | task 02, location permission               |
+| 05  | [Select and activate tenant](./05-select-and-activate-tenant.md)                    | M      | task 02, `00-foundation/06-auth-system.md` |
+| 06  | [Waitlist for "coming soon" cities](./06-waitlist-coming-soon.md)                   | S      | task 02                                    |
 
 ## Suggested implementation order
 

@@ -12,16 +12,16 @@ Research basis for `packages/observability/` — a shared layer across `apps/bac
 
 ## Stack Recomendada
 
-| Camada | Telemetria | Library principal | Notas |
-| --- | --- | --- | --- |
-| `apps/backend` | Logs | `structlog` + stdlib `ProcessorFormatter` | Async-safe (contextvars); Uvicorn logs partilham o JSON renderer |
-| `apps/backend` | Traces/Metrics | `opentelemetry-api/-sdk` + `opentelemetry-instrumentation-fastapi` | Contrib 0.62b; estável em produção |
-| `apps/backend` | Errors | `sentry-sdk` ≥ 2.45 com `OTLPIntegration` | Sentry consome spans OTel nativamente |
-| `apps/web` | Traces/Errors | `@sentry/nextjs` ≥ 8.28 + `instrumentation.ts` | `onRequestError` cobre RSC/Server Actions/middleware |
-| `apps/web` | OTel server | `@vercel/otel` ou `NodeSDK` no `register()` | Convive com Sentry no modo OTel |
-| `apps/city-hero` | Errors/Replay | `@sentry/react-native` ≥ 5.16 (Expo plugin) | `sentry-expo` está deprecated |
-| `apps/city-hero` | Traces | Embrace RN OTel SDK ou Honeycomb RN | `sdk-trace-web` quebra em RN |
-| Coletor | Pipeline | OpenTelemetry Collector (`attributes` + `redaction` + `filter`) | Policy de PII centralizada |
+| Camada           | Telemetria     | Library principal                                                  | Notas                                                            |
+| ---------------- | -------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| `apps/backend`   | Logs           | `structlog` + stdlib `ProcessorFormatter`                          | Async-safe (contextvars); Uvicorn logs partilham o JSON renderer |
+| `apps/backend`   | Traces/Metrics | `opentelemetry-api/-sdk` + `opentelemetry-instrumentation-fastapi` | Contrib 0.62b; estável em produção                               |
+| `apps/backend`   | Errors         | `sentry-sdk` ≥ 2.45 com `OTLPIntegration`                          | Sentry consome spans OTel nativamente                            |
+| `apps/web`       | Traces/Errors  | `@sentry/nextjs` ≥ 8.28 + `instrumentation.ts`                     | `onRequestError` cobre RSC/Server Actions/middleware             |
+| `apps/web`       | OTel server    | `@vercel/otel` ou `NodeSDK` no `register()`                        | Convive com Sentry no modo OTel                                  |
+| `apps/city-hero` | Errors/Replay  | `@sentry/react-native` ≥ 5.16 (Expo plugin)                        | `sentry-expo` está deprecated                                    |
+| `apps/city-hero` | Traces         | Embrace RN OTel SDK ou Honeycomb RN                                | `sdk-trace-web` quebra em RN                                     |
+| Coletor          | Pipeline       | OpenTelemetry Collector (`attributes` + `redaction` + `filter`)    | Policy de PII centralizada                                       |
 
 ## Estrutura do Package
 

@@ -122,10 +122,10 @@ The five onboarding steps have stable keys: `city_select`, `camera_ai`, `gamific
 
 The `users` table gains:
 
-| Column                          | Type        | Notes                                       |
-|---------------------------------|-------------|---------------------------------------------|
-| `onboarding_seen_steps`         | jsonb       | Array of step keys seen so far              |
-| `onboarding_completed_at`       | timestamptz | Set when the user finishes the final step    |
+| Column                    | Type        | Notes                                     |
+| ------------------------- | ----------- | ----------------------------------------- |
+| `onboarding_seen_steps`   | jsonb       | Array of step keys seen so far            |
+| `onboarding_completed_at` | timestamptz | Set when the user finishes the final step |
 
 ### Endpoints
 
@@ -154,12 +154,12 @@ The two new columns on `users` (above). A small Alembic migration adds them with
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `onboarding.step_viewed`       | Step screen mounts                         | `step_key`                            |
-| `onboarding.step_completed`    | User taps Next on a step                   | `step_key`, `time_spent_seconds`      |
-| `onboarding.step_back`         | User taps Back                             | `from_step_key`, `to_step_key`        |
-| `onboarding.completed`         | All steps done                             | `total_time_seconds`                  |
+| Event                       | When                     | Props                            |
+| --------------------------- | ------------------------ | -------------------------------- |
+| `onboarding.step_viewed`    | Step screen mounts       | `step_key`                       |
+| `onboarding.step_completed` | User taps Next on a step | `step_key`, `time_spent_seconds` |
+| `onboarding.step_back`      | User taps Back           | `from_step_key`, `to_step_key`   |
+| `onboarding.completed`      | All steps done           | `total_time_seconds`             |
 
 ## Tests
 
@@ -180,14 +180,17 @@ The two new columns on `users` (above). A small Alembic migration adds them with
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - Zustand persistence middleware: https://github.com/pmndrs/zustand#persist-middleware
 
 ### Project context
+
 - Splash routing: `01-splash/03-routing-decision.md`
 - Auth system: `00-foundation/06-auth-system.md`
 - Other onboarding screens: `04-onboarding-gamification/`, `05-onboarding-neighborhood/`

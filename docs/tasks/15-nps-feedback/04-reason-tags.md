@@ -143,11 +143,11 @@ Tag selections are private until the submission, then aggregated for the prefect
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `nps.tag_selected`                 | Tag toggled on                             | `tag_key`, `current_rating`          |
-| `nps.tag_unselected`               | Tag toggled off                            | `tag_key`                             |
-| `nps.more_tags_opened`             | User opened the more-tags sheet            | —                                     |
+| Event                  | When                            | Props                       |
+| ---------------------- | ------------------------------- | --------------------------- |
+| `nps.tag_selected`     | Tag toggled on                  | `tag_key`, `current_rating` |
+| `nps.tag_unselected`   | Tag toggled off                 | `tag_key`                   |
+| `nps.more_tags_opened` | User opened the more-tags sheet | —                           |
 
 ## Tests
 
@@ -168,14 +168,17 @@ Tag selections are private until the submission, then aggregated for the prefect
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - Bottom Sheet: https://gorhom.dev/react-native-bottom-sheet
 
 ### Project context
+
 - Render UI base: `01-render-nps-ui-base.md`
 - Rating scale (drives emphasis): `03-rating-scale.md`
 - `CLAUDE.md`

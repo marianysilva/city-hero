@@ -127,10 +127,10 @@ Not applicable to this task; subsequent tasks handle the photo and location data
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `manual_report.viewed`         | Screen mounts                              | `entry: low_confidence|no_photo|user_opted_out` |
-| `manual_report.back_pressed`   | User taps back                             | `had_progress: bool`                  |
+| Event                        | When           | Props                  |
+| ---------------------------- | -------------- | ---------------------- |
+| `manual_report.viewed`       | Screen mounts  | `entry: low_confidence | no_photo | user_opted_out` |
+| `manual_report.back_pressed` | User taps back | `had_progress: bool`   |
 
 ## Tests
 
@@ -151,14 +151,17 @@ Not applicable to this task; subsequent tasks handle the photo and location data
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (component patterns): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native Safe Area Context: https://github.com/th3rdwave/react-native-safe-area-context
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Reporte Manual'`)
 - Camera fallback path: `08-camera-live/08-fallback-to-manual.md`
 - `CLAUDE.md`

@@ -62,10 +62,11 @@ OS share sheet).
 **Given** the user taps the secondary share button on a card
 **When** the OS share sheet opens
 **Then** the share payload includes:
-  - title: "{name} — {role}, {level}"
-  - body: a short sentence ("Veja os gastos públicos de {name} no Portal da Transparência:") plus the Portal URL when available, or the Portal root URL when not
-**And** if the URL is missing, the share copy omits the "no Portal da Transparência" phrase and just shares name + role
-**And** the share text **does not include any CityHero promo** on this screen (the screen is purposefully neutral)
+
+- title: "{name} — {role}, {level}"
+- body: a short sentence ("Veja os gastos públicos de {name} no Portal da Transparência:") plus the Portal URL when available, or the Portal root URL when not
+  **And** if the URL is missing, the share copy omits the "no Portal da Transparência" phrase and just shares name + role
+  **And** the share text **does not include any CityHero promo** on this screen (the screen is purposefully neutral)
 
 ### Scenario · External-link warning (first time)
 
@@ -157,15 +158,15 @@ No new tables. The `transparency_id` column on `elected_officials`
 
 ## Analytics
 
-| Event                                            | When                                       | Props                                 |
-|--------------------------------------------------|--------------------------------------------|---------------------------------------|
-| `elected_officials.transparency_cta_pressed`     | User tapped an enabled CTA                 | `level`, `role`, `had_warning_sheet`  |
-| `elected_officials.transparency_cta_disabled_viewed`| Disabled CTA rendered in a card           | `level`, `role`                       |
-| `elected_officials.transparency_help_opened`     | User tapped "?" on a disabled CTA          | `level`, `role`                       |
-| `elected_officials.transparency_share_pressed`   | User tapped the card share button          | `level`, `role`, `had_transparency_id`|
-| `elected_officials.transparency_exit_sheet_shown`| First-time exit warning displayed          | —                                     |
-| `elected_officials.transparency_exit_confirmed`  | User confirmed exit                        | `dont_show_again`                     |
-| `elected_officials.transparency_link_invalid`    | Allowlist or URL builder rejected the ID   | `official_id`                         |
+| Event                                                | When                                     | Props                                  |
+| ---------------------------------------------------- | ---------------------------------------- | -------------------------------------- |
+| `elected_officials.transparency_cta_pressed`         | User tapped an enabled CTA               | `level`, `role`, `had_warning_sheet`   |
+| `elected_officials.transparency_cta_disabled_viewed` | Disabled CTA rendered in a card          | `level`, `role`                        |
+| `elected_officials.transparency_help_opened`         | User tapped "?" on a disabled CTA        | `level`, `role`                        |
+| `elected_officials.transparency_share_pressed`       | User tapped the card share button        | `level`, `role`, `had_transparency_id` |
+| `elected_officials.transparency_exit_sheet_shown`    | First-time exit warning displayed        | —                                      |
+| `elected_officials.transparency_exit_confirmed`      | User confirmed exit                      | `dont_show_again`                      |
+| `elected_officials.transparency_link_invalid`        | Allowlist or URL builder rejected the ID | `official_id`                          |
 
 ## Tests
 

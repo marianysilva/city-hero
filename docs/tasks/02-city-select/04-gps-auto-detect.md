@@ -144,13 +144,13 @@ Not applicable directly.
 
 ## Analytics
 
-| Event                            | When                                    | Props                                  |
-|----------------------------------|-----------------------------------------|-----------------------------------------|
-| `city_select.gps_pre_prompt_shown` | Pre-prompt rendered                  | —                                      |
-| `city_select.gps_permission_granted` | OS dialog accepted                  | —                                      |
-| `city_select.gps_permission_denied`  | OS dialog denied                    | `permanent: bool`                      |
-| `city_select.gps_match_found`    | Catalog match found                     | `city_id`, `accuracy_m`                |
-| `city_select.gps_no_match`       | Coordinates outside any bbox            | `accuracy_m`                            |
+| Event                                | When                         | Props                   |
+| ------------------------------------ | ---------------------------- | ----------------------- |
+| `city_select.gps_pre_prompt_shown`   | Pre-prompt rendered          | —                       |
+| `city_select.gps_permission_granted` | OS dialog accepted           | —                       |
+| `city_select.gps_permission_denied`  | OS dialog denied             | `permanent: bool`       |
+| `city_select.gps_match_found`        | Catalog match found          | `city_id`, `accuracy_m` |
+| `city_select.gps_no_match`           | Coordinates outside any bbox | `accuracy_m`            |
 
 ## Tests
 
@@ -172,16 +172,19 @@ Not applicable directly.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - expo-location: https://docs.expo.dev/versions/latest/sdk/location/
 - iOS location authorization best practices: https://developer.apple.com/documentation/corelocation/requesting-authorization-for-location-services
 - Android runtime permissions: https://developer.android.com/training/location/permissions
 
 ### Project context
+
 - Cities catalog: `02-cities-catalog-api.md`
 - Selection: `05-select-and-activate-tenant.md`
 - Waitlist: `06-waitlist-coming-soon.md`

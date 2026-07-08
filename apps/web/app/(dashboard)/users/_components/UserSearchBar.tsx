@@ -1,13 +1,14 @@
-import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Button } from '@/components/atoms/Button'
-import { Input } from '@/components/atoms/Input'
+import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
+
+import { Button } from "@/components/atoms/Button";
+import { Input } from "@/components/atoms/Input";
 
 interface UserSearchBarProps {
-  value: string
-  onChange: (value: string) => void
-  onSubmit: () => void
-  onClear: () => void
-  hasActiveQuery: boolean
+  value: string;
+  onChange: (value: string) => void;
+  onSubmit: () => void;
+  onClear: () => void;
+  hasActiveQuery: boolean;
 }
 
 export function UserSearchBar({
@@ -18,8 +19,8 @@ export function UserSearchBar({
   hasActiveQuery,
 }: UserSearchBarProps) {
   function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    onSubmit()
+    e.preventDefault();
+    onSubmit();
   }
 
   return (
@@ -48,5 +49,5 @@ export function UserSearchBar({
         </button>
       )}
     </form>
-  )
+  );
 }

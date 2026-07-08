@@ -139,9 +139,9 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `league.hero_rendered`         | Hero mounted                               | `xp`, `medal_ids: [string]`, `first_report: bool`, `level_up: bool` |
+| Event                  | When         | Props                                                               |
+| ---------------------- | ------------ | ------------------------------------------------------------------- |
+| `league.hero_rendered` | Hero mounted | `xp`, `medal_ids: [string]`, `first_report: bool`, `level_up: bool` |
 
 ## Tests
 
@@ -164,15 +164,18 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (shared components): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native Reanimated: https://docs.swmansion.com/react-native-reanimated/
 - React Native Haptics: https://docs.expo.dev/versions/latest/sdk/haptics/
 
 ### Project context
+
 - Render UI base: `01-render-league-ui-base.md`
 - XP/medal pill (shared): `10-report-confirm/07-xp-medal-preview.md`
 - `CLAUDE.md`

@@ -117,12 +117,12 @@ Not applicable.
 
 ## Analytics
 
-| Event                                  | When                                       | Props                                |
-|----------------------------------------|--------------------------------------------|---------------------------------------|
-| `my_reports.empty_first_time_shown`    | First-time variant rendered                | —                                     |
-| `my_reports.empty_filter_shown`        | Filter variant rendered                    | `filter`                              |
-| `my_reports.empty_first_time_cta`      | First-time CTA tapped                      | —                                     |
-| `my_reports.empty_view_all_cta`        | "Ver todos" tapped                         | `from_filter`                         |
+| Event                               | When                        | Props         |
+| ----------------------------------- | --------------------------- | ------------- |
+| `my_reports.empty_first_time_shown` | First-time variant rendered | —             |
+| `my_reports.empty_filter_shown`     | Filter variant rendered     | `filter`      |
+| `my_reports.empty_first_time_cta`   | First-time CTA tapped       | —             |
+| `my_reports.empty_view_all_cta`     | "Ver todos" tapped          | `from_filter` |
 
 ## Tests
 
@@ -142,11 +142,13 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-my-reports-ui-base.md`
 - Reports list (consumes empty state): `04-reports-list.md`
 - Camera (destination of CTA): `08-camera-live/`

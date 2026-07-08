@@ -90,10 +90,10 @@ Public data; no PII.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `public_works.map_pin_tapped`      | User tapped a pin                          | `work_id`                             |
-| `public_works.map_area_tapped`     | User tapped empty area                     | —                                     |
+| Event                          | When                   | Props     |
+| ------------------------------ | ---------------------- | --------- |
+| `public_works.map_pin_tapped`  | User tapped a pin      | `work_id` |
+| `public_works.map_area_tapped` | User tapped empty area | —         |
 
 ## Tests
 

@@ -165,11 +165,11 @@ Reads from the local WatermelonDB queue (per `00-foundation/09`).
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `sync_queue.list_rendered`         | Initial render                             | `item_count`, `failed_count`          |
-| `sync_queue.item_state_updated`    | State transitioned                         | `item_id`, `from`, `to`               |
-| `sync_queue.item_card_pressed`     | User tapped card body                      | `item_id`, `state`                    |
+| Event                           | When                  | Props                        |
+| ------------------------------- | --------------------- | ---------------------------- |
+| `sync_queue.list_rendered`      | Initial render        | `item_count`, `failed_count` |
+| `sync_queue.item_state_updated` | State transitioned    | `item_id`, `from`, `to`      |
+| `sync_queue.item_card_pressed`  | User tapped card body | `item_id`, `state`           |
 
 ## Tests
 
@@ -189,16 +189,19 @@ Reads from the local WatermelonDB queue (per `00-foundation/09`).
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - Shopify FlashList: https://shopify.github.io/flash-list/
 - expo-image: https://docs.expo.dev/versions/latest/sdk/image/
 
 ### Project context
+
 - Render UI base: `01-render-sync-ui-base.md`
 - Offline queue store: `00-foundation/09-offline-queue.md`
 - Item actions: `05-item-actions.md`

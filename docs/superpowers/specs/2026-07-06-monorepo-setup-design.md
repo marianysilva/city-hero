@@ -68,8 +68,8 @@ or duplicating scope owned by later tasks.
    `gh api repos/.../branches/main/protection` → 404): require 1 approving
    review, require the existing CI jobs to pass (`Backend · Lint (ruff)`,
    `Backend · Tests (pytest)`, `Web · Lint + Type Check`, `Web · Build (next
-   build)`, `Mobile · Type Check`, `Mobile · Lint (eslint)`, `Mobile · Tests
-   (jest-expo)`, `Docker · Backend image builds`), disallow force pushes,
+build)`, `Mobile · Type Check`, `Mobile · Lint (eslint)`, `Mobile · Tests
+(jest-expo)`, `Docker · Backend image builds`), disallow force pushes,
    require linear history.
 8. **Update `docs/tasks/00-foundation/01-monorepo-setup.md` itself**: mark
    the parts that are already done (npm/Turbo instead of Yarn, CI baseline,

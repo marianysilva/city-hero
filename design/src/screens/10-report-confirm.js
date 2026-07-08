@@ -1,14 +1,14 @@
-import { statusBar } from '../atoms/StatusBar.js';
+import { statusBar } from "../atoms/StatusBar.js";
 
 /** Tela 10 · Confirmação do Reporte */
 export default {
-  title: 'Confirmação do Reporte',
-  group: 'core',
-  summary: 'Pré-envio · IA já preencheu tudo',
+  title: "Confirmação do Reporte",
+  group: "core",
+  summary: "Pré-envio · IA já preencheu tudo",
   note: `Pós-captura. A IA pré-seleciona categoria e severidade. <b>Usuário só confirma ou corrige</b>. Campo de descrição é opcional. Mostra anonimização já aplicada ("2 placas borradas") — reforça confiança.`,
   html: () => `
     <div class="relative h-full bg-white flex flex-col overflow-hidden">
-      ${statusBar('dark')}
+      ${statusBar("dark")}
       <div class="px-4 flex items-center gap-3 shrink-0">
         <button class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center">←</button>
         <div class="text-lg font-extrabold text-slate-900">Revisar reporte</div>
@@ -89,5 +89,5 @@ export default {
           Enviar reporte →
         </button>
       </div>
-    </div>`
+    </div>`,
 };

@@ -81,10 +81,10 @@ Public documents.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `public_work_detail.document_pressed` | User opened a document                | `kind`                                |
-| `public_work_detail.denunciar_pressed` | User tapped Denunciar                | —                                     |
+| Event                                  | When                   | Props  |
+| -------------------------------------- | ---------------------- | ------ |
+| `public_work_detail.document_pressed`  | User opened a document | `kind` |
+| `public_work_detail.denunciar_pressed` | User tapped Denunciar  | —      |
 
 ## Tests
 

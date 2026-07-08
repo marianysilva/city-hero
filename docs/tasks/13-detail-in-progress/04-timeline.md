@@ -132,9 +132,9 @@ Each entry has:
 
 The timeline is part of the report-detail response:
 
-| Method | Path                              | Purpose                              |
-|--------|-----------------------------------|---------------------------------------|
-| GET    | `/api/v1/reports/{id}/timeline`   | Returns the chronological events     |
+| Method | Path                            | Purpose                          |
+| ------ | ------------------------------- | -------------------------------- |
+| GET    | `/api/v1/reports/{id}/timeline` | Returns the chronological events |
 
 This may be embedded in `/api/v1/reports/{id}` or fetched separately. For MVP, embedding is sufficient.
 
@@ -146,18 +146,18 @@ The backend's report service maintains the report's state and writes timeline en
 
 ### `report_timeline_events` table
 
-| Column            | Type        | Notes                                              |
-|-------------------|-------------|----------------------------------------------------|
-| `id`              | UUID PK     |                                                    |
-| `report_id`       | UUID FK     |                                                    |
-| `city_id`         | UUID FK     | For multi-tenant indexing                          |
-| `state`           | varchar(50) | Machine-readable key                              |
-| `title_key`       | varchar(120)| i18n key for the title                            |
-| `actor`           | text        | Display attribution                                |
-| `extra`           | jsonb       | Optional long-form context                         |
-| `occurred_at`     | timestamptz | Set when the event actually happened              |
-| `scheduled_for`   | timestamptz | Set when a future event is scheduled              |
-| `created_at`      | timestamptz |                                                    |
+| Column          | Type         | Notes                                |
+| --------------- | ------------ | ------------------------------------ |
+| `id`            | UUID PK      |                                      |
+| `report_id`     | UUID FK      |                                      |
+| `city_id`       | UUID FK      | For multi-tenant indexing            |
+| `state`         | varchar(50)  | Machine-readable key                 |
+| `title_key`     | varchar(120) | i18n key for the title               |
+| `actor`         | text         | Display attribution                  |
+| `extra`         | jsonb        | Optional long-form context           |
+| `occurred_at`   | timestamptz  | Set when the event actually happened |
+| `scheduled_for` | timestamptz  | Set when a future event is scheduled |
+| `created_at`    | timestamptz  |                                      |
 
 Indexes on `(report_id, occurred_at)` and `(city_id, state)`.
 
@@ -175,11 +175,11 @@ Indexes on `(report_id, occurred_at)` and `(city_id, state)`.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `detail_in_progress.timeline_rendered` | Timeline mounted                       | `entry_count`, `current_state`       |
-| `detail_in_progress.timeline_entry_tapped` | User opens detail sheet             | `state`                               |
-| `detail_in_progress.timeline_realtime_event` | New entry pushed via WS           | `state`                               |
+| Event                                        | When                    | Props                          |
+| -------------------------------------------- | ----------------------- | ------------------------------ |
+| `detail_in_progress.timeline_rendered`       | Timeline mounted        | `entry_count`, `current_state` |
+| `detail_in_progress.timeline_entry_tapped`   | User opens detail sheet | `state`                        |
+| `detail_in_progress.timeline_realtime_event` | New entry pushed via WS | `state`                        |
 
 ## Tests
 
@@ -201,12 +201,14 @@ Indexes on `(report_id, occurred_at)` and `(city_id, state)`.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (multi-tenant, real-time): `docs/engineering/architecture-patterns.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 - Observability: `docs/engineering/observability.md`
 
 ### Project context
+
 - Render UI base: `01-render-detail-ui-base.md`
 - Real-time updates: `06-home-map/08-realtime-pin-updates.md`
 - Legacy ERP webhooks (`features.md` § 5)

@@ -148,14 +148,14 @@ A moderator screen (in the manager admin app — separate from the citizen MVP s
 
 ## Backend (FastAPI endpoints)
 
-| Method | Path                                                     | Purpose                                 |
-|--------|----------------------------------------------------------|-----------------------------------------|
-| GET    | `/api/v1/photos/{id}`                                    | Photo metadata (signed URLs)            |
-| GET    | `/api/v1/photos/{id}/url`                                | Issue a signed URL for the anonymized version |
-| POST   | `/api/v1/photos/{id}/reanonymize` (admin)               | Force re-run for a specific photo       |
-| GET    | `/api/v1/admin/anonymization/queue` (admin)             | List manual-review items                |
-| POST   | `/api/v1/admin/anonymization/{id}/approve` (admin)      | Moderator approves                      |
-| POST   | `/api/v1/admin/anonymization/{id}/blur-more` (admin)    | Moderator requests stronger blur        |
+| Method | Path                                                 | Purpose                                       |
+| ------ | ---------------------------------------------------- | --------------------------------------------- |
+| GET    | `/api/v1/photos/{id}`                                | Photo metadata (signed URLs)                  |
+| GET    | `/api/v1/photos/{id}/url`                            | Issue a signed URL for the anonymized version |
+| POST   | `/api/v1/photos/{id}/reanonymize` (admin)            | Force re-run for a specific photo             |
+| GET    | `/api/v1/admin/anonymization/queue` (admin)          | List manual-review items                      |
+| POST   | `/api/v1/admin/anonymization/{id}/approve` (admin)   | Moderator approves                            |
+| POST   | `/api/v1/admin/anonymization/{id}/blur-more` (admin) | Moderator requests stronger blur              |
 
 All admin endpoints require the `moderator` or higher role.
 
@@ -163,33 +163,33 @@ All admin endpoints require the `moderator` or higher role.
 
 ### Extensions to `photos` table
 
-| Column                 | Type        | Notes                                              |
-|------------------------|-------------|----------------------------------------------------|
+| Column                 | Type        | Notes                                                |
+| ---------------------- | ----------- | ---------------------------------------------------- |
 | `anonymization_status` | varchar(20) | `pending`, `processing`, `done`, `failed`, `flagged` |
-| `anonymized_at`        | timestamptz | Null until done                                    |
-| `detections_count`     | int         | Number of regions blurred                          |
-| `ai_model_version`     | varchar(20) | For reproducibility                                |
+| `anonymized_at`        | timestamptz | Null until done                                      |
+| `detections_count`     | int         | Number of regions blurred                            |
+| `ai_model_version`     | varchar(20) | For reproducibility                                  |
 
 ### `photo_detections` table (encrypted)
 
-| Column          | Type         | Notes                                            |
-|-----------------|--------------|---------------------------------------------------|
-| `id`            | UUID PK      |                                                   |
-| `photo_id`      | UUID FK      |                                                   |
-| `category`      | varchar(50)  | `face`, `license_plate`, etc.                    |
-| `bbox`          | jsonb        | Normalized coords [x, y, w, h]                   |
-| `confidence`    | numeric(4,3) | 0.0–1.0                                           |
-| `created_at`    | timestamptz  |                                                   |
+| Column       | Type         | Notes                          |
+| ------------ | ------------ | ------------------------------ |
+| `id`         | UUID PK      |                                |
+| `photo_id`   | UUID FK      |                                |
+| `category`   | varchar(50)  | `face`, `license_plate`, etc.  |
+| `bbox`       | jsonb        | Normalized coords [x, y, w, h] |
+| `confidence` | numeric(4,3) | 0.0–1.0                        |
+| `created_at` | timestamptz  |                                |
 
 ### `photo_audit_access` table
 
-| Column            | Type        | Notes                                          |
-|-------------------|-------------|------------------------------------------------|
-| `id`              | UUID PK     |                                                |
-| `photo_id`        | UUID FK     |                                                |
-| `accessed_by`     | UUID FK     | User who accessed                              |
-| `purpose`         | varchar(50) | `audit`, `manual_review`, `legal_request`     |
-| `accessed_at`     | timestamptz |                                                |
+| Column        | Type        | Notes                                     |
+| ------------- | ----------- | ----------------------------------------- |
+| `id`          | UUID PK     |                                           |
+| `photo_id`    | UUID FK     |                                           |
+| `accessed_by` | UUID FK     | User who accessed                         |
+| `purpose`     | varchar(50) | `audit`, `manual_review`, `legal_request` |
+| `accessed_at` | timestamptz |                                           |
 
 ## Edge Cases
 
@@ -216,13 +216,13 @@ See `security-baseline.md` for the full LGPD framework.
 
 ## Analytics
 
-| Event                              | When                              | Props                                       |
-|------------------------------------|-----------------------------------|---------------------------------------------|
-| `anonymization.job_started`        | Worker picks up job               | `photo_id`                                  |
-| `anonymization.job_succeeded`      | Job completes                     | `duration_ms`, `detections_count`           |
-| `anonymization.job_failed`         | Permanent failure                 | `photo_id`, `reason`                        |
-| `anonymization.manually_flagged`   | Moderator queue triggered         | `photo_id`, `reason`                        |
-| `anonymization.moderator_decision` | Moderator approves/blurs more     | `photo_id`, `decision`, `moderator_id`      |
+| Event                              | When                          | Props                                  |
+| ---------------------------------- | ----------------------------- | -------------------------------------- |
+| `anonymization.job_started`        | Worker picks up job           | `photo_id`                             |
+| `anonymization.job_succeeded`      | Job completes                 | `duration_ms`, `detections_count`      |
+| `anonymization.job_failed`         | Permanent failure             | `photo_id`, `reason`                   |
+| `anonymization.manually_flagged`   | Moderator queue triggered     | `photo_id`, `reason`                   |
+| `anonymization.moderator_decision` | Moderator approves/blurs more | `photo_id`, `decision`, `moderator_id` |
 
 ## Tests
 
@@ -249,18 +249,21 @@ See `security-baseline.md` for the full LGPD framework.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture (background workers, layered services): `docs/engineering/architecture-patterns.md`
 - Observability: `docs/engineering/observability.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - OpenCV (Gaussian blur): https://docs.opencv.org/
 - Pillow (PIL): https://pillow.readthedocs.io/
 - Celery: https://docs.celeryq.dev/ — or arq: https://arq-docs.helpmanual.io/
 - LGPD: Lei nº 13.709/2018
 
 ### Project context
+
 - AI inference service: `00-foundation/16-yolov8-inference-service.md`
 - Photo upload pipeline: `00-foundation/07-photo-upload-pipeline.md`
 - `docs/features.md` § 1 (anonymization mandatory)

@@ -87,14 +87,14 @@ command:
 
 The compose file defines these services:
 
-| Service        | Image                              | Ports         | Volumes              | Healthcheck                    |
-|----------------|------------------------------------|---------------|----------------------|---------------------------------|
-| `db`           | PostGIS-enabled Postgres 16        | 5432          | `pgdata`             | `pg_isready`                   |
-| `redis`        | Redis 7                            | 6379          | (volatile)           | `redis-cli ping`                |
-| `minio`        | MinIO latest                       | 9000, 9001    | `miniodata`          | `/minio/health/live`           |
-| `backend`      | Built from `apps/backend`          | 8000          | (none)               | `/health` HTTP                  |
-| `ai-service`   | Built from `apps/ai_service`       | 8001          | model files (read-only) | `/health` HTTP                |
-| `web`          | Built from `apps/web`              | 3000          | (none)               | (depends on backend)            |
+| Service      | Image                        | Ports      | Volumes                 | Healthcheck          |
+| ------------ | ---------------------------- | ---------- | ----------------------- | -------------------- |
+| `db`         | PostGIS-enabled Postgres 16  | 5432       | `pgdata`                | `pg_isready`         |
+| `redis`      | Redis 7                      | 6379       | (volatile)              | `redis-cli ping`     |
+| `minio`      | MinIO latest                 | 9000, 9001 | `miniodata`             | `/minio/health/live` |
+| `backend`    | Built from `apps/backend`    | 8000       | (none)                  | `/health` HTTP       |
+| `ai-service` | Built from `apps/ai_service` | 8001       | model files (read-only) | `/health` HTTP       |
+| `web`        | Built from `apps/web`        | 3000       | (none)                  | (depends on backend) |
 
 Service dependencies are declared so each service waits for its dependencies
 to be healthy before starting.
@@ -170,16 +170,19 @@ Not applicable (infrastructure layer).
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (multi-service backend): `docs/engineering/architecture-patterns.md`
 - Security (secrets, network isolation): `docs/engineering/security-baseline.md`
 - Observability (healthchecks): `docs/engineering/observability.md`
 
 ### Library / framework references
+
 - PostGIS Docker image: https://registry.hub.docker.com/r/postgis/postgis
 - MinIO: https://min.io/docs/minio/container/index.html
 - Compose v2 healthchecks: https://docs.docker.com/compose/compose-file/05-services/#healthcheck
 - Alembic: https://alembic.sqlalchemy.org/
 
 ### Project context
+
 - `CLAUDE.md`
 - Existing `docker-compose.yml` and `apps/backend/Dockerfile`

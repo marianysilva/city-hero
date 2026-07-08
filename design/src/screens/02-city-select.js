@@ -1,15 +1,15 @@
-import { statusBar } from '../atoms/StatusBar.js';
-import { searchBar } from '../atoms/SearchBar.js';
+import { statusBar } from "../atoms/StatusBar.js";
+import { searchBar } from "../atoms/SearchBar.js";
 
 /** Tela 02 · Escolher Cidade */
 export default {
-  title: 'Escolher Cidade',
-  group: 'onboarding',
-  summary: 'First-run multi-tenant · detecta ou escolhe',
+  title: "Escolher Cidade",
+  group: "onboarding",
+  summary: "First-run multi-tenant · detecta ou escolhe",
   note: `App detecta a cidade pelo GPS automaticamente. <b>Pôrto Belo</b> é a cidade piloto (badge "Ativa"). Outras cidades SC aparecem como "Em breve" (prova social de expansão). Usuário pode trocar a qualquer momento em "Perfil da Cidade". Essencial pra arquitetura multi-tenant (cores, serviços e prefeitura mudam por cidade).`,
   html: () => `
     <div class="relative h-full bg-gradient-to-b from-white to-brand-50">
-      ${statusBar('dark')}
+      ${statusBar("dark")}
       <div class="px-6 pt-2 flex items-center justify-between">
         <button class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-600">←</button>
         <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Passo 1 de 5</span>
@@ -32,7 +32,7 @@ export default {
       </div>
 
       <div class="mx-6 mt-4">
-        ${searchBar('Buscar outra cidade…')}
+        ${searchBar("Buscar outra cidade…")}
       </div>
 
       <div class="mx-6 mt-3 space-y-2">
@@ -46,10 +46,12 @@ export default {
         </div>
 
         ${[
-          { flag: '🏝️', name: 'Bombinhas · SC',            sub: 'Em conversa com a prefeitura' },
-          { flag: '⛵', name: 'Itapema · SC',              sub: 'Piloto iniciando em maio' },
-          { flag: '🏙️', name: 'Balneário Camboriú · SC',   sub: 'Lista de espera' },
-        ].map(c => `
+          { flag: "🏝️", name: "Bombinhas · SC", sub: "Em conversa com a prefeitura" },
+          { flag: "⛵", name: "Itapema · SC", sub: "Piloto iniciando em maio" },
+          { flag: "🏙️", name: "Balneário Camboriú · SC", sub: "Lista de espera" },
+        ]
+          .map(
+            (c) => `
           <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/60 border border-slate-200 opacity-70">
             <span class="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center text-lg">${c.flag}</span>
             <div class="flex-1 min-w-0">
@@ -58,7 +60,9 @@ export default {
             </div>
             <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 text-[10px] font-black">EM BREVE</span>
           </div>
-        `).join('')}
+        `,
+          )
+          .join("")}
       </div>
 
       <div class="absolute bottom-4 left-0 right-0 px-6">
@@ -66,5 +70,5 @@ export default {
           Viajando? Troque a cidade em <b>Perfil da Cidade</b>.
         </p>
       </div>
-    </div>`
+    </div>`,
 };

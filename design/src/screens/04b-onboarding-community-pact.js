@@ -1,4 +1,4 @@
-import { statusBar } from '../atoms/StatusBar.js';
+import { statusBar } from "../atoms/StatusBar.js";
 
 /** Tela 04b · Onboarding · Pacto Cidadão (entre Gamificação e Seu Bairro)
  *
@@ -15,13 +15,13 @@ import { statusBar } from '../atoms/StatusBar.js';
  * rotaciona a cada 10s pra demonstrar todas.
  */
 export default {
-  title: 'Onboarding · Pacto Cidadão',
-  group: 'onboarding',
-  summary: 'Boa-fé · moderação · identidade · LGPD',
+  title: "Onboarding · Pacto Cidadão",
+  group: "onboarding",
+  summary: "Boa-fé · moderação · identidade · LGPD",
   note: `Esta tela existe pra estabelecer <b>combinados</b> antes do primeiro uso. Conteúdo divide-se em cinco pilares: <b>1) apartidarismo</b> (representa o povo, não partido), <b>2) moderação</b> (denúncias avaliadas), <b>3) consequências</b> (XP/suspensão), <b>4) identidade</b> (Gov.br garante usuário real), <b>5) LGPD</b> (proteção de dados). Hero rotaciona 4 mensagens por faixa etária (em produção, Gov.br escolhe uma). Termos da plataforma abrem em modal local. CTA "Continuar" só destrava com o checkbox marcado — barreira leve mas explícita.`,
   html: () => `
     <div class="relative h-full bg-gradient-to-b from-white to-violet-50 flex flex-col overflow-hidden">
-      ${statusBar('dark')}
+      ${statusBar("dark")}
       <div class="px-6 pt-2 flex items-center justify-between">
         <button data-nav="back" class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-600">←</button>
         <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Passo 4 de 5</span>
@@ -151,28 +151,28 @@ export default {
     // Rotação das mensagens por faixa etária (demo do que será escolhido pelo
     // Gov.br em produção). Cada frase em ~30 palavras, em tom de norma social
     // (mais eficaz que shame/medo segundo a literatura de nudges).
-    const target = root.querySelector('[data-rotator]');
+    const target = root.querySelector("[data-rotator]");
     if (!target) return null;
 
     const messages = [
       {
-        tag: '<18',
-        bg: 'bg-sky-100 text-sky-700',
+        tag: "<18",
+        bg: "bg-sky-100 text-sky-700",
         html: `Aqui não é anônimo. Cada publicação está atrelada ao seu nome — pessoas da sua família, escola e cidade podem ver.`,
       },
       {
-        tag: '+18',
-        bg: 'bg-violet-100 text-violet-700',
+        tag: "+18",
+        bg: "bg-violet-100 text-violet-700",
         html: `Usamos seu perfil no Gov.br. O que você escrever impacta sua reputação na cidade — e fica registrado pra sempre.`,
       },
       {
-        tag: '+30',
-        bg: 'bg-amber-100 text-amber-700',
+        tag: "+30",
+        bg: "bg-amber-100 text-amber-700",
         html: `Aqui sua palavra vira ação na sua cidade. Mentir ou ofender desvia o foco da equipe que trabalha pra atender pessoas com problemas reais.`,
       },
       {
-        tag: '+60',
-        bg: 'bg-emerald-100 text-emerald-700',
+        tag: "+60",
+        bg: "bg-emerald-100 text-emerald-700",
         html: `Aqui sua voz constrói a cidade que fica pros seus filhos e netos. Trate ela com zelo — com a sua honra.`,
       },
     ];

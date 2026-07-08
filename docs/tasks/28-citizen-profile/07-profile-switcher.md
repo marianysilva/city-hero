@@ -54,14 +54,15 @@ under the new identity.
 **Given** the user opens the "Trocar perfil" row
 **When** the picker renders
 **Then** a bottom sheet lists the available personas with a name + role chip:
-  - **Cidadão Novo** (level 1, no medals)
-  - **Vigilante** (mid-level)
-  - **Guardião do Bairro** (high level, several medals)
-  - **Líder da Liga** (top level)
-  - **Anônimo Padrão** (defaults to anonymous reports)
-  - **Gestor da Prefeitura** (`role: prefecture_manager`)
-  - **Equipe de Campo** (`role: field_team`)
-**And** each entry shows a short description of what's pre-seeded for that persona
+
+- **Cidadão Novo** (level 1, no medals)
+- **Vigilante** (mid-level)
+- **Guardião do Bairro** (high level, several medals)
+- **Líder da Liga** (top level)
+- **Anônimo Padrão** (defaults to anonymous reports)
+- **Gestor da Prefeitura** (`role: prefecture_manager`)
+- **Equipe de Campo** (`role: field_team`)
+  **And** each entry shows a short description of what's pre-seeded for that persona
 
 ### Scenario · Pick a persona
 
@@ -141,10 +142,10 @@ Not applicable — the personas are fictional mock data.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `dev.persona_switched`             | User picks a persona                       | `from_persona`, `to_persona`         |
-| `dev.persona_reset`                | User resets data                           | `persona`                            |
+| Event                  | When                 | Props                        |
+| ---------------------- | -------------------- | ---------------------------- |
+| `dev.persona_switched` | User picks a persona | `from_persona`, `to_persona` |
+| `dev.persona_reset`    | User resets data     | `persona`                    |
 
 (These events are logged but never sent to production analytics — they exist only in dev/staging streams.)
 
@@ -166,10 +167,12 @@ Not applicable — the personas are fictional mock data.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Reuse principle: see `[[feedback-reuse-principle]]` in the auto-memory (single source of truth for persona definitions)
 
 ### Project context
+
 - Settings section: `06-settings-and-logout.md`
 - Auth system (where real auth will live): `00-foundation/06-auth-system.md`
 - Open questions Q2 (no login screen yet): `docs/engineering/open-questions.md`

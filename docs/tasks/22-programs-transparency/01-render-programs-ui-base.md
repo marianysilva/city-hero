@@ -91,10 +91,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `programs.viewed`              | Screen mounts                              | `city_id`                             |
-| `programs.share_pressed`       | User tapped share                          | —                                     |
+| Event                    | When              | Props     |
+| ------------------------ | ----------------- | --------- |
+| `programs.viewed`        | Screen mounts     | `city_id` |
+| `programs.share_pressed` | User tapped share | —         |
 
 ## Tests
 
@@ -114,11 +114,13 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Programas & Transparência'`)
 - Shared chip molecule (fills `filter-chips` slot): `docs/engineering/component-inventory.md` (row `FilterChipRow`)
 - Design system overview: `docs/engineering/design-system.md`

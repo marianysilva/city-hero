@@ -75,10 +75,10 @@ Not applicable directly; subsequent tasks handle PII boundaries.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `bolsa_familia.viewed`             | Screen mounts                              | `city_id`                             |
-| `bolsa_familia.back_pressed`       | User taps back                             | —                                     |
+| Event                        | When           | Props     |
+| ---------------------------- | -------------- | --------- |
+| `bolsa_familia.viewed`       | Screen mounts  | `city_id` |
+| `bolsa_familia.back_pressed` | User taps back | —         |
 
 ## Tests
 

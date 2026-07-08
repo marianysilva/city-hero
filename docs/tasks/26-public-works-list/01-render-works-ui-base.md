@@ -82,10 +82,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `public_works.viewed`          | Screen mounts                              | `count`                               |
-| `public_works.view_toggled`    | User switched map/list                     | `to: map|list`                        |
+| Event                       | When                   | Props    |
+| --------------------------- | ---------------------- | -------- |
+| `public_works.viewed`       | Screen mounts          | `count`  |
+| `public_works.view_toggled` | User switched map/list | `to: map | list` |
 
 ## Tests
 

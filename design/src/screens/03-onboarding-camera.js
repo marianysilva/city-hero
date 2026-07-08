@@ -1,14 +1,14 @@
-import { statusBar } from '../atoms/StatusBar.js';
+import { statusBar } from "../atoms/StatusBar.js";
 
 /** Tela 03 · Onboarding · Câmera IA */
 export default {
-  title: 'Onboarding · Câmera IA',
-  group: 'onboarding',
-  summary: 'Explica a super-habilidade #1',
+  title: "Onboarding · Câmera IA",
+  group: "onboarding",
+  summary: "Explica a super-habilidade #1",
   note: `Mostra o "wow" de IA logo na entrada. Ilustração com bounding box reforça que <b>o usuário não precisa digitar categoria</b> — a IA faz.`,
   html: () => `
     <div class="relative h-full bg-gradient-to-b from-brand-50 to-white">
-      ${statusBar('dark')}
+      ${statusBar("dark")}
       <div class="px-6 pt-2 flex items-center justify-between">
         <button data-nav="back" class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-600">←</button>
         <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Passo 2 de 5</span>
@@ -85,5 +85,5 @@ export default {
         </div>
         <button data-nav="next" class="px-5 py-3 rounded-full bg-slate-900 text-white font-bold text-sm">Próximo →</button>
       </div>
-    </div>`
+    </div>`,
 };

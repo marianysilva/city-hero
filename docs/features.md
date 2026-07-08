@@ -2,7 +2,8 @@
 
 ## 1. Citizen App
 
-*Focus: Friction reduction, engagement, and data quality.*
+_Focus: Friction reduction, engagement, and data quality._
+
 - **Edge AI Camera:** Automatic and instant detection of the problem type (pothole, trash, graffiti) when pointing the camera, without needing internet.
 - **Automatic Anonymization:** Automatic blurring of faces and license plates in photos before upload (GDPR compliance). Search for more sensive things that can appear in the photo.
 - **Strict Geographic Validation:** Blocking uploads from gallery or distant locations; user must be physically at report location (1 km tolerance).
@@ -24,7 +25,7 @@
 
 ## 2. Field Team App
 
-*Focus: Execution efficiency and proof of work.*
+_Focus: Execution efficiency and proof of work._
 
 - **Simplified Task List:** "To-Do List" view top priorities.
 - **Georeferenced Check-in:** Validation that the team arrived at the occurrence location.
@@ -34,7 +35,7 @@
 
 ## 3. Operational Management Panel
 
-*Focus: Triage, dispatch, and real-time monitoring.*
+_Focus: Triage, dispatch, and real-time monitoring._
 
 - **War Room:** Real-time heatmap showing where critical problem peaks are at the moment.
 - **Kanban Demand Board:** Visualization of draggable cards by status (To Do, In Progress, Blocked, Done).
@@ -47,7 +48,7 @@
 
 ## 4. Data Intelligence & BI
 
-*Focus: Trend analysis, prediction, and ROI.*
+_Focus: Trend analysis, prediction, and ROI._
 
 - **Executive Dashboards (Superset):** Customizable visual panels with advanced filters (by neighborhood, period, problem type).
 - **Historical Trend Analysis:** Line charts showing problem evolution over months/years.
@@ -61,7 +62,7 @@
 
 ## 5. Platform Core & Integrations
 
-*Focus: Robustness, security, and interoperability.*
+_Focus: Robustness, security, and interoperability._
 
 - **Open311 Compliance (GeoReport v2):** Internationally standardized API, allowing other systems to connect to CityHero.
 - **AI Retraining Pipeline:** System to use validated "Before/After" photos to continuously retrain and improve the YOLOv8 model.

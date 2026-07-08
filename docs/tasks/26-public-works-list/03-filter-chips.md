@@ -94,9 +94,9 @@ Not applicable.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `public_works.filter_changed`      | Chip tapped                                | `kind: status|category`, `value`     |
+| Event                         | When        | Props         |
+| ----------------------------- | ----------- | ------------- |
+| `public_works.filter_changed` | Chip tapped | `kind: status | category`, `value` |
 
 ## Tests
 

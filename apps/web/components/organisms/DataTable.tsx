@@ -1,32 +1,32 @@
-'use client'
+"use client";
 
-import { ReactNode } from 'react'
-import { ChevronUpIcon, ChevronDownIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline'
+import { ChevronUpIcon, ChevronDownIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
+import { ReactNode } from "react";
 
-export type SortDir = 'asc' | 'desc'
+export type SortDir = "asc" | "desc";
 
 export interface SortEntry {
-  field: string
-  dir: SortDir
+  field: string;
+  dir: SortDir;
 }
 
 export interface Column<T> {
-  key: string
-  header: string
-  sortKey?: string
-  render: (row: T) => ReactNode
-  className?: string
+  key: string;
+  header: string;
+  sortKey?: string;
+  render: (row: T) => ReactNode;
+  className?: string;
 }
 
 interface DataTableProps<T> {
-  columns: Column<T>[]
-  rows: T[]
-  keyFn: (row: T) => string
-  loading?: boolean
-  error?: string | null
-  emptyMessage?: string
-  sort?: SortEntry[]
-  onSort?: (field: string, append: boolean) => void
+  columns: Column<T>[];
+  rows: T[];
+  keyFn: (row: T) => string;
+  loading?: boolean;
+  error?: string | null;
+  emptyMessage?: string;
+  sort?: SortEntry[];
+  onSort?: (field: string, append: boolean) => void;
 }
 
 function SortIcon({
@@ -34,25 +34,23 @@ function SortIcon({
   rank,
   multiSort,
 }: {
-  dir: SortDir | null
-  rank: number
-  multiSort: boolean
+  dir: SortDir | null;
+  rank: number;
+  multiSort: boolean;
 }) {
   if (dir === null) {
-    return <ChevronUpDownIcon className="w-3.5 h-3.5 text-zinc-300 shrink-0" />
+    return <ChevronUpDownIcon className="w-3.5 h-3.5 text-zinc-300 shrink-0" />;
   }
   return (
     <span className="inline-flex items-center gap-0.5 text-zinc-900">
-      {dir === 'asc' ? (
+      {dir === "asc" ? (
         <ChevronUpIcon className="w-3.5 h-3.5 shrink-0" />
       ) : (
         <ChevronDownIcon className="w-3.5 h-3.5 shrink-0" />
       )}
-      {multiSort && (
-        <span className="text-[10px] font-bold leading-none">{rank}</span>
-      )}
+      {multiSort && <span className="text-[10px] font-bold leading-none">{rank}</span>}
     </span>
-  )
+  );
 }
 
 export function DataTable<T>({
@@ -61,21 +59,21 @@ export function DataTable<T>({
   keyFn,
   loading = false,
   error,
-  emptyMessage = 'Nenhum resultado encontrado.',
+  emptyMessage = "Nenhum resultado encontrado.",
   sort = [],
   onSort,
 }: DataTableProps<T>) {
   if (loading || error || rows.length === 0) {
     return (
       <div className="bg-white rounded-2xl border border-zinc-200 flex items-center justify-center h-48">
-        <span className={`text-sm ${error ? 'text-red-500' : 'text-zinc-400'}`}>
-          {loading ? 'Carregando...' : error ?? emptyMessage}
+        <span className={`text-sm ${error ? "text-red-500" : "text-zinc-400"}`}>
+          {loading ? "Carregando..." : (error ?? emptyMessage)}
         </span>
       </div>
-    )
+    );
   }
 
-  const multiSort = sort.length > 1
+  const multiSort = sort.length > 1;
 
   return (
     <div>
@@ -84,19 +82,17 @@ export function DataTable<T>({
           <thead>
             <tr className="border-b border-zinc-100 bg-zinc-50">
               {columns.map((col) => {
-                const sortIndex = col.sortKey
-                  ? sort.findIndex((s) => s.field === col.sortKey)
-                  : -1
-                const activeSort = sortIndex >= 0 ? sort[sortIndex] : null
-                const isSortable = !!col.sortKey && !!onSort
+                const sortIndex = col.sortKey ? sort.findIndex((s) => s.field === col.sortKey) : -1;
+                const activeSort = sortIndex >= 0 ? sort[sortIndex] : null;
+                const isSortable = !!col.sortKey && !!onSort;
 
                 const ariaSortValue = isSortable
                   ? activeSort
-                    ? activeSort.dir === 'asc'
-                      ? ('ascending' as const)
-                      : ('descending' as const)
-                    : ('none' as const)
-                  : undefined
+                    ? activeSort.dir === "asc"
+                      ? ("ascending" as const)
+                      : ("descending" as const)
+                    : ("none" as const)
+                  : undefined;
 
                 return (
                   <th
@@ -105,7 +101,7 @@ export function DataTable<T>({
                     aria-sort={ariaSortValue}
                     className={`
                       px-4 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wide
-                      ${col.className ?? ''}
+                      ${col.className ?? ""}
                     `}
                   >
                     {isSortable ? (
@@ -121,12 +117,10 @@ export function DataTable<T>({
                         />
                       </button>
                     ) : (
-                      <span className="inline-flex items-center gap-1">
-                        {col.header}
-                      </span>
+                      <span className="inline-flex items-center gap-1">{col.header}</span>
                     )}
                   </th>
-                )
+                );
               })}
             </tr>
           </thead>
@@ -134,7 +128,7 @@ export function DataTable<T>({
             {rows.map((row) => (
               <tr key={keyFn(row)} className="hover:bg-zinc-50 transition-colors">
                 {columns.map((col) => (
-                  <td key={col.key} className={`px-4 py-3 ${col.className ?? ''}`}>
+                  <td key={col.key} className={`px-4 py-3 ${col.className ?? ""}`}>
                     {col.render(row)}
                   </td>
                 ))}
@@ -149,5 +143,5 @@ export function DataTable<T>({
         </span>
       </div>
     </div>
-  )
+  );
 }

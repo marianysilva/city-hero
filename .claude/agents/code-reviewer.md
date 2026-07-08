@@ -10,12 +10,14 @@ You are a senior software engineer reviewing code for the CityHero platform. Foc
 ## Review Areas
 
 ### Correctness
+
 - Edge cases in geographic calculations (PostGIS boundary conditions, coordinate wrapping)
 - Race conditions in concurrent ticket updates (optimistic locking)
 - Offline sync conflict resolution logic
 - Proper error handling and user-friendly error messages
 
 ### Performance
+
 - N+1 query patterns in SQLAlchemy relationships
 - Missing database indexes on frequently queried columns (city_id, status, created_at, location)
 - Large photo processing blocking the request thread (should be async/background task)
@@ -23,6 +25,7 @@ You are a senior software engineer reviewing code for the CityHero platform. Foc
 - PostGIS spatial index usage (GIST indexes)
 
 ### Convention Adherence
+
 - Open311 GeoReport v2 compliance on API endpoints
 - Conventional commits format
 - Multi-tenant scoping (city_id on every query)
@@ -30,6 +33,7 @@ You are a senior software engineer reviewing code for the CityHero platform. Foc
 - Anonymization pipeline inclusion for photo uploads
 
 ### Testing
+
 - Verify tests cover happy path and the documented edge cases from `docs/user-stories.md`
 - Check that geographic edge cases are tested (antimeridian, poles, boundary conditions)
 - Ensure mocks don't hide real integration issues

@@ -111,9 +111,9 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `anonymous_send.cta_pressed`   | User taps the CTA                          | `report_id`                           |
+| Event                        | When              | Props       |
+| ---------------------------- | ----------------- | ----------- |
+| `anonymous_send.cta_pressed` | User taps the CTA | `report_id` |
 
 ## Tests
 
@@ -132,15 +132,18 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Navigation `reset`: https://reactnavigation.org/docs/navigation-actions#reset
 - React Native Haptics: https://docs.expo.dev/versions/latest/sdk/haptics/
 
 ### Project context
+
 - Render UI base: `01-render-anonymous-ui-base.md`
 - Detalhe · Em andamento (destination): `docs/tasks/13-detail-in-progress/`
 - `CLAUDE.md`

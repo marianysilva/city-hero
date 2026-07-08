@@ -156,9 +156,9 @@ The preview here is the **identified** version — the user's first name and lev
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `league.preview_card_rendered`     | Card mounted                               | `report_id`, `had_description: bool` |
+| Event                          | When         | Props                                |
+| ------------------------------ | ------------ | ------------------------------------ |
+| `league.preview_card_rendered` | Card mounted | `report_id`, `had_description: bool` |
 
 ## Tests
 
@@ -178,15 +178,18 @@ The preview here is the **identified** version — the user's first name and lev
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (shared compose logic): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - OpenGraph protocol: https://ogp.me/
 
 ### Project context
+
 - Render UI base: `01-render-league-ui-base.md`
 - Share service (used downstream): `07-civic-feed/07-compartilhar-action.md`
 - Deep link handler: `00-foundation/12-deep-link-handler.md`

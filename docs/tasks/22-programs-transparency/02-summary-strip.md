@@ -63,9 +63,9 @@ The hook fetches `/api/v1/cities/{id}/programs/summary` (count, total budget, be
 
 ## Backend
 
-| Method | Path                                              | Purpose                              |
-|--------|---------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/cities/{id}/programs/summary`            | Aggregated metrics                  |
+| Method | Path                                   | Purpose            |
+| ------ | -------------------------------------- | ------------------ |
+| GET    | `/api/v1/cities/{id}/programs/summary` | Aggregated metrics |
 
 Sourced from dbt-materialized tables that join Portal da Transparência + municipal data.
 
@@ -84,10 +84,10 @@ Aggregate data only.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `programs.summary_rendered`    | Strip mounted                              | `programs_count`, `freshness_days`   |
-| `programs.freshness_pressed`   | User tapped freshness footnote             | —                                     |
+| Event                        | When                           | Props                              |
+| ---------------------------- | ------------------------------ | ---------------------------------- |
+| `programs.summary_rendered`  | Strip mounted                  | `programs_count`, `freshness_days` |
+| `programs.freshness_pressed` | User tapped freshness footnote | —                                  |
 
 ## Tests
 

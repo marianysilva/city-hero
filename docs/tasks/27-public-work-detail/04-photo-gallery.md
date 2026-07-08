@@ -73,9 +73,9 @@ apps/city-hero/src/screens/PublicWorkDetail/
 
 ## Backend
 
-| Method | Path                                                              | Purpose                              |
-|--------|-------------------------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/public-works/{id}/photos?cursor=&limit=`                 | Paginated photos                     |
+| Method | Path                                              | Purpose          |
+| ------ | ------------------------------------------------- | ---------------- |
+| GET    | `/api/v1/public-works/{id}/photos?cursor=&limit=` | Paginated photos |
 
 ## Database
 
@@ -92,10 +92,10 @@ All photos anonymized.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `public_work_detail.gallery_loaded` | Mounted                                   | `photo_count`                         |
-| `public_work_detail.photo_opened`  | User tapped                                | `photo_id`                            |
+| Event                               | When        | Props         |
+| ----------------------------------- | ----------- | ------------- |
+| `public_work_detail.gallery_loaded` | Mounted     | `photo_count` |
+| `public_work_detail.photo_opened`   | User tapped | `photo_id`    |
 
 ## Tests
 

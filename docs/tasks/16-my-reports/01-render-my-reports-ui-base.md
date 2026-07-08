@@ -10,10 +10,11 @@
 ## Context
 
 The base layout: header with back button and title ("Histórico" kicker
-+ "Meus reportes · N" main title), a scrollable area for KPI strip,
-filter chips, pending offline card, the list, and the bridge card
-(tasks 02–06), plus the persistent bottom nav with "Mais" or "Profile"
-highlighted depending on entry point.
+
+- "Meus reportes · N" main title), a scrollable area for KPI strip,
+  filter chips, pending offline card, the list, and the bridge card
+  (tasks 02–06), plus the persistent bottom nav with "Mais" or "Profile"
+  highlighted depending on entry point.
 
 ## User Story
 
@@ -98,9 +99,9 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `my_reports.viewed`            | Screen mounts                              | `total_count`                         |
+| Event               | When          | Props         |
+| ------------------- | ------------- | ------------- |
+| `my_reports.viewed` | Screen mounts | `total_count` |
 
 ## Tests
 
@@ -120,11 +121,13 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Meus Reportes'`)
 - Bottom nav: `00-foundation/03-bottom-nav-component.md`
 - `CLAUDE.md`

@@ -102,12 +102,12 @@ apps/city-hero/src/screens/SyncQueue/
 
 ### Visual states
 
-| State                  | Background        | Text         | Tappable |
-|------------------------|-------------------|--------------|----------|
-| Offline                | slate-200         | slate-400    | No       |
-| Online + items + idle  | brand or emerald  | white        | Yes      |
-| Syncing in flight      | same as above + spinner overlay | white | No (debounced) |
-| Empty queue            | hidden            | —            | —        |
+| State                 | Background                      | Text      | Tappable       |
+| --------------------- | ------------------------------- | --------- | -------------- |
+| Offline               | slate-200                       | slate-400 | No             |
+| Online + items + idle | brand or emerald                | white     | Yes            |
+| Syncing in flight     | same as above + spinner overlay | white     | No (debounced) |
+| Empty queue           | hidden                          | —         | —              |
 
 ## Backend
 
@@ -128,12 +128,12 @@ Not applicable.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `sync_queue.manual_sync_pressed`   | User tapped                                | `item_count`                          |
-| `sync_queue.manual_sync_succeeded` | All items drained successfully             | `duration_ms`                         |
-| `sync_queue.manual_sync_partial`   | Some items completed, others failed        | `succeeded`, `failed`                 |
-| `sync_queue.manual_sync_throttled` | Rate limit hit                             | —                                     |
+| Event                              | When                                | Props                 |
+| ---------------------------------- | ----------------------------------- | --------------------- |
+| `sync_queue.manual_sync_pressed`   | User tapped                         | `item_count`          |
+| `sync_queue.manual_sync_succeeded` | All items drained successfully      | `duration_ms`         |
+| `sync_queue.manual_sync_partial`   | Some items completed, others failed | `succeeded`, `failed` |
+| `sync_queue.manual_sync_throttled` | Rate limit hit                      | —                     |
 
 ## Tests
 
@@ -153,14 +153,17 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native Haptics: https://docs.expo.dev/versions/latest/sdk/haptics/
 
 ### Project context
+
 - Render UI base: `01-render-sync-ui-base.md`
 - Offline queue (drainNow): `00-foundation/09-offline-queue.md`
 - `CLAUDE.md`

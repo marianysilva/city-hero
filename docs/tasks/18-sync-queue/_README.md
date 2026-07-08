@@ -20,13 +20,13 @@ and that XP is reserved.
 
 ## Features (5 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · layout, header, slots](./01-render-sync-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Connectivity banner · gradient + current state](./02-connectivity-banner.md) | S | task 01, `00-foundation/09-offline-queue.md` |
-| 03 | [Manual sync trigger · button + state](./03-manual-sync-trigger.md) | S | task 01, `00-foundation/09-offline-queue.md` |
-| 04 | [Queue item list + card · state variants](./04-queue-list-and-card.md) | M | task 01, `00-foundation/09-offline-queue.md` |
-| 05 | [Item actions · retry, discard, details](./05-item-actions.md) | M | task 04 |
+| #   | Task                                                                          | Effort | Depends on                                   |
+| --- | ----------------------------------------------------------------------------- | ------ | -------------------------------------------- |
+| 01  | [Render UI base · layout, header, slots](./01-render-sync-ui-base.md)         | S      | `00-foundation/02-design-tokens.md`          |
+| 02  | [Connectivity banner · gradient + current state](./02-connectivity-banner.md) | S      | task 01, `00-foundation/09-offline-queue.md` |
+| 03  | [Manual sync trigger · button + state](./03-manual-sync-trigger.md)           | S      | task 01, `00-foundation/09-offline-queue.md` |
+| 04  | [Queue item list + card · state variants](./04-queue-list-and-card.md)        | M      | task 01, `00-foundation/09-offline-queue.md` |
+| 05  | [Item actions · retry, discard, details](./05-item-actions.md)                | M      | task 04                                      |
 
 ## Suggested implementation order
 

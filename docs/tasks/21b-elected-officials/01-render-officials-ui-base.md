@@ -143,10 +143,10 @@ plaintext on the backend (see task 05).
 
 ## Analytics
 
-| Event                          | When                                       | Props                                 |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `elected_officials.viewed`     | Screen mounts                              | `city_id`, `total_count`              |
-| `elected_officials.back_pressed`| User tapped the back button               | —                                     |
+| Event                            | When                        | Props                    |
+| -------------------------------- | --------------------------- | ------------------------ |
+| `elected_officials.viewed`       | Screen mounts               | `city_id`, `total_count` |
+| `elected_officials.back_pressed` | User tapped the back button | —                        |
 
 ## Tests
 
@@ -168,6 +168,7 @@ plaintext on the backend (see task 05).
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
@@ -175,6 +176,7 @@ plaintext on the backend (see task 05).
 - Component inventory: `docs/engineering/component-inventory.md`
 
 ### Project context
+
 - Prototype: `design/src/screens/21b-elected-officials.js`
 - Parent overview: `docs/tasks/21b-elected-officials/_README.md`
 - Open questions: `docs/engineering/open-questions.md`

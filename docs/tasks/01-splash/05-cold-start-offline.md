@@ -134,11 +134,11 @@ Not applicable directly.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `init.offline_path_taken`          | Orchestrator detected offline at start     | `had_cached_profile: bool`           |
-| `init.connectivity_returned`       | Online transition during the session       | `offline_duration_seconds`            |
-| `init.stale_cache_used`            | Cached data older than threshold used      | `stale_age_days`                      |
+| Event                        | When                                   | Props                      |
+| ---------------------------- | -------------------------------------- | -------------------------- |
+| `init.offline_path_taken`    | Orchestrator detected offline at start | `had_cached_profile: bool` |
+| `init.connectivity_returned` | Online transition during the session   | `offline_duration_seconds` |
+| `init.stale_cache_used`      | Cached data older than threshold used  | `stale_age_days`           |
 
 ## Tests
 
@@ -160,15 +160,18 @@ Not applicable directly.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 - Observability: `docs/engineering/observability.md`
 
 ### Library / framework references
+
 - @react-native-community/netinfo: https://github.com/react-native-netinfo/react-native-netinfo
 - AsyncStorage: https://docs.expo.dev/versions/latest/sdk/async-storage/
 
 ### Project context
+
 - App initialization: `02-app-initialization.md`
 - Offline queue: `00-foundation/09-offline-queue.md`
 - `CLAUDE.md`

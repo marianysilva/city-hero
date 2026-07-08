@@ -137,9 +137,9 @@ This task does not introduce new backend endpoints — it reuses the enrich endp
 
 For the chip, a lightweight endpoint is used to fetch the target metadata:
 
-| Method | Path                                  | Purpose                            |
-|--------|---------------------------------------|-------------------------------------|
-| GET    | `/api/v1/reports/{id}/summary`        | Lightweight summary for previews   |
+| Method | Path                           | Purpose                          |
+| ------ | ------------------------------ | -------------------------------- |
+| GET    | `/api/v1/reports/{id}/summary` | Lightweight summary for previews |
 
 This endpoint returns a minimal subset (category, address, geo, photo thumbnail URL, support count, status) suitable for previews.
 
@@ -161,13 +161,13 @@ No new schema. Reuses `reports`, `report_enrichments`, and related tables define
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `camera.enrich_mode_entered`       | Camera opens in enrich mode                | `report_id`                           |
-| `camera.enrich_target_chip_tapped` | User taps the chip                         | `report_id`                           |
-| `camera.enrich_blocked_too_far`    | Proximity check failed                     | `distance_m`                          |
-| `camera.enrich_captured`           | Capture in enrich mode                     | `report_id`                           |
-| `camera.enrich_switched_to_new`    | User exited enrich to create a new report  | `report_id`                           |
+| Event                              | When                                      | Props        |
+| ---------------------------------- | ----------------------------------------- | ------------ |
+| `camera.enrich_mode_entered`       | Camera opens in enrich mode               | `report_id`  |
+| `camera.enrich_target_chip_tapped` | User taps the chip                        | `report_id`  |
+| `camera.enrich_blocked_too_far`    | Proximity check failed                    | `distance_m` |
+| `camera.enrich_captured`           | Capture in enrich mode                    | `report_id`  |
+| `camera.enrich_switched_to_new`    | User exited enrich to create a new report | `report_id`  |
 
 ## Tests
 
@@ -188,14 +188,17 @@ No new schema. Reuses `reports`, `report_enrichments`, and related tables define
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Security (anti-fraud, proximity): `docs/engineering/security-baseline.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Navigation params: https://reactnavigation.org/docs/params/
 
 ### Project context
+
 - Enriquecer action (full spec): `07-civic-feed/08-enriquecer-action.md`
 - Capture / shutter: `04-capture-shutter.md`
 - GPS validation: `05-gps-validation-on-capture.md`

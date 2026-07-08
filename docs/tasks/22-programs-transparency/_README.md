@@ -21,14 +21,14 @@ CityHero does **not** store the report, only orchestrates the routing.
 
 ## Features (6 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · header + share + scrollable layout](./01-render-programs-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Summary strip · 11 programas + R$ investido + beneficiários](./02-summary-strip.md) | S | task 01 |
-| 03 | [Filter chips · Social, Saúde, Educação, Habitação, Estrutural](./03-category-chips.md) | S | task 01 |
-| 04 | [Featured Bolsa Família card · highlight + key metrics](./04-featured-card.md) | M | task 01 |
-| 05 | [Programs grid · 2-column cards with metric + level badge](./05-programs-grid.md) | M | task 01, `00-foundation/05-api-client.md` |
-| 06 | [Educational footer + Denunciar irregularity entry](./06-footer-and-denunciar.md) | S | task 01 |
+| #   | Task                                                                                    | Effort | Depends on                                |
+| --- | --------------------------------------------------------------------------------------- | ------ | ----------------------------------------- |
+| 01  | [Render UI base · header + share + scrollable layout](./01-render-programs-ui-base.md)  | S      | `00-foundation/02-design-tokens.md`       |
+| 02  | [Summary strip · 11 programas + R$ investido + beneficiários](./02-summary-strip.md)    | S      | task 01                                   |
+| 03  | [Filter chips · Social, Saúde, Educação, Habitação, Estrutural](./03-category-chips.md) | S      | task 01                                   |
+| 04  | [Featured Bolsa Família card · highlight + key metrics](./04-featured-card.md)          | M      | task 01                                   |
+| 05  | [Programs grid · 2-column cards with metric + level badge](./05-programs-grid.md)       | M      | task 01, `00-foundation/05-api-client.md` |
+| 06  | [Educational footer + Denunciar irregularity entry](./06-footer-and-denunciar.md)       | S      | task 01                                   |
 
 ## Suggested implementation order
 

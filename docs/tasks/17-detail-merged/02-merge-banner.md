@@ -124,11 +124,11 @@ The parent ticket's reporter identity is not exposed here (the user sees only th
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `detail_merged.banner_rendered`    | Banner mounted                             | `distance_m`, `age_days`              |
-| `detail_merged.notifications_explainer_opened` | User tapped the pill           | —                                     |
-| `detail_merged.xp_pill_pressed`    | User tapped the XP pill                    | —                                     |
+| Event                                          | When                    | Props                    |
+| ---------------------------------------------- | ----------------------- | ------------------------ |
+| `detail_merged.banner_rendered`                | Banner mounted          | `distance_m`, `age_days` |
+| `detail_merged.notifications_explainer_opened` | User tapped the pill    | —                        |
+| `detail_merged.xp_pill_pressed`                | User tapped the XP pill | —                        |
 
 ## Tests
 
@@ -148,11 +148,13 @@ The parent ticket's reporter identity is not exposed here (the user sees only th
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-merged-ui-base.md`
 - Overflow menu (mute action): `13-detail-in-progress/07-overflow-menu.md`
 - `features.md` § 3 Manager Panel · Duplicate Detection

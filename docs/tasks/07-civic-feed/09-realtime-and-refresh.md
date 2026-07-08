@@ -131,10 +131,10 @@ apps/city-hero/src/screens/CivicFeed/
 
 ### Endpoints
 
-| Method | Path                                                                              | Purpose                                  |
-|--------|-----------------------------------------------------------------------------------|------------------------------------------|
-| WS     | `/api/v1/ws/feed?city_id=&radius_km=&sort=&user_lat=&user_lng=`                   | Subscribe to feed events for the scope  |
-| GET    | `/api/v1/feed?...&since=...`                                                       | Polling fallback returning changes      |
+| Method | Path                                                            | Purpose                                |
+| ------ | --------------------------------------------------------------- | -------------------------------------- |
+| WS     | `/api/v1/ws/feed?city_id=&radius_km=&sort=&user_lat=&user_lng=` | Subscribe to feed events for the scope |
+| GET    | `/api/v1/feed?...&since=...`                                    | Polling fallback returning changes     |
 
 The WebSocket connection requires authentication. The server pushes events: `{ type, report }` where `type ∈ added | updated | removed`. Server-side filtering ensures only events matching the subscription's filters are pushed.
 
@@ -161,12 +161,12 @@ WS payloads contain the same shape as REST: anonymized photo URLs only; no PII b
 
 ## Analytics
 
-| Event                              | When                                       | Props                                  |
-|------------------------------------|--------------------------------------------|-----------------------------------------|
-| `feed.realtime_connected`          | WS connection established                  | `transport: ws|polling`                |
-| `feed.new_items_indicator_shown`   | Badge appears                              | `pending_count`                         |
-| `feed.new_items_indicator_tapped`  | User taps to see new items                 | `pending_count`                         |
-| `feed.pull_to_refresh`             | User triggers a manual refresh             | `pending_at_time: int`                 |
+| Event                             | When                           | Props                  |
+| --------------------------------- | ------------------------------ | ---------------------- |
+| `feed.realtime_connected`         | WS connection established      | `transport: ws         | polling` |
+| `feed.new_items_indicator_shown`  | Badge appears                  | `pending_count`        |
+| `feed.new_items_indicator_tapped` | User taps to see new items     | `pending_count`        |
+| `feed.pull_to_refresh`            | User triggers a manual refresh | `pending_at_time: int` |
 
 ## Tests
 
@@ -188,17 +188,20 @@ WS payloads contain the same shape as REST: anonymized photo URLs only; no PII b
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Observability: `docs/engineering/observability.md`
 - Security (auth on WS, scoping): `docs/engineering/security-baseline.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - FastAPI WebSockets: https://fastapi.tiangolo.com/advanced/websockets/
 - React Native RefreshControl: https://reactnative.dev/docs/refreshcontrol
 - React Native WebSocket: https://reactnative.dev/docs/network#websocket-support
 
 ### Project context
+
 - Feed list and pagination: `02-feed-list-and-pagination.md`
 - Real-time pattern reference: `06-home-map/08-realtime-pin-updates.md`
 - API client: `00-foundation/05-api-client.md`

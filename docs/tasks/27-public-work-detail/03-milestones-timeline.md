@@ -68,9 +68,9 @@ apps/city-hero/src/screens/PublicWorkDetail/
 
 ## Backend
 
-| Method | Path                                              | Purpose                              |
-|--------|---------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/public-works/{id}/milestones`            | Timeline events                      |
+| Method | Path                                   | Purpose         |
+| ------ | -------------------------------------- | --------------- |
+| GET    | `/api/v1/public-works/{id}/milestones` | Timeline events |
 
 ## Database
 
@@ -87,11 +87,11 @@ Public.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `public_work_detail.timeline_rendered` | Mounted                              | `entry_count`                         |
-| `public_work_detail.milestone_tapped` | User opened detail                    | `state`                               |
-| `public_work_detail.document_pressed` | User opened document                  | `state`                               |
+| Event                                  | When                 | Props         |
+| -------------------------------------- | -------------------- | ------------- |
+| `public_work_detail.timeline_rendered` | Mounted              | `entry_count` |
+| `public_work_detail.milestone_tapped`  | User opened detail   | `state`       |
+| `public_work_detail.document_pressed`  | User opened document | `state`       |
 
 ## Tests
 

@@ -148,11 +148,11 @@ The whole point of this task is to **preserve** the user's privacy choice across
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `anonymous_send.share_intent`      | User tapped WhatsApp or Copy              | `channel: whatsapp|copy`             |
-| `anonymous_send.share_completed`   | OS returned a confirmed share              | `channel`                             |
-| `anonymous_send.share_throttled`   | Rate limit reached                         | —                                     |
+| Event                            | When                          | Props              |
+| -------------------------------- | ----------------------------- | ------------------ |
+| `anonymous_send.share_intent`    | User tapped WhatsApp or Copy  | `channel: whatsapp | copy` |
+| `anonymous_send.share_completed` | OS returned a confirmed share | `channel`          |
+| `anonymous_send.share_throttled` | Rate limit reached            | —                  |
 
 ## Tests
 
@@ -173,16 +173,19 @@ The whole point of this task is to **preserve** the user's privacy choice across
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture (REST, public endpoints): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - expo-clipboard: https://docs.expo.dev/versions/latest/sdk/clipboard/
 - React Native Share: https://reactnative.dev/docs/share
 - WhatsApp deep linking: https://faq.whatsapp.com/5913398998672934
 
 ### Project context
+
 - Render UI base: `01-render-anonymous-ui-base.md`
 - Share service (reused): `07-civic-feed/07-compartilhar-action.md`
 - Deep link handler: `00-foundation/12-deep-link-handler.md`

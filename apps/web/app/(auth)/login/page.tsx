@@ -1,42 +1,43 @@
-'use client'
+"use client";
 
-import { useState, FormEvent } from 'react'
-import { useRouter } from 'next/navigation'
-import { Input } from '@/components/atoms/Input'
-import { Button } from '@/components/atoms/Button'
-import { FormField } from '@/components/molecules/FormField'
-import { AlertMessage } from '@/components/molecules/AlertMessage'
+import { useRouter } from "next/navigation";
+import { useState, FormEvent } from "react";
+
+import { Button } from "@/components/atoms/Button";
+import { Input } from "@/components/atoms/Input";
+import { AlertMessage } from "@/components/molecules/AlertMessage";
+import { FormField } from "@/components/molecules/FormField";
 
 export default function LoginPage() {
-  const router = useRouter()
-  const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setError(null)
-    setLoading(true)
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
 
-    const form = new FormData(e.currentTarget)
-    const email = form.get('email') as string
-    const password = form.get('password') as string
+    const form = new FormData(e.currentTarget);
+    const email = form.get("email") as string;
+    const password = form.get("password") as string;
 
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
-    })
+    });
 
-    setLoading(false)
+    setLoading(false);
 
     if (!res.ok) {
-      const data = await res.json()
-      setError(data.error ?? 'Credenciais inválidas')
-      return
+      const data = await res.json();
+      setError(data.error ?? "Credenciais inválidas");
+      return;
     }
 
-    router.push('/')
-    router.refresh()
+    router.push("/");
+    router.refresh();
   }
 
   return (
@@ -49,13 +50,7 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <FormField label="E-mail" htmlFor="email" required>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              required
-              autoComplete="email"
-            />
+            <Input id="email" name="email" type="email" required autoComplete="email" />
           </FormField>
 
           <FormField label="Senha" htmlFor="password" required>
@@ -76,5 +71,5 @@ export default function LoginPage() {
         </form>
       </div>
     </div>
-  )
+  );
 }

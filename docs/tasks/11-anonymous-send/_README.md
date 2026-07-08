@@ -26,15 +26,15 @@ the "shadow hero" framing without making anonymity feel suspicious.
 
 ## Features (7 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · hero + scroll + bottom CTA](./01-render-anonymous-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Celebration hero · 🥷 icon, protocol, XP/medal badge](./02-celebration-hero.md) | S | task 01 |
-| 03 | [Anonymous feed preview card](./03-feed-preview-card.md) | S | task 01, `07-civic-feed/03-feed-item-card.md` |
-| 04 | [Educational panels · "O que você mantém" + "Quem vê seu nome" (LAI)](./04-educational-panels.md) | S | task 01 |
-| 05 | [Anonymous share UX · link copy + WhatsApp (no viral pressure)](./05-anonymous-share.md) | M | task 01, `00-foundation/12-deep-link-handler.md` |
-| 06 | [Reversibility · "Tornar público em Meus Reportes"](./06-reversibility.md) | M | task 01, `00-foundation/06-auth-system.md` |
-| 07 | [Bottom CTA · "Acompanhar reporte" → Detalhe](./07-bottom-cta.md) | S | task 01 |
+| #   | Task                                                                                              | Effort | Depends on                                       |
+| --- | ------------------------------------------------------------------------------------------------- | ------ | ------------------------------------------------ |
+| 01  | [Render UI base · hero + scroll + bottom CTA](./01-render-anonymous-ui-base.md)                   | S      | `00-foundation/02-design-tokens.md`              |
+| 02  | [Celebration hero · 🥷 icon, protocol, XP/medal badge](./02-celebration-hero.md)                  | S      | task 01                                          |
+| 03  | [Anonymous feed preview card](./03-feed-preview-card.md)                                          | S      | task 01, `07-civic-feed/03-feed-item-card.md`    |
+| 04  | [Educational panels · "O que você mantém" + "Quem vê seu nome" (LAI)](./04-educational-panels.md) | S      | task 01                                          |
+| 05  | [Anonymous share UX · link copy + WhatsApp (no viral pressure)](./05-anonymous-share.md)          | M      | task 01, `00-foundation/12-deep-link-handler.md` |
+| 06  | [Reversibility · "Tornar público em Meus Reportes"](./06-reversibility.md)                        | M      | task 01, `00-foundation/06-auth-system.md`       |
+| 07  | [Bottom CTA · "Acompanhar reporte" → Detalhe](./07-bottom-cta.md)                                 | S      | task 01                                          |
 
 ## Suggested implementation order
 

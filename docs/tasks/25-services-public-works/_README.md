@@ -19,12 +19,12 @@ without searching menus.
 
 ## Features (4 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · header, grid, slots](./01-render-services-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Service cards grid · 6+ entries with deep links](./02-service-cards-grid.md) | M | task 01 |
-| 03 | [Search overlay · find a service by keyword](./03-search-overlay.md) | S | task 01 |
-| 04 | [Useful contacts footer · 198, 192, 199, etc.](./04-useful-contacts.md) | S | task 01 |
+| #   | Task                                                                          | Effort | Depends on                          |
+| --- | ----------------------------------------------------------------------------- | ------ | ----------------------------------- |
+| 01  | [Render UI base · header, grid, slots](./01-render-services-ui-base.md)       | S      | `00-foundation/02-design-tokens.md` |
+| 02  | [Service cards grid · 6+ entries with deep links](./02-service-cards-grid.md) | M      | task 01                             |
+| 03  | [Search overlay · find a service by keyword](./03-search-overlay.md)          | S      | task 01                             |
+| 04  | [Useful contacts footer · 198, 192, 199, etc.](./04-useful-contacts.md)       | S      | task 01                             |
 
 ## Suggested implementation order
 

@@ -144,9 +144,9 @@ apps/city-hero/src/screens/MyReports/
 
 ### Endpoint
 
-| Method | Path                                                          | Purpose                              |
-|--------|---------------------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/users/me/reports?filter=&cursor=&limit=`             | Paginated list of the user's reports |
+| Method | Path                                              | Purpose                              |
+| ------ | ------------------------------------------------- | ------------------------------------ |
+| GET    | `/api/v1/users/me/reports?filter=&cursor=&limit=` | Paginated list of the user's reports |
 
 The endpoint:
 
@@ -171,12 +171,12 @@ Reuses the `reports` table. An index on `(user_id, created_at desc)` supports fa
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `my_reports.list_loaded`           | First page rendered                        | `count`, `filter`                     |
-| `my_reports.row_pressed`           | User tapped a row                          | `report_id`, `status`                 |
-| `my_reports.next_page_loaded`      | Subsequent page rendered                   | `count`                               |
-| `my_reports.pull_to_refresh`       | User pulled to refresh                     | —                                     |
+| Event                         | When                     | Props                 |
+| ----------------------------- | ------------------------ | --------------------- |
+| `my_reports.list_loaded`      | First page rendered      | `count`, `filter`     |
+| `my_reports.row_pressed`      | User tapped a row        | `report_id`, `status` |
+| `my_reports.next_page_loaded` | Subsequent page rendered | `count`               |
+| `my_reports.pull_to_refresh`  | User pulled to refresh   | —                     |
 
 ## Tests
 
@@ -200,15 +200,18 @@ Reuses the `reports` table. An index on `(user_id, created_at desc)` supports fa
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (REST, multi-tenant, pagination): `docs/engineering/architecture-patterns.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - TanStack Query infinite queries: https://tanstack.com/query/latest/docs/react/guides/infinite-queries
 - Shopify FlashList: https://shopify.github.io/flash-list/
 
 ### Project context
+
 - Render UI base: `01-render-my-reports-ui-base.md`
 - Status summary (drives filter): `02-status-summary.md`
 - Detail screens (destinations): `docs/tasks/13-detail-in-progress/`, `docs/tasks/14-detail-ticket/`, `docs/tasks/17-detail-merged/`

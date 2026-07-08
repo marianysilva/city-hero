@@ -146,12 +146,12 @@ Not applicable for this UI task. The actual permission ask and data handling are
 
 ## Analytics
 
-| Event                                   | When                       | Props |
-|-----------------------------------------|----------------------------|-------|
-| `onboarding.neighborhood.viewed`        | Screen mounts              | —     |
-| `onboarding.neighborhood.back_pressed`  | User taps back             | —     |
-| `onboarding.neighborhood.defer_pressed` | User taps "Permitir depois" | —     |
-| `onboarding.neighborhood.primary_pressed` | User taps the primary CTA | `cta_kind: allow|continue|settings` |
+| Event                                     | When                        | Props            |
+| ----------------------------------------- | --------------------------- | ---------------- |
+| `onboarding.neighborhood.viewed`          | Screen mounts               | —                |
+| `onboarding.neighborhood.back_pressed`    | User taps back              | —                |
+| `onboarding.neighborhood.defer_pressed`   | User taps "Permitir depois" | —                |
+| `onboarding.neighborhood.primary_pressed` | User taps the primary CTA   | `cta_kind: allow | continue | settings` |
 
 ## Tests
 
@@ -172,15 +172,18 @@ Not applicable for this UI task. The actual permission ask and data handling are
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native SVG: https://github.com/software-mansion/react-native-svg
 - React Native Reanimated: https://docs.swmansion.com/react-native-reanimated/
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Onboarding · Seu bairro'`)
 - Onboarding state machine: `03-onboarding-camera/02-onboarding-step-machine.md`
 - Location permission: `02-location-permission.md`

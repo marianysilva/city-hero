@@ -69,9 +69,9 @@ The user can opt out of leaderboards entirely via Settings.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `ranking.viewed`               | Screen mounts                              | `user_opted_in: bool`                |
+| Event            | When          | Props                 |
+| ---------------- | ------------- | --------------------- |
+| `ranking.viewed` | Screen mounts | `user_opted_in: bool` |
 
 ## Tests
 

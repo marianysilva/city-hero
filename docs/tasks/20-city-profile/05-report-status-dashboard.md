@@ -41,10 +41,11 @@ processing in aggregate.
 **Given** each card represents a status
 **When** rendered
 **Then** colors match the rest of the app:
-  - Abertos → rose
-  - Em triagem → sky
-  - Em andamento → amber
-  - Resolvidos este mês → emerald
+
+- Abertos → rose
+- Em triagem → sky
+- Em andamento → amber
+- Resolvidos este mês → emerald
 
 ### Scenario · Counts update in real time
 
@@ -109,9 +110,9 @@ apps/city-hero/src/screens/CityProfile/
 
 ### Endpoint
 
-| Method | Path                                                  | Purpose                                |
-|--------|-------------------------------------------------------|----------------------------------------|
-| GET    | `/api/v1/cities/{id}/reports/status-counts`           | Counts by status (city-wide)          |
+| Method | Path                                        | Purpose                      |
+| ------ | ------------------------------------------- | ---------------------------- |
+| GET    | `/api/v1/cities/{id}/reports/status-counts` | Counts by status (city-wide) |
 
 Returns: `{ open, in_triage, in_progress, resolved_this_month, ... }`. Multi-tenant scoping enforced (cross-city access requires admin role).
 
@@ -137,10 +138,10 @@ Aggregate data only.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `city_profile.dashboard_rendered`  | Mounted                                    | `total_open`, `total_in_progress`    |
-| `city_profile.status_card_pressed` | User tapped a card                         | `status`                              |
+| Event                              | When               | Props                             |
+| ---------------------------------- | ------------------ | --------------------------------- |
+| `city_profile.dashboard_rendered`  | Mounted            | `total_open`, `total_in_progress` |
+| `city_profile.status_card_pressed` | User tapped a card | `status`                          |
 
 ## Tests
 
@@ -161,10 +162,12 @@ Aggregate data only.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (multi-tenant, real-time): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-city-profile-ui-base.md`
 - Real-time pattern: `06-home-map/08-realtime-pin-updates.md`
 - My Reports KPI strip (comparison): `16-my-reports/02-status-summary.md`

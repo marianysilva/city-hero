@@ -1,20 +1,46 @@
-import { statusBar } from '../atoms/StatusBar.js';
+import { statusBar } from "../atoms/StatusBar.js";
 
 const STEPS = [
-  { c: 'bg-slate-400',   t: 'Reporte enviado',                d: '14/04 · 21:30', sub: 'Carlos M. · foto anonimizada' },
-  { c: 'bg-sky-500',     t: 'Triagem pela IA',                d: '14/04 · 21:31', sub: 'Score 92 · prioridade urgente' },
-  { c: 'bg-indigo-500',  t: 'Chamado aberto na prefeitura',   d: '14/04 · 21:45', sub: 'Secretaria de Iluminação · SLA 7 dias' },
-  { c: 'bg-emerald-500', t: 'Resposta da prefeitura',         d: '15/04 · 09:15', sub: 'Equipe designada · aguardando peça' },
-  { c: 'bg-amber-500',   t: 'Agendado para reparo',           d: 'Amanhã · 14:00', sub: 'Equipe de Iluminação Pública', flag: true },
-  { c: 'bg-slate-200',   t: 'Em execução',                    d: 'Aguardando',     sub: 'Você será notificado' },
-  { c: 'bg-slate-200',   t: 'Resolvido',                      d: 'Previsto até 22/04', sub: 'Foto "depois" será anexada' },
+  {
+    c: "bg-slate-400",
+    t: "Reporte enviado",
+    d: "14/04 · 21:30",
+    sub: "Carlos M. · foto anonimizada",
+  },
+  {
+    c: "bg-sky-500",
+    t: "Triagem pela IA",
+    d: "14/04 · 21:31",
+    sub: "Score 92 · prioridade urgente",
+  },
+  {
+    c: "bg-indigo-500",
+    t: "Chamado aberto na prefeitura",
+    d: "14/04 · 21:45",
+    sub: "Secretaria de Iluminação · SLA 7 dias",
+  },
+  {
+    c: "bg-emerald-500",
+    t: "Resposta da prefeitura",
+    d: "15/04 · 09:15",
+    sub: "Equipe designada · aguardando peça",
+  },
+  {
+    c: "bg-amber-500",
+    t: "Agendado para reparo",
+    d: "Amanhã · 14:00",
+    sub: "Equipe de Iluminação Pública",
+    flag: true,
+  },
+  { c: "bg-slate-200", t: "Em execução", d: "Aguardando", sub: "Você será notificado" },
+  { c: "bg-slate-200", t: "Resolvido", d: "Previsto até 22/04", sub: 'Foto "depois" será anexada' },
 ];
 
 /** Tela 13 · Detalhe · Em andamento */
 export default {
-  title: 'Detalhe · Em andamento',
-  group: 'support',
-  summary: 'Ticket aberto · apoiar · compartilhar',
+  title: "Detalhe · Em andamento",
+  group: "support",
+  summary: "Ticket aberto · apoiar · compartilhar",
   note: `Estado <b>em aberto</b> do ticket. Foto única (sem before/after), SLA visível e CTAs persistentes: <b>Apoiar</b> (engajamento social no app · +10 XP) + <b>Compartilhar</b> (pressão pública externa, via link anônimo ou identificado). O botão "Enriquecer" (adicionar fotos de outro ângulo por vizinhos) foi movido pro menu ⋯ — é útil mas secundária, limpa a decisão principal.`,
   html: () => `
     <div class="relative h-full bg-slate-50 flex flex-col overflow-hidden">
@@ -34,7 +60,7 @@ export default {
         </div>
       </div>
 
-      ${statusBar('dark')}
+      ${statusBar("dark")}
 
       <div class="px-4 -mt-10 relative z-10">
         <div class="bg-white rounded-2xl p-4 shadow-soft">
@@ -54,20 +80,22 @@ export default {
           <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Trajeto do ticket</div>
           <div class="text-[10px] font-bold text-slate-400">Protocolo #49102</div>
         </div>
-        ${STEPS.map((ev, i, arr) => `
-          <div class="flex gap-2.5 ${i < arr.length - 1 ? 'pb-3' : ''} relative">
+        ${STEPS.map(
+          (ev, i, arr) => `
+          <div class="flex gap-2.5 ${i < arr.length - 1 ? "pb-3" : ""} relative">
             <div class="flex flex-col items-center">
-              <div class="w-3 h-3 rounded-full ${ev.c} ring-4 ring-white ${ev.flag ? 'animate-pulse' : ''}"></div>
-              ${i < arr.length - 1 ? '<div class="w-0.5 flex-1 bg-slate-200 -mt-0.5"></div>' : ''}
+              <div class="w-3 h-3 rounded-full ${ev.c} ring-4 ring-white ${ev.flag ? "animate-pulse" : ""}"></div>
+              ${i < arr.length - 1 ? '<div class="w-0.5 flex-1 bg-slate-200 -mt-0.5"></div>' : ""}
             </div>
             <div class="flex-1 pb-1">
-              <div class="text-[12px] font-bold ${ev.c === 'bg-slate-200' ? 'text-slate-400' : 'text-slate-900'} flex items-center gap-1.5">
+              <div class="text-[12px] font-bold ${ev.c === "bg-slate-200" ? "text-slate-400" : "text-slate-900"} flex items-center gap-1.5">
                 ${ev.t}
-                ${ev.flag ? '<span class="text-[9px] font-black text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded">AGENDADO</span>' : ''}
+                ${ev.flag ? '<span class="text-[9px] font-black text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded">AGENDADO</span>' : ""}
               </div>
-              <div class="text-[10px] ${ev.c === 'bg-slate-200' ? 'text-slate-400' : 'text-slate-500'}">${ev.d} · ${ev.sub}</div>
+              <div class="text-[10px] ${ev.c === "bg-slate-200" ? "text-slate-400" : "text-slate-500"}">${ev.d} · ${ev.sub}</div>
             </div>
-          </div>`).join('')}
+          </div>`,
+        ).join("")}
       </div>
 
       <div class="mx-4 mt-3 bg-white rounded-2xl p-4 shadow-soft">
@@ -90,5 +118,5 @@ export default {
         </button>
         <button class="flex-1 py-3 rounded-full bg-brand-500 text-white font-extrabold text-sm shadow-lg">🔥 Apoiar +10 XP</button>
       </div>
-    </div>`
+    </div>`,
 };

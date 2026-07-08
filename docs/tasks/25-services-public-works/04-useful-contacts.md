@@ -93,10 +93,10 @@ Public numbers; no PII.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `services.contact_call_pressed`    | User tapped a contact                      | `contact_key`                         |
-| `services.contact_copied`          | User long-pressed                          | `contact_key`                         |
+| Event                           | When                  | Props         |
+| ------------------------------- | --------------------- | ------------- |
+| `services.contact_call_pressed` | User tapped a contact | `contact_key` |
+| `services.contact_copied`       | User long-pressed     | `contact_key` |
 
 ## Tests
 

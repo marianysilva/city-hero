@@ -86,9 +86,9 @@ apps/city-hero/src/screens/ServicesPublicWorks/
 
 ## Backend
 
-| Method | Path                                                      | Purpose                              |
-|--------|-----------------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/cities/{id}/services`                            | Services catalog for the city        |
+| Method | Path                           | Purpose                       |
+| ------ | ------------------------------ | ----------------------------- |
+| GET    | `/api/v1/cities/{id}/services` | Services catalog for the city |
 
 Returns each service: key, label, emoji, subtitle, theme_color, destination (in-app route or external URL).
 
@@ -107,10 +107,10 @@ Catalog is public; no PII.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `services.catalog_loaded`          | Grid rendered                              | `count`                               |
-| `services.card_pressed`            | User tapped                                | `service_key`                         |
+| Event                     | When          | Props         |
+| ------------------------- | ------------- | ------------- |
+| `services.catalog_loaded` | Grid rendered | `count`       |
+| `services.card_pressed`   | User tapped   | `service_key` |
 
 ## Tests
 

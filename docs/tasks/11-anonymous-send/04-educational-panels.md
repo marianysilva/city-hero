@@ -118,9 +118,9 @@ This task is **part of** the LGPD compliance signal: by being transparent about 
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `anonymous_send.lai_explainer_opened` | User taps LAI note                      | —                                     |
+| Event                                 | When               | Props |
+| ------------------------------------- | ------------------ | ----- |
+| `anonymous_send.lai_explainer_opened` | User taps LAI note | —     |
 
 ## Tests
 
@@ -139,11 +139,13 @@ This task is **part of** the LGPD compliance signal: by being transparent about 
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-anonymous-ui-base.md`
 - Identification toggle (also references LAI): `10-report-confirm/06-identification-toggle.md`
 - Lei 12.527/2011: https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12527.htm

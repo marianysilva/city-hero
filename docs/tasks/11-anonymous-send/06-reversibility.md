@@ -129,9 +129,9 @@ surfaces.
 
 ### Endpoint
 
-| Method | Path                                              | Purpose                                |
-|--------|---------------------------------------------------|----------------------------------------|
-| PATCH  | `/api/v1/reports/{id}/anonymity`                  | Toggle the `anonymous` flag           |
+| Method | Path                             | Purpose                     |
+| ------ | -------------------------------- | --------------------------- |
+| PATCH  | `/api/v1/reports/{id}/anonymity` | Toggle the `anonymous` flag |
 
 The endpoint:
 
@@ -152,15 +152,15 @@ The existing `reports.anonymous` field is the source of truth. The
 `reports_audit_log` table (defined in the report-creation flow) records
 each flip:
 
-| Column            | Type        | Notes                                          |
-|-------------------|-------------|------------------------------------------------|
-| `id`              | UUID PK     |                                                |
-| `report_id`       | UUID FK     |                                                |
-| `user_id`         | UUID FK     | Always the report's owner                      |
-| `action`          | varchar(50) | `anonymity_changed`                            |
-| `from_value`      | jsonb       | `{anonymous: true}`                            |
-| `to_value`        | jsonb       | `{anonymous: false}`                           |
-| `occurred_at`     | timestamptz |                                                |
+| Column        | Type        | Notes                     |
+| ------------- | ----------- | ------------------------- |
+| `id`          | UUID PK     |                           |
+| `report_id`   | UUID FK     |                           |
+| `user_id`     | UUID FK     | Always the report's owner |
+| `action`      | varchar(50) | `anonymity_changed`       |
+| `from_value`  | jsonb       | `{anonymous: true}`       |
+| `to_value`    | jsonb       | `{anonymous: false}`      |
+| `occurred_at` | timestamptz |                           |
 
 ## Edge Cases
 
@@ -177,10 +177,10 @@ This task strengthens **user agency** under LGPD:
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `anonymous_send.reversibility_tap` | User taps the highlighted text             | —                                     |
-| `report.anonymity_flipped`         | Backend confirmed                          | `from`, `to`                          |
+| Event                              | When                           | Props        |
+| ---------------------------------- | ------------------------------ | ------------ |
+| `anonymous_send.reversibility_tap` | User taps the highlighted text | —            |
+| `report.anonymity_flipped`         | Backend confirmed              | `from`, `to` |
 
 ## Tests
 
@@ -203,12 +203,14 @@ This task strengthens **user agency** under LGPD:
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture (idempotency, REST): `docs/engineering/architecture-patterns.md`
 - Observability (audit log): `docs/engineering/observability.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-anonymous-ui-base.md`
 - My Reports screen: `docs/tasks/16-my-reports/`
 - Auth system: `00-foundation/06-auth-system.md`

@@ -148,11 +148,11 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `league.skip_pressed`          | User taps Pular                            | —                                     |
-| `league.share_cta_pressed`     | User taps primary CTA                      | —                                     |
-| `league.share_cta_completed`   | Share sheet returned                       | `completed: bool`                     |
+| Event                        | When                  | Props             |
+| ---------------------------- | --------------------- | ----------------- |
+| `league.skip_pressed`        | User taps Pular       | —                 |
+| `league.share_cta_pressed`   | User taps primary CTA | —                 |
+| `league.share_cta_completed` | Share sheet returned  | `completed: bool` |
 
 ## Tests
 
@@ -173,15 +173,18 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Navigation `reset`: https://reactnavigation.org/docs/navigation-actions#reset
 - React Native Haptics: https://docs.expo.dev/versions/latest/sdk/haptics/
 
 ### Project context
+
 - Render UI base: `01-render-league-ui-base.md`
 - Share channels (consumed): `05-share-channels.md`
 - Suggested message (consumed): `06-message-template.md`

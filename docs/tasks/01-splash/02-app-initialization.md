@@ -114,12 +114,12 @@ apps/city-hero/src/services/init/
 
 ### Initialization timeline
 
-| Time | Event                                                      |
-|------|------------------------------------------------------------|
-| 0ms  | Splash mounts; orchestrator starts all checks in parallel |
-| ~200ms–2s | Checks complete in their natural order                |
-| max 5s | Orchestrator surfaces a "loading" indicator on the splash |
-| max 10s | Hard timeout — partial result returned                  |
+| Time      | Event                                                     |
+| --------- | --------------------------------------------------------- |
+| 0ms       | Splash mounts; orchestrator starts all checks in parallel |
+| ~200ms–2s | Checks complete in their natural order                    |
+| max 5s    | Orchestrator surfaces a "loading" indicator on the splash |
+| max 10s   | Hard timeout — partial result returned                    |
 
 ### Caching for warm starts
 
@@ -129,11 +129,11 @@ Profile and city data are cached in local storage so subsequent cold starts can 
 
 ### Endpoints used
 
-| Endpoint                                  | Used for                                |
-|-------------------------------------------|-----------------------------------------|
-| `GET /api/v1/auth/me`                     | Validate token + fetch user profile     |
-| `GET /api/v1/version/check`               | Compare `X-App-Version` to min supported|
-| `GET /api/v1/cities/{id}`                 | Load the active city                    |
+| Endpoint                    | Used for                                 |
+| --------------------------- | ---------------------------------------- |
+| `GET /api/v1/auth/me`       | Validate token + fetch user profile      |
+| `GET /api/v1/version/check` | Compare `X-App-Version` to min supported |
+| `GET /api/v1/cities/{id}`   | Load the active city                     |
 
 The version-check endpoint accepts the platform and version via headers and returns an enum: `allowed`, `force_update_required`, or `update_recommended`.
 
@@ -157,12 +157,12 @@ Not applicable directly.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                        |
-|--------------------------------|--------------------------------------------|-----------------------------------------------|
-| `init.sequence_started`        | Orchestrator starts                        | `cold_start: bool`, `had_token: bool`         |
-| `init.check_completed`         | A specific check completes                 | `check`, `status`, `duration_ms`              |
-| `init.sequence_completed`      | All checks settled                         | `total_duration_ms`, `partial: bool`          |
-| `init.timeout`                 | Hard timeout fired                         | `pending_checks`                              |
+| Event                     | When                       | Props                                 |
+| ------------------------- | -------------------------- | ------------------------------------- |
+| `init.sequence_started`   | Orchestrator starts        | `cold_start: bool`, `had_token: bool` |
+| `init.check_completed`    | A specific check completes | `check`, `status`, `duration_ms`      |
+| `init.sequence_completed` | All checks settled         | `total_duration_ms`, `partial: bool`  |
+| `init.timeout`            | Hard timeout fired         | `pending_checks`                      |
 
 ## Tests
 
@@ -184,15 +184,18 @@ Not applicable directly.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Observability: `docs/engineering/observability.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native AsyncStorage / SecureStore: https://docs.expo.dev/versions/latest/sdk/async-storage/
 - Promise composition (Promise.allSettled): https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled
 
 ### Project context
+
 - Splash render: `01-render-splash-ui.md`
 - Routing decision: `03-routing-decision.md`
 - API client: `00-foundation/05-api-client.md`

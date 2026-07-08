@@ -112,10 +112,10 @@ Not applicable to this task.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `anonymous_send.viewed`        | Screen mounts                              | `report_id`                           |
-| `anonymous_send.back_pressed`  | User attempts to leave                     | —                                     |
+| Event                         | When                   | Props       |
+| ----------------------------- | ---------------------- | ----------- |
+| `anonymous_send.viewed`       | Screen mounts          | `report_id` |
+| `anonymous_send.back_pressed` | User attempts to leave | —           |
 
 ## Tests
 
@@ -136,11 +136,13 @@ Not applicable to this task.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Envio Anônimo'`)
 - Identification toggle (bifurcation source): `10-report-confirm/06-identification-toggle.md`
 - `CLAUDE.md`

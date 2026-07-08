@@ -82,9 +82,9 @@ The hook fetches the authorities catalog and computes recommendations based on t
 
 ## Backend
 
-| Method | Path                                                      | Purpose                              |
-|--------|-----------------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/authorities?program=&jurisdiction=`              | List authorities with recommendations|
+| Method | Path                                         | Purpose                               |
+| ------ | -------------------------------------------- | ------------------------------------- |
+| GET    | `/api/v1/authorities?program=&jurisdiction=` | List authorities with recommendations |
 
 The endpoint returns each authority's metadata + supported channels (email address, web form URL, etc.).
 
@@ -103,10 +103,10 @@ No PII collected at this step.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `irregularity.authority_selected`  | User picked an authority                   | `authority_id`, `scope`              |
-| `irregularity.authority_info_opened` | User expanded an authority's info       | `authority_id`                        |
+| Event                                | When                              | Props                   |
+| ------------------------------------ | --------------------------------- | ----------------------- |
+| `irregularity.authority_selected`    | User picked an authority          | `authority_id`, `scope` |
+| `irregularity.authority_info_opened` | User expanded an authority's info | `authority_id`          |
 
 ## Tests
 

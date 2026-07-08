@@ -20,11 +20,11 @@ that the next two tutorial screens reuse.
 
 ## Features (3 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI · illustration, copy, pagination, buttons](./01-render-onboarding-camera-ui.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Onboarding step machine and progress persistence](./02-onboarding-step-machine.md) | S | task 01, `00-foundation/05-api-client.md` |
-| 03 | [Reduced-motion and accessibility variant of the illustration](./03-reduced-motion-illustration.md) | S | task 01 |
+| #   | Task                                                                                                | Effort | Depends on                                |
+| --- | --------------------------------------------------------------------------------------------------- | ------ | ----------------------------------------- |
+| 01  | [Render UI · illustration, copy, pagination, buttons](./01-render-onboarding-camera-ui.md)          | S      | `00-foundation/02-design-tokens.md`       |
+| 02  | [Onboarding step machine and progress persistence](./02-onboarding-step-machine.md)                 | S      | task 01, `00-foundation/05-api-client.md` |
+| 03  | [Reduced-motion and accessibility variant of the illustration](./03-reduced-motion-illustration.md) | S      | task 01                                   |
 
 ## Suggested implementation order
 

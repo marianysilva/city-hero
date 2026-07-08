@@ -138,13 +138,13 @@ Don't request permission at first launch — request after onboarding so the use
 
 ### Endpoints
 
-| Method | Path                                       | Purpose                                          |
-|--------|--------------------------------------------|---------------------------------------------------|
-| POST   | `/api/v1/devices`                          | Register/update a device token                   |
-| DELETE | `/api/v1/devices/{token_id}`               | Unregister (logout, opt-out)                     |
-| GET    | `/api/v1/notifications`                    | List notifications for the user (paginated)      |
-| PATCH  | `/api/v1/notifications/{id}`               | Mark read / acted                                |
-| GET    | `/api/v1/notifications/unread-count`       | For the bottom-nav badge                         |
+| Method | Path                                 | Purpose                                     |
+| ------ | ------------------------------------ | ------------------------------------------- |
+| POST   | `/api/v1/devices`                    | Register/update a device token              |
+| DELETE | `/api/v1/devices/{token_id}`         | Unregister (logout, opt-out)                |
+| GET    | `/api/v1/notifications`              | List notifications for the user (paginated) |
+| PATCH  | `/api/v1/notifications/{id}`         | Mark read / acted                           |
+| GET    | `/api/v1/notifications/unread-count` | For the bottom-nav badge                    |
 
 ### Dispatch worker
 
@@ -158,31 +158,31 @@ Templates live in `apps/backend/src/templates/notifications/<category>/<lang>.js
 
 ### `device_tokens` table
 
-| Column           | Type           | Notes                                |
-|------------------|----------------|--------------------------------------|
-| `id`             | UUID PK        |                                      |
-| `user_id`        | UUID FK        |                                      |
-| `token`          | text unique    | The FCM/APNs token                   |
-| `platform`       | varchar(20)    | `ios`, `android`                     |
-| `app_version`    | varchar(20)    |                                      |
-| `language`       | varchar(10)    |                                      |
-| `last_seen_at`   | timestamptz    |                                      |
-| `created_at`     | timestamptz    |                                      |
+| Column         | Type        | Notes              |
+| -------------- | ----------- | ------------------ |
+| `id`           | UUID PK     |                    |
+| `user_id`      | UUID FK     |                    |
+| `token`        | text unique | The FCM/APNs token |
+| `platform`     | varchar(20) | `ios`, `android`   |
+| `app_version`  | varchar(20) |                    |
+| `language`     | varchar(10) |                    |
+| `last_seen_at` | timestamptz |                    |
+| `created_at`   | timestamptz |                    |
 
 ### `notifications` table
 
-| Column           | Type           | Notes                                |
-|------------------|----------------|--------------------------------------|
-| `id`             | UUID PK        |                                      |
-| `user_id`        | UUID FK        |                                      |
-| `category`       | varchar(50)    | `status_update`, `alert`, etc.      |
-| `title_key`      | text           | i18n key                             |
-| `body_key`       | text           | i18n key                             |
-| `body_params`    | jsonb          | Substitution values                  |
-| `target`         | jsonb          | `{kind, id}` for deep linking        |
-| `read_at`        | timestamptz    | Nullable                             |
-| `acted_at`       | timestamptz    | Nullable                             |
-| `created_at`     | timestamptz    |                                      |
+| Column        | Type        | Notes                          |
+| ------------- | ----------- | ------------------------------ |
+| `id`          | UUID PK     |                                |
+| `user_id`     | UUID FK     |                                |
+| `category`    | varchar(50) | `status_update`, `alert`, etc. |
+| `title_key`   | text        | i18n key                       |
+| `body_key`    | text        | i18n key                       |
+| `body_params` | jsonb       | Substitution values            |
+| `target`      | jsonb       | `{kind, id}` for deep linking  |
+| `read_at`     | timestamptz | Nullable                       |
+| `acted_at`    | timestamptz | Nullable                       |
+| `created_at`  | timestamptz |                                |
 
 ## Edge Cases
 
@@ -201,12 +201,12 @@ Templates live in `apps/backend/src/templates/notifications/<category>/<lang>.js
 
 ## Analytics
 
-| Event                       | When                              | Props                                     |
-|-----------------------------|-----------------------------------|--------------------------------------------|
-| `notification.received`     | App receives a push (any state)   | `category`, `app_state: foreground|background|quit` |
-| `notification.tapped`       | User taps a notification          | `category`, `target_kind`                  |
-| `notification.permission_granted` | User grants permission       | —                                          |
-| `notification.permission_denied`  | User denies permission       | —                                          |
+| Event                             | When                            | Props                              |
+| --------------------------------- | ------------------------------- | ---------------------------------- |
+| `notification.received`           | App receives a push (any state) | `category`, `app_state: foreground | background | quit` |
+| `notification.tapped`             | User taps a notification        | `category`, `target_kind`          |
+| `notification.permission_granted` | User grants permission          | —                                  |
+| `notification.permission_denied`  | User denies permission          | —                                  |
 
 ## Tests
 
@@ -231,17 +231,20 @@ Templates live in `apps/backend/src/templates/notifications/<category>/<lang>.js
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (background workers): `docs/engineering/architecture-patterns.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Observability: `docs/engineering/observability.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - Expo Notifications: https://docs.expo.dev/versions/latest/sdk/notifications/
 - Firebase Cloud Messaging: https://firebase.google.com/docs/cloud-messaging
 - Apple Push Notification service: https://developer.apple.com/documentation/usernotifications
 
 ### Project context
+
 - Deep-link handler: `00-foundation/12-deep-link-handler.md`
 - Notifications screen: `docs/tasks/19-notifications/`
 - `CLAUDE.md`

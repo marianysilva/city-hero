@@ -1,20 +1,21 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { UserCircleIcon, ArrowRightStartOnRectangleIcon } from '@heroicons/react/24/outline'
-import { useCurrentUser } from '@/app/(dashboard)/users/_hooks/useCurrentUser'
-import { ROLE_LABEL } from '@/app/(dashboard)/users/_types'
+import { UserCircleIcon, ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+import { useCurrentUser } from "@/app/(dashboard)/users/_hooks/useCurrentUser";
+import { ROLE_LABEL } from "@/app/(dashboard)/users/_types";
 
 export default function SidebarUserFooter() {
-  const { currentUser } = useCurrentUser()
-  const [loading, setLoading] = useState(false)
-  const router = useRouter()
+  const { currentUser } = useCurrentUser();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   async function handleLogout() {
-    setLoading(true)
-    await fetch('/api/auth/logout', { method: 'POST' })
-    router.push('/login')
+    setLoading(true);
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/login");
   }
 
   return (
@@ -50,5 +51,5 @@ export default function SidebarUserFooter() {
         </button>
       </div>
     </div>
-  )
+  );
 }

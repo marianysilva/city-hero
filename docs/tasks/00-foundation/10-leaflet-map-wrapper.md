@@ -138,10 +138,10 @@ The user location dot uses a CSS pulse animation. On mobile, it's reactive to GP
 
 The map component itself doesn't call backend, but typical hosts call:
 
-| Endpoint                                                   | Purpose                                               |
-|------------------------------------------------------------|-------------------------------------------------------|
-| `GET /api/v1/reports?bbox=&category=&status=`              | Fetch reports within a bounding box, filtered.       |
-| `GET /api/v1/public-works?bbox=`                           | Fetch public-work polygons.                          |
+| Endpoint                                      | Purpose                                        |
+| --------------------------------------------- | ---------------------------------------------- |
+| `GET /api/v1/reports?bbox=&category=&status=` | Fetch reports within a bounding box, filtered. |
+| `GET /api/v1/public-works?bbox=`              | Fetch public-work polygons.                    |
 
 Both follow the standard error/pagination conventions and respect multi-tenant scoping. Bounding-box queries use PostGIS `ST_Intersects` against an indexed geometry column.
 
@@ -165,11 +165,11 @@ Reports and public-works tables include geometry columns indexed with GiST for f
 
 ## Analytics
 
-| Event                       | When                              | Props                                  |
-|-----------------------------|-----------------------------------|----------------------------------------|
-| `map.pin_tapped`            | User taps a pin                   | `pin_id`, `category`                   |
-| `map.recenter_pressed`      | User taps recenter button         | —                                      |
-| `map.region_changed`        | Pan/zoom complete (debounced)     | `zoom`, `bbox`                         |
+| Event                  | When                          | Props                |
+| ---------------------- | ----------------------------- | -------------------- |
+| `map.pin_tapped`       | User taps a pin               | `pin_id`, `category` |
+| `map.recenter_pressed` | User taps recenter button     | —                    |
+| `map.region_changed`   | Pan/zoom complete (debounced) | `zoom`, `bbox`       |
 
 ## Tests
 
@@ -193,17 +193,20 @@ Reports and public-works tables include geometry columns indexed with GiST for f
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 - Observability: `docs/engineering/observability.md`
 
 ### Library / framework references
+
 - Leaflet: https://leafletjs.com/
 - react-leaflet: https://react-leaflet.js.org/
 - OpenStreetMap tile policy: https://operations.osmfoundation.org/policies/tiles/
 - expo-location: https://docs.expo.dev/versions/latest/sdk/location/
 
 ### Project context
+
 - Prototype: `design/index.html` (Home map and public-works renderings using Leaflet)
 - `CLAUDE.md`

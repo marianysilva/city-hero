@@ -123,12 +123,12 @@ apps/ai_service/
 
 ### Endpoints
 
-| Method | Path                        | Purpose                                          |
-|--------|-----------------------------|--------------------------------------------------|
-| GET    | `/health`                   | Liveness + model load status                    |
-| GET    | `/version`                  | Service version + loaded model versions          |
-| POST   | `/inference`                | Synchronous inference on a photo URL             |
-| POST   | `/inference/batch`          | Async batch inference (results via callback or queue) |
+| Method | Path               | Purpose                                               |
+| ------ | ------------------ | ----------------------------------------------------- |
+| GET    | `/health`          | Liveness + model load status                          |
+| GET    | `/version`         | Service version + loaded model versions               |
+| POST   | `/inference`       | Synchronous inference on a photo URL                  |
+| POST   | `/inference/batch` | Async batch inference (results via callback or queue) |
 
 ### Request/response shape (conceptual)
 
@@ -220,12 +220,14 @@ These feed Grafana / Datadog dashboards (see `observability.md`).
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (microservices, async): `docs/engineering/architecture-patterns.md`
 - Observability: `docs/engineering/observability.md`
 - Testing (model regression): `docs/engineering/testing-strategy.md`
 - Security (storage, signed URLs): `docs/engineering/security-baseline.md`
 
 ### Library / framework references
+
 - Ultralytics YOLOv8: https://docs.ultralytics.com/
 - PyTorch: https://pytorch.org/docs/
 - OpenCV: https://docs.opencv.org/
@@ -234,6 +236,7 @@ These feed Grafana / Datadog dashboards (see `observability.md`).
 - TorchServe (alternative serving): https://pytorch.org/serve/
 
 ### Project context
+
 - Anonymization pipeline (consumer): `00-foundation/08-anonymization-pipeline.md`
 - Training notebooks: `packages/ia_research/`
 - `CLAUDE.md`

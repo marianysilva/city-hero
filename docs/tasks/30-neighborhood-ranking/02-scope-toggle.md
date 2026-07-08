@@ -79,9 +79,9 @@ The user's neighborhood is non-PII but is used for scoping.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `ranking.scope_changed`            | User toggled                               | `to: neighborhood|city`              |
+| Event                   | When         | Props             |
+| ----------------------- | ------------ | ----------------- |
+| `ranking.scope_changed` | User toggled | `to: neighborhood | city` |
 
 ## Tests
 

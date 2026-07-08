@@ -88,9 +88,9 @@ Period rankings are aggregate; same anonymization rules apply.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `ranking.period_changed`           | User toggled                               | `to: monthly|yearly|total`           |
+| Event                    | When         | Props        |
+| ------------------------ | ------------ | ------------ |
+| `ranking.period_changed` | User toggled | `to: monthly | yearly | total` |
 
 ## Tests
 

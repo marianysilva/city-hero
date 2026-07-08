@@ -108,15 +108,15 @@ On the web, Next.js handles the parallel routes natively; the universal-link fal
 
 ### Routes
 
-| URL pattern                                | Intent                                         |
-|--------------------------------------------|------------------------------------------------|
-| `cityhero://report/{id}`                   | Open report detail                              |
-| `cityhero://obras/{id}`                    | Open public-work detail                         |
-| `cityhero://city/{slug}`                   | Open city profile                               |
-| `cityhero://share/{id}`                    | Open share-preview screen                       |
-| `cityhero://auth/callback`                 | OAuth callback (Gov.br)                         |
-| `https://cityhero.app/r/{id}`              | Universal link → report (or fallback page)     |
-| `https://cityhero.app/o/{id}`              | Universal link → obra                           |
+| URL pattern                   | Intent                                     |
+| ----------------------------- | ------------------------------------------ |
+| `cityhero://report/{id}`      | Open report detail                         |
+| `cityhero://obras/{id}`       | Open public-work detail                    |
+| `cityhero://city/{slug}`      | Open city profile                          |
+| `cityhero://share/{id}`       | Open share-preview screen                  |
+| `cityhero://auth/callback`    | OAuth callback (Gov.br)                    |
+| `https://cityhero.app/r/{id}` | Universal link → report (or fallback page) |
+| `https://cityhero.app/o/{id}` | Universal link → obra                      |
 
 ### Configuration
 
@@ -131,12 +131,12 @@ The React Navigation linking config maps URL templates to nav state, with type-s
 
 The backend hosts the `apple-app-site-association` and `assetlinks.json` files for universal-link verification, plus the fallback HTML pages that render when the app isn't installed.
 
-| Endpoint                                                              | Purpose                                |
-|-----------------------------------------------------------------------|----------------------------------------|
-| `GET /.well-known/apple-app-site-association`                         | iOS universal links manifest           |
-| `GET /.well-known/assetlinks.json`                                    | Android App Links manifest             |
-| `GET /r/{id}`                                                         | Web fallback for report links          |
-| `GET /o/{id}`                                                         | Web fallback for public-work links     |
+| Endpoint                                      | Purpose                            |
+| --------------------------------------------- | ---------------------------------- |
+| `GET /.well-known/apple-app-site-association` | iOS universal links manifest       |
+| `GET /.well-known/assetlinks.json`            | Android App Links manifest         |
+| `GET /r/{id}`                                 | Web fallback for report links      |
+| `GET /o/{id}`                                 | Web fallback for public-work links |
 
 ## Database
 
@@ -158,12 +158,12 @@ Not applicable directly. The links reference existing resources by ID.
 
 ## Analytics
 
-| Event                       | When                              | Props                                     |
-|-----------------------------|-----------------------------------|--------------------------------------------|
-| `deeplink.received`         | Any URL arrives                   | `cold_start: bool`, `target_kind`, `source`|
-| `deeplink.resolved`         | Successfully routed               | `target_kind`, `target_id`                 |
-| `deeplink.unknown`          | Unknown path                      | `path`                                     |
-| `deeplink.share_created`    | App generates a share URL         | `target_kind`                              |
+| Event                    | When                      | Props                                       |
+| ------------------------ | ------------------------- | ------------------------------------------- |
+| `deeplink.received`      | Any URL arrives           | `cold_start: bool`, `target_kind`, `source` |
+| `deeplink.resolved`      | Successfully routed       | `target_kind`, `target_id`                  |
+| `deeplink.unknown`       | Unknown path              | `path`                                      |
+| `deeplink.share_created` | App generates a share URL | `target_kind`                               |
 
 ## Tests
 
@@ -185,17 +185,20 @@ Not applicable directly. The links reference existing resources by ID.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Security (URL validation): `docs/engineering/security-baseline.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Navigation linking: https://reactnavigation.org/docs/configuring-links
 - iOS Universal Links: https://developer.apple.com/ios/universal-links/
 - Android App Links: https://developer.android.com/training/app-links
 - Expo Linking: https://docs.expo.dev/guides/linking/
 
 ### Project context
+
 - Splash app initialization: `docs/tasks/01-splash/02-app-initialization.md`
 - Push handler: `00-foundation/11-push-notification-handler.md`
 - `CLAUDE.md`

@@ -90,10 +90,10 @@ The screen scaffolding doesn't hold PII; subsequent tasks define what's collecte
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `irregularity.viewed`              | Screen mounts                              | `entry: programs|bolsa|menu`         |
-| `irregularity.back_pressed`        | User backs out                             | `from_step`                           |
+| Event                       | When           | Props            |
+| --------------------------- | -------------- | ---------------- |
+| `irregularity.viewed`       | Screen mounts  | `entry: programs | bolsa | menu` |
+| `irregularity.back_pressed` | User backs out | `from_step`      |
 
 ## Tests
 

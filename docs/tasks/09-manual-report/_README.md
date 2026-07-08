@@ -21,14 +21,14 @@ get smarter rather than putting up with a broken AI.
 
 ## Features (6 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · header, banner, layout, CTA](./01-render-manual-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Category grid · 9 tiles + active state](./02-category-grid.md) | S | task 01 |
-| 03 | [Photo thumbnail + replace/swap flow](./03-photo-thumbnail.md) | S | task 01, `00-foundation/07-photo-upload-pipeline.md` |
-| 04 | [Mini-map · location confirm + drag pin](./04-mini-map-location.md) | M | task 01, `00-foundation/10-leaflet-map-wrapper.md` |
-| 05 | [AI feedback loop · manual category as training signal](./05-ai-feedback-loop.md) | S | task 02, `00-foundation/16-yolov8-inference-service.md` |
-| 06 | [Submit & continue to Confirmação](./06-submit-and-continue.md) | S | tasks 02-05 |
+| #   | Task                                                                              | Effort | Depends on                                              |
+| --- | --------------------------------------------------------------------------------- | ------ | ------------------------------------------------------- |
+| 01  | [Render UI base · header, banner, layout, CTA](./01-render-manual-ui-base.md)     | S      | `00-foundation/02-design-tokens.md`                     |
+| 02  | [Category grid · 9 tiles + active state](./02-category-grid.md)                   | S      | task 01                                                 |
+| 03  | [Photo thumbnail + replace/swap flow](./03-photo-thumbnail.md)                    | S      | task 01, `00-foundation/07-photo-upload-pipeline.md`    |
+| 04  | [Mini-map · location confirm + drag pin](./04-mini-map-location.md)               | M      | task 01, `00-foundation/10-leaflet-map-wrapper.md`      |
+| 05  | [AI feedback loop · manual category as training signal](./05-ai-feedback-loop.md) | S      | task 02, `00-foundation/16-yolov8-inference-service.md` |
+| 06  | [Submit & continue to Confirmação](./06-submit-and-continue.md)                   | S      | tasks 02-05                                             |
 
 ## Suggested implementation order
 

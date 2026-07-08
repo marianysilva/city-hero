@@ -95,19 +95,19 @@ The queue is stored in WatermelonDB (SQLite-backed) for the structured records, 
 
 ### Queue table (WatermelonDB)
 
-| Field              | Type        | Notes                                                |
-|--------------------|-------------|------------------------------------------------------|
-| `id`               | string      | Local UUID                                           |
-| `kind`             | string      | `report.create`, `comment.create`, `support.toggle`, etc. |
-| `payload_json`     | string      | Serialized request payload                           |
-| `photo_local_path` | string      | Nullable; for upload jobs                            |
-| `status`           | string      | `queued`, `in_flight`, `synced`, `failed_validation`, `failed_permanent` |
-| `server_id`        | string      | Set after successful sync                            |
-| `last_error_code`  | string      | Server's error code if failed                        |
-| `attempt_count`    | int         |                                                      |
-| `next_attempt_at`  | timestamp   |                                                      |
-| `created_at`       | timestamp   |                                                      |
-| `updated_at`       | timestamp   |                                                      |
+| Field              | Type      | Notes                                                                    |
+| ------------------ | --------- | ------------------------------------------------------------------------ |
+| `id`               | string    | Local UUID                                                               |
+| `kind`             | string    | `report.create`, `comment.create`, `support.toggle`, etc.                |
+| `payload_json`     | string    | Serialized request payload                                               |
+| `photo_local_path` | string    | Nullable; for upload jobs                                                |
+| `status`           | string    | `queued`, `in_flight`, `synced`, `failed_validation`, `failed_permanent` |
+| `server_id`        | string    | Set after successful sync                                                |
+| `last_error_code`  | string    | Server's error code if failed                                            |
+| `attempt_count`    | int       |                                                                          |
+| `next_attempt_at`  | timestamp |                                                                          |
+| `created_at`       | timestamp |                                                                          |
+| `updated_at`       | timestamp |                                                                          |
 
 ### Orchestrator behavior
 
@@ -139,14 +139,14 @@ This handles the case where the client thinks the request failed (e.g., timeout)
 
 No new schema for the offline queue (it's local). The idempotency layer adds a small table for cached request/response pairs:
 
-| Column             | Type           | Notes                              |
-|--------------------|----------------|-------------------------------------|
-| `key`              | varchar(64) PK | The idempotency key                |
-| `endpoint`         | varchar(255)   | Path + method                       |
-| `response_status`  | int            |                                    |
-| `response_body`    | jsonb          | The cached response                  |
-| `created_at`       | timestamptz    | TTL: 24h                           |
-| `expires_at`       | timestamptz    | Indexed for cleanup                |
+| Column            | Type           | Notes               |
+| ----------------- | -------------- | ------------------- |
+| `key`             | varchar(64) PK | The idempotency key |
+| `endpoint`        | varchar(255)   | Path + method       |
+| `response_status` | int            |                     |
+| `response_body`   | jsonb          | The cached response |
+| `created_at`      | timestamptz    | TTL: 24h            |
+| `expires_at`      | timestamptz    | Indexed for cleanup |
 
 A scheduled job purges expired entries.
 
@@ -166,12 +166,12 @@ A scheduled job purges expired entries.
 
 ## Analytics
 
-| Event                       | When                              | Props                              |
-|-----------------------------|-----------------------------------|-------------------------------------|
-| `queue.item_enqueued`       | New item added                    | `kind`, `payload_size_bytes`        |
-| `queue.item_synced`         | Successful sync                   | `kind`, `attempts`, `duration_ms`   |
-| `queue.item_failed`         | Final failure (validation or hard)| `kind`, `code`, `attempts`          |
-| `queue.connectivity_changed`| Reachability changed              | `state: online|offline`            |
+| Event                        | When                               | Props                             |
+| ---------------------------- | ---------------------------------- | --------------------------------- |
+| `queue.item_enqueued`        | New item added                     | `kind`, `payload_size_bytes`      |
+| `queue.item_synced`          | Successful sync                    | `kind`, `attempts`, `duration_ms` |
+| `queue.item_failed`          | Final failure (validation or hard) | `kind`, `code`, `attempts`        |
+| `queue.connectivity_changed` | Reachability changed               | `state: online                    | offline` |
 
 ## Tests
 
@@ -194,16 +194,19 @@ A scheduled job purges expired entries.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 - Observability: `docs/engineering/observability.md`
 
 ### Library / framework references
+
 - WatermelonDB: https://watermelondb.dev/
 - @react-native-community/netinfo: https://github.com/react-native-netinfo/react-native-netinfo
 - Idempotent HTTP: https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/
 
 ### Project context
+
 - Photo upload pipeline: `00-foundation/07-photo-upload-pipeline.md`
 - Sync Queue screen: `docs/tasks/18-sync-queue/`
 - `CLAUDE.md`

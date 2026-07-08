@@ -132,9 +132,9 @@ Not applicable.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `prefecture_news.filter_changed`   | Chip tapped                                | `from`, `to`                          |
+| Event                            | When        | Props        |
+| -------------------------------- | ----------- | ------------ |
+| `prefecture_news.filter_changed` | Chip tapped | `from`, `to` |
 
 ## Tests
 
@@ -155,11 +155,13 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-news-ui-base.md`
 - News list (consumes filter): `04-news-list.md`
 - Pinned alert (follows filter): `03-pinned-alert-card.md`

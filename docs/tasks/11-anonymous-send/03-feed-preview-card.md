@@ -128,9 +128,9 @@ No new schema.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `anonymous_send.preview_rendered`  | Card mounted                               | `had_photo: bool`, `had_moderation: bool` |
+| Event                             | When         | Props                                     |
+| --------------------------------- | ------------ | ----------------------------------------- |
+| `anonymous_send.preview_rendered` | Card mounted | `had_photo: bool`, `had_moderation: bool` |
 
 ## Tests
 
@@ -150,11 +150,13 @@ No new schema.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-anonymous-ui-base.md`
 - Feed card (reused): `07-civic-feed/03-feed-item-card.md`
 - Anonymization pipeline: `00-foundation/08-anonymization-pipeline.md`

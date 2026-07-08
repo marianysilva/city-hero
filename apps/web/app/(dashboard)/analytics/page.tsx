@@ -7,5 +7,5 @@ export default function AnalyticsPage() {
         Superset Embedded — em breve
       </div>
     </div>
-  )
+  );
 }

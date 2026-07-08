@@ -24,12 +24,12 @@ The screen has four key pieces:
 
 ## Features (4 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base + header with merge badge](./01-render-merged-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Merge banner · explanation + XP credit indicator](./02-merge-banner.md) | S | task 01 |
-| 03 | [Comparison cards · "Seu reporte" + "Ticket principal"](./03-comparison-cards.md) | M | task 01 |
-| 04 | [Bottom CTA · "Ver ticket principal" → SCREEN 13/14](./04-bottom-cta-navigate.md) | S | task 01, task 03 |
+| #   | Task                                                                              | Effort | Depends on                          |
+| --- | --------------------------------------------------------------------------------- | ------ | ----------------------------------- |
+| 01  | [Render UI base + header with merge badge](./01-render-merged-ui-base.md)         | S      | `00-foundation/02-design-tokens.md` |
+| 02  | [Merge banner · explanation + XP credit indicator](./02-merge-banner.md)          | S      | task 01                             |
+| 03  | [Comparison cards · "Seu reporte" + "Ticket principal"](./03-comparison-cards.md) | M      | task 01                             |
+| 04  | [Bottom CTA · "Ver ticket principal" → SCREEN 13/14](./04-bottom-cta-navigate.md) | S      | task 01, task 03                    |
 
 ## Suggested implementation order
 

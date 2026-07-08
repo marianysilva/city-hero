@@ -24,13 +24,13 @@ the user narrow the view.
 
 ## Features (5 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · header, filter chips, list slots](./01-render-notifications-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Filter chips · Tudo, Status, Conquistas, Comunidade](./02-filter-chips.md) | S | task 01 |
-| 03 | [Time-grouped list · sections + virtualization](./03-time-grouped-list.md) | M | task 01, `00-foundation/05-api-client.md` |
-| 04 | [Notification card · icon, copy, tap routing per type](./04-notification-card.md) | M | task 03, `00-foundation/11-push-notification-handler.md` |
-| 05 | [Mark-as-read · per item + "Marcar lidas" bulk](./05-mark-as-read.md) | S | task 04 |
+| #   | Task                                                                                      | Effort | Depends on                                               |
+| --- | ----------------------------------------------------------------------------------------- | ------ | -------------------------------------------------------- |
+| 01  | [Render UI base · header, filter chips, list slots](./01-render-notifications-ui-base.md) | S      | `00-foundation/02-design-tokens.md`                      |
+| 02  | [Filter chips · Tudo, Status, Conquistas, Comunidade](./02-filter-chips.md)               | S      | task 01                                                  |
+| 03  | [Time-grouped list · sections + virtualization](./03-time-grouped-list.md)                | M      | task 01, `00-foundation/05-api-client.md`                |
+| 04  | [Notification card · icon, copy, tap routing per type](./04-notification-card.md)         | M      | task 03, `00-foundation/11-push-notification-handler.md` |
+| 05  | [Mark-as-read · per item + "Marcar lidas" bulk](./05-mark-as-read.md)                     | S      | task 04                                                  |
 
 ## Suggested implementation order
 

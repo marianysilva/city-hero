@@ -4,12 +4,12 @@ How we know what's happening in production: logs, metrics, traces, errors.
 
 ## Three pillars
 
-| Pillar    | What it answers                          | Tool                          |
-|-----------|------------------------------------------|-------------------------------|
-| Logs      | What happened?                           | Structured JSON logs → cloud aggregator (Datadog, CloudWatch, Loki) |
-| Metrics   | How much / how often / how fast?         | Prometheus + Grafana, or APM SaaS (Datadog, New Relic) |
-| Traces    | Where did the time go in this request?   | OpenTelemetry → Datadog/Tempo |
-| Errors    | What broke and where?                    | Sentry                        |
+| Pillar  | What it answers                        | Tool                                                                |
+| ------- | -------------------------------------- | ------------------------------------------------------------------- |
+| Logs    | What happened?                         | Structured JSON logs → cloud aggregator (Datadog, CloudWatch, Loki) |
+| Metrics | How much / how often / how fast?       | Prometheus + Grafana, or APM SaaS (Datadog, New Relic)              |
+| Traces  | Where did the time go in this request? | OpenTelemetry → Datadog/Tempo                                       |
+| Errors  | What broke and where?                  | Sentry                                                              |
 
 ## Structured logging
 
@@ -17,19 +17,19 @@ How we know what's happening in production: logs, metrics, traces, errors.
 
 All logs are **structured JSON** with at least these fields:
 
-| Field         | Description                                         |
-|---------------|-----------------------------------------------------|
-| `timestamp`   | ISO 8601 UTC                                        |
-| `level`       | `debug` / `info` / `warning` / `error` / `critical` |
-| `service`     | `cityhero-backend` / `cityhero-mobile` / etc.       |
-| `version`     | Semantic version + build number                     |
-| `trace_id`    | Distributed trace identifier                        |
-| `span_id`     | Current span (when applicable)                      |
-| `user_id`     | Authenticated user UUID (never email or CPF)        |
-| `city_id`     | Tenant scope                                        |
-| `message`     | Human-readable summary                              |
+| Field         | Description                                          |
+| ------------- | ---------------------------------------------------- |
+| `timestamp`   | ISO 8601 UTC                                         |
+| `level`       | `debug` / `info` / `warning` / `error` / `critical`  |
+| `service`     | `cityhero-backend` / `cityhero-mobile` / etc.        |
+| `version`     | Semantic version + build number                      |
+| `trace_id`    | Distributed trace identifier                         |
+| `span_id`     | Current span (when applicable)                       |
+| `user_id`     | Authenticated user UUID (never email or CPF)         |
+| `city_id`     | Tenant scope                                         |
+| `message`     | Human-readable summary                               |
 | `event`       | Machine-readable event name (e.g., `report.created`) |
-| Custom fields | Domain-specific (`report_id`, `duration_ms`, etc.)  |
+| Custom fields | Domain-specific (`report_id`, `duration_ms`, etc.)   |
 
 ### Log levels
 
@@ -87,6 +87,7 @@ These feed the BI dashboards in Superset, separately from operational metrics.
 Metric names: lowercase, dot-separated, namespaced by service.
 
 Examples:
+
 - `backend.api.request.duration_ms`
 - `backend.db.connection.utilization`
 - `mobile.app.cold_start_ms`

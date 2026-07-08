@@ -22,17 +22,17 @@ neighbors (only the prefecture sees the real identity, per LGPD/LAI).
 
 ## Features (9 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · header, filter chips, layout](./01-render-feed-ui-base.md) | S | `00-foundation/02-design-tokens.md`, `00-foundation/03-bottom-nav-component.md` |
-| 02 | [Feed list · API + pagination + infinite scroll](./02-feed-list-and-pagination.md) | M | `00-foundation/05-api-client.md`, task 01 |
-| 03 | [Feed item card · shared component (incl. anonymous variant)](./03-feed-item-card.md) | M | task 01, `00-foundation/08-anonymization-pipeline.md` |
-| 04 | [Filter chips · radius + sort](./04-filter-chips.md) | S | task 01, task 02 |
-| 05 | [Search · over feed items](./05-search.md) | S | task 02 |
-| 06 | [Apoiar action · optimistic + anti-fraud + XP](./06-apoiar-action.md) | M | task 03, `00-foundation/09-offline-queue.md` |
-| 07 | [Compartilhar action · share sheet + tracking link](./07-compartilhar-action.md) | S | task 03, `00-foundation/12-deep-link-handler.md` |
-| 08 | [Enriquecer action · add a photo to someone else's report](./08-enriquecer-action.md) | M | task 03, `00-foundation/07-photo-upload-pipeline.md` |
-| 09 | [Pull-to-refresh + real-time updates](./09-realtime-and-refresh.md) | M | task 02 |
+| #   | Task                                                                                  | Effort | Depends on                                                                      |
+| --- | ------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------- |
+| 01  | [Render UI base · header, filter chips, layout](./01-render-feed-ui-base.md)          | S      | `00-foundation/02-design-tokens.md`, `00-foundation/03-bottom-nav-component.md` |
+| 02  | [Feed list · API + pagination + infinite scroll](./02-feed-list-and-pagination.md)    | M      | `00-foundation/05-api-client.md`, task 01                                       |
+| 03  | [Feed item card · shared component (incl. anonymous variant)](./03-feed-item-card.md) | M      | task 01, `00-foundation/08-anonymization-pipeline.md`                           |
+| 04  | [Filter chips · radius + sort](./04-filter-chips.md)                                  | S      | task 01, task 02                                                                |
+| 05  | [Search · over feed items](./05-search.md)                                            | S      | task 02                                                                         |
+| 06  | [Apoiar action · optimistic + anti-fraud + XP](./06-apoiar-action.md)                 | M      | task 03, `00-foundation/09-offline-queue.md`                                    |
+| 07  | [Compartilhar action · share sheet + tracking link](./07-compartilhar-action.md)      | S      | task 03, `00-foundation/12-deep-link-handler.md`                                |
+| 08  | [Enriquecer action · add a photo to someone else's report](./08-enriquecer-action.md) | M      | task 03, `00-foundation/07-photo-upload-pipeline.md`                            |
+| 09  | [Pull-to-refresh + real-time updates](./09-realtime-and-refresh.md)                   | M      | task 02                                                                         |
 
 ## Suggested implementation order
 

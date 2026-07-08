@@ -22,17 +22,16 @@ user into a long-term advocate.
 
 ## Features (6 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · same shell as SCREEN 13 + closed-state styling](./01-render-detail-ticket-ui-base.md) | S | `13-detail-in-progress/01-render-detail-ui-base.md` |
-| 02 | [Before/after slider hero · interactive drag handle](./02-before-after-slider.md) | M | task 01 |
-| 03 | [Summary card variant · "Atendido em N dias"](./03-summary-card.md) | S | task 01, `13-detail-in-progress/03-summary-card.md` |
-| 04 | [Timeline variant · closed states + SLA escalation entries](./04-timeline-resolved.md) | S | task 01, `13-detail-in-progress/04-timeline.md` |
-| 05 | [Bottom CTAs · Compartilhar + Avaliar → NPS](./05-avaliar-cta.md) | M | task 01, `07-civic-feed/07-compartilhar-action.md` |
-| 06 | [Overflow menu variant · resolved-specific options](./06-overflow-menu.md) | S | task 01, `13-detail-in-progress/07-overflow-menu.md` |
+| #   | Task                                                                                                    | Effort | Depends on                                           |
+| --- | ------------------------------------------------------------------------------------------------------- | ------ | ---------------------------------------------------- |
+| 01  | [Render UI base · same shell as SCREEN 13 + closed-state styling](./01-render-detail-ticket-ui-base.md) | S      | `13-detail-in-progress/01-render-detail-ui-base.md`  |
+| 02  | [Before/after slider hero · interactive drag handle](./02-before-after-slider.md)                       | M      | task 01                                              |
+| 03  | [Summary card variant · "Atendido em N dias"](./03-summary-card.md)                                     | S      | task 01, `13-detail-in-progress/03-summary-card.md`  |
+| 04  | [Timeline variant · closed states + SLA escalation entries](./04-timeline-resolved.md)                  | S      | task 01, `13-detail-in-progress/04-timeline.md`      |
+| 05  | [Bottom CTAs · Compartilhar + Avaliar → NPS](./05-avaliar-cta.md)                                       | M      | task 01, `07-civic-feed/07-compartilhar-action.md`   |
+| 06  | [Overflow menu variant · resolved-specific options](./06-overflow-menu.md)                              | S      | task 01, `13-detail-in-progress/07-overflow-menu.md` |
 
-> **Reuse note**: Moderated Comments (the tag system from SCREEN 13 task
-> 05) is fully reused on this screen — same component, same data shape,
+> **Reuse note**: Moderated Comments (the tag system from SCREEN 13 task 05) is fully reused on this screen — same component, same data shape,
 > same backend endpoints. No new task here.
 
 ## Suggested implementation order

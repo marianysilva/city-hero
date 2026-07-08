@@ -57,9 +57,9 @@ apps/city-hero/src/screens/BolsaFamiliaDetail/
 
 ## Backend
 
-| Method | Path                                                          | Purpose                              |
-|--------|---------------------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/cities/{id}/programs/bolsa-familia`                  | Program-specific metrics             |
+| Method | Path                                         | Purpose                  |
+| ------ | -------------------------------------------- | ------------------------ |
+| GET    | `/api/v1/cities/{id}/programs/bolsa-familia` | Program-specific metrics |
 
 Multi-tenant scoped; the backend joins federal Portal da Transparência with the city's local data.
 
@@ -77,10 +77,10 @@ Aggregated only.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `bolsa_familia.hero_rendered`      | Card mounted                               | `families_count`, `freshness_days`   |
-| `bolsa_familia.external_link_pressed` | User opened Portal                      | —                                     |
+| Event                                 | When               | Props                              |
+| ------------------------------------- | ------------------ | ---------------------------------- |
+| `bolsa_familia.hero_rendered`         | Card mounted       | `families_count`, `freshness_days` |
+| `bolsa_familia.external_link_pressed` | User opened Portal | —                                  |
 
 ## Tests
 

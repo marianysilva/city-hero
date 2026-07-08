@@ -134,12 +134,12 @@ Use RESTful conventions:
 
 All non-2xx responses return JSON with this shape:
 
-| Field      | Type   | Description                                            |
-|------------|--------|--------------------------------------------------------|
-| `code`     | string | Machine-readable identifier (e.g., `validation_error`) |
-| `message`  | string | i18n key (not literal text). Frontend translates.      |
-| `details`  | object | Optional. Field-level errors or extra context.         |
-| `traceId`  | string | UUID for cross-system correlation.                     |
+| Field     | Type   | Description                                            |
+| --------- | ------ | ------------------------------------------------------ |
+| `code`    | string | Machine-readable identifier (e.g., `validation_error`) |
+| `message` | string | i18n key (not literal text). Frontend translates.      |
+| `details` | object | Optional. Field-level errors or extra context.         |
+| `traceId` | string | UUID for cross-system correlation.                     |
 
 ### Pagination
 

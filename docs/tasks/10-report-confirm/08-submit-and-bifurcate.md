@@ -170,9 +170,9 @@ The submit CTA shows an in-flight state with a small spinner. The navigation to 
 
 ### Endpoint
 
-| Method | Path                              | Purpose                              |
-|--------|-----------------------------------|---------------------------------------|
-| POST   | `/api/v1/reports`                 | Create a new report                  |
+| Method | Path              | Purpose             |
+| ------ | ----------------- | ------------------- |
+| POST   | `/api/v1/reports` | Create a new report |
 
 The backend accepts the full payload:
 
@@ -224,14 +224,14 @@ This is the moment the report's data leaves the device. Specific guarantees:
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `report.submit_started`            | User tapped Enviar                         | `had_photo: bool`, `anonymous: bool` |
-| `report.submit_succeeded`          | Server confirmed                           | `report_id`, `xp_granted`, `medals_unlocked: int`, `online: bool` |
-| `report.submit_queued_offline`     | Enqueued via offline queue                 | —                                     |
-| `report.submit_failed`             | Final failure                              | `code`, `at_step: validation|upload|create` |
-| `report.submit_duplicate_associated`| Backend associated with an existing report| `existing_report_id`                  |
-| `report.submit_pending_moderation` | Server held for moderation                 | `flags: [string]`                     |
+| Event                                | When                                       | Props                                                             |
+| ------------------------------------ | ------------------------------------------ | ----------------------------------------------------------------- |
+| `report.submit_started`              | User tapped Enviar                         | `had_photo: bool`, `anonymous: bool`                              |
+| `report.submit_succeeded`            | Server confirmed                           | `report_id`, `xp_granted`, `medals_unlocked: int`, `online: bool` |
+| `report.submit_queued_offline`       | Enqueued via offline queue                 | —                                                                 |
+| `report.submit_failed`               | Final failure                              | `code`, `at_step: validation                                      | upload | create` |
+| `report.submit_duplicate_associated` | Backend associated with an existing report | `existing_report_id`                                              |
+| `report.submit_pending_moderation`   | Server held for moderation                 | `flags: [string]`                                                 |
 
 ## Tests
 
@@ -261,6 +261,7 @@ This is the moment the report's data leaves the device. Specific guarantees:
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (REST, multi-tenant, idempotency): `docs/engineering/architecture-patterns.md`
 - Security (anti-fraud, scoping, moderation): `docs/engineering/security-baseline.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
@@ -268,10 +269,12 @@ This is the moment the report's data leaves the device. Specific guarantees:
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - TanStack Query mutations: https://tanstack.com/query/latest/docs/react/guides/mutations
 - Idempotent HTTP: https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/
 
 ### Project context
+
 - All other report-confirm sub-tasks (01-07)
 - Photo upload pipeline: `00-foundation/07-photo-upload-pipeline.md`
 - Anonymization pipeline: `00-foundation/08-anonymization-pipeline.md`

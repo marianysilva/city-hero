@@ -110,10 +110,10 @@ Not applicable to this task.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `notifications.viewed`         | Screen mounts                              | `unread_count`, `total_count`        |
-| `notifications.back_pressed`   | User taps back                             | —                                     |
+| Event                        | When           | Props                         |
+| ---------------------------- | -------------- | ----------------------------- |
+| `notifications.viewed`       | Screen mounts  | `unread_count`, `total_count` |
+| `notifications.back_pressed` | User taps back | —                             |
 
 ## Tests
 
@@ -133,11 +133,13 @@ Not applicable to this task.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Notificações'`)
 - Push handler: `00-foundation/11-push-notification-handler.md`
 - `CLAUDE.md`

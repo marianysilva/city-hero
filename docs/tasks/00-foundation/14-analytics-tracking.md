@@ -117,17 +117,17 @@ packages/analytics/
 
 Events follow a `<domain>.<verb>` convention:
 
-| Domain                 | Examples                                             |
-|------------------------|------------------------------------------------------|
-| `app`                  | `app.opened`, `app.foregrounded`, `app.backgrounded`|
-| `auth`                 | `auth.login_succeeded`, `auth.signup_started`       |
-| `nav`                  | `nav.tab_pressed`, `nav.fab_camera_pressed`         |
-| `report`               | `report.created`, `report.supported`, `report.shared`|
-| `comment`              | `comment.tag_added`                                  |
-| `gamification`         | `xp.earned`, `level.up`, `achievement.unlocked`     |
-| `onboarding`           | `onboarding.step_completed`, `onboarding.skipped`   |
-| `notification`         | `notification.received`, `notification.tapped`      |
-| `error`                | `error.boundary_caught`, `error.unhandled_rejection`|
+| Domain         | Examples                                              |
+| -------------- | ----------------------------------------------------- |
+| `app`          | `app.opened`, `app.foregrounded`, `app.backgrounded`  |
+| `auth`         | `auth.login_succeeded`, `auth.signup_started`         |
+| `nav`          | `nav.tab_pressed`, `nav.fab_camera_pressed`           |
+| `report`       | `report.created`, `report.supported`, `report.shared` |
+| `comment`      | `comment.tag_added`                                   |
+| `gamification` | `xp.earned`, `level.up`, `achievement.unlocked`       |
+| `onboarding`   | `onboarding.step_completed`, `onboarding.skipped`     |
+| `notification` | `notification.received`, `notification.tapped`        |
+| `error`        | `error.boundary_caught`, `error.unhandled_rejection`  |
 
 Each task spec lists the events it should emit; the central event list lives in this package.
 
@@ -164,10 +164,10 @@ Superset dashboards. Schema design lives there, not here.
 
 ## Analytics (meta)
 
-| Event                          | When                              | Props                          |
-|--------------------------------|-----------------------------------|---------------------------------|
-| `analytics.opt_out_toggled`    | User toggles opt-out in Settings  | `opted_out: bool`              |
-| `analytics.queue_drained`      | Offline event buffer flushes      | `count`, `oldest_age_seconds`  |
+| Event                       | When                             | Props                         |
+| --------------------------- | -------------------------------- | ----------------------------- |
+| `analytics.opt_out_toggled` | User toggles opt-out in Settings | `opted_out: bool`             |
+| `analytics.queue_drained`   | Offline event buffer flushes     | `count`, `oldest_age_seconds` |
 
 ## Tests
 
@@ -191,16 +191,19 @@ Superset dashboards. Schema design lives there, not here.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy: `docs/engineering/security-baseline.md` (LGPD section)
 - Observability: `docs/engineering/observability.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - PostHog: https://posthog.com/docs
 - Mixpanel: https://docs.mixpanel.com/docs/quickstart
 - Amplitude: https://www.docs.developers.amplitude.com/
 
 ### Project context
+
 - Each task lists its own events; the canonical list lives in `packages/analytics/src/eventTypes.ts`
 - `CLAUDE.md`

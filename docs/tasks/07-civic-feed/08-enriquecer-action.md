@@ -134,9 +134,9 @@ The camera screen receives a prop `mode` that switches between:
 
 ### Endpoint
 
-| Method | Path                                                      | Purpose                                |
-|--------|-----------------------------------------------------------|----------------------------------------|
-| POST   | `/api/v1/reports/{id}/enrich`                             | Add a photo to an existing report      |
+| Method | Path                          | Purpose                           |
+| ------ | ----------------------------- | --------------------------------- |
+| POST   | `/api/v1/reports/{id}/enrich` | Add a photo to an existing report |
 
 The endpoint:
 
@@ -157,17 +157,17 @@ The endpoint:
 
 ### `report_enrichments` table
 
-| Column             | Type        | Notes                                          |
-|--------------------|-------------|------------------------------------------------|
-| `id`               | UUID PK     |                                                |
-| `report_id`        | UUID FK     |                                                |
-| `user_id`          | UUID FK     |                                                |
-| `city_id`          | UUID FK     | For multi-tenant indexing                      |
-| `photo_id`         | UUID FK     | The new photo                                  |
-| `device_lat`       | numeric     | Reported by client                              |
-| `device_lng`       | numeric     | Reported by client                              |
-| `device_distance_m`| numeric     | Computed at validation time                    |
-| `created_at`       | timestamptz |                                                |
+| Column              | Type        | Notes                       |
+| ------------------- | ----------- | --------------------------- |
+| `id`                | UUID PK     |                             |
+| `report_id`         | UUID FK     |                             |
+| `user_id`           | UUID FK     |                             |
+| `city_id`           | UUID FK     | For multi-tenant indexing   |
+| `photo_id`          | UUID FK     | The new photo               |
+| `device_lat`        | numeric     | Reported by client          |
+| `device_lng`        | numeric     | Reported by client          |
+| `device_distance_m` | numeric     | Computed at validation time |
+| `created_at`        | timestamptz |                             |
 
 A unique index on `(report_id, user_id, day(created_at))` enforces the once-per-day rule.
 
@@ -185,13 +185,13 @@ A unique index on `(report_id, user_id, day(created_at))` enforces the once-per-
 
 ## Analytics
 
-| Event                              | When                                       | Props                              |
-|------------------------------------|--------------------------------------------|-------------------------------------|
-| `report.enrich_intent`             | User taps Enriquecer                       | `report_id`                         |
-| `report.enrich_blocked_too_far`    | GPS gate failed                            | `distance_m`                        |
-| `report.enrich_submitted`          | Photo submitted                            | `report_id`                         |
-| `report.enrich_succeeded`          | Server confirmed                           | `report_id`, `xp_delta: 100`       |
-| `report.enrich_rejected`           | Server rejected (anti-fraud / mismatch)    | `code`                              |
+| Event                           | When                                    | Props                        |
+| ------------------------------- | --------------------------------------- | ---------------------------- |
+| `report.enrich_intent`          | User taps Enriquecer                    | `report_id`                  |
+| `report.enrich_blocked_too_far` | GPS gate failed                         | `distance_m`                 |
+| `report.enrich_submitted`       | Photo submitted                         | `report_id`                  |
+| `report.enrich_succeeded`       | Server confirmed                        | `report_id`, `xp_delta: 100` |
+| `report.enrich_rejected`        | Server rejected (anti-fraud / mismatch) | `code`                       |
 
 ## Tests
 
@@ -215,15 +215,18 @@ A unique index on `(report_id, user_id, day(created_at))` enforces the once-per-
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (multi-tenant, idempotency): `docs/engineering/architecture-patterns.md`
 - Security (anti-fraud, rate limiting, GPS validation): `docs/engineering/security-baseline.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - expo-location accuracy modes: https://docs.expo.dev/versions/latest/sdk/location/
 
 ### Project context
+
 - Photo upload pipeline: `00-foundation/07-photo-upload-pipeline.md`
 - Anonymization pipeline: `00-foundation/08-anonymization-pipeline.md`
 - Camera screen: `08-camera-live/`

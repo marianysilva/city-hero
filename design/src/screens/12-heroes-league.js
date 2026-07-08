@@ -1,16 +1,16 @@
-import { statusBar } from '../atoms/StatusBar.js';
+import { statusBar } from "../atoms/StatusBar.js";
 
 /** Tela 12 · Liga de Heróis (pós-envio · compartilhamento viral) */
 export default {
-  title: 'Liga de Heróis',
-  group: 'core',
-  summary: 'Pós-envio · celebra + viraliza',
+  title: "Liga de Heróis",
+  group: "core",
+  summary: "Pós-envio · celebra + viraliza",
   note: `Tela pós-envio que faz três coisas ao mesmo tempo: <b>celebra</b> o envio (XP + medalha), <b>explica o valor do compartilhamento</b> com dado ("reportes com apoio resolvem em 3 dias vs 7") e <b>oferece os canais certos</b> pro contexto BR (WhatsApp é primário). O <b>preview card</b> simula a prévia de link que aparece no WhatsApp/iMessage — reforça que o que vai ser compartilhado é bonito e bem-feito, não uma denúncia crua. Cada compartilhamento vira <b>loop de aquisição</b>: quem recebe o link aterrissa num webview do reporte com CTA "baixe o app e apoie" — é como CityHero cresce sem pagar CAC. O framing <i>"todo herói tem sua liga"</i> conecta a gamificação existente (Nível, Medalha) com a mecânica de convite. Conquista teaser <b>Formador de Liga</b> dá um objetivo claro (3 amigos).`,
   html: () => `
     <div class="relative h-full bg-slate-50 flex flex-col overflow-hidden">
      <div class="flex-1 min-h-0 overflow-y-auto">
       <div class="relative overflow-hidden" style="background:linear-gradient(135deg,#10B981 0%,#059669 60%,#047857 100%)">
-        ${statusBar('light')}
+        ${statusBar("light")}
         <svg class="absolute inset-0 pointer-events-none" width="100%" height="100%" viewBox="0 0 320 180" preserveAspectRatio="none">
           <circle cx="24"  cy="30"  r="3"   fill="#FDE68A" opacity=".8"/>
           <circle cx="290" cy="42"  r="2.5" fill="#A7F3D0" opacity=".7"/>
@@ -131,5 +131,5 @@ export default {
           🚀 Compartilhar & formar liga
         </button>
       </div>
-    </div>`
+    </div>`,
 };

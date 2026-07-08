@@ -99,9 +99,9 @@ Anonymous handling is mandatory; respect the user's flag.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `ranking.row_rendered`             | Each row (sampled)                         | `is_user: bool`, `is_anonymous: bool`|
+| Event                  | When               | Props                                 |
+| ---------------------- | ------------------ | ------------------------------------- |
+| `ranking.row_rendered` | Each row (sampled) | `is_user: bool`, `is_anonymous: bool` |
 
 ## Tests
 

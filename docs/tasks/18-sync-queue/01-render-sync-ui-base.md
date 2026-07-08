@@ -115,10 +115,10 @@ Not applicable to this task.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `sync_queue.viewed`            | Screen mounts                              | `item_count`, `online: bool`         |
-| `sync_queue.back_pressed`      | User taps back                             | —                                     |
+| Event                     | When           | Props                        |
+| ------------------------- | -------------- | ---------------------------- |
+| `sync_queue.viewed`       | Screen mounts  | `item_count`, `online: bool` |
+| `sync_queue.back_pressed` | User taps back | —                            |
 
 ## Tests
 
@@ -139,11 +139,13 @@ Not applicable to this task.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Fila de Sincronização'`)
 - Offline queue (data source): `00-foundation/09-offline-queue.md`
 - Home offline banner (entry point): `06-home-map/10-offline-banner-and-cache.md`

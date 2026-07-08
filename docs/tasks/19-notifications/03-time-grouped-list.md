@@ -129,9 +129,9 @@ apps/city-hero/src/screens/Notifications/
 
 ### Endpoint
 
-| Method | Path                                                          | Purpose                              |
-|--------|---------------------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/notifications?category_group=&cursor=&limit=`        | Paginated list of notifications      |
+| Method | Path                                                   | Purpose                         |
+| ------ | ------------------------------------------------------ | ------------------------------- |
+| GET    | `/api/v1/notifications?category_group=&cursor=&limit=` | Paginated list of notifications |
 
 Sorted by `created_at desc`. Multi-tenant scoping enforced. Returns the unread flag per item.
 
@@ -150,12 +150,12 @@ The list is per-user; no cross-user data leakage.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `notifications.list_loaded`        | First page rendered                        | `count`, `unread_count`              |
-| `notifications.next_page_loaded`   | Subsequent page                            | `count`                               |
-| `notifications.realtime_received`  | New notification pushed                    | `category`                            |
-| `notifications.pull_to_refresh`    | User pulled to refresh                     | —                                     |
+| Event                             | When                    | Props                   |
+| --------------------------------- | ----------------------- | ----------------------- |
+| `notifications.list_loaded`       | First page rendered     | `count`, `unread_count` |
+| `notifications.next_page_loaded`  | Subsequent page         | `count`                 |
+| `notifications.realtime_received` | New notification pushed | `category`              |
+| `notifications.pull_to_refresh`   | User pulled to refresh  | —                       |
 
 ## Tests
 
@@ -178,15 +178,18 @@ The list is per-user; no cross-user data leakage.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (REST, multi-tenant, pagination): `docs/engineering/architecture-patterns.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - TanStack Query infinite queries: https://tanstack.com/query/latest/docs/react/guides/infinite-queries
 - Shopify FlashList: https://shopify.github.io/flash-list/
 
 ### Project context
+
 - Render UI base: `01-render-notifications-ui-base.md`
 - Filter chips (drives filter): `02-filter-chips.md`
 - Push handler (data source): `00-foundation/11-push-notification-handler.md`

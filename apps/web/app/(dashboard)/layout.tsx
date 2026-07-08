@@ -1,15 +1,22 @@
-import { Suspense } from 'react'
-import Link from 'next/link'
-import { MapIcon, ViewColumnsIcon, MapPinIcon, ChartBarIcon, UsersIcon } from '@heroicons/react/24/outline'
-import SidebarUserFooter from './_components/SidebarUserFooter'
+import {
+  MapIcon,
+  ViewColumnsIcon,
+  MapPinIcon,
+  ChartBarIcon,
+  UsersIcon,
+} from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { Suspense } from "react";
+
+import SidebarUserFooter from "./_components/SidebarUserFooter";
 
 const NAV = [
-  { href: '/', label: 'War Room', icon: MapIcon },
-  { href: '/kanban', label: 'Kanban', icon: ViewColumnsIcon },
-  { href: '/routing', label: 'Rotas Inteligentes', icon: MapPinIcon },
-  { href: '/analytics', label: 'Analytics', icon: ChartBarIcon },
-  { href: '/users', label: 'Usuários', icon: UsersIcon },
-]
+  { href: "/", label: "War Room", icon: MapIcon },
+  { href: "/kanban", label: "Kanban", icon: ViewColumnsIcon },
+  { href: "/routing", label: "Rotas Inteligentes", icon: MapPinIcon },
+  { href: "/analytics", label: "Analytics", icon: ChartBarIcon },
+  { href: "/users", label: "Usuários", icon: UsersIcon },
+];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -42,5 +49,5 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </Suspense>
       </main>
     </div>
-  )
+  );
 }

@@ -100,14 +100,17 @@ The shared event `accessibility.reduced_motion_active` from `03-onboarding-camer
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native AccessibilityInfo: https://reactnative.dev/docs/accessibilityinfo#isreducemotionenabled
 - WCAG 2.1 — Animation from Interactions: https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html
 
 ### Project context
+
 - Render UI: `01-render-onboarding-neighborhood-ui.md`
 - Shared hook: `03-onboarding-camera/03-reduced-motion-illustration.md`
 - `CLAUDE.md`

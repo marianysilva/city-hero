@@ -133,11 +133,11 @@ Not applicable (no data collected).
 
 ## Analytics
 
-| Event                                | When                       | Props |
-|--------------------------------------|----------------------------|-------|
-| `onboarding.camera_ai.viewed`        | Screen mounts              | —     |
-| `onboarding.camera_ai.back_pressed`  | User taps back             | —     |
-| `onboarding.camera_ai.next_pressed`  | User taps Next             | —     |
+| Event                               | When           | Props |
+| ----------------------------------- | -------------- | ----- |
+| `onboarding.camera_ai.viewed`       | Screen mounts  | —     |
+| `onboarding.camera_ai.back_pressed` | User taps back | —     |
+| `onboarding.camera_ai.next_pressed` | User taps Next | —     |
 
 (Back and Next aren't owned by this UI task — they delegate. Telemetry can fire from either layer; the state machine task owns the canonical event.)
 
@@ -159,15 +159,18 @@ Not applicable (no data collected).
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (component patterns): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native SVG: https://github.com/software-mansion/react-native-svg
 - React Native Reanimated: https://docs.swmansion.com/react-native-reanimated/
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Onboarding · Câmera IA'`)
 - Design tokens: `00-foundation/02-design-tokens.md`
 - Onboarding state machine: `02-onboarding-step-machine.md`

@@ -76,11 +76,11 @@ The notes themselves are a transparency device — they explain to the user what
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `bolsa_familia.transparency_rendered` | Section mounted                         | —                                     |
-| `bolsa_familia.law_link_pressed`   | User tapped a law reference               | `which`                               |
-| `bolsa_familia.denunciar_pressed`  | User tapped the CTA                        | —                                     |
+| Event                                 | When                        | Props   |
+| ------------------------------------- | --------------------------- | ------- |
+| `bolsa_familia.transparency_rendered` | Section mounted             | —       |
+| `bolsa_familia.law_link_pressed`      | User tapped a law reference | `which` |
+| `bolsa_familia.denunciar_pressed`     | User tapped the CTA         | —       |
 
 ## Tests
 

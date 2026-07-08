@@ -122,10 +122,10 @@ Same as SCREEN 13's timeline; staff names are first-name only.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `detail_ticket.timeline_rendered`  | Timeline mounted                           | `entry_count`, `had_sla_escalation: bool` |
-| `detail_ticket.sla_pill_visible`   | SLA pill rendered                          | `escalation_count`                    |
+| Event                             | When              | Props                                     |
+| --------------------------------- | ----------------- | ----------------------------------------- |
+| `detail_ticket.timeline_rendered` | Timeline mounted  | `entry_count`, `had_sla_escalation: bool` |
+| `detail_ticket.sla_pill_visible`  | SLA pill rendered | `escalation_count`                        |
 
 ## Tests
 
@@ -145,11 +145,13 @@ Same as SCREEN 13's timeline; staff names are first-name only.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (variant pattern): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-detail-ticket-ui-base.md`
 - SCREEN 13 timeline: `13-detail-in-progress/04-timeline.md`
 - `features.md` § 7 SLA escalation

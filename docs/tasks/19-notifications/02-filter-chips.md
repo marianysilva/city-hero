@@ -109,12 +109,12 @@ Renders the shared `FilterChipRow` from `@cityhero/design-system`. The screen ow
 
 The notification categories map to chip filters:
 
-| Chip            | Categories                                          |
-|-----------------|-----------------------------------------------------|
-| `Tudo`          | All                                                 |
-| `Status`        | `ticket.status_change`, `ticket.resolved`, etc.    |
-| `Conquistas`    | `xp.gained`, `level.up`, `achievement.unlocked`    |
-| `Comunidade`    | `support.received`, `enrichment.added`, `comment.added`, `prefecture.alert` |
+| Chip         | Categories                                                                  |
+| ------------ | --------------------------------------------------------------------------- |
+| `Tudo`       | All                                                                         |
+| `Status`     | `ticket.status_change`, `ticket.resolved`, etc.                             |
+| `Conquistas` | `xp.gained`, `level.up`, `achievement.unlocked`                             |
+| `Comunidade` | `support.received`, `enrichment.added`, `comment.added`, `prefecture.alert` |
 
 ## Backend (FastAPI)
 
@@ -135,9 +135,9 @@ Not applicable.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `notifications.filter_changed`     | Chip tapped                                | `from`, `to`                          |
+| Event                          | When        | Props        |
+| ------------------------------ | ----------- | ------------ |
+| `notifications.filter_changed` | Chip tapped | `from`, `to` |
 
 ## Tests
 
@@ -159,11 +159,13 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-notifications-ui-base.md`
 - Time-grouped list (consumes filter): `03-time-grouped-list.md`
 - Push handler: `00-foundation/11-push-notification-handler.md`

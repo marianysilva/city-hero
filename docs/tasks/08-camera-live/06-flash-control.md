@@ -93,11 +93,11 @@ apps/city-hero/src/screens/Camera/
 
 ### Visual states
 
-| Mode  | Icon                                        |
-|-------|---------------------------------------------|
-| `auto`| ⚡ with a small "A" annotation              |
-| `on`  | Filled ⚡                                    |
-| `off` | ⚡ with a diagonal strikethrough            |
+| Mode   | Icon                             |
+| ------ | -------------------------------- |
+| `auto` | ⚡ with a small "A" annotation   |
+| `on`   | Filled ⚡                        |
+| `off`  | ⚡ with a diagonal strikethrough |
 
 ## Backend
 
@@ -118,10 +118,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `camera.flash_mode_changed`    | User cycles the mode                       | `to`                                  |
-| `camera.flash_unavailable`     | Device reports no flash hardware           | —                                     |
+| Event                       | When                             | Props |
+| --------------------------- | -------------------------------- | ----- |
+| `camera.flash_mode_changed` | User cycles the mode             | `to`  |
+| `camera.flash_unavailable`  | Device reports no flash hardware | —     |
 
 ## Tests
 
@@ -141,15 +141,18 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (component patterns): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - react-native-vision-camera flash modes: https://react-native-vision-camera.com/docs/api/interfaces/CameraProps
 - expo-camera flash mode: https://docs.expo.dev/versions/latest/sdk/camera/
 
 ### Project context
+
 - Render UI base: `01-render-camera-ui-base.md`
 - Capture / shutter: `04-capture-shutter.md`
 - `CLAUDE.md`

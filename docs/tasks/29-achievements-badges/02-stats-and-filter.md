@@ -94,9 +94,9 @@ Personal.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `achievements.filter_changed`      | Chip tapped                                | `kind`, `value`                       |
+| Event                         | When        | Props           |
+| ----------------------------- | ----------- | --------------- |
+| `achievements.filter_changed` | Chip tapped | `kind`, `value` |
 
 ## Tests
 

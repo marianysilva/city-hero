@@ -89,9 +89,9 @@ apps/city-hero/src/screens/Programs/
 
 ## Backend
 
-| Method | Path                                                                  | Purpose                              |
-|--------|-----------------------------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/cities/{id}/programs?category=&cursor=&limit=`               | Paginated programs                  |
+| Method | Path                                                    | Purpose            |
+| ------ | ------------------------------------------------------- | ------------------ |
+| GET    | `/api/v1/cities/{id}/programs?category=&cursor=&limit=` | Paginated programs |
 
 Multi-tenant scoping; sorts by featured-first then by name.
 
@@ -111,10 +111,10 @@ Aggregate data.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `programs.grid_loaded`             | First page rendered                        | `count`, `filter`                     |
-| `programs.card_pressed`            | User tapped a card                         | `program_id`, `level`                |
+| Event                   | When                | Props                 |
+| ----------------------- | ------------------- | --------------------- |
+| `programs.grid_loaded`  | First page rendered | `count`, `filter`     |
+| `programs.card_pressed` | User tapped a card  | `program_id`, `level` |
 
 ## Tests
 

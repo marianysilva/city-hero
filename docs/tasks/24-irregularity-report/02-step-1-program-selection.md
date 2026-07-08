@@ -95,10 +95,10 @@ No PII collected at this step.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `irregularity.program_selected`    | User picked a program                      | `program_id`                          |
-| `irregularity.search_typed`        | User searched                              | `query_length`                        |
+| Event                           | When                  | Props          |
+| ------------------------------- | --------------------- | -------------- |
+| `irregularity.program_selected` | User picked a program | `program_id`   |
+| `irregularity.search_typed`     | User searched         | `query_length` |
 
 ## Tests
 

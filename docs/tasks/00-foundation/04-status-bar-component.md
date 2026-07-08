@@ -128,15 +128,18 @@ Not applicable (purely visual).
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - Expo Status Bar: https://docs.expo.dev/versions/latest/sdk/status-bar/
 - Safe Area Context: https://github.com/th3rdwave/react-native-safe-area-context
 - React Navigation focus effect: https://reactnavigation.org/docs/use-focus-effect
 
 ### Project context
+
 - Prototype: `design/index.html` (search `statusBar(`)
 - `CLAUDE.md`

@@ -1,128 +1,157 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { PencilIcon, PlusIcon, KeyIcon, TrashIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
+import {
+  PencilIcon,
+  PlusIcon,
+  KeyIcon,
+  TrashIcon,
+  ArrowPathIcon,
+} from "@heroicons/react/24/outline";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-import { Button } from '@/components/atoms/Button'
-import { Tabs } from '@/components/atoms/Tabs'
-import { Tooltip } from '@/components/atoms/Tooltip'
-import { AlertMessage } from '@/components/molecules/AlertMessage'
-import { ConfirmDialog } from '@/components/organisms/ConfirmDialog'
-import { DataTable, type Column } from '@/components/organisms/DataTable'
-import { Pagination } from '@/components/organisms/Pagination'
+import { Button } from "@/components/atoms/Button";
+import { Tabs } from "@/components/atoms/Tabs";
+import { Tooltip } from "@/components/atoms/Tooltip";
+import { AlertMessage } from "@/components/molecules/AlertMessage";
+import { ConfirmDialog } from "@/components/organisms/ConfirmDialog";
+import { DataTable, type Column } from "@/components/organisms/DataTable";
+import type { SortEntry } from "@/components/organisms/DataTable";
+import { Pagination } from "@/components/organisms/Pagination";
 
-import { DEFAULT_SORT, DEFAULT_SORT_DELETED, PAGE_SIZE, type ModalState, type UserRow, type UserStatus } from './_types'
-import { useUsers } from './_hooks/useUsers'
-import { useCurrentUser } from './_hooks/useCurrentUser'
-import { RoleBadge } from './_components/RoleBadge'
-import { StatusBadge } from './_components/StatusBadge'
-import { UserFormModal } from './_components/UserFormModal'
-import { ResetPasswordModal } from './_components/ResetPasswordModal'
-import { UserSearchBar } from './_components/UserSearchBar'
-import type { SortEntry } from '@/components/organisms/DataTable'
+import { ResetPasswordModal } from "./_components/ResetPasswordModal";
+import { RoleBadge } from "./_components/RoleBadge";
+import { StatusBadge } from "./_components/StatusBadge";
+import { UserFormModal } from "./_components/UserFormModal";
+import { UserSearchBar } from "./_components/UserSearchBar";
+import { useCurrentUser } from "./_hooks/useCurrentUser";
+import { useUsers } from "./_hooks/useUsers";
+import {
+  DEFAULT_SORT,
+  DEFAULT_SORT_DELETED,
+  PAGE_SIZE,
+  type ModalState,
+  type UserRow,
+  type UserStatus,
+} from "./_types";
 
 const TAB_LABELS: Record<UserStatus, string> = {
-  active: 'Ativos',
-  inactive: 'Inativos',
-  deleted: 'Deletados',
-}
+  active: "Ativos",
+  inactive: "Inativos",
+  deleted: "Deletados",
+};
 
 export default function UsersPage() {
-  const searchParams = useSearchParams()
-  const router = useRouter()
-  const pathname = usePathname()
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const urlQ = searchParams.get('q') ?? ''
-  const urlPage = Math.max(1, parseInt(searchParams.get('page') ?? '1', 10))
-  const VALID_TABS: UserStatus[] = ['active', 'inactive', 'deleted']
-  const rawTab = searchParams.get('tab')
-  const urlTab: UserStatus = VALID_TABS.includes(rawTab as UserStatus) ? (rawTab as UserStatus) : 'active'
+  const urlQ = searchParams.get("q") ?? "";
+  const urlPage = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10));
+  const VALID_TABS: UserStatus[] = ["active", "inactive", "deleted"];
+  const rawTab = searchParams.get("tab");
+  const urlTab: UserStatus = VALID_TABS.includes(rawTab as UserStatus)
+    ? (rawTab as UserStatus)
+    : "active";
 
-  const [inputValue, setInputValue] = useState(urlQ)
+  const [inputValue, setInputValue] = useState(urlQ);
   useEffect(() => {
     // Re-sync the editable search box when urlQ changes from outside this
     // component (e.g. back/forward navigation), without clobbering in-progress typing.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setInputValue(urlQ)
-  }, [urlQ])
+    setInputValue(urlQ);
+  }, [urlQ]);
 
   const [sort, setSort] = useState<SortEntry[]>(() =>
-    urlTab === 'deleted' ? DEFAULT_SORT_DELETED : DEFAULT_SORT
-  )
-  const [modal, setModal] = useState<ModalState>(null)
-  const [resetPasswordUser, setResetPasswordUser] = useState<UserRow | null>(null)
-  const [confirmDelete, setConfirmDelete] = useState<UserRow | null>(null)
+    urlTab === "deleted" ? DEFAULT_SORT_DELETED : DEFAULT_SORT,
+  );
+  const [modal, setModal] = useState<ModalState>(null);
+  const [resetPasswordUser, setResetPasswordUser] = useState<UserRow | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<UserRow | null>(null);
 
   const {
-    isAdmin, canCreate, canEdit,
-    isLoading: permissionsLoading, error: permissionsError,
-    assignableRoles, canManageUser,
-  } = useCurrentUser()
+    isAdmin,
+    canCreate,
+    canEdit,
+    isLoading: permissionsLoading,
+    error: permissionsError,
+    assignableRoles,
+    canManageUser,
+  } = useCurrentUser();
 
   const {
-    users, total, loading, fetchError,
-    deleteLoading, deleteError, setDeleteError, deleteUser,
-    restoreLoading, restoreError, setRestoreError, restoreUser,
+    users,
+    total,
+    loading,
+    fetchError,
+    deleteLoading,
+    deleteError,
+    setDeleteError,
+    deleteUser,
+    restoreLoading,
+    restoreError,
+    setRestoreError,
+    restoreUser,
     fetchUsers,
-  } = useUsers()
+  } = useUsers();
 
   useEffect(() => {
-    fetchUsers(urlPage, sort, urlQ, urlTab)
-  }, [urlPage, sort, urlQ, urlTab, fetchUsers])
+    fetchUsers(urlPage, sort, urlQ, urlTab);
+  }, [urlPage, sort, urlQ, urlTab, fetchUsers]);
 
   function pushUrl(overrides: { q?: string; page?: number; tab?: UserStatus }) {
-    const params = new URLSearchParams()
-    const newQ = 'q' in overrides ? (overrides.q ?? '') : urlQ
-    const newPage = overrides.page ?? 1
-    const newTab = 'tab' in overrides ? (overrides.tab ?? 'active') : urlTab
-    if (newQ) params.set('q', newQ)
-    if (newPage > 1) params.set('page', String(newPage))
-    if (newTab !== 'active') params.set('tab', newTab)
-    const qs = params.toString()
-    router.push(pathname + (qs ? `?${qs}` : ''))
+    const params = new URLSearchParams();
+    const newQ = "q" in overrides ? (overrides.q ?? "") : urlQ;
+    const newPage = overrides.page ?? 1;
+    const newTab = "tab" in overrides ? (overrides.tab ?? "active") : urlTab;
+    if (newQ) params.set("q", newQ);
+    if (newPage > 1) params.set("page", String(newPage));
+    if (newTab !== "active") params.set("tab", newTab);
+    const qs = params.toString();
+    router.push(pathname + (qs ? `?${qs}` : ""));
   }
 
   function handleTabChange(tab: string) {
-    const newTab = tab as UserStatus
-    setSort(newTab === 'deleted' ? DEFAULT_SORT_DELETED : DEFAULT_SORT)
-    pushUrl({ tab: newTab, page: 1 })
+    const newTab = tab as UserStatus;
+    setSort(newTab === "deleted" ? DEFAULT_SORT_DELETED : DEFAULT_SORT);
+    pushUrl({ tab: newTab, page: 1 });
   }
 
   function handleSort(field: string, append: boolean) {
     setSort((prev) => {
-      const idx = prev.findIndex((s) => s.field === field)
-      const existing = prev[idx]
+      const idx = prev.findIndex((s) => s.field === field);
+      const existing = prev[idx];
       if (!append) {
-        if (prev.length === 1 && existing) return [{ field, dir: existing.dir === 'asc' ? 'desc' : 'asc' }]
-        return [{ field, dir: 'asc' }]
+        if (prev.length === 1 && existing)
+          return [{ field, dir: existing.dir === "asc" ? "desc" : "asc" }];
+        return [{ field, dir: "asc" }];
       }
       if (existing) {
-        const next = [...prev]
-        next[idx] = { field, dir: existing.dir === 'asc' ? 'desc' : 'asc' }
-        return next
+        const next = [...prev];
+        next[idx] = { field, dir: existing.dir === "asc" ? "desc" : "asc" };
+        return next;
       }
-      return [...prev, { field, dir: 'asc' }]
-    })
-    pushUrl({ page: 1 })
+      return [...prev, { field, dir: "asc" }];
+    });
+    pushUrl({ page: 1 });
   }
 
   async function handleConfirmDelete() {
-    if (!confirmDelete) return
+    if (!confirmDelete) return;
     try {
-      await deleteUser(confirmDelete.id)
-      setConfirmDelete(null)
-      fetchUsers(urlPage, sort, urlQ, urlTab)
+      await deleteUser(confirmDelete.id);
+      setConfirmDelete(null);
+      fetchUsers(urlPage, sort, urlQ, urlTab);
     } catch {
       // error surfaced via deleteError state
     }
   }
 
   async function handleRestore(user: UserRow) {
-    setRestoreError(null)
+    setRestoreError(null);
     try {
-      await restoreUser(user.id)
-      fetchUsers(urlPage, sort, urlQ, urlTab)
+      await restoreUser(user.id);
+      fetchUsers(urlPage, sort, urlQ, urlTab);
     } catch {
       // error surfaced via restoreError state
     }
@@ -130,59 +159,57 @@ export default function UsersPage() {
 
   const baseColumns: Column<UserRow>[] = [
     {
-      key: 'name',
-      header: 'Nome',
-      sortKey: 'name',
+      key: "name",
+      header: "Nome",
+      sortKey: "name",
       render: (u) => <span className="font-medium text-zinc-900">{u.name}</span>,
     },
     {
-      key: 'email',
-      header: 'E-mail',
-      sortKey: 'email',
+      key: "email",
+      header: "E-mail",
+      sortKey: "email",
       render: (u) => <span className="text-zinc-600">{u.email}</span>,
     },
     {
-      key: 'role',
-      header: 'Role',
-      sortKey: 'role',
+      key: "role",
+      header: "Role",
+      sortKey: "role",
       render: (u) => <RoleBadge role={u.role} />,
     },
     {
-      key: 'created_at',
-      header: 'Criado em',
-      sortKey: 'created_at',
+      key: "created_at",
+      header: "Criado em",
+      sortKey: "created_at",
       render: (u) => (
-        <span className="text-zinc-400">
-          {new Date(u.createdAt).toLocaleDateString('pt-BR')}
-        </span>
+        <span className="text-zinc-400">{new Date(u.createdAt).toLocaleDateString("pt-BR")}</span>
       ),
     },
-  ]
+  ];
 
   const activeColumns: Column<UserRow>[] = [
     ...baseColumns,
     {
-      key: 'status',
-      header: 'Status',
-      sortKey: 'status',
+      key: "status",
+      header: "Status",
+      sortKey: "status",
       render: (u) => <StatusBadge active={u.isActive} />,
     },
     {
-      key: 'provider',
-      header: 'Provider',
+      key: "provider",
+      header: "Provider",
       render: (u) => <span className="text-zinc-500 capitalize">{u.authProvider}</span>,
     },
     {
-      key: 'actions',
-      header: '',
-      className: 'w-24',
+      key: "actions",
+      header: "",
+      className: "w-24",
       render: (u) => (
         <div className="flex items-center gap-1 justify-end">
           {!permissionsLoading && canEdit && canManageUser(u.role) && (
             <Tooltip label="Editar">
               <button
                 aria-label="Editar usuário"
-                onClick={() => setModal({ mode: 'edit', user: u })}
+                onClick={() => setModal({ mode: "edit", user: u })}
                 className="p-1.5 text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 rounded-lg transition-colors"
               >
                 <PencilIcon className="w-4 h-4" />
@@ -204,7 +231,10 @@ export default function UsersPage() {
             <Tooltip label="Excluir">
               <button
                 aria-label="Excluir usuário"
-                onClick={() => { setDeleteError(null); setConfirmDelete(u) }}
+                onClick={() => {
+                  setDeleteError(null);
+                  setConfirmDelete(u);
+                }}
                 className="p-1.5 text-zinc-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
               >
                 <TrashIcon className="w-4 h-4" />
@@ -214,24 +244,24 @@ export default function UsersPage() {
         </div>
       ),
     },
-  ]
+  ];
 
   const deletedColumns: Column<UserRow>[] = [
     ...baseColumns,
     {
-      key: 'deleted_at',
-      header: 'Deletado em',
-      sortKey: 'deleted_at',
+      key: "deleted_at",
+      header: "Deletado em",
+      sortKey: "deleted_at",
       render: (u) => (
         <span className="text-red-400">
-          {u.deletedAt ? new Date(u.deletedAt).toLocaleDateString('pt-BR') : '—'}
+          {u.deletedAt ? new Date(u.deletedAt).toLocaleDateString("pt-BR") : "—"}
         </span>
       ),
     },
     {
-      key: 'actions',
-      header: '',
-      className: 'w-16',
+      key: "actions",
+      header: "",
+      className: "w-16",
       render: (u) => (
         <div className="flex items-center gap-1 justify-end">
           {!permissionsLoading && canEdit && canManageUser(u.role) && (
@@ -249,15 +279,15 @@ export default function UsersPage() {
         </div>
       ),
     },
-  ]
+  ];
 
-  const columns = urlTab === 'deleted' ? deletedColumns : activeColumns
+  const columns = urlTab === "deleted" ? deletedColumns : activeColumns;
 
-  const tabs = (['active', 'inactive', 'deleted'] as UserStatus[]).map((id) => ({
+  const tabs = (["active", "inactive", "deleted"] as UserStatus[]).map((id) => ({
     id,
     label: TAB_LABELS[id],
     count: id === urlTab ? total : undefined,
-  }))
+  }));
 
   return (
     <div className="p-8">
@@ -265,12 +295,12 @@ export default function UsersPage() {
         <div>
           <h1 className="text-2xl font-semibold text-zinc-900">Usuários</h1>
           <p className="text-sm text-zinc-500 mt-0.5">
-            {total} {total === 1 ? 'usuário' : 'usuários'}
+            {total} {total === 1 ? "usuário" : "usuários"}
             {urlQ && <span className="text-zinc-400"> · resultados para &quot;{urlQ}&quot;</span>}
           </p>
         </div>
-        {!permissionsLoading && canCreate && urlTab !== 'deleted' && (
-          <Button variant="primary" onClick={() => setModal({ mode: 'create' })}>
+        {!permissionsLoading && canCreate && urlTab !== "deleted" && (
+          <Button variant="primary" onClick={() => setModal({ mode: "create" })}>
             <PlusIcon className="w-4 h-4" />
             Novo usuário
           </Button>
@@ -293,7 +323,10 @@ export default function UsersPage() {
         value={inputValue}
         onChange={setInputValue}
         onSubmit={() => pushUrl({ q: inputValue.trim(), page: 1 })}
-        onClear={() => { setInputValue(''); pushUrl({ q: '', page: 1 }) }}
+        onClear={() => {
+          setInputValue("");
+          pushUrl({ q: "", page: 1 });
+        }}
         hasActiveQuery={!!urlQ}
       />
 
@@ -305,7 +338,9 @@ export default function UsersPage() {
         keyFn={(u) => u.id}
         loading={loading}
         error={fetchError}
-        emptyMessage={urlQ ? `Nenhum usuário encontrado para "${urlQ}".` : 'Nenhum usuário encontrado.'}
+        emptyMessage={
+          urlQ ? `Nenhum usuário encontrado para "${urlQ}".` : "Nenhum usuário encontrado."
+        }
         sort={sort}
         onSort={handleSort}
       />
@@ -322,7 +357,10 @@ export default function UsersPage() {
           canChangeRole={isAdmin}
           assignableRoles={assignableRoles}
           onClose={() => setModal(null)}
-          onSaved={() => { setModal(null); fetchUsers(urlPage, sort, urlQ, urlTab) }}
+          onSaved={() => {
+            setModal(null);
+            fetchUsers(urlPage, sort, urlQ, urlTab);
+          }}
         />
       )}
 
@@ -339,8 +377,8 @@ export default function UsersPage() {
           title="Excluir usuário?"
           description={
             <>
-              <strong>{confirmDelete.name}</strong> ({confirmDelete.email}) será movido para a
-              lista de deletados e poderá ser restaurado posteriormente.
+              <strong>{confirmDelete.name}</strong> ({confirmDelete.email}) será movido para a lista
+              de deletados e poderá ser restaurado posteriormente.
             </>
           }
           confirmLabel="Excluir"
@@ -352,5 +390,5 @@ export default function UsersPage() {
         />
       )}
     </div>
-  )
+  );
 }

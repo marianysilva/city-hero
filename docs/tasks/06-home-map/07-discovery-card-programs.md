@@ -65,7 +65,7 @@ initial engagement.
 
 ### Scenario · Other discovery cards (future)
 
-**Given** the architecture supports more discovery cards (e.g., "Try the Camera AI"  after 1st support)
+**Given** the architecture supports more discovery cards (e.g., "Try the Camera AI" after 1st support)
 **When** the screen renders
 **Then** at most one card is visible at a time
 **And** the priority order is configurable
@@ -108,23 +108,23 @@ apps/city-hero/src/screens/Home/
 
 The discovery cards are configured statically (or loaded from config service):
 
-| Field            | Description                                   |
-|------------------|-----------------------------------------------|
-| `id`             | Stable identifier (`programs_transparency`)   |
-| `trigger`        | Condition to evaluate (e.g., `synced_reports >= 3`) |
-| `headline`       | Short label                                   |
-| `cta_label`      | "Ver"                                         |
-| `target_route`   | Where to navigate                             |
-| `gradient_from`  | Style                                         |
-| `gradient_to`    | Style                                         |
+| Field           | Description                                         |
+| --------------- | --------------------------------------------------- |
+| `id`            | Stable identifier (`programs_transparency`)         |
+| `trigger`       | Condition to evaluate (e.g., `synced_reports >= 3`) |
+| `headline`      | Short label                                         |
+| `cta_label`     | "Ver"                                               |
+| `target_route`  | Where to navigate                                   |
+| `gradient_from` | Style                                               |
+| `gradient_to`   | Style                                               |
 
 ## Backend (FastAPI)
 
 ### Field on `users`
 
-| Column                       | Type      | Notes                                                |
-|------------------------------|-----------|------------------------------------------------------|
-| `discovery_cards_state`      | jsonb     | Map of card_id → state (`seen`, `dismissed`, `null`) |
+| Column                  | Type  | Notes                                                |
+| ----------------------- | ----- | ---------------------------------------------------- |
+| `discovery_cards_state` | jsonb | Map of card_id → state (`seen`, `dismissed`, `null`) |
 
 ### Endpoint reuse
 
@@ -151,11 +151,11 @@ The state is non-sensitive (just card IDs and timestamps). Stored within the use
 
 ## Analytics
 
-| Event                              | When                                    | Props                |
-|------------------------------------|-----------------------------------------|----------------------|
-| `home.discovery_card_shown`        | Card rendered                           | `card_id`            |
-| `home.discovery_card_tapped`       | User taps the card                      | `card_id`            |
-| `home.discovery_card_dismissed`    | User taps "×"                           | `card_id`            |
+| Event                           | When               | Props     |
+| ------------------------------- | ------------------ | --------- |
+| `home.discovery_card_shown`     | Card rendered      | `card_id` |
+| `home.discovery_card_tapped`    | User taps the card | `card_id` |
+| `home.discovery_card_dismissed` | User taps "×"      | `card_id` |
 
 ## Tests
 
@@ -176,11 +176,13 @@ The state is non-sensitive (just card IDs and timestamps). Stored within the use
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-home-ui-base.md`
 - Programs screen: `22-programs-transparency/`
 - `CLAUDE.md`

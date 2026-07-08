@@ -1,72 +1,82 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Button } from '@/components/atoms/Button'
-import { Input } from '@/components/atoms/Input'
-import { Select } from '@/components/atoms/Select'
-import { Checkbox } from '@/components/atoms/Checkbox'
-import { FormField } from '@/components/molecules/FormField'
-import { AlertMessage } from '@/components/molecules/AlertMessage'
-import { Modal } from '@/components/organisms/Modal'
-import { ROLES, type ModalState, type Role } from '../_types'
-import { apiFetch } from '../_api'
+import { useState } from "react";
+
+import { Button } from "@/components/atoms/Button";
+import { Checkbox } from "@/components/atoms/Checkbox";
+import { Input } from "@/components/atoms/Input";
+import { Select } from "@/components/atoms/Select";
+import { AlertMessage } from "@/components/molecules/AlertMessage";
+import { FormField } from "@/components/molecules/FormField";
+import { Modal } from "@/components/organisms/Modal";
+
+import { apiFetch } from "../_api";
+import { ROLES, type ModalState, type Role } from "../_types";
 
 interface UserFormModalProps {
-  modal: NonNullable<ModalState>
-  canChangeRole: boolean
-  assignableRoles: Role[]
-  onClose: () => void
-  onSaved: () => void
+  modal: NonNullable<ModalState>;
+  canChangeRole: boolean;
+  assignableRoles: Role[];
+  onClose: () => void;
+  onSaved: () => void;
 }
 
-export function UserFormModal({ modal, canChangeRole, assignableRoles, onClose, onSaved }: UserFormModalProps) {
-  const isEdit = modal.mode === 'edit'
-  const editUser = isEdit ? modal.user : null
+export function UserFormModal({
+  modal,
+  canChangeRole,
+  assignableRoles,
+  onClose,
+  onSaved,
+}: UserFormModalProps) {
+  const isEdit = modal.mode === "edit";
+  const editUser = isEdit ? modal.user : null;
 
-  const defaultRole = isEdit ? (editUser?.role ?? 'citizen') : (assignableRoles[assignableRoles.length - 1] ?? 'citizen')
+  const defaultRole = isEdit
+    ? (editUser?.role ?? "citizen")
+    : (assignableRoles[assignableRoles.length - 1] ?? "citizen");
 
-  const [name, setName] = useState(editUser?.name ?? '')
-  const [email, setEmail] = useState(editUser?.email ?? '')
-  const [password, setPassword] = useState('')
-  const [role, setRole] = useState<Role>(defaultRole)
-  const [isActive, setIsActive] = useState(editUser?.isActive ?? true)
-  const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [name, setName] = useState(editUser?.name ?? "");
+  const [email, setEmail] = useState(editUser?.email ?? "");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState<Role>(defaultRole);
+  const [isActive, setIsActive] = useState(editUser?.isActive ?? true);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const roleOptions = isEdit
-    ? ROLES  // show all roles in edit mode (field is read-only for non-admins)
-    : ROLES.filter((r) => assignableRoles.includes(r.value))
+    ? ROLES // show all roles in edit mode (field is read-only for non-admins)
+    : ROLES.filter((r) => assignableRoles.includes(r.value));
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setError(null)
-    setLoading(true)
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
     try {
       if (isEdit && editUser) {
-        const payload: Record<string, unknown> = { name, is_active: isActive }
-        if (canChangeRole) payload.role = role
+        const payload: Record<string, unknown> = { name, is_active: isActive };
+        if (canChangeRole) payload.role = role;
         await apiFetch(`/api/users/${editUser.id}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
-        })
+        });
       } else {
-        await apiFetch('/api/users', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        await apiFetch("/api/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, name, password, role }),
-        })
+        });
       }
-      onSaved()
+      onSaved();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro desconhecido')
+      setError(err instanceof Error ? err.message : "Erro desconhecido");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   return (
-    <Modal title={isEdit ? 'Editar usuário' : 'Novo usuário'} onClose={onClose}>
+    <Modal title={isEdit ? "Editar usuário" : "Novo usuário"} onClose={onClose}>
       <form onSubmit={handleSubmit} className="space-y-4">
         <FormField label="Nome" htmlFor="u-name" required>
           <Input
@@ -133,10 +143,10 @@ export function UserFormModal({ modal, canChangeRole, assignableRoles, onClose, 
             Cancelar
           </Button>
           <Button type="submit" variant="primary" loading={loading}>
-            {isEdit ? 'Salvar' : 'Criar'}
+            {isEdit ? "Salvar" : "Criar"}
           </Button>
         </div>
       </form>
     </Modal>
-  )
+  );
 }

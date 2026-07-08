@@ -128,10 +128,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                    | Props |
-|--------------------------------|-----------------------------------------|-------|
-| `feed.viewed`                  | Screen mounts                           | —     |
-| `feed.search_pressed`          | User taps the search icon               | —     |
+| Event                 | When                      | Props |
+| --------------------- | ------------------------- | ----- |
+| `feed.viewed`         | Screen mounts             | —     |
+| `feed.search_pressed` | User taps the search icon | —     |
 
 ## Tests
 
@@ -153,15 +153,18 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (component patterns): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native Safe Area Context: https://github.com/th3rdwave/react-native-safe-area-context
 - Bottom Sheet (`@gorhom/bottom-sheet`): https://gorhom.dev/react-native-bottom-sheet
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Feed Cívico'`)
 - Bottom nav: `00-foundation/03-bottom-nav-component.md`
 - `CLAUDE.md`

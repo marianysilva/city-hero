@@ -53,13 +53,14 @@ Tapping a notification:
 **Given** notifications have different categories
 **When** rendered
 **Then** the icon background colors map deliberately:
-  - emerald — ticket resolved
-  - yellow-gold — XP gain
-  - purple — achievement
-  - rose — social support
-  - sky — prefecture
-  - slate — enrichment
-  - amber — level-up
+
+- emerald — ticket resolved
+- yellow-gold — XP gain
+- purple — achievement
+- rose — social support
+- sky — prefecture
+- slate — enrichment
+- amber — level-up
 
 ### Scenario · Tap routing
 
@@ -67,13 +68,14 @@ Tapping a notification:
 **When** the action runs
 **Then** the notification is marked as read (per task 05)
 **And** the app navigates to the destination based on its type:
-  - `ticket.status_change` / `ticket.resolved` → Detail · Ticket / In Progress (SCREEN 13/14)
-  - `xp.gained` → Citizen Profile XP tab (SCREEN 28)
-  - `achievement.unlocked` → Achievements & Medals (SCREEN 29)
-  - `support.received` → the supported report's detail
-  - `prefecture.alert` → Prefecture News (SCREEN 21)
-  - `enrichment.added` → the parent report's detail
-  - `level.up` → Citizen Profile (SCREEN 28)
+
+- `ticket.status_change` / `ticket.resolved` → Detail · Ticket / In Progress (SCREEN 13/14)
+- `xp.gained` → Citizen Profile XP tab (SCREEN 28)
+- `achievement.unlocked` → Achievements & Medals (SCREEN 29)
+- `support.received` → the supported report's detail
+- `prefecture.alert` → Prefecture News (SCREEN 21)
+- `enrichment.added` → the parent report's detail
+- `level.up` → Citizen Profile (SCREEN 28)
 
 ### Scenario · Unknown type (forward compatibility)
 
@@ -160,11 +162,11 @@ The notification content is per-user; no cross-user data exposure.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `notifications.card_pressed`       | User tapped a notification                 | `category`, `target_kind`             |
-| `notifications.unknown_type_seen`  | Unknown category encountered               | `category`                            |
-| `notifications.routing_failed`     | Target invalid                             | `category`, `target_kind`             |
+| Event                             | When                         | Props                     |
+| --------------------------------- | ---------------------------- | ------------------------- |
+| `notifications.card_pressed`      | User tapped a notification   | `category`, `target_kind` |
+| `notifications.unknown_type_seen` | Unknown category encountered | `category`                |
+| `notifications.routing_failed`    | Target invalid               | `category`, `target_kind` |
 
 ## Tests
 
@@ -186,11 +188,13 @@ The notification content is per-user; no cross-user data exposure.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Time-grouped list: `03-time-grouped-list.md`
 - Mark-as-read: `05-mark-as-read.md`
 - Push handler (data + routing): `00-foundation/11-push-notification-handler.md`

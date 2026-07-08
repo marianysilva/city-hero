@@ -23,14 +23,14 @@ The user receives a confirmation page with the complaint reference
 
 ## Features (6 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · header + step indicator + slots](./01-render-irregularity-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Step 1 · Program/area selection](./02-step-1-program-selection.md) | S | task 01 |
-| 03 | [Step 2 · Authority selection (CGU, MP, Ouvidoria, etc.)](./03-step-2-authority-selection.md) | M | task 01 |
-| 04 | [Step 3 · Form fields + pre-fills](./04-step-3-form-fields.md) | M | task 01 |
-| 05 | [Step 4 · Identification disclosure (anon vs identified + LAI)](./05-step-4-identification.md) | S | task 01, `10-report-confirm/06-identification-toggle.md` |
-| 06 | [Step 5 · Handoff to channel + confirmation](./06-step-5-handoff.md) | M | task 01 |
+| #   | Task                                                                                           | Effort | Depends on                                               |
+| --- | ---------------------------------------------------------------------------------------------- | ------ | -------------------------------------------------------- |
+| 01  | [Render UI base · header + step indicator + slots](./01-render-irregularity-ui-base.md)        | S      | `00-foundation/02-design-tokens.md`                      |
+| 02  | [Step 1 · Program/area selection](./02-step-1-program-selection.md)                            | S      | task 01                                                  |
+| 03  | [Step 2 · Authority selection (CGU, MP, Ouvidoria, etc.)](./03-step-2-authority-selection.md)  | M      | task 01                                                  |
+| 04  | [Step 3 · Form fields + pre-fills](./04-step-3-form-fields.md)                                 | M      | task 01                                                  |
+| 05  | [Step 4 · Identification disclosure (anon vs identified + LAI)](./05-step-4-identification.md) | S      | task 01, `10-report-confirm/06-identification-toggle.md` |
+| 06  | [Step 5 · Handoff to channel + confirmation](./06-step-5-handoff.md)                           | M      | task 01                                                  |
 
 ## Suggested implementation order
 

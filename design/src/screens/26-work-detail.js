@@ -1,39 +1,39 @@
-import { statusBar } from '../atoms/StatusBar.js';
+import { statusBar } from "../atoms/StatusBar.js";
 
 const PLACA = [
-  { k: 'Contratante',   v: 'Prefeitura de Pôrto Belo · Sec. de Obras' },
-  { k: 'Empresa',       v: 'Construtora Ibirama Ltda.' },
-  { k: 'CNPJ',          v: '12.345.678/0001-90' },
-  { k: 'Resp. técnico', v: 'Eng. Pedro Machado · CREA SC-123456' },
-  { k: 'Valor',         v: 'R$ 890.000,00' },
-  { k: 'Prazo',         v: '120 dias · término 05/06/2026' },
+  { k: "Contratante", v: "Prefeitura de Pôrto Belo · Sec. de Obras" },
+  { k: "Empresa", v: "Construtora Ibirama Ltda." },
+  { k: "CNPJ", v: "12.345.678/0001-90" },
+  { k: "Resp. técnico", v: "Eng. Pedro Machado · CREA SC-123456" },
+  { k: "Valor", v: "R$ 890.000,00" },
+  { k: "Prazo", v: "120 dias · término 05/06/2026" },
 ];
 const FINANCEIRO = [
-  { k: 'Fonte',     v: 'FPM (60%) + Tesouro Municipal (40%)' },
-  { k: 'Licitação', v: 'Tomada de Preços 08/2025' },
-  { k: 'Aditivos',  v: '1 de prazo (+15 dias) · 0 de valor' },
+  { k: "Fonte", v: "FPM (60%) + Tesouro Municipal (40%)" },
+  { k: "Licitação", v: "Tomada de Preços 08/2025" },
+  { k: "Aditivos", v: "1 de prazo (+15 dias) · 0 de valor" },
 ];
 const CRONO = [
-  { c: 'bg-slate-400',   t: 'Projeto básico aprovado',   d: '10/10/2025' },
-  { c: 'bg-slate-400',   t: 'Licitação homologada',      d: '20/12/2025' },
-  { c: 'bg-indigo-500',  t: 'Contrato assinado',          d: '15/01/2026' },
-  { c: 'bg-sky-500',     t: 'Início das obras',           d: '05/02/2026' },
-  { c: 'bg-emerald-500', t: 'Marco 50% executado',        d: '02/04/2026' },
-  { c: 'bg-brand-500',   t: 'Situação atual · 72%',       d: 'Hoje', flag: true },
-  { c: 'bg-slate-200',   t: 'Entrega prevista',           d: '05/06/2026' },
+  { c: "bg-slate-400", t: "Projeto básico aprovado", d: "10/10/2025" },
+  { c: "bg-slate-400", t: "Licitação homologada", d: "20/12/2025" },
+  { c: "bg-indigo-500", t: "Contrato assinado", d: "15/01/2026" },
+  { c: "bg-sky-500", t: "Início das obras", d: "05/02/2026" },
+  { c: "bg-emerald-500", t: "Marco 50% executado", d: "02/04/2026" },
+  { c: "bg-brand-500", t: "Situação atual · 72%", d: "Hoje", flag: true },
+  { c: "bg-slate-200", t: "Entrega prevista", d: "05/06/2026" },
 ];
 const GALERIA = [
-  { date: '05/02', label: 'Início', img: 'feed-photos/obra-recapamento-1.png' },
-  { date: '12/03', label: '25%',    img: 'feed-photos/obra-recapamento-2.png' },
-  { date: '02/04', label: '50%',    img: 'feed-photos/obra-recapamento-3.png' },
-  { date: '18/04', label: '72%',    img: 'feed-photos/obra-recapamento-4.png' },
+  { date: "05/02", label: "Início", img: "feed-photos/obra-recapamento-1.png" },
+  { date: "12/03", label: "25%", img: "feed-photos/obra-recapamento-2.png" },
+  { date: "02/04", label: "50%", img: "feed-photos/obra-recapamento-3.png" },
+  { date: "18/04", label: "72%", img: "feed-photos/obra-recapamento-4.png" },
 ];
 
 /** Tela 26 · Detalhe da Obra (placa oficial · cronograma · financeiro) */
 export default {
-  title: 'Detalhe da Obra',
-  group: 'core',
-  summary: 'Obra pública · placa oficial · cronograma · financeiro',
+  title: "Detalhe da Obra",
+  group: "core",
+  summary: "Obra pública · placa oficial · cronograma · financeiro",
   note: `Transparência completa: todos os dados da <b>placa oficial da obra</b> (exigidos pela Lei 8.666 / TCU) + informações do Portal da Transparência (contrato, empresa, responsável técnico, medições, aditivos). Permite ao cidadão <b>fiscalizar</b> o uso do dinheiro público.`,
   html: () => `
     <div class="relative h-full bg-slate-50 flex flex-col overflow-hidden">
@@ -41,7 +41,7 @@ export default {
 
       <div class="relative h-52 overflow-hidden" style="background-image:url('feed-photos/obra-recapamento.png');background-size:cover;background-position:center">
         <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 35%,rgba(0,0,0,.6) 100%)"></div>
-        ${statusBar('light')}
+        ${statusBar("light")}
         <div class="absolute top-11 left-4 right-4 flex items-center justify-between">
           <button data-nav="prev" class="w-9 h-9 rounded-full bg-black/50 backdrop-blur text-white flex items-center justify-center">←</button>
           <button class="w-9 h-9 rounded-full bg-black/50 backdrop-blur text-white flex items-center justify-center">📤</button>
@@ -94,11 +94,13 @@ export default {
           <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Placa oficial</div>
           <span class="ml-auto px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 text-[9px] font-black">LEI 8.666</span>
         </div>
-        ${PLACA.map((r, i, arr) => `
-          <div class="flex gap-3 py-2 ${i < arr.length - 1 ? 'border-b border-slate-50' : ''}">
+        ${PLACA.map(
+          (r, i, arr) => `
+          <div class="flex gap-3 py-2 ${i < arr.length - 1 ? "border-b border-slate-50" : ""}">
             <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider w-24 flex-shrink-0 leading-snug">${r.k}</div>
             <div class="text-[11px] text-slate-800 font-semibold flex-1 leading-snug">${r.v}</div>
-          </div>`).join('')}
+          </div>`,
+        ).join("")}
       </div>
 
       <div class="mx-4 mt-3 bg-white rounded-2xl p-4 shadow-soft">
@@ -117,11 +119,13 @@ export default {
             <div class="font-black text-emerald-700 text-[15px] mt-0.5"><span class="text-[9px] opacity-60 font-bold mr-0.5">R$</span>640,8k</div>
           </div>
         </div>
-        ${FINANCEIRO.map((r, i, arr) => `
-          <div class="flex gap-3 py-1.5 ${i < arr.length - 1 ? 'border-b border-slate-50' : ''}">
+        ${FINANCEIRO.map(
+          (r, i, arr) => `
+          <div class="flex gap-3 py-1.5 ${i < arr.length - 1 ? "border-b border-slate-50" : ""}">
             <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider w-24 flex-shrink-0 leading-snug">${r.k}</div>
             <div class="text-[11px] text-slate-800 font-semibold flex-1 leading-snug">${r.v}</div>
-          </div>`).join('')}
+          </div>`,
+        ).join("")}
       </div>
 
       <div class="mx-4 mt-3 bg-white rounded-2xl p-4 shadow-soft">
@@ -129,21 +133,23 @@ export default {
           <span class="text-lg">📅</span>
           <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Cronograma</div>
         </div>
-        ${CRONO.map((ev, i, arr) => `
-          <div class="flex gap-2.5 ${i < arr.length - 1 ? 'pb-3' : ''} relative">
+        ${CRONO.map(
+          (ev, i, arr) => `
+          <div class="flex gap-2.5 ${i < arr.length - 1 ? "pb-3" : ""} relative">
             <div class="flex flex-col items-center">
-              <div class="w-3 h-3 rounded-full ${ev.c} ring-4 ring-white ${ev.flag ? 'animate-pulse' : ''}"></div>
-              ${i < arr.length - 1 ? '<div class="w-0.5 flex-1 bg-slate-200 -mt-0.5"></div>' : ''}
+              <div class="w-3 h-3 rounded-full ${ev.c} ring-4 ring-white ${ev.flag ? "animate-pulse" : ""}"></div>
+              ${i < arr.length - 1 ? '<div class="w-0.5 flex-1 bg-slate-200 -mt-0.5"></div>' : ""}
             </div>
             <div class="flex-1 pb-1">
-              <div class="text-[12px] font-bold ${ev.c === 'bg-slate-200' ? 'text-slate-400' : 'text-slate-900'} flex items-center gap-1.5 flex-wrap">
+              <div class="text-[12px] font-bold ${ev.c === "bg-slate-200" ? "text-slate-400" : "text-slate-900"} flex items-center gap-1.5 flex-wrap">
                 ${ev.t}
-                ${ev.flag ? '<span class="text-[9px] font-black text-brand-700 bg-brand-100 px-1.5 py-0.5 rounded">VOCÊ ESTÁ AQUI</span>' : ''}
+                ${ev.flag ? '<span class="text-[9px] font-black text-brand-700 bg-brand-100 px-1.5 py-0.5 rounded">VOCÊ ESTÁ AQUI</span>' : ""}
               </div>
-              <div class="text-[10px] ${ev.c === 'bg-slate-200' ? 'text-slate-400' : 'text-slate-500'}">${ev.d}</div>
+              <div class="text-[10px] ${ev.c === "bg-slate-200" ? "text-slate-400" : "text-slate-500"}">${ev.d}</div>
             </div>
           </div>
-        `).join('')}
+        `,
+        ).join("")}
       </div>
 
       <div class="mx-4 mt-3 bg-white rounded-2xl p-4 shadow-soft">
@@ -155,7 +161,8 @@ export default {
           <button class="text-[10px] font-extrabold text-brand-600 uppercase tracking-wider">Ver todas</button>
         </div>
         <div class="flex gap-2 overflow-x-auto -mx-1 px-1">
-          ${GALERIA.map(p => `
+          ${GALERIA.map(
+            (p) => `
             <div class="w-24 flex-shrink-0">
               <div class="w-24 h-24 rounded-xl relative overflow-hidden flex items-end p-1.5" style="background-image:url('${p.img}');background-size:cover;background-position:center">
                 <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.55) 100%)"></div>
@@ -163,7 +170,8 @@ export default {
               </div>
               <div class="text-[10px] text-slate-500 font-bold mt-1 text-center">${p.date}</div>
             </div>
-          `).join('')}
+          `,
+          ).join("")}
         </div>
       </div>
 
@@ -183,5 +191,5 @@ export default {
         <button class="flex-1 py-3 rounded-full bg-rose-50 text-rose-700 font-bold text-sm border border-rose-200">⚠️ Reportar</button>
         <button class="flex-1 py-3 rounded-full bg-brand-500 text-white font-extrabold text-sm shadow-lg">🔔 Acompanhar</button>
       </div>
-    </div>`
+    </div>`,
 };

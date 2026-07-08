@@ -69,9 +69,9 @@ Not applicable directly.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `citizen_profile.viewed`       | Screen mounts                              | `user_id`, `level`                   |
+| Event                    | When          | Props              |
+| ------------------------ | ------------- | ------------------ |
+| `citizen_profile.viewed` | Screen mounts | `user_id`, `level` |
 
 ## Tests
 

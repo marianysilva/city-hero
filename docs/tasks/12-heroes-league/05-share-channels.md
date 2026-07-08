@@ -162,11 +162,11 @@ No new schema. The shares are anonymous to the report (the backend doesn't store
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `league.share_channel_pressed`     | User taps a channel                        | `channel: whatsapp|stories|x|copy|more` |
-| `league.share_completed`           | OS reported a confirmed share              | `channel`                             |
-| `league.share_throttled`           | Rate limit reached                         | —                                     |
+| Event                          | When                          | Props              |
+| ------------------------------ | ----------------------------- | ------------------ |
+| `league.share_channel_pressed` | User taps a channel           | `channel: whatsapp | stories | x   | copy | more` |
+| `league.share_completed`       | OS reported a confirmed share | `channel`          |
+| `league.share_throttled`       | Rate limit reached            | —                  |
 
 ## Tests
 
@@ -187,17 +187,20 @@ No new schema. The shares are anonymous to the report (the backend doesn't store
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - expo-clipboard: https://docs.expo.dev/versions/latest/sdk/clipboard/
 - WhatsApp deep linking: https://faq.whatsapp.com/5913398998672934
 - Instagram Stories intent: https://developers.facebook.com/docs/instagram/sharing-to-stories/
 - X intent: https://developer.x.com/en/docs/x-for-websites/tweet-button/overview
 
 ### Project context
+
 - Render UI base: `01-render-league-ui-base.md`
 - Shared share service: `07-civic-feed/07-compartilhar-action.md`
 - Achievement teaser (Formador de Liga): `07-formador-liga-achievement.md`

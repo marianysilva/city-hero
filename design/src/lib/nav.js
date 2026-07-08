@@ -13,22 +13,22 @@
  */
 
 export const wireFlowNavigation = ({ screens, getIdx, setIdx, isFlowOpen }) => {
-  document.addEventListener('click', (e) => {
-    const el = e.target.closest('[data-nav]');
+  document.addEventListener("click", (e) => {
+    const el = e.target.closest("[data-nav]");
     if (!el) return;
     if (!isFlowOpen()) return;
 
     const action = el.dataset.nav;
     const idx = getIdx();
 
-    if (action === 'next') {
+    if (action === "next") {
       setIdx(idx + 1);
-    } else if (action === 'prev') {
+    } else if (action === "prev") {
       setIdx(idx - 1);
-    } else if (action === 'goto' && el.dataset.target) {
-      const target = screens.findIndex(s => s.title === el.dataset.target);
+    } else if (action === "goto" && el.dataset.target) {
+      const target = screens.findIndex((s) => s.title === el.dataset.target);
       if (target >= 0) setIdx(target);
-    } else if (action === 'gov') {
+    } else if (action === "gov") {
       // Gov.br: primeiro acesso segue onboarding; recorrente iria direto para Home.
       setIdx(idx + 1);
     }

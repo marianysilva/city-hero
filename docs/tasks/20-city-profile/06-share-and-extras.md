@@ -45,9 +45,10 @@ Wraps the screen's secondary affordances:
 **Given** the user taps share
 **When** the action runs
 **Then** the OS share sheet opens with a pre-formatted message:
+
 > "🏛️ Pôrto Belo tá 23% melhor este ano · Veja o painel completo no CityHero · https://cityhero.app/c/porto-belo?utm_source=share&utm_medium=app"
-**And** the universal link points to the web fallback for the city profile
-**And** UTM parameters track the share source
+> **And** the universal link points to the web fallback for the city profile
+> **And** UTM parameters track the share source
 
 ### Scenario · Recipient with the app
 
@@ -139,12 +140,12 @@ No new schema. The data is sourced from the city profile and analytics endpoints
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `city_profile.share_pressed`       | User tapped share                          | `city_id`                             |
-| `city_profile.share_completed`     | OS confirmed share                         | `city_id`, `target`                  |
-| `city_profile.programs_bridge_pressed` | User tapped Programs bridge            | —                                     |
-| `city_profile.switcher_pressed`    | User tapped city switcher                  | —                                     |
+| Event                                  | When                        | Props               |
+| -------------------------------------- | --------------------------- | ------------------- |
+| `city_profile.share_pressed`           | User tapped share           | `city_id`           |
+| `city_profile.share_completed`         | OS confirmed share          | `city_id`, `target` |
+| `city_profile.programs_bridge_pressed` | User tapped Programs bridge | —                   |
+| `city_profile.switcher_pressed`        | User tapped city switcher   | —                   |
 
 ## Tests
 
@@ -166,11 +167,13 @@ No new schema. The data is sourced from the city profile and analytics endpoints
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Share service: `07-civic-feed/07-compartilhar-action.md`
 - Deep link handler: `00-foundation/12-deep-link-handler.md`
 - City Select (switcher destination): `02-city-select/`

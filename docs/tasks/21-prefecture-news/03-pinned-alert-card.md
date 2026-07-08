@@ -117,13 +117,13 @@ apps/city-hero/src/screens/PrefectureNews/
 
 The prefecture news endpoint returns the alert pinned at the top when applicable:
 
-| Field         | Description                                        |
-|---------------|----------------------------------------------------|
-| `is_pinned`   | true                                               |
-| `severity`    | `critical` / `warning` / `info`                    |
-| `source`      | `Defesa Civil` / `Saúde` / `Prefeitura` / etc.   |
-| `expires_at`  | When the alert auto-deactivates                   |
-| `link_target` | Optional deep-link target (e.g., risk area map)    |
+| Field         | Description                                     |
+| ------------- | ----------------------------------------------- |
+| `is_pinned`   | true                                            |
+| `severity`    | `critical` / `warning` / `info`                 |
+| `source`      | `Defesa Civil` / `Saúde` / `Prefeitura` / etc.  |
+| `expires_at`  | When the alert auto-deactivates                 |
+| `link_target` | Optional deep-link target (e.g., risk area map) |
 
 The endpoint sorts pinned alerts first.
 
@@ -147,11 +147,11 @@ Alerts are public announcements; no PII.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `prefecture_news.alert_shown`      | Card rendered                              | `severity`, `source`                  |
-| `prefecture_news.alert_cta_pressed`| User tapped a CTA                          | `cta: risk_map|share`                |
-| `prefecture_news.alert_share_completed` | Share confirmed                       | —                                     |
+| Event                                   | When              | Props                |
+| --------------------------------------- | ----------------- | -------------------- |
+| `prefecture_news.alert_shown`           | Card rendered     | `severity`, `source` |
+| `prefecture_news.alert_cta_pressed`     | User tapped a CTA | `cta: risk_map       | share` |
+| `prefecture_news.alert_share_completed` | Share confirmed   | —                    |
 
 ## Tests
 
@@ -172,11 +172,13 @@ Alerts are public announcements; no PII.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (urgency, real-time): `docs/engineering/architecture-patterns.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-news-ui-base.md`
 - Push handler (critical priority): `00-foundation/11-push-notification-handler.md`
 - Real-time pattern: `06-home-map/08-realtime-pin-updates.md`

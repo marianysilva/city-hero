@@ -22,11 +22,13 @@
 ### Task 1: Rename sweep — `apps/city-hero` → `apps/city-hero` in docs
 
 **Files:**
+
 - Modify: `CLAUDE.md` (2 occurrences)
 - Modify: 183 files under `docs/**` (206 total occurrences of the literal string `apps/city-hero`)
 - Modify: `docs/tasks/00-foundation/01-monorepo-setup.md:68` (one occurrence that is NOT the `apps/city-hero` string — it's a bare `mobile/` line inside an ASCII folder-tree diagram, handled separately since a blind `mobile` → `city-hero` replace would corrupt unrelated prose elsewhere in the same files, e.g. "mobile-first", "React Native (mobile)")
 
 **Interfaces:**
+
 - Consumes: nothing (first task, no code dependency)
 - Produces: every doc path reference now reads `apps/city-hero/...`, matching the real folder on disk. All later tasks that touch these docs (Task 7) build on this corrected state.
 
@@ -84,12 +86,14 @@ git commit -m "docs: correct apps/city-hero references to the real apps/city-her
 ### Task 2: Shared root `tsconfig.base.json`
 
 **Files:**
+
 - Create: `tsconfig.base.json`
 - Modify: `apps/web/tsconfig.json`
 - Modify: `apps/city-hero/tsconfig.json`
 - Modify: `packages/types/tsconfig.json`
 
 **Interfaces:**
+
 - Consumes: nothing
 - Produces: `tsconfig.base.json` at repo root, extended via relative path
   `../../tsconfig.base.json` by any TS project two levels deep
@@ -178,17 +182,10 @@ Modify `apps/city-hero/tsconfig.json`:
     "strict": true,
     "types": ["jest"],
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
 }
 ```
 
@@ -237,6 +234,7 @@ git commit -m "chore: add shared root tsconfig.base.json"
 ### Task 3: Root ESLint shared layer + Prettier config
 
 **Files:**
+
 - Create: `eslint.config.base.js`
 - Create: `.prettierrc.json`
 - Create: `.prettierignore`
@@ -246,6 +244,7 @@ git commit -m "chore: add shared root tsconfig.base.json"
   devDependencies, `format`/`format:check` scripts)
 
 **Interfaces:**
+
 - Consumes: nothing
 - Produces: `eslint.config.base.js` (a plain CommonJS array of ESLint flat
   config objects, spread into both `apps/web/eslint.config.mjs` and
@@ -335,7 +334,7 @@ Modify `apps/city-hero/eslint.config.js`:
 
 ```js
 // https://docs.expo.dev/guides/using-eslint/
-const { defineConfig } = require('eslint/config');
+const { defineConfig } = require("eslint/config");
 const expoConfig = require("eslint-config-expo/flat");
 const sharedConfig = require("../../eslint.config.base.js");
 
@@ -344,7 +343,7 @@ module.exports = defineConfig([
   expoConfig,
   {
     ignores: ["dist/*"],
-  }
+  },
 ]);
 ```
 
@@ -418,11 +417,13 @@ git commit -m "chore: add shared root ESLint layer and Prettier config"
 ### Task 4: Husky + lint-staged pre-commit hook
 
 **Files:**
+
 - Create: `.husky/pre-commit`
 - Create: `.lintstagedrc.json`
 - Modify: `package.json` (add `husky` + `lint-staged` devDependencies, `prepare` script)
 
 **Interfaces:**
+
 - Consumes: `prettier` binary and `.prettierrc.json` from Task 3, and the
   updated `apps/web/eslint.config.mjs` / `apps/city-hero/eslint.config.js`
   (now spreading `eslint.config.base.js`) from Task 3; `ruff` on `PATH` for
@@ -512,11 +513,13 @@ git commit -m "chore: add Husky pre-commit hook running lint-staged"
 ### Task 5: commitlint commit-msg hook
 
 **Files:**
+
 - Create: `commitlint.config.js`
 - Create: `.husky/commit-msg`
 - Modify: `package.json` (add `@commitlint/cli` + `@commitlint/config-conventional` devDependencies)
 
 **Interfaces:**
+
 - Consumes: `.husky/` directory created in Task 4.
 - Produces: nothing consumed by later tasks — this is a terminal enforcement
   hook.
@@ -574,9 +577,11 @@ git commit -m "chore: add commitlint commit-msg hook for conventional commits"
 ### Task 6: PR template
 
 **Files:**
+
 - Create: `.github/PULL_REQUEST_TEMPLATE.md`
 
 **Interfaces:**
+
 - Consumes: nothing
 - Produces: nothing consumed by later tasks — GitHub picks this up
   automatically for every new PR.
@@ -617,9 +622,11 @@ git commit -m "docs: add pull request template"
 ### Task 7: Update `docs/tasks/00-foundation/01-monorepo-setup.md` content
 
 **Files:**
+
 - Modify: `docs/tasks/00-foundation/01-monorepo-setup.md`
 
 **Interfaces:**
+
 - Consumes: the completed state of Tasks 1–6 (this task documents that they're done).
 - Produces: nothing consumed by later tasks except Task 8, which flips the
   header status once branch protection (the one remaining item) is also done.
@@ -670,12 +677,14 @@ git commit -m "docs: reconcile monorepo-setup task doc with completed tooling wo
 ### Task 8: Branch protection on `main`
 
 **Files:**
+
 - Modify: `docs/tasks/00-foundation/01-monorepo-setup.md` (final status flip)
 
 **Interfaces:**
+
 - Consumes: the exact CI job names already running on `main` (`Backend ·
-  Lint (ruff)`, `Backend · Tests (pytest)`, `Web · Lint + Type Check`, `Web ·
-  Build (next build)`, `Mobile · Type Check`, `Mobile · Lint (eslint)`,
+Lint (ruff)`, `Backend · Tests (pytest)`, `Web · Lint + Type Check`, `Web ·
+Build (next build)`, `Mobile · Type Check`, `Mobile · Lint (eslint)`,
   `Mobile · Tests (jest-expo)`, `Docker · Backend image builds`).
 - Produces: nothing consumed by later tasks — this is the final task.
 
@@ -722,23 +731,39 @@ EOF
 - [ ] **Step 2: Verify protection is active**
 
 Run:
+
 ```bash
 gh api repos/marianysilva/city-hero/branches/main/protection \
   --jq '{contexts: .required_status_checks.contexts, reviews: .required_pull_request_reviews.required_approving_review_count, linear: .required_linear_history.enabled, force_push: .allow_force_pushes.enabled}'
 ```
 
 Expected output:
+
 ```json
-{"contexts":["Backend · Lint (ruff)","Backend · Tests (pytest)","Web · Lint + Type Check","Web · Build (next build)","Mobile · Type Check","Mobile · Lint (eslint)","Mobile · Tests (jest-expo)","Docker · Backend image builds"],"reviews":1,"linear":true,"force_push":false}
+{
+  "contexts": [
+    "Backend · Lint (ruff)",
+    "Backend · Tests (pytest)",
+    "Web · Lint + Type Check",
+    "Web · Build (next build)",
+    "Mobile · Type Check",
+    "Mobile · Lint (eslint)",
+    "Mobile · Tests (jest-expo)",
+    "Docker · Backend image builds"
+  ],
+  "reviews": 1,
+  "linear": true,
+  "force_push": false
+}
 ```
 
 - [ ] **Step 3: Flip the task doc status to done**
 
 In `docs/tasks/00-foundation/01-monorepo-setup.md`:
+
 - Change `**Status:** ⬜ Not started` (header) to `**Status:** ✅ Done`
 - Change the last remaining Definition of Done line from
-  `- [ ] Branch protection enabled on \`main\`` to
-  `- [x] Branch protection enabled on \`main\``
+  `- [ ] Branch protection enabled on \`main\``to`- [x] Branch protection enabled on \`main\``
 
 - [ ] **Step 4: Commit**
 

@@ -1,45 +1,47 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Button } from '@/components/atoms/Button'
-import { Input } from '@/components/atoms/Input'
-import { FormField } from '@/components/molecules/FormField'
-import { AlertMessage } from '@/components/molecules/AlertMessage'
-import { Modal } from '@/components/organisms/Modal'
-import type { UserRow } from '../_types'
-import { apiFetch } from '../_api'
+import { useState } from "react";
+
+import { Button } from "@/components/atoms/Button";
+import { Input } from "@/components/atoms/Input";
+import { AlertMessage } from "@/components/molecules/AlertMessage";
+import { FormField } from "@/components/molecules/FormField";
+import { Modal } from "@/components/organisms/Modal";
+
+import { apiFetch } from "../_api";
+import type { UserRow } from "../_types";
 
 interface ResetPasswordModalProps {
-  user: UserRow
-  onClose: () => void
-  onSaved: () => void
+  user: UserRow;
+  onClose: () => void;
+  onSaved: () => void;
 }
 
 export function ResetPasswordModal({ user, onClose, onSaved }: ResetPasswordModalProps) {
-  const [password, setPassword] = useState('')
-  const [confirm, setConfirm] = useState('')
-  const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
+    e.preventDefault();
     if (password !== confirm) {
-      setError('As senhas não coincidem')
-      return
+      setError("As senhas não coincidem");
+      return;
     }
-    setError(null)
-    setLoading(true)
+    setError(null);
+    setLoading(true);
     try {
       await apiFetch<void>(`/api/users/${user.id}/reset-password`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ new_password: password }),
-      })
-      onSaved()
+      });
+      onSaved();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro desconhecido')
+      setError(err instanceof Error ? err.message : "Erro desconhecido");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -80,5 +82,5 @@ export function ResetPasswordModal({ user, onClose, onSaved }: ResetPasswordModa
         </div>
       </form>
     </Modal>
-  )
+  );
 }

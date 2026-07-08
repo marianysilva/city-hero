@@ -108,13 +108,13 @@ city-hero/
 
 The CI runs on every PR with parallel jobs:
 
-| Job              | Purpose                                          |
-|------------------|--------------------------------------------------|
-| `lint`           | ESLint + Prettier check across all JS/TS packages |
-| `typecheck`      | `tsc --noEmit` across all TS packages             |
-| `test`           | Unit + integration tests across all packages      |
-| `python-lint`    | Ruff on `apps/backend` and `apps/ai_service`      |
-| `python-test`    | pytest with the test database                     |
+| Job           | Purpose                                           |
+| ------------- | ------------------------------------------------- |
+| `lint`        | ESLint + Prettier check across all JS/TS packages |
+| `typecheck`   | `tsc --noEmit` across all TS packages             |
+| `test`        | Unit + integration tests across all packages      |
+| `python-lint` | Ruff on `apps/backend` and `apps/ai_service`      |
+| `python-test` | pytest with the test database                     |
 
 Caches: dependency cache for the JS package manager and pip.
 
@@ -165,11 +165,13 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 - Security (secret scanning hooks): `docs/engineering/security-baseline.md`
 
 ### Library / framework references
+
 - Yarn Berry: https://yarnpkg.com/getting-started/install
 - Husky: https://typicode.github.io/husky/
 - Conventional Commits: https://conventionalcommits.org/
@@ -177,4 +179,5 @@ Not applicable.
 - Prettier: https://prettier.io/
 
 ### Project context
+
 - `CLAUDE.md`

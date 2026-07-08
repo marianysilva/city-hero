@@ -137,9 +137,9 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `report_confirm.preview_rendered` | Preview computed and rendered           | `xp`, `medal_id`, `first_report: bool` |
+| Event                             | When                          | Props                                  |
+| --------------------------------- | ----------------------------- | -------------------------------------- |
+| `report_confirm.preview_rendered` | Preview computed and rendered | `xp`, `medal_id`, `first_report: bool` |
 
 ## Tests
 
@@ -158,11 +158,13 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-confirm-ui-base.md`
 - Identification toggle: `06-identification-toggle.md`
 - Submit: `08-submit-and-bifurcate.md`

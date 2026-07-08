@@ -1,14 +1,14 @@
-import { statusBar } from '../atoms/StatusBar.js';
+import { statusBar } from "../atoms/StatusBar.js";
 
 /** Tela 01 · Splash / Boas-vindas */
 export default {
-  title: 'Splash / Boas-vindas',
-  group: 'onboarding',
-  summary: 'Primeira impressão · login Gov.br opcional',
+  title: "Splash / Boas-vindas",
+  group: "onboarding",
+  summary: "Primeira impressão · login Gov.br opcional",
   note: `Gradiente brand + partículas flutuantes reforçam o tom lúdico. <b>Tagline rotativa</b> (troca a cada 3s, ciclo de 18s) mostra 6 facetas do produto — engajamento + motivação cívica + transparência. Respeita <code>prefers-reduced-motion</code>. CTA primário leva ao onboarding; secundário entra via <b>Gov.br</b>.`,
   html: () => `
     <div class="relative h-full overflow-hidden" style="background: linear-gradient(160deg,#F97316 0%, #EA580C 35%, #7C3AED 100%);">
-      ${statusBar('light')}
+      ${statusBar("light")}
       <!-- Confetti -->
       <div class="confetti" style="background:#FCD34D;top:80px;left:50px;animation-delay:.2s"></div>
       <div class="confetti" style="background:#34D399;top:140px;right:60px;animation-delay:.6s"></div>
@@ -58,5 +58,5 @@ export default {
           </p>
         </div>
       </div>
-    </div>`
+    </div>`,
 };

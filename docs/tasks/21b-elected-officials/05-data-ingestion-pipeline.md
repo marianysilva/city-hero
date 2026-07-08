@@ -22,13 +22,13 @@ the new roster within 7 days.
 
 ### Sources
 
-| Source                    | Kind                | Endpoint / URL                                                                  | Covers                                                  |
-|---------------------------|---------------------|---------------------------------------------------------------------------------|---------------------------------------------------------|
-| TSE                       | open data + scraping| `https://divulgacandcontas.tse.jus.br/`                                         | Elected officials + per-municipality votes (all offices)|
-| Câmara dos Deputados      | open data API       | `https://dadosabertos.camara.leg.br/`                                           | Federal lower-house mandates, photos, current status    |
-| Senado Federal            | open data API       | `https://legis.senado.leg.br/dadosabertos/`                                     | Senate mandates, photos, current status                 |
-| Câmara Municipal (per city)| variable           | Each city integration (HTML scraping or local open-data feed)                   | City council mandates, council president flag           |
-| Portal da Transparência   | open data API + HTML| `https://portaldatransparencia.gov.br/`                                         | Person IDs to cross-reference                           |
+| Source                      | Kind                 | Endpoint / URL                                                | Covers                                                   |
+| --------------------------- | -------------------- | ------------------------------------------------------------- | -------------------------------------------------------- |
+| TSE                         | open data + scraping | `https://divulgacandcontas.tse.jus.br/`                       | Elected officials + per-municipality votes (all offices) |
+| Câmara dos Deputados        | open data API        | `https://dadosabertos.camara.leg.br/`                         | Federal lower-house mandates, photos, current status     |
+| Senado Federal              | open data API        | `https://legis.senado.leg.br/dadosabertos/`                   | Senate mandates, photos, current status                  |
+| Câmara Municipal (per city) | variable             | Each city integration (HTML scraping or local open-data feed) | City council mandates, council president flag            |
+| Portal da Transparência     | open data API + HTML | `https://portaldatransparencia.gov.br/`                       | Person IDs to cross-reference                            |
 
 ## User Story
 
@@ -51,14 +51,15 @@ the new roster within 7 days.
 **Given** the extract stage
 **When** the extractors run
 **Then** each upstream has its own extractor with rate limits respected:
-  - TSE: ≤ 1 req/sec per IP
-  - Câmara dos Deputados: per `dadosabertos.camara.leg.br` docs (≤ 5 req/sec)
-  - Senado: per `legis.senado.leg.br/dadosabertos` docs (≤ 2 req/sec)
-  - Local council: per city's stated rate limit (conservative default: 1 req/sec)
-  - Portal da Transparência: per portal docs; **prefer the open-data API**, fall back to HTML only when the data is not available via API
-**And** the User-Agent is `CityHero-Pipeline/{version} (+contact@cityhero.app)` for every request — never a generic browser UA
-**And** robots.txt is honored: if a path is disallowed, the extractor logs a warning and skips, never bypasses
-**And** raw responses are cached in object storage (`s3://cityhero-raw/elected_officials/{source}/{run_date}/...`) for reproducibility and to satisfy any "where did this number come from" question later
+
+- TSE: ≤ 1 req/sec per IP
+- Câmara dos Deputados: per `dadosabertos.camara.leg.br` docs (≤ 5 req/sec)
+- Senado: per `legis.senado.leg.br/dadosabertos` docs (≤ 2 req/sec)
+- Local council: per city's stated rate limit (conservative default: 1 req/sec)
+- Portal da Transparência: per portal docs; **prefer the open-data API**, fall back to HTML only when the data is not available via API
+  **And** the User-Agent is `CityHero-Pipeline/{version} (+contact@cityhero.app)` for every request — never a generic browser UA
+  **And** robots.txt is honored: if a path is disallowed, the extractor logs a warning and skips, never bypasses
+  **And** raw responses are cached in object storage (`s3://cityhero-raw/elected_officials/{source}/{run_date}/...`) for reproducibility and to satisfy any "where did this number come from" question later
 
 ### Scenario · Normalize via dbt
 
@@ -73,12 +74,13 @@ the new roster within 7 days.
 **Given** normalized staging rows
 **When** the cross-reference stage runs
 **Then** for each elected official it attempts to resolve the Portal da Transparência person ID using:
-  - exact match on (CPF hash, full name) when CPF is available from TSE
-  - fallback match on (normalized name, birth year, state) when CPF is missing
-  - last-resort fuzzy match on normalized name within the official's state, with a confidence score
-**And** a resolution row is written to `elected_officials_transparency_xref` with: `official_id`, `transparency_id`, `match_method`, `confidence` (0..1), `matched_at`
-**And** only resolutions with `confidence >= 0.85` are promoted to `elected_officials.transparency_id`; below threshold remains `NULL` and the disabled-CTA path in task 04 takes over
-**And** unresolved officials are logged to a dashboard for manual review by a city admin (out of scope for the MVP, but the data is captured so the workflow exists)
+
+- exact match on (CPF hash, full name) when CPF is available from TSE
+- fallback match on (normalized name, birth year, state) when CPF is missing
+- last-resort fuzzy match on normalized name within the official's state, with a confidence score
+  **And** a resolution row is written to `elected_officials_transparency_xref` with: `official_id`, `transparency_id`, `match_method`, `confidence` (0..1), `matched_at`
+  **And** only resolutions with `confidence >= 0.85` are promoted to `elected_officials.transparency_id`; below threshold remains `NULL` and the disabled-CTA path in task 04 takes over
+  **And** unresolved officials are logged to a dashboard for manual review by a city admin (out of scope for the MVP, but the data is captured so the workflow exists)
 
 ### Scenario · Load into transactional table
 
@@ -133,13 +135,14 @@ the new roster within 7 days.
 **Given** the DAG is running
 **When** stages emit metrics
 **Then** the following are recorded:
-  - per-source: `extracted_rows`, `extraction_duration_seconds`, `rate_limit_hits`, `http_errors`
-  - cross-reference: `resolved_count`, `unresolved_count`, `confidence_histogram`
-  - load: `inserted`, `updated`, `unchanged`, `per_tenant_rowcount`
-**And** alerts fire when:
-  - cross-reference resolution rate drops below 70% (likely upstream schema change)
-  - any source's rate-limit hits exceed 5% of requests (tighten throttle)
-  - any tenant has zero officials after a run (likely tenant misconfig)
+
+- per-source: `extracted_rows`, `extraction_duration_seconds`, `rate_limit_hits`, `http_errors`
+- cross-reference: `resolved_count`, `unresolved_count`, `confidence_histogram`
+- load: `inserted`, `updated`, `unchanged`, `per_tenant_rowcount`
+  **And** alerts fire when:
+- cross-reference resolution rate drops below 70% (likely upstream schema change)
+- any source's rate-limit hits exceed 5% of requests (tighten throttle)
+- any tenant has zero officials after a run (likely tenant misconfig)
 
 ### Scenario · ToS compliance
 
@@ -161,23 +164,23 @@ are the consumers. The admin endpoint from task 04
 
 Re-stated here so the pipeline owner has a single reference.
 
-| Column            | Type             | Notes                                          |
-|-------------------|------------------|------------------------------------------------|
-| `id`              | uuid PK          |                                                |
-| `city_id`         | uuid FK          | Multi-tenant scope; indexed                   |
-| `full_name`       | text             | Public                                         |
-| `cpf_hash`        | text             | HMAC-SHA-256 of CPF; **never returned by API** |
-| `party_acronym`   | text             |                                                |
-| `party_name`      | text             |                                                |
-| `role`            | text             |                                                |
-| `level`           | text             | enum (see task 02)                             |
-| `mandate_start`   | date             |                                                |
-| `mandate_end`     | date             |                                                |
-| `votes_in_city`   | integer          |                                                |
-| `transparency_id` | text NULL        | Only set when xref confidence ≥ 0.85           |
-| `photo_url`       | text NULL        |                                                |
-| `source`          | text             | "tse", "camara", "senado", "city_council"      |
-| `last_synced_at`  | timestamptz      |                                                |
+| Column            | Type        | Notes                                          |
+| ----------------- | ----------- | ---------------------------------------------- |
+| `id`              | uuid PK     |                                                |
+| `city_id`         | uuid FK     | Multi-tenant scope; indexed                    |
+| `full_name`       | text        | Public                                         |
+| `cpf_hash`        | text        | HMAC-SHA-256 of CPF; **never returned by API** |
+| `party_acronym`   | text        |                                                |
+| `party_name`      | text        |                                                |
+| `role`            | text        |                                                |
+| `level`           | text        | enum (see task 02)                             |
+| `mandate_start`   | date        |                                                |
+| `mandate_end`     | date        |                                                |
+| `votes_in_city`   | integer     |                                                |
+| `transparency_id` | text NULL   | Only set when xref confidence ≥ 0.85           |
+| `photo_url`       | text NULL   |                                                |
+| `source`          | text        | "tse", "camara", "senado", "city_council"      |
+| `last_synced_at`  | timestamptz |                                                |
 
 Indexes:
 
@@ -187,13 +190,13 @@ Indexes:
 
 ### `elected_officials_transparency_xref` (new)
 
-| Column            | Type             | Notes                                          |
-|-------------------|------------------|------------------------------------------------|
-| `official_id`     | uuid FK          | references `elected_officials.id`             |
-| `transparency_id` | text             |                                                |
-| `match_method`    | text             | "cpf_exact" \| "name_birth_state" \| "name_fuzzy" |
-| `confidence`      | numeric(4,3)     | 0..1                                           |
-| `matched_at`      | timestamptz      |                                                |
+| Column            | Type         | Notes                                             |
+| ----------------- | ------------ | ------------------------------------------------- |
+| `official_id`     | uuid FK      | references `elected_officials.id`                 |
+| `transparency_id` | text         |                                                   |
+| `match_method`    | text         | "cpf_exact" \| "name_birth_state" \| "name_fuzzy" |
+| `confidence`      | numeric(4,3) | 0..1                                              |
+| `matched_at`      | timestamptz  |                                                   |
 
 Indexes:
 

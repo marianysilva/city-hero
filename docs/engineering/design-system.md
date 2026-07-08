@@ -12,14 +12,14 @@ When a task spec contradicts this document, the document wins.
 
 We use a five-tier mental model:
 
-| Tier      | Examples                                        | Lives in                                      |
-|-----------|-------------------------------------------------|------------------------------------------------|
-| Tokens    | Colors, typography, spacing, radii, shadows     | `packages/design_system/src/tokens/`           |
-| Atoms     | Button, IconButton, Pill, Chip, Skeleton, Toast, Switch, Avatar, TextInput, ProgressBar | `packages/design_system/src/atoms/`            |
-| Molecules | FilterChipRow, StatsRow, StatusBadge, EmptyState, KpiCard, ConfidenceBadge, XpProgressBar, XpMedalPill, AvatarStack, AnonymizationBadge, LaiExplainerSheet | `packages/design_system/src/molecules/`        |
-| Organisms | FeedCard, BottomNav, OverflowMenu, TimelineCard, DetailHero, BeforeAfterSlider, CategoryGrid, ShareSheet | `packages/design_system/src/organisms/`        |
-| Templates | DetailShell, EmptyScreen, ScreenContainer (header + scroll + bottom CTA shells) | `packages/design_system/src/templates/`        |
-| Screens   | HomeScreen, FeedCivicoScreen, CitizenProfileScreen, etc. — concrete screens compose templates + organisms | `apps/city-hero/src/screens/<Screen>/`            |
+| Tier      | Examples                                                                                                                                                   | Lives in                                |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| Tokens    | Colors, typography, spacing, radii, shadows                                                                                                                | `packages/design_system/src/tokens/`    |
+| Atoms     | Button, IconButton, Pill, Chip, Skeleton, Toast, Switch, Avatar, TextInput, ProgressBar                                                                    | `packages/design_system/src/atoms/`     |
+| Molecules | FilterChipRow, StatsRow, StatusBadge, EmptyState, KpiCard, ConfidenceBadge, XpProgressBar, XpMedalPill, AvatarStack, AnonymizationBadge, LaiExplainerSheet | `packages/design_system/src/molecules/` |
+| Organisms | FeedCard, BottomNav, OverflowMenu, TimelineCard, DetailHero, BeforeAfterSlider, CategoryGrid, ShareSheet                                                   | `packages/design_system/src/organisms/` |
+| Templates | DetailShell, EmptyScreen, ScreenContainer (header + scroll + bottom CTA shells)                                                                            | `packages/design_system/src/templates/` |
+| Screens   | HomeScreen, FeedCivicoScreen, CitizenProfileScreen, etc. — concrete screens compose templates + organisms                                                  | `apps/city-hero/src/screens/<Screen>/`  |
 
 **The rule:** if a UI piece is used by **two or more screens** (or
 could plausibly be), it lives in the design system at the appropriate

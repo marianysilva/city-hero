@@ -123,9 +123,9 @@ apps/city-hero/src/screens/CivicFeed/
 
 ### Endpoint
 
-| Method | Path                                                                                       | Purpose                                |
-|--------|--------------------------------------------------------------------------------------------|----------------------------------------|
-| GET    | `/api/v1/feed/search?q=&radius_km=&sort=&scope=local|city&cursor=&limit=`                  | Search feed items                     |
+| Method | Path                                                 | Purpose              |
+| ------ | ---------------------------------------------------- | -------------------- |
+| GET    | `/api/v1/feed/search?q=&radius_km=&sort=&scope=local | city&cursor=&limit=` | Search feed items |
 
 The backend:
 
@@ -157,12 +157,12 @@ A `tsvector` column on `reports` (e.g., `description_tsv`) plus a GIN index supp
 
 ## Analytics
 
-| Event                              | When                                       | Props                              |
-|------------------------------------|--------------------------------------------|-------------------------------------|
-| `feed.search_opened`               | Overlay opens                              | —                                   |
-| `feed.search_typed`                | User types (debounced)                     | `query_length`, `scope`            |
-| `feed.search_result_pressed`       | User taps a result                         | `report_id`, `position`            |
-| `feed.search_no_result`            | Zero results                               | `query` (sanitized), `scope`       |
+| Event                        | When                   | Props                        |
+| ---------------------------- | ---------------------- | ---------------------------- |
+| `feed.search_opened`         | Overlay opens          | —                            |
+| `feed.search_typed`          | User types (debounced) | `query_length`, `scope`      |
+| `feed.search_result_pressed` | User taps a result     | `report_id`, `position`      |
+| `feed.search_no_result`      | Zero results           | `query` (sanitized), `scope` |
 
 ## Tests
 
@@ -185,17 +185,20 @@ A `tsvector` column on `reports` (e.g., `description_tsv`) plus a GIN index supp
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - PostgreSQL full-text search: https://www.postgresql.org/docs/current/textsearch.html
 - pg_trgm extension: https://www.postgresql.org/docs/current/pgtrgm.html
 - TanStack infinite queries: https://tanstack.com/query/latest/docs/react/guides/infinite-queries
 
 ### Project context
+
 - Feed list: `02-feed-list-and-pagination.md`
 - Filter chips: `04-filter-chips.md`
 - `CLAUDE.md`

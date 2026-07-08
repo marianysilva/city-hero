@@ -19,13 +19,13 @@ construction is more accountable.
 
 ## Features (5 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · header, map preview, layout, slots](./01-render-works-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Mini map preview · pins for all active works](./02-mini-map-preview.md) | M | task 01, `00-foundation/10-leaflet-map-wrapper.md` |
-| 03 | [Filter chips · status + category](./03-filter-chips.md) | S | task 01 |
-| 04 | [Works list + row card](./04-works-list-and-card.md) | M | task 01, `00-foundation/05-api-client.md` |
-| 05 | [Empty state + map/list toggle](./05-empty-and-view-toggle.md) | S | task 04 |
+| #   | Task                                                                                | Effort | Depends on                                         |
+| --- | ----------------------------------------------------------------------------------- | ------ | -------------------------------------------------- |
+| 01  | [Render UI base · header, map preview, layout, slots](./01-render-works-ui-base.md) | S      | `00-foundation/02-design-tokens.md`                |
+| 02  | [Mini map preview · pins for all active works](./02-mini-map-preview.md)            | M      | task 01, `00-foundation/10-leaflet-map-wrapper.md` |
+| 03  | [Filter chips · status + category](./03-filter-chips.md)                            | S      | task 01                                            |
+| 04  | [Works list + row card](./04-works-list-and-card.md)                                | M      | task 01, `00-foundation/05-api-client.md`          |
+| 05  | [Empty state + map/list toggle](./05-empty-and-view-toggle.md)                      | S      | task 04                                            |
 
 ## Suggested implementation order
 
