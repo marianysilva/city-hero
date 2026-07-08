@@ -172,7 +172,8 @@ Not applicable.
 
 ### Library / framework references
 
-- Yarn Berry: https://yarnpkg.com/getting-started/install
+- npm workspaces: https://docs.npmjs.com/cli/v10/using-npm/workspaces
+- Turborepo: https://turborepo.com/docs
 - Husky: https://typicode.github.io/husky/
 - Conventional Commits: https://conventionalcommits.org/
 - ESLint: https://eslint.org/

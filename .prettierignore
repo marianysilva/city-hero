@@ -6,3 +6,7 @@ build
 coverage
 package-lock.json
 *.svg
+
+# Vendored third-party skill packages — not project-authored, reformatting
+# them creates noise and diverges from upstream on the next sync.
+.agents/

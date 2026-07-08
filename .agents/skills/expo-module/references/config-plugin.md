@@ -34,8 +34,13 @@ const withMyConfig: ConfigPlugin<{ apiKey: string }> = (config, { apiKey }) => {
 
   // Android: modify AndroidManifest.xml
   config = withAndroidManifest(config, (config) => {
-    const mainApp = AndroidConfig.Manifest.getMainApplicationOrThrow(config.modResults);
-    AndroidConfig.Manifest.addMetaDataItemToMainApplication(mainApp, "MY_API_KEY", apiKey);
+    const mainApp =
+      AndroidConfig.Manifest.getMainApplicationOrThrow(config.modResults);
+    AndroidConfig.Manifest.addMetaDataItemToMainApplication(
+      mainApp,
+      "MY_API_KEY",
+      apiKey
+    );
     return config;
   });
 
