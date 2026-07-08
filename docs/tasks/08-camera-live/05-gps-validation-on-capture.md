@@ -121,7 +121,7 @@ Stage 3 is enforced when the report is created.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Camera/
+apps/city-hero/src/screens/Camera/
 ├── hooks/
 │   └── useGpsValidation.ts
 └── components/
@@ -140,13 +140,13 @@ apps/mobile/src/screens/Camera/
 
 Thresholds are configurable:
 
-| Setting               | Default | Purpose                                  |
-|-----------------------|---------|------------------------------------------|
-| `fresh_max_age_s`     | 30      | Max age of a "fresh" fix                 |
-| `acceptable_accuracy_m` | 50    | Acceptable accuracy for live capture     |
-| `marginal_accuracy_m` | 100     | Triggers "improve fix" attempt           |
-| `improve_timeout_s`   | 5       | How long to wait for a better fix       |
-| `implausible_speed_m_per_s` | 50  | Above this between two fixes = flag    |
+| Setting                     | Default | Purpose                              |
+| --------------------------- | ------- | ------------------------------------ |
+| `fresh_max_age_s`           | 30      | Max age of a "fresh" fix             |
+| `acceptable_accuracy_m`     | 50      | Acceptable accuracy for live capture |
+| `marginal_accuracy_m`       | 100     | Triggers "improve fix" attempt       |
+| `improve_timeout_s`         | 5       | How long to wait for a better fix    |
+| `implausible_speed_m_per_s` | 50      | Above this between two fixes = flag  |
 
 ## Backend (FastAPI)
 
@@ -179,12 +179,12 @@ Not applicable directly. The `reports` table will store the flags in a JSON colu
 
 ## Analytics
 
-| Event                              | When                                       | Props                                  |
-|------------------------------------|--------------------------------------------|-----------------------------------------|
-| `camera.gps_validated_ok`          | All checks passed                          | `accuracy_m_bucket`                    |
-| `camera.gps_validation_blocked`    | Capture blocked at the gate                | `sheet`, `reason`                       |
-| `camera.gps_flag_implausible_jump` | Implausible movement detected              | —                                       |
-| `camera.gps_flag_mocked`           | Mocked location detected                   | —                                       |
+| Event                              | When                          | Props               |
+| ---------------------------------- | ----------------------------- | ------------------- |
+| `camera.gps_validated_ok`          | All checks passed             | `accuracy_m_bucket` |
+| `camera.gps_validation_blocked`    | Capture blocked at the gate   | `sheet`, `reason`   |
+| `camera.gps_flag_implausible_jump` | Implausible movement detected | —                   |
+| `camera.gps_flag_mocked`           | Mocked location detected      | —                   |
 
 ## Tests
 
@@ -205,17 +205,20 @@ Not applicable directly. The `reports` table will store the flags in a JSON colu
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Security (anti-fraud, GPS validation): `docs/engineering/security-baseline.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - expo-location accuracy modes: https://docs.expo.dev/versions/latest/sdk/location/
 - iOS Core Location accuracy: https://developer.apple.com/documentation/corelocation/clmanager/desiredaccuracy
 - Android FusedLocationProviderClient: https://developer.android.com/training/location
 
 ### Project context
+
 - Capture / shutter: `04-capture-shutter.md`
 - Report creation (server stage-3 validation): `docs/tasks/10-report-confirm/`
 - Fallback to manual: `08-fallback-to-manual.md`

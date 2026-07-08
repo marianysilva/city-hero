@@ -93,7 +93,7 @@ animals, irregular construction, sidewalk obstruction, etc. from
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ManualReport/
+apps/city-hero/src/screens/ManualReport/
 ├── components/
 │   ├── CategoryGrid.tsx
 │   ├── CategoryTile.tsx
@@ -126,9 +126,9 @@ The backend stores categories using machine-readable keys (e.g., `pothole`, `tra
 
 For future flexibility, an endpoint may expose the catalog so cities can configure variants:
 
-| Method | Path                                  | Purpose                                   |
-|--------|---------------------------------------|--------------------------------------------|
-| GET    | `/api/v1/categories`                  | List supported categories (per city)      |
+| Method | Path                 | Purpose                              |
+| ------ | -------------------- | ------------------------------------ |
+| GET    | `/api/v1/categories` | List supported categories (per city) |
 
 For MVP, the catalog is static on the client.
 
@@ -149,11 +149,11 @@ Not applicable.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `manual_report.category_selected`  | User picks a primary category              | `category`, `was_pre_selected: bool` |
-| `manual_report.other_picked`       | User picks a secondary category            | `secondary_key`                       |
-| `manual_report.other_canceled`     | User opens "Outro" then cancels            | —                                     |
+| Event                             | When                            | Props                                |
+| --------------------------------- | ------------------------------- | ------------------------------------ |
+| `manual_report.category_selected` | User picks a primary category   | `category`, `was_pre_selected: bool` |
+| `manual_report.other_picked`      | User picks a secondary category | `secondary_key`                      |
+| `manual_report.other_canceled`    | User opens "Outro" then cancels | —                                    |
 
 ## Tests
 
@@ -175,15 +175,18 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - Bottom Sheet (`@gorhom/bottom-sheet`): https://gorhom.dev/react-native-bottom-sheet
 - React Native Haptics: https://docs.expo.dev/versions/latest/sdk/haptics/
 
 ### Project context
+
 - Render UI base: `01-render-manual-ui-base.md`
 - AI feedback loop: `05-ai-feedback-loop.md`
 - Submit & continue: `06-submit-and-continue.md`

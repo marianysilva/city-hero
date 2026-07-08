@@ -54,7 +54,7 @@ matching) and the programs grid below.
 ## Frontend
 
 ```
-apps/mobile/src/screens/Programs/
+apps/city-hero/src/screens/Programs/
 ├── components/
 │   └── ProgramsCategoryChips.tsx
 └── hooks/
@@ -79,9 +79,9 @@ Not applicable.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `programs.filter_changed`          | Chip tapped                                | `from`, `to`                          |
+| Event                     | When        | Props        |
+| ------------------------- | ----------- | ------------ |
+| `programs.filter_changed` | Chip tapped | `from`, `to` |
 
 ## Tests
 

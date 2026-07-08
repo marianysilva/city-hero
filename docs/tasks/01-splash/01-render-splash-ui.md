@@ -77,7 +77,7 @@ flickering when initialization checks complete instantly.
 ### Component location
 
 ```
-apps/mobile/src/screens/Splash/
+apps/city-hero/src/screens/Splash/
 ├── SplashScreen.tsx
 ├── SplashScreen.styles.ts
 ├── SplashScreen.test.tsx
@@ -95,11 +95,11 @@ apps/mobile/src/screens/Splash/
 
 ### Constants
 
-| Constant                  | Default | Purpose                                          |
-|---------------------------|---------|--------------------------------------------------|
-| `MIN_SPLASH_DURATION_MS`  | 800     | Minimum on-screen time to register the brand    |
-| `SHOW_LOADING_AFTER_MS`   | 5000    | When to surface the loading indicator           |
-| `HARD_TIMEOUT_MS`         | 10000   | When to force-navigate with partial state       |
+| Constant                 | Default | Purpose                                      |
+| ------------------------ | ------- | -------------------------------------------- |
+| `MIN_SPLASH_DURATION_MS` | 800     | Minimum on-screen time to register the brand |
+| `SHOW_LOADING_AFTER_MS`  | 5000    | When to surface the loading indicator        |
+| `HARD_TIMEOUT_MS`        | 10000   | When to force-navigate with partial state    |
 
 ### Animation
 
@@ -133,11 +133,11 @@ Not applicable (no user data).
 
 ## Analytics
 
-| Event                  | When                                  | Props                          |
-|------------------------|---------------------------------------|---------------------------------|
-| `splash.mounted`       | On mount                              | `app_version`, `os`            |
-| `splash.timeout`       | Hard timeout reached                  | `init_state` (partial)         |
-| `splash.navigated`     | Just before handing off to navigation | `duration_ms`                  |
+| Event              | When                                  | Props                  |
+| ------------------ | ------------------------------------- | ---------------------- |
+| `splash.mounted`   | On mount                              | `app_version`, `os`    |
+| `splash.timeout`   | Hard timeout reached                  | `init_state` (partial) |
+| `splash.navigated` | Just before handing off to navigation | `duration_ms`          |
 
 ## Tests
 
@@ -161,17 +161,20 @@ Not applicable (no user data).
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (component patterns): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 - Observability: `docs/engineering/observability.md`
 
 ### Library / framework references
+
 - React Native Reanimated: https://docs.swmansion.com/react-native-reanimated/
 - Expo Font: https://docs.expo.dev/versions/latest/sdk/font/
 - Accessibility Info (RN): https://reactnative.dev/docs/accessibilityinfo
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Splash / Boas-vindas'`)
 - Design tokens: `00-foundation/02-design-tokens.md`
 - `CLAUDE.md`

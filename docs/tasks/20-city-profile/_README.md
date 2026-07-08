@@ -21,14 +21,14 @@ data.
 
 ## Features (6 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · scrollable layout, hero slot, sticky bottom nav](./01-render-city-profile-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Hero · gradient + city identity](./02-hero-identity.md) | S | task 01 |
-| 03 | [About + quick facts grid](./03-about-and-quick-facts.md) | S | task 01 |
-| 04 | [Improvement insights card · message + bar chart](./04-insights-card.md) | M | task 01 |
-| 05 | [Report status mini-dashboard](./05-report-status-dashboard.md) | M | task 01 |
-| 06 | [Share + extras (programs link, last update timestamp)](./06-share-and-extras.md) | S | task 01 |
+| #   | Task                                                                                                    | Effort | Depends on                          |
+| --- | ------------------------------------------------------------------------------------------------------- | ------ | ----------------------------------- |
+| 01  | [Render UI base · scrollable layout, hero slot, sticky bottom nav](./01-render-city-profile-ui-base.md) | S      | `00-foundation/02-design-tokens.md` |
+| 02  | [Hero · gradient + city identity](./02-hero-identity.md)                                                | S      | task 01                             |
+| 03  | [About + quick facts grid](./03-about-and-quick-facts.md)                                               | S      | task 01                             |
+| 04  | [Improvement insights card · message + bar chart](./04-insights-card.md)                                | M      | task 01                             |
+| 05  | [Report status mini-dashboard](./05-report-status-dashboard.md)                                         | M      | task 01                             |
+| 06  | [Share + extras (programs link, last update timestamp)](./06-share-and-extras.md)                       | S      | task 01                             |
 
 ## Suggested implementation order
 

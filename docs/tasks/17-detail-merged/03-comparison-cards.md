@@ -104,7 +104,7 @@ problem.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/DetailMerged/
+apps/city-hero/src/screens/DetailMerged/
 └── components/
     ├── YourReportCard.tsx
     └── ParentTicketCard.tsx
@@ -137,11 +137,11 @@ No new schema. The `reports.merged_into_id` field links a merged report to its p
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `detail_merged.your_report_rendered` | Your report card mounted                | —                                     |
-| `detail_merged.parent_card_rendered` | Parent card mounted                     | `parent_status`, `parent_is_anonymous: bool` |
-| `detail_merged.parent_card_pressed` | User tapped the parent card             | `parent_report_id`                    |
+| Event                                | When                        | Props                                        |
+| ------------------------------------ | --------------------------- | -------------------------------------------- |
+| `detail_merged.your_report_rendered` | Your report card mounted    | —                                            |
+| `detail_merged.parent_card_rendered` | Parent card mounted         | `parent_status`, `parent_is_anonymous: bool` |
+| `detail_merged.parent_card_pressed`  | User tapped the parent card | `parent_report_id`                           |
 
 ## Tests
 
@@ -163,15 +163,18 @@ No new schema. The `reports.merged_into_id` field links a merged report to its p
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - expo-image: https://docs.expo.dev/versions/latest/sdk/image/
 
 ### Project context
+
 - Render UI base: `01-render-merged-ui-base.md`
 - Parent summary endpoint: `08-camera-live/09-enrich-mode.md`
 - Detail Em andamento (parent destination): `docs/tasks/13-detail-in-progress/`

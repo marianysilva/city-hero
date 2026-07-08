@@ -95,7 +95,7 @@ button takes the user to the active city's centroid instead.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 ├── components/
 │   └── RecenterButton.tsx
 └── hooks/
@@ -139,10 +139,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `home.recenter_pressed`        | User taps recenter                         | `had_location: bool`                  |
-| `home.location_unavailable`    | Permission denied or no fix on render      | `reason: denied|acquiring|disabled`  |
+| Event                       | When                                  | Props                |
+| --------------------------- | ------------------------------------- | -------------------- |
+| `home.recenter_pressed`     | User taps recenter                    | `had_location: bool` |
+| `home.location_unavailable` | Permission denied or no fix on render | `reason: denied      | acquiring | disabled` |
 
 ## Tests
 
@@ -161,15 +161,18 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - expo-location: https://docs.expo.dev/versions/latest/sdk/location/
 - React Native AppState (for background pause): https://reactnative.dev/docs/appstate
 
 ### Project context
+
 - Map integration: `02-map-integration-with-pins.md`
 - Foundation map wrapper: `00-foundation/10-leaflet-map-wrapper.md`
 - Onboarding location permission: `05-onboarding-neighborhood/02-location-permission.md`

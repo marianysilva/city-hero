@@ -95,7 +95,7 @@ for the model versioning service. The retraining itself lives in
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ManualReport/
+apps/city-hero/src/screens/ManualReport/
 └── hooks/
     └── useAiFeedbackConsent.ts
 ```
@@ -116,12 +116,12 @@ A periodic ETL (or dbt model) materializes the labeled dataset for the ML team t
 
 The `reports` table gains:
 
-| Column                     | Type        | Notes                                              |
-|----------------------------|-------------|----------------------------------------------------|
-| `ai_label_candidate`       | boolean     | True when user consented and provided a manual label |
-| `ai_original_detection`    | jsonb       | The AI's guess at capture time (or null)          |
-| `ai_model_version`         | varchar(20) | Model used at the time                            |
-| `user_label`               | varchar(50) | The manual category key the user picked           |
+| Column                  | Type        | Notes                                                |
+| ----------------------- | ----------- | ---------------------------------------------------- |
+| `ai_label_candidate`    | boolean     | True when user consented and provided a manual label |
+| `ai_original_detection` | jsonb       | The AI's guess at capture time (or null)             |
+| `ai_model_version`      | varchar(20) | Model used at the time                               |
+| `user_label`            | varchar(50) | The manual category key the user picked              |
 
 (These integrate with the `reports` table schema owned by the report-creation flow.)
 
@@ -140,10 +140,10 @@ The `reports` table gains:
 
 ## Analytics
 
-| Event                                  | When                                       | Props                                |
-|----------------------------------------|--------------------------------------------|---------------------------------------|
-| `manual_report.ai_feedback_consent_shown` | Footer "?" tapped                       | —                                     |
-| `manual_report.ai_feedback_opt_out`    | User opts out in this session             | —                                     |
+| Event                                        | When                                 | Props                                           |
+| -------------------------------------------- | ------------------------------------ | ----------------------------------------------- |
+| `manual_report.ai_feedback_consent_shown`    | Footer "?" tapped                    | —                                               |
+| `manual_report.ai_feedback_opt_out`          | User opts out in this session        | —                                               |
 | `manual_report.ai_label_candidate_submitted` | Report submitted with candidate flag | `had_original_detection: bool`, `model_version` |
 
 ## Tests
@@ -165,15 +165,18 @@ The `reports` table gains:
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Observability: `docs/engineering/observability.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - AI model retraining concepts: https://docs.ultralytics.com/modes/train/
 
 ### Project context
+
 - Category grid: `02-category-grid.md`
 - Photo thumbnail: `03-photo-thumbnail.md`
 - Anonymization pipeline: `00-foundation/08-anonymization-pipeline.md`

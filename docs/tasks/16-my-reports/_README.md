@@ -19,14 +19,14 @@ Programs & Transparency while reports are being processed — turning
 
 ## Features (6 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · header, layout, bottom nav](./01-render-my-reports-ui-base.md) | S | `00-foundation/02-design-tokens.md`, `00-foundation/03-bottom-nav-component.md` |
-| 02 | [Status summary · KPI strip + filter chips](./02-status-summary.md) | S | task 01 |
-| 03 | [Pending offline card · highlighted entry to Sync Queue](./03-pending-offline-card.md) | S | task 01, `00-foundation/09-offline-queue.md` |
-| 04 | [Reports list · row + pagination + status routing](./04-reports-list.md) | M | task 01, `00-foundation/05-api-client.md` |
-| 05 | [Empty state · first-time and filter-empty](./05-empty-state.md) | S | task 01, task 04 |
-| 06 | [Bridge card · Programs & Transparency discovery](./06-bridge-card.md) | S | task 01 |
+| #   | Task                                                                                   | Effort | Depends on                                                                      |
+| --- | -------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------- |
+| 01  | [Render UI base · header, layout, bottom nav](./01-render-my-reports-ui-base.md)       | S      | `00-foundation/02-design-tokens.md`, `00-foundation/03-bottom-nav-component.md` |
+| 02  | [Status summary · KPI strip + filter chips](./02-status-summary.md)                    | S      | task 01                                                                         |
+| 03  | [Pending offline card · highlighted entry to Sync Queue](./03-pending-offline-card.md) | S      | task 01, `00-foundation/09-offline-queue.md`                                    |
+| 04  | [Reports list · row + pagination + status routing](./04-reports-list.md)               | M      | task 01, `00-foundation/05-api-client.md`                                       |
+| 05  | [Empty state · first-time and filter-empty](./05-empty-state.md)                       | S      | task 01, task 04                                                                |
+| 06  | [Bridge card · Programs & Transparency discovery](./06-bridge-card.md)                 | S      | task 01                                                                         |
 
 ## Suggested implementation order
 

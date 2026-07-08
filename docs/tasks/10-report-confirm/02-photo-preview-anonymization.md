@@ -15,6 +15,7 @@ most important LGPD compliance signals in the entire app — the user sees
 **what was blurred** before submitting.
 
 Two small action buttons in the top corners:
+
 - 🔄 retake (reopens the camera)
 - ✏️ edit (allows light adjustments — for MVP just "retake"; future could include crop/rotate)
 
@@ -109,7 +110,7 @@ counts, and failed (allows retry).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ReportConfirm/
+apps/city-hero/src/screens/ReportConfirm/
 ├── components/
 │   ├── PhotoPreview.tsx
 │   └── AnonymizationDetailsSheet.tsx
@@ -124,8 +125,8 @@ screen-local component — it's a `<Badge>` composition from
 picks the right composition per state via children:
 
 - `processing` → `<Badge color="brand" pulse>Anonimizando…</Badge>`
-- `done`       → `<Badge color="info" size="sm">{rostos} rostos · {placas} placas · {documentos} documentos</Badge>`
-- `failed`     → `<Badge color="danger" size="sm" onPress={retry}>Anonimização falhou · tentar de novo</Badge>`
+- `done` → `<Badge color="info" size="sm">{rostos} rostos · {placas} placas · {documentos} documentos</Badge>`
+- `failed` → `<Badge color="danger" size="sm" onPress={retry}>Anonimização falhou · tentar de novo</Badge>`
 - gallery flag → an additional `<Badge color="warning" size="xs">📷 Foto da galeria · revisão extra</Badge>` rendered alongside
 
 ### Behavior
@@ -142,10 +143,10 @@ For MVP, the client polls the photo's status endpoint every 1-2s with backoff fo
 
 ### Endpoint
 
-| Method | Path                              | Purpose                                          |
-|--------|-----------------------------------|--------------------------------------------------|
-| GET    | `/api/v1/photos/{id}/status`      | Returns processing / done / failed + counts     |
-| GET    | `/api/v1/photos/{id}/preview`     | Signed URL for the anonymized photo when ready  |
+| Method | Path                          | Purpose                                        |
+| ------ | ----------------------------- | ---------------------------------------------- |
+| GET    | `/api/v1/photos/{id}/status`  | Returns processing / done / failed + counts    |
+| GET    | `/api/v1/photos/{id}/preview` | Signed URL for the anonymized photo when ready |
 
 The status response includes: state, counts per category (`face`, `license_plate`, `document`, `screen`), the anonymized photo URL when done, and an error code if failed.
 
@@ -171,13 +172,13 @@ This task is **the** UX-visible LGPD signal. Specific guarantees:
 
 ## Analytics
 
-| Event                                  | When                                       | Props                                |
-|----------------------------------------|--------------------------------------------|---------------------------------------|
-| `report_confirm.anonymization_in_progress` | Polling started                       | —                                     |
-| `report_confirm.anonymization_done`    | Pipeline returned done                     | `face_count`, `plate_count`, `document_count`, `duration_ms` |
-| `report_confirm.anonymization_failed`  | Pipeline failed                            | `code`                                |
-| `report_confirm.privacy_details_opened`| User opened the details sheet              | —                                     |
-| `report_confirm.retake_pressed`        | User taps 🔄                                | —                                     |
+| Event                                      | When                          | Props                                                        |
+| ------------------------------------------ | ----------------------------- | ------------------------------------------------------------ |
+| `report_confirm.anonymization_in_progress` | Polling started               | —                                                            |
+| `report_confirm.anonymization_done`        | Pipeline returned done        | `face_count`, `plate_count`, `document_count`, `duration_ms` |
+| `report_confirm.anonymization_failed`      | Pipeline failed               | `code`                                                       |
+| `report_confirm.privacy_details_opened`    | User opened the details sheet | —                                                            |
+| `report_confirm.retake_pressed`            | User taps 🔄                  | —                                                            |
 
 ## Tests
 
@@ -201,12 +202,14 @@ This task is **the** UX-visible LGPD signal. Specific guarantees:
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Observability: `docs/engineering/observability.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Anonymization pipeline: `00-foundation/08-anonymization-pipeline.md`
 - Render UI base: `01-render-confirm-ui-base.md`
 - Camera screen (retake target): `08-camera-live/`

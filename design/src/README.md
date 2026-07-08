@@ -51,15 +51,15 @@ design/
 
 ### Por que essa hierarquia?
 
-| Camada | Responsabilidade | Dependências permitidas |
-|---|---|---|
-| **tokens** | Valores crus (cores, tipografia) | Nada |
-| **styles** | CSS compartilhado | Nada |
-| **atoms** | UI indivisível | tokens |
-| **molecules** | Atoms compostos | atoms, tokens |
-| **organisms** | Seções complexas | atoms, molecules, libs externas |
-| **templates** | Layout de página sem conteúdo | organisms |
-| **screens** | Tela inteira | tudo acima |
+| Camada        | Responsabilidade                 | Dependências permitidas         |
+| ------------- | -------------------------------- | ------------------------------- |
+| **tokens**    | Valores crus (cores, tipografia) | Nada                            |
+| **styles**    | CSS compartilhado                | Nada                            |
+| **atoms**     | UI indivisível                   | tokens                          |
+| **molecules** | Atoms compostos                  | atoms, tokens                   |
+| **organisms** | Seções complexas                 | atoms, molecules, libs externas |
+| **templates** | Layout de página sem conteúdo    | organisms                       |
+| **screens**   | Tela inteira                     | tudo acima                      |
 
 Regra: um módulo **só importa coisas da sua camada ou abaixo**. Isso é o que
 garante que a base fica reutilizável sem acoplamento. Violações viram dependências
@@ -96,7 +96,7 @@ Botões dentro de uma Screen podem carregar:
 - `data-nav="next"` — próxima no registry
 - `data-nav="prev"` — anterior
 - `data-nav="goto" data-target="Nome da Tela"` — pula direto por título
-- `data-nav="gov"`  — caso especial do Gov.br no splash (equivale a `next` na sequência)
+- `data-nav="gov"` — caso especial do Gov.br no splash (equivale a `next` na sequência)
 
 Toda a lógica está em `src/lib/nav.js` via event delegation no `document`. Zero
 setup necessário dentro da tela — só marcar o botão com os atributos.

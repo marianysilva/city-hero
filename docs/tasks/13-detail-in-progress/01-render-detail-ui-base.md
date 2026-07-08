@@ -83,10 +83,10 @@ bottom CTA bar with Apoiar + Compartilhar (task 06). The overflow menu
 
 ### Component location
 
-The screen lives in `apps/mobile/src/screens/DetailInProgress/`:
+The screen lives in `apps/city-hero/src/screens/DetailInProgress/`:
 
 ```
-apps/mobile/src/screens/DetailInProgress/
+apps/city-hero/src/screens/DetailInProgress/
 ├── DetailInProgressScreen.tsx
 ├── DetailInProgressScreen.styles.ts
 └── DetailInProgressScreen.test.tsx
@@ -130,10 +130,10 @@ Not applicable directly. Subsequent tasks handle photo and reporter identity.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `detail_in_progress.viewed`    | Screen mounts                              | `report_id`, `source: feed|push|share|my_reports|league|anon` |
-| `detail_in_progress.back_pressed` | User taps back                          | —                                     |
+| Event                             | When           | Props                      |
+| --------------------------------- | -------------- | -------------------------- |
+| `detail_in_progress.viewed`       | Screen mounts  | `report_id`, `source: feed | push | share | my_reports | league | anon` |
+| `detail_in_progress.back_pressed` | User taps back | —                          |
 
 ## Tests
 
@@ -155,14 +155,17 @@ Not applicable directly. Subsequent tasks handle photo and reporter identity.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (screen composition): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native Reanimated (scroll-driven animations): https://docs.swmansion.com/react-native-reanimated/docs/scroll/
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Detalhe · Em andamento'`)
 - Feed card (entry point): `07-civic-feed/03-feed-item-card.md`
 - Liga / Envio Anônimo bottom CTAs (entry): `11-anonymous-send/07-bottom-cta.md`, `12-heroes-league/08-bottom-bar.md`

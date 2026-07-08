@@ -1,12 +1,13 @@
-import { ReactNode } from 'react'
-import { Label } from '@/components/atoms/Label'
+import { ReactNode } from "react";
+
+import { Label } from "@/components/atoms/Label";
 
 interface FormFieldProps {
-  label: string
-  htmlFor?: string
-  required?: boolean
-  error?: string
-  children: ReactNode
+  label: string;
+  htmlFor?: string;
+  required?: boolean;
+  error?: string;
+  children: ReactNode;
 }
 
 export function FormField({ label, htmlFor, required, error, children }: FormFieldProps) {
@@ -18,5 +19,5 @@ export function FormField({ label, htmlFor, required, error, children }: FormFie
       {children}
       {error && <p className="text-xs text-red-600">{error}</p>}
     </div>
-  )
+  );
 }

@@ -86,7 +86,7 @@ and the report-create endpoint. Here we hand off the validated payload.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ManualReport/
+apps/city-hero/src/screens/ManualReport/
 └── hooks/
     └── useContinueManualReport.ts
 ```
@@ -130,10 +130,10 @@ The payload itself is not transmitted yet — only handed to the next screen. Th
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `manual_report.continue_pressed` | User taps continue                       | `had_photo: bool`, `category`, `city_warning: bool` |
-| `manual_report.continue_blocked` | CTA disabled and user taps the screen     | `missing: ['category'|'location'|...]` |
+| Event                            | When                                  | Props                                               |
+| -------------------------------- | ------------------------------------- | --------------------------------------------------- |
+| `manual_report.continue_pressed` | User taps continue                    | `had_photo: bool`, `category`, `city_warning: bool` |
+| `manual_report.continue_blocked` | CTA disabled and user taps the screen | `missing: ['category'                               | 'location' | ...]` |
 
 ## Tests
 
@@ -154,13 +154,16 @@ The payload itself is not transmitted yet — only handed to the next screen. Th
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Navigation params: https://reactnavigation.org/docs/params/
 
 ### Project context
+
 - All other manual report sub-tasks (01-05)
 - Confirmação do Reporte: `docs/tasks/10-report-confirm/`
 - `CLAUDE.md`

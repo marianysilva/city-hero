@@ -75,7 +75,7 @@ If the user is not on the top 10, their rank is shown separately in "Seu pelotã
 ## Frontend
 
 ```
-apps/mobile/src/screens/NeighborhoodRanking/
+apps/city-hero/src/screens/NeighborhoodRanking/
 ├── components/
 │   ├── Podium.tsx
 │   ├── LeaderboardSection.tsx
@@ -86,9 +86,9 @@ apps/mobile/src/screens/NeighborhoodRanking/
 
 ## Backend
 
-| Method | Path                                                                  | Purpose                              |
-|--------|-----------------------------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/leaderboard?scope=&period=`                                  | Top 10 + user context                |
+| Method | Path                                 | Purpose               |
+| ------ | ------------------------------------ | --------------------- |
+| GET    | `/api/v1/leaderboard?scope=&period=` | Top 10 + user context |
 
 The endpoint returns: top 10 entries + the user's rank + 2-3 above and 2-3 below the user. Anonymous flag included. Opted-out users excluded.
 
@@ -107,10 +107,10 @@ Opted-out users don't appear; anonymous users appear with 🥷.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `ranking.leaderboard_loaded`       | Mounted                                    | `scope`, `period`, `user_rank`       |
-| `ranking.row_pressed`              | User tapped a row                          | `target_user_id`                      |
+| Event                        | When              | Props                          |
+| ---------------------------- | ----------------- | ------------------------------ |
+| `ranking.leaderboard_loaded` | Mounted           | `scope`, `period`, `user_rank` |
+| `ranking.row_pressed`        | User tapped a row | `target_user_id`               |
 
 ## Tests
 

@@ -92,9 +92,10 @@ prop-driven variants.
 **Given** the user taps the card body (not on action buttons)
 **When** the action runs
 **Then** the app navigates to the appropriate detail screen based on the report's status:
-  - `open` / `in_progress` → SCREEN 13 · Detalhe · Em andamento
-  - `resolved` → SCREEN 14 · Detalhe do Ticket
-  - `merged` → SCREEN 17 · Detalhe · Reporte Mesclado
+
+- `open` / `in_progress` → SCREEN 13 · Detalhe · Em andamento
+- `resolved` → SCREEN 14 · Detalhe do Ticket
+- `merged` → SCREEN 17 · Detalhe · Reporte Mesclado
 
 ### Scenario · Accessibility
 
@@ -126,16 +127,16 @@ The component lives in the shared design system package because it's used in mul
 
 ### Props
 
-| Prop            | Description                                              |
-|-----------------|----------------------------------------------------------|
-| `report`        | The feed item data (id, reporter info, photo, etc.)     |
-| `isAnonymous`   | Boolean derived from the report                          |
-| `onSupportPress`| Callback for the support action                          |
-| `onCommentPress`| Callback for opening the detail's comment section       |
-| `onSharePress`  | Callback for share                                       |
-| `onEnrichPress` | Callback for adding a photo (Enriquecer)                |
-| `onCardPress`   | Callback for the card body                               |
-| `currentUserSupports` | Whether the current user has supported (toggle UI)|
+| Prop                  | Description                                         |
+| --------------------- | --------------------------------------------------- |
+| `report`              | The feed item data (id, reporter info, photo, etc.) |
+| `isAnonymous`         | Boolean derived from the report                     |
+| `onSupportPress`      | Callback for the support action                     |
+| `onCommentPress`      | Callback for opening the detail's comment section   |
+| `onSharePress`        | Callback for share                                  |
+| `onEnrichPress`       | Callback for adding a photo (Enriquecer)            |
+| `onCardPress`         | Callback for the card body                          |
+| `currentUserSupports` | Whether the current user has supported (toggle UI)  |
 
 ### Variants
 
@@ -176,11 +177,11 @@ Not applicable directly.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `feed.card_pressed`                | User taps the card body                    | `report_id`, `category`, `status`    |
-| `feed.card_action_pressed`         | User taps an action button                 | `report_id`, `action`                |
-| `feed.card_anonymous_rendered`     | Anonymous variant shown                    | `report_id` (sampled)                |
+| Event                          | When                       | Props                             |
+| ------------------------------ | -------------------------- | --------------------------------- |
+| `feed.card_pressed`            | User taps the card body    | `report_id`, `category`, `status` |
+| `feed.card_action_pressed`     | User taps an action button | `report_id`, `action`             |
+| `feed.card_anonymous_rendered` | Anonymous variant shown    | `report_id` (sampled)             |
 
 ## Tests
 
@@ -204,16 +205,19 @@ Not applicable directly.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy / LGPD (anonymous masking): `docs/engineering/security-baseline.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (component patterns): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - expo-image (lazy loading + blur placeholder): https://docs.expo.dev/versions/latest/sdk/image/
 - React.memo + useCallback for performance: https://react.dev/reference/react/memo
 
 ### Project context
+
 - Anonymization pipeline: `00-foundation/08-anonymization-pipeline.md`
 - Feed list: `02-feed-list-and-pagination.md`
 - Apoiar action: `06-apoiar-action.md`

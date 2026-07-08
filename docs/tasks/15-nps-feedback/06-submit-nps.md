@@ -109,7 +109,7 @@ neighborhood, category, and time.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/NpsFeedback/
+apps/city-hero/src/screens/NpsFeedback/
 ├── hooks/
 │   └── useSubmitNps.ts
 └── services/
@@ -134,9 +134,9 @@ A brief checkmark animation overlays the CTA (200ms), then the navigation runs.
 
 ### Endpoint
 
-| Method | Path                                              | Purpose                                |
-|--------|---------------------------------------------------|----------------------------------------|
-| POST   | `/api/v1/reports/{id}/nps`                        | Submit NPS feedback                    |
+| Method | Path                       | Purpose             |
+| ------ | -------------------------- | ------------------- |
+| POST   | `/api/v1/reports/{id}/nps` | Submit NPS feedback |
 
 The endpoint:
 
@@ -154,17 +154,17 @@ The response includes the new state for the report (so the client can update SCR
 
 ### `nps_submissions` table
 
-| Column            | Type        | Notes                                              |
-|-------------------|-------------|----------------------------------------------------|
-| `id`              | UUID PK     |                                                    |
-| `report_id`       | UUID FK     |                                                    |
-| `user_id`         | UUID FK     |                                                    |
-| `city_id`         | UUID FK     | Multi-tenant scope                                 |
-| `rating`          | smallint    | 1-5                                                |
-| `tags`            | text[]      | Tag keys                                            |
-| `comment`         | text        | Nullable                                            |
-| `idempotency_key` | varchar(64) | Per submission session                              |
-| `submitted_at`    | timestamptz |                                                    |
+| Column            | Type        | Notes                  |
+| ----------------- | ----------- | ---------------------- |
+| `id`              | UUID PK     |                        |
+| `report_id`       | UUID FK     |                        |
+| `user_id`         | UUID FK     |                        |
+| `city_id`         | UUID FK     | Multi-tenant scope     |
+| `rating`          | smallint    | 1-5                    |
+| `tags`            | text[]      | Tag keys               |
+| `comment`         | text        | Nullable               |
+| `idempotency_key` | varchar(64) | Per submission session |
+| `submitted_at`    | timestamptz |                        |
 
 Unique constraint on `(report_id, user_id, idempotency_key)`.
 
@@ -189,12 +189,12 @@ A dbt model materializes per-report and per-city aggregations (avg rating, tag f
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `nps.submit_started`               | User tapped submit                         | `rating`, `tag_count`, `had_comment: bool` |
-| `nps.submit_succeeded`             | Server confirmed                           | `report_id`, `xp_granted: 15`, `online: bool` |
-| `nps.submit_failed`                | Final failure                              | `code`                                |
-| `nps.submit_queued_offline`        | Enqueued via offline queue                 | —                                     |
+| Event                       | When                       | Props                                         |
+| --------------------------- | -------------------------- | --------------------------------------------- |
+| `nps.submit_started`        | User tapped submit         | `rating`, `tag_count`, `had_comment: bool`    |
+| `nps.submit_succeeded`      | Server confirmed           | `report_id`, `xp_granted: 15`, `online: bool` |
+| `nps.submit_failed`         | Final failure              | `code`                                        |
+| `nps.submit_queued_offline` | Enqueued via offline queue | —                                             |
 
 ## Tests
 
@@ -218,6 +218,7 @@ A dbt model materializes per-report and per-city aggregations (avg rating, tag f
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (REST, multi-tenant, idempotency): `docs/engineering/architecture-patterns.md`
 - Security (rate limit, moderation): `docs/engineering/security-baseline.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
@@ -225,6 +226,7 @@ A dbt model materializes per-report and per-city aggregations (avg rating, tag f
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - All other NPS sub-tasks (01-05)
 - Avaliar CTA (entry): `14-detail-ticket/05-avaliar-cta.md`
 - Offline queue: `00-foundation/09-offline-queue.md`

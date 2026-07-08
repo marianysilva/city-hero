@@ -65,7 +65,7 @@ Two related behaviors:
 ## Frontend
 
 ```
-apps/mobile/src/screens/PublicWorks/
+apps/city-hero/src/screens/PublicWorks/
 ├── components/
 │   ├── WorksEmptyState.tsx
 │   ├── FullScreenMapView.tsx
@@ -93,11 +93,11 @@ Not applicable.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `public_works.empty_state_shown`   | Empty render                               | `kind: first_time|filtered`          |
-| `public_works.view_toggled`        | User toggled                               | `to: map|list`                        |
-| `public_works.map_summary_shown`   | Bottom sheet for a pin                     | `work_id`                             |
+| Event                            | When                   | Props             |
+| -------------------------------- | ---------------------- | ----------------- |
+| `public_works.empty_state_shown` | Empty render           | `kind: first_time | filtered` |
+| `public_works.view_toggled`      | User toggled           | `to: map          | list`     |
+| `public_works.map_summary_shown` | Bottom sheet for a pin | `work_id`         |
 
 ## Tests
 

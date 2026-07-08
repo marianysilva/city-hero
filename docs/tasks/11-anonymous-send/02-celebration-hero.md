@@ -81,7 +81,7 @@ the background add depth without distracting.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/AnonymousSend/
+apps/city-hero/src/screens/AnonymousSend/
 └── components/
     ├── CelebrationHero.tsx
     └── DecorativeBlobs.tsx
@@ -119,9 +119,9 @@ The hero doesn't expose any PII; the protocol is non-identifying.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `anonymous_send.hero_rendered` | Hero mounted                               | `xp`, `medal_id`, `first_time: bool`  |
+| Event                          | When         | Props                                |
+| ------------------------------ | ------------ | ------------------------------------ |
+| `anonymous_send.hero_rendered` | Hero mounted | `xp`, `medal_id`, `first_time: bool` |
 
 ## Tests
 
@@ -141,10 +141,12 @@ The hero doesn't expose any PII; the protocol is non-identifying.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-anonymous-ui-base.md`
 - `CLAUDE.md`

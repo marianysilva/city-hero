@@ -93,7 +93,7 @@ happens to my data?".
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Camera/
+apps/city-hero/src/screens/Camera/
 └── components/
     └── AnonymizationExplainerModal.tsx
 ```
@@ -138,12 +138,12 @@ Not applicable.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `camera.anonymization_badge_shown` | Camera mounts                              | `first_session: bool`                 |
-| `camera.anonymization_badge_tapped`| User taps the badge                        | —                                     |
-| `camera.anonymization_explainer_dismissed` | User closes the modal              | `via: cta|swipe`                     |
-| `camera.privacy_policy_opened`     | User taps the policy link                  | —                                     |
+| Event                                      | When                      | Props                 |
+| ------------------------------------------ | ------------------------- | --------------------- |
+| `camera.anonymization_badge_shown`         | Camera mounts             | `first_session: bool` |
+| `camera.anonymization_badge_tapped`        | User taps the badge       | —                     |
+| `camera.anonymization_explainer_dismissed` | User closes the modal     | `via: cta             | swipe` |
+| `camera.privacy_policy_opened`             | User taps the policy link | —                     |
 
 ## Tests
 
@@ -164,15 +164,18 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native AccessibilityInfo: https://reactnative.dev/docs/accessibilityinfo
 - Bottom Sheet (`@gorhom/bottom-sheet`): https://gorhom.dev/react-native-bottom-sheet
 
 ### Project context
+
 - Anonymization pipeline: `00-foundation/08-anonymization-pipeline.md`
 - Render UI base: `01-render-camera-ui-base.md`
 - `CLAUDE.md`

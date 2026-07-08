@@ -79,7 +79,7 @@ alert (task 03) and the news list (task 04). The bottom nav is present.
 ### Component location
 
 ```
-apps/mobile/src/screens/PrefectureNews/
+apps/city-hero/src/screens/PrefectureNews/
 ├── PrefectureNewsScreen.tsx
 ├── PrefectureNewsScreen.styles.ts
 ├── PrefectureNewsScreen.test.tsx
@@ -113,10 +113,10 @@ Not applicable to this task.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `prefecture_news.viewed`       | Screen mounts                              | `city_id`                             |
-| `prefecture_news.bell_pressed` | User opened preferences                    | —                                     |
+| Event                          | When                    | Props     |
+| ------------------------------ | ----------------------- | --------- |
+| `prefecture_news.viewed`       | Screen mounts           | `city_id` |
+| `prefecture_news.bell_pressed` | User opened preferences | —         |
 
 ## Tests
 
@@ -136,10 +136,12 @@ Not applicable to this task.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Avisos da Prefeitura'`)
 - `CLAUDE.md`

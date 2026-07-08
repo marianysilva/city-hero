@@ -61,7 +61,7 @@ Tapping Share on an unlocked medal generates a sharable card (image + text) with
 ## Frontend
 
 ```
-apps/mobile/src/screens/AchievementsBadges/
+apps/city-hero/src/screens/AchievementsBadges/
 └── components/
     └── ShareMedalAction.tsx
 ```
@@ -87,10 +87,10 @@ The user's name appears only when not anonymous; respects user choice.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `achievements.share_intent`        | User tapped Share                          | `medal_id`                            |
-| `achievements.share_completed`     | OS confirmed share                         | `medal_id`, `target`                  |
+| Event                          | When               | Props                |
+| ------------------------------ | ------------------ | -------------------- |
+| `achievements.share_intent`    | User tapped Share  | `medal_id`           |
+| `achievements.share_completed` | OS confirmed share | `medal_id`, `target` |
 
 ## Tests
 

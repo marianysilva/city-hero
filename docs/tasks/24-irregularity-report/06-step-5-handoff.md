@@ -81,7 +81,7 @@ CityHero **never stores** the complaint content; only telemetry records that a h
 ## Frontend
 
 ```
-apps/mobile/src/screens/IrregularityReport/
+apps/city-hero/src/screens/IrregularityReport/
 ├── steps/
 │   ├── Step5Handoff.tsx
 │   └── HandoffConfirmation.tsx
@@ -111,12 +111,12 @@ The principle: **CityHero never stores the complaint content.** Analytics only r
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `irregularity.handoff_started`     | User tapped Enviar                         | `authority_id`, `program_id`         |
-| `irregularity.handoff_succeeded`   | Channel launched successfully              | `authority_id`, `channel: email|web|api`, `identified: bool` |
-| `irregularity.handoff_failed`      | Channel failed to launch                   | `authority_id`, `reason`             |
-| `irregularity.handoff_copied`      | User copied the text as fallback           | —                                     |
+| Event                            | When                             | Props                           |
+| -------------------------------- | -------------------------------- | ------------------------------- |
+| `irregularity.handoff_started`   | User tapped Enviar               | `authority_id`, `program_id`    |
+| `irregularity.handoff_succeeded` | Channel launched successfully    | `authority_id`, `channel: email | web | api`, `identified: bool` |
+| `irregularity.handoff_failed`    | Channel failed to launch         | `authority_id`, `reason`        |
+| `irregularity.handoff_copied`    | User copied the text as fallback | —                               |
 
 ## Tests
 

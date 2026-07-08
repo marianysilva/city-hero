@@ -1,16 +1,16 @@
-import { statusBar } from '../atoms/StatusBar.js';
-import { staticBottomNav } from '../organisms/BottomNav.js';
+import { statusBar } from "../atoms/StatusBar.js";
+import { staticBottomNav } from "../organisms/BottomNav.js";
 
 /** Tela 29 · Ranking do Bairro (gamificação · pódio) */
 export default {
-  title: 'Ranking do Bairro',
-  group: 'gamification',
-  summary: 'Pódio · top 10 · sua posição',
+  title: "Ranking do Bairro",
+  group: "gamification",
+  summary: "Pódio · top 10 · sua posição",
   note: `Pódio no topo dá o "wow" visual. Lista abaixo enumera 4–10 com stats. Card fixo inferior mostra <b>a posição do usuário</b> mesmo fora do top — motiva a subir.`,
   html: () => `
     <div class="relative h-full flex flex-col overflow-hidden" style="background: linear-gradient(180deg,#EEF2FF 0%, #FFFFFF 100%);">
      <div class="flex-1 min-h-0 overflow-y-auto">
-      ${statusBar('dark')}
+      ${statusBar("dark")}
       <div class="px-4 flex items-center gap-3">
         <button class="w-9 h-9 rounded-full bg-white shadow-soft flex items-center justify-center">←</button>
         <div class="flex-1">
@@ -44,19 +44,23 @@ export default {
 
       <div class="mx-4 mt-2 bg-white rounded-2xl shadow-soft overflow-hidden">
         ${[
-          ['4','Pedro H.',   '2.450','bg-gradient-to-br from-pink-300 to-rose-500'],
-          ['5','Juliana C.', '2.380','bg-gradient-to-br from-purple-300 to-fuchsia-500'],
-          ['6','Bruno R.',   '2.100','bg-gradient-to-br from-teal-300 to-cyan-600'],
-          ['7','Sofia V.',   '1.950','bg-gradient-to-br from-lime-300 to-green-500'],
-          ['8','Rafa L.',    '1.800','bg-gradient-to-br from-orange-300 to-red-500'],
-        ].map(([p,n,xp,c]) => `
+          ["4", "Pedro H.", "2.450", "bg-gradient-to-br from-pink-300 to-rose-500"],
+          ["5", "Juliana C.", "2.380", "bg-gradient-to-br from-purple-300 to-fuchsia-500"],
+          ["6", "Bruno R.", "2.100", "bg-gradient-to-br from-teal-300 to-cyan-600"],
+          ["7", "Sofia V.", "1.950", "bg-gradient-to-br from-lime-300 to-green-500"],
+          ["8", "Rafa L.", "1.800", "bg-gradient-to-br from-orange-300 to-red-500"],
+        ]
+          .map(
+            ([p, n, xp, c]) => `
           <div class="flex items-center gap-3 px-3 py-2.5 border-b border-slate-100">
             <div class="w-6 text-center text-slate-500 font-black text-sm">${p}</div>
             <div class="w-9 h-9 rounded-full ${c} flex items-center justify-center text-white font-bold text-xs">${n.charAt(0)}</div>
             <div class="flex-1 font-bold text-[13px] text-slate-800">${n}</div>
             <div class="text-[11px] font-black text-slate-700">${xp} <span class="text-slate-400 font-normal">XP</span></div>
           </div>
-        `).join('')}
+        `,
+          )
+          .join("")}
       </div>
 
       <div class="mx-4 mt-3 mb-4 rounded-2xl shadow-xl p-3 flex items-center gap-3" style="background: linear-gradient(90deg,#0F172A,#1E293B);">
@@ -70,6 +74,6 @@ export default {
       </div>
      </div>
 
-      ${staticBottomNav('profile')}
-    </div>`
+      ${staticBottomNav("profile")}
+    </div>`,
 };

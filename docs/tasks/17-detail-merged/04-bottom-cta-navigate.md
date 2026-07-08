@@ -84,7 +84,7 @@ visual connection between "what happened" and "where to go next".
 ### Where it lives
 
 ```
-apps/mobile/src/screens/DetailMerged/
+apps/city-hero/src/screens/DetailMerged/
 └── components/
     └── BottomCtaNavigate.tsx
 ```
@@ -118,10 +118,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `detail_merged.cta_pressed`        | User tapped the CTA                        | `parent_state`, `target_screen: 13|14` |
-| `detail_merged.parent_deleted_blocked` | CTA blocked because parent missing     | —                                     |
+| Event                                  | When                               | Props                              |
+| -------------------------------------- | ---------------------------------- | ---------------------------------- |
+| `detail_merged.cta_pressed`            | User tapped the CTA                | `parent_state`, `target_screen: 13 | 14` |
+| `detail_merged.parent_deleted_blocked` | CTA blocked because parent missing | —                                  |
 
 ## Tests
 
@@ -140,14 +140,17 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Navigation: https://reactnavigation.org/
 
 ### Project context
+
 - Render UI base: `01-render-merged-ui-base.md`
 - Parent ticket card (shared routing): `03-comparison-cards.md`
 - Detail destinations: `docs/tasks/13-detail-in-progress/`, `docs/tasks/14-detail-ticket/`

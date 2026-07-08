@@ -54,7 +54,7 @@ A small section listing the work's official documents (Edital, Contrato, Termo d
 ## Frontend
 
 ```
-apps/mobile/src/screens/PublicWorkDetail/
+apps/city-hero/src/screens/PublicWorkDetail/
 └── components/
     ├── DocumentLinks.tsx
     └── DenunciarBottomCta.tsx
@@ -81,10 +81,10 @@ Public documents.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `public_work_detail.document_pressed` | User opened a document                | `kind`                                |
-| `public_work_detail.denunciar_pressed` | User tapped Denunciar                | —                                     |
+| Event                                  | When                   | Props  |
+| -------------------------------------- | ---------------------- | ------ |
+| `public_work_detail.document_pressed`  | User opened a document | `kind` |
+| `public_work_detail.denunciar_pressed` | User tapped Denunciar  | —      |
 
 ## Tests
 

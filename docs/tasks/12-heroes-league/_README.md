@@ -24,16 +24,16 @@ every shared link is a potential install.
 
 ## Features (8 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · hero + scroll + bottom bar](./01-render-league-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Success hero · checkmark + XP/medal celebration + confetti](./02-success-hero.md) | M | task 01 |
-| 03 | [Pivot copy section · "Todo herói tem sua liga" + data anchor](./03-pivot-copy.md) | S | task 01 |
-| 04 | [Shareable preview card · link preview mockup](./04-shareable-preview-card.md) | M | task 01, `07-civic-feed/07-compartilhar-action.md` |
-| 05 | [Share channel buttons · WhatsApp, Stories, X, Copy, More](./05-share-channels.md) | M | task 01, `00-foundation/12-deep-link-handler.md` |
-| 06 | [Editable message template · suggested message + edit modal](./06-message-template.md) | S | task 01 |
-| 07 | [Achievement teaser · "Formador de Liga" with referral progress](./07-formador-liga-achievement.md) | M | task 01, `00-foundation/06-auth-system.md` |
-| 08 | [Bottom bar · "Pular" + "Compartilhar & formar liga"](./08-bottom-bar.md) | S | task 01 |
+| #   | Task                                                                                                | Effort | Depends on                                         |
+| --- | --------------------------------------------------------------------------------------------------- | ------ | -------------------------------------------------- |
+| 01  | [Render UI base · hero + scroll + bottom bar](./01-render-league-ui-base.md)                        | S      | `00-foundation/02-design-tokens.md`                |
+| 02  | [Success hero · checkmark + XP/medal celebration + confetti](./02-success-hero.md)                  | M      | task 01                                            |
+| 03  | [Pivot copy section · "Todo herói tem sua liga" + data anchor](./03-pivot-copy.md)                  | S      | task 01                                            |
+| 04  | [Shareable preview card · link preview mockup](./04-shareable-preview-card.md)                      | M      | task 01, `07-civic-feed/07-compartilhar-action.md` |
+| 05  | [Share channel buttons · WhatsApp, Stories, X, Copy, More](./05-share-channels.md)                  | M      | task 01, `00-foundation/12-deep-link-handler.md`   |
+| 06  | [Editable message template · suggested message + edit modal](./06-message-template.md)              | S      | task 01                                            |
+| 07  | [Achievement teaser · "Formador de Liga" with referral progress](./07-formador-liga-achievement.md) | M      | task 01, `00-foundation/06-auth-system.md`         |
+| 08  | [Bottom bar · "Pular" + "Compartilhar & formar liga"](./08-bottom-bar.md)                           | S      | task 01                                            |
 
 ## Suggested implementation order
 

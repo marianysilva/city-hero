@@ -113,11 +113,11 @@ The host screen subscribes to progress events (0–100%) and shows a bar or perc
 
 ### Endpoints
 
-| Method | Path                          | Purpose                                              |
-|--------|-------------------------------|------------------------------------------------------|
-| POST   | `/api/v1/photos`              | Upload a photo (multipart). Returns the photo ID.   |
-| POST   | `/api/v1/photos/presigned`    | Issue a pre-signed S3 PUT URL for direct upload.    |
-| GET    | `/api/v1/photos/{id}`         | Fetch metadata (not the binary). Signed URL for binary. |
+| Method | Path                       | Purpose                                                 |
+| ------ | -------------------------- | ------------------------------------------------------- |
+| POST   | `/api/v1/photos`           | Upload a photo (multipart). Returns the photo ID.       |
+| POST   | `/api/v1/photos/presigned` | Issue a pre-signed S3 PUT URL for direct upload.        |
+| GET    | `/api/v1/photos/{id}`      | Fetch metadata (not the binary). Signed URL for binary. |
 
 The two upload paths support two strategies:
 
@@ -139,24 +139,24 @@ After the raw photo is durably stored, the backend enqueues an anonymization job
 
 ### `photos` table
 
-| Column             | Type            | Notes                                                |
-|--------------------|-----------------|------------------------------------------------------|
-| `id`               | UUID PK         |                                                      |
-| `user_id`          | UUID FK         | Nullable for anonymous reports (kept on report)     |
-| `city_id`          | UUID FK         | Multi-tenant scope                                   |
-| `bucket_path_raw`  | text            | Path in the raw-photos bucket                        |
-| `bucket_path_anon` | text            | Path in the anonymized bucket; null until processed  |
-| `bucket_path_thumb`| text            | Thumbnail path                                       |
-| `content_hash`     | char(64)        | SHA-256 hex                                          |
-| `mime_type`        | varchar(50)     |                                                      |
-| `size_bytes`       | bigint          |                                                      |
-| `width`            | int             |                                                      |
-| `height`           | int             |                                                      |
-| `taken_at`         | timestamptz     | Device clock (informational; not authoritative)     |
-| `gps_latitude`     | numeric(9,6)    | From device sensor                                   |
-| `gps_longitude`    | numeric(9,6)    | From device sensor                                   |
-| `anonymized_at`    | timestamptz     | Null until anonymization completes                   |
-| `created_at`       | timestamptz     |                                                      |
+| Column              | Type         | Notes                                               |
+| ------------------- | ------------ | --------------------------------------------------- |
+| `id`                | UUID PK      |                                                     |
+| `user_id`           | UUID FK      | Nullable for anonymous reports (kept on report)     |
+| `city_id`           | UUID FK      | Multi-tenant scope                                  |
+| `bucket_path_raw`   | text         | Path in the raw-photos bucket                       |
+| `bucket_path_anon`  | text         | Path in the anonymized bucket; null until processed |
+| `bucket_path_thumb` | text         | Thumbnail path                                      |
+| `content_hash`      | char(64)     | SHA-256 hex                                         |
+| `mime_type`         | varchar(50)  |                                                     |
+| `size_bytes`        | bigint       |                                                     |
+| `width`             | int          |                                                     |
+| `height`            | int          |                                                     |
+| `taken_at`          | timestamptz  | Device clock (informational; not authoritative)     |
+| `gps_latitude`      | numeric(9,6) | From device sensor                                  |
+| `gps_longitude`     | numeric(9,6) | From device sensor                                  |
+| `anonymized_at`     | timestamptz  | Null until anonymization completes                  |
+| `created_at`        | timestamptz  |                                                     |
 
 Indexes on `user_id`, `city_id`, and `content_hash`.
 
@@ -179,12 +179,12 @@ Indexes on `user_id`, `city_id`, and `content_hash`.
 
 ## Analytics
 
-| Event                    | When                                       | Props                                |
-|--------------------------|--------------------------------------------|---------------------------------------|
-| `photo.upload_started`   | Pipeline begins                            | `source: camera|gallery`, `bytes`    |
-| `photo.upload_succeeded` | Upload confirmed by server                 | `duration_ms`, `bytes_after_compress`|
-| `photo.upload_failed`    | All retries exhausted                      | `reason`, `attempts`                  |
-| `photo.upload_offline_enqueued` | Queued for later sync               | `bytes`                               |
+| Event                           | When                       | Props                                 |
+| ------------------------------- | -------------------------- | ------------------------------------- |
+| `photo.upload_started`          | Pipeline begins            | `source: camera                       | gallery`, `bytes` |
+| `photo.upload_succeeded`        | Upload confirmed by server | `duration_ms`, `bytes_after_compress` |
+| `photo.upload_failed`           | All retries exhausted      | `reason`, `attempts`                  |
+| `photo.upload_offline_enqueued` | Queued for later sync      | `bytes`                               |
 
 ## Tests
 
@@ -208,18 +208,21 @@ Indexes on `user_id`, `city_id`, and `content_hash`.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Security (storage, signed URLs, file validation): `docs/engineering/security-baseline.md`
 - Observability: `docs/engineering/observability.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - expo-image-manipulator: https://docs.expo.dev/versions/latest/sdk/imagemanipulator/
 - python-magic (MIME sniffing): https://pypi.org/project/python-magic/
 - AWS S3 pre-signed URLs: https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html
 - MinIO equivalent: https://min.io/docs/minio/linux/developers/python/API.html
 
 ### Project context
+
 - Anonymization pipeline: `00-foundation/08-anonymization-pipeline.md`
 - Offline queue: `00-foundation/09-offline-queue.md`
 - `CLAUDE.md`

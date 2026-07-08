@@ -124,14 +124,14 @@ The nav plugs into the React Navigation bottom-tab navigator as a custom `tabBar
 
 ### Route → active tab mapping
 
-| Route                                               | Active tab |
-|-----------------------------------------------------|------------|
-| Home                                                | `home`     |
-| Feed                                                | `feed`     |
-| Profile                                             | `profile`  |
-| MyReports                                           | `more` (subitem highlighted) |
-| Notifications, CityNews, Programs, Services         | `more`     |
-| Camera (modal)                                      | none (overlaid modal) |
+| Route                                       | Active tab                   |
+| ------------------------------------------- | ---------------------------- |
+| Home                                        | `home`                       |
+| Feed                                        | `feed`                       |
+| Profile                                     | `profile`                    |
+| MyReports                                   | `more` (subitem highlighted) |
+| Notifications, CityNews, Programs, Services | `more`                       |
+| Camera (modal)                              | none (overlaid modal)        |
 
 ### Accessibility
 
@@ -156,10 +156,10 @@ The nav plugs into the React Navigation bottom-tab navigator as a custom `tabBar
 
 The component itself doesn't call backend, but two endpoints feed its badges:
 
-| Endpoint                                | Purpose                                    |
-|-----------------------------------------|--------------------------------------------|
-| `GET /api/v1/sync-queue/count`          | Pending offline queue items (locally cached, syncable). |
-| `GET /api/v1/notifications/unread-count`| Unread notifications count.                |
+| Endpoint                                 | Purpose                                                 |
+| ---------------------------------------- | ------------------------------------------------------- |
+| `GET /api/v1/sync-queue/count`           | Pending offline queue items (locally cached, syncable). |
+| `GET /api/v1/notifications/unread-count` | Unread notifications count.                             |
 
 Both follow the standard error response shape and respect multi-tenant scoping.
 
@@ -183,13 +183,13 @@ Not applicable — the component holds no personal data.
 
 ## Analytics
 
-| Event                       | When                                | Props                |
-|-----------------------------|-------------------------------------|----------------------|
-| `nav.tab_pressed`           | Tap on any tab                      | `from_tab`, `to_tab` |
-| `nav.fab_camera_pressed`    | Tap on Camera FAB                   | `from_tab`           |
-| `nav.more_sheet_opened`     | Opens the More sheet                | —                    |
-| `nav.more_item_pressed`     | Tap on item inside the More sheet   | `item_key`           |
-| `nav.same_tab_double_tap`   | Tap on already-active tab           | `tab_key`            |
+| Event                     | When                              | Props                |
+| ------------------------- | --------------------------------- | -------------------- |
+| `nav.tab_pressed`         | Tap on any tab                    | `from_tab`, `to_tab` |
+| `nav.fab_camera_pressed`  | Tap on Camera FAB                 | `from_tab`           |
+| `nav.more_sheet_opened`   | Opens the More sheet              | —                    |
+| `nav.more_item_pressed`   | Tap on item inside the More sheet | `item_key`           |
+| `nav.same_tab_double_tap` | Tap on already-active tab         | `tab_key`            |
 
 ## Tests
 
@@ -213,16 +213,19 @@ Not applicable — the component holds no personal data.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (component patterns): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Navigation Bottom Tabs: https://reactnavigation.org/docs/bottom-tab-navigator
 - Bottom Sheet (`@gorhom/bottom-sheet`): https://gorhom.dev/react-native-bottom-sheet
 - Expo Haptics: https://docs.expo.dev/versions/latest/sdk/haptics/
 
 ### Project context
+
 - Prototype: `design/index.html` (helper `bottomNav` / `staticBottomNav`)
 - IA: `design/navigation.html` § 01
 - Features: `docs/features.md` § 1

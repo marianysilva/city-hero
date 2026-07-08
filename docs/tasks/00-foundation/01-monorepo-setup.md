@@ -65,7 +65,7 @@ city-hero/
 ├── apps/
 │   ├── backend/                 # FastAPI (Python)
 │   ├── web/                     # Next.js
-│   ├── mobile/                  # Expo
+│   ├── city-hero/               # Expo
 │   └── ai_service/              # YOLOv8 inference (FastAPI, separate)
 ├── packages/
 │   ├── design_system/           # Shared RN+Web components
@@ -96,7 +96,7 @@ city-hero/
 
 ## Tooling decisions
 
-- **JS package manager**: Yarn (Berry/v3+) using node-modules linker (PnP is incompatible with Expo). Pin the version in the repo so a new contributor doesn't accidentally mix versions.
+- **JS package manager**: npm workspaces + Turborepo (already in place before this task started — kept as-is rather than migrating to Yarn Berry; the original Yarn recommendation is superseded).
 - **Linter**: ESLint with the project's shared config; rules cover style, accessibility (jsx-a11y), and import order.
 - **Formatter**: Prettier shared at root.
 - **Pre-commit**: Husky + lint-staged for fast feedback on staged files only.
@@ -108,13 +108,13 @@ city-hero/
 
 The CI runs on every PR with parallel jobs:
 
-| Job              | Purpose                                          |
-|------------------|--------------------------------------------------|
-| `lint`           | ESLint + Prettier check across all JS/TS packages |
-| `typecheck`      | `tsc --noEmit` across all TS packages             |
-| `test`           | Unit + integration tests across all packages      |
-| `python-lint`    | Ruff on `apps/backend` and `apps/ai_service`      |
-| `python-test`    | pytest with the test database                     |
+| Job           | Purpose                                           |
+| ------------- | ------------------------------------------------- |
+| `lint`        | ESLint + Prettier check across all JS/TS packages |
+| `typecheck`   | `tsc --noEmit` across all TS packages             |
+| `test`        | Unit + integration tests across all packages      |
+| `python-lint` | Ruff on `apps/backend` and `apps/ai_service`      |
+| `python-test` | pytest with the test database                     |
 
 Caches: dependency cache for the JS package manager and pip.
 
@@ -151,30 +151,34 @@ Not applicable.
 
 ## Definition of Done
 
-- [ ] Folder structure per the layout above
-- [ ] Yarn workspaces functional
-- [ ] ESLint + Prettier configured at the root
-- [ ] Husky pre-commit and commit-msg hooks
-- [ ] CI pipeline running lint / typecheck / test / python-lint / python-test
+- [x] Folder structure per the layout above (`apps/city-hero` instead of `apps/mobile` — folder name decision, see `docs/superpowers/specs/2026-07-06-monorepo-setup-design.md`)
+- [x] npm workspaces + Turborepo functional (superseding the original Yarn plan)
+- [x] ESLint (shared root `eslint.config.base.js` spread into each app's Next.js/Expo config) + Prettier (shared root config) configured
+- [x] Husky pre-commit and commit-msg hooks
+- [x] CI pipeline running lint / typecheck / test / python-lint / python-test (already existed before this task)
 - [ ] Branch protection enabled on `main`
-- [ ] PR template
-- [ ] Root README with setup instructions
-- [ ] Comprehensive `.gitignore`
-- [ ] Conventional commits enforced
+- [x] PR template
+- [x] Root README with setup instructions (already existed)
+- [x] Comprehensive `.gitignore` (already existed)
+- [x] Conventional commits enforced
 
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 - Security (secret scanning hooks): `docs/engineering/security-baseline.md`
 
 ### Library / framework references
-- Yarn Berry: https://yarnpkg.com/getting-started/install
+
+- npm workspaces: https://docs.npmjs.com/cli/v10/using-npm/workspaces
+- Turborepo: https://turborepo.com/docs
 - Husky: https://typicode.github.io/husky/
 - Conventional Commits: https://conventionalcommits.org/
 - ESLint: https://eslint.org/
 - Prettier: https://prettier.io/
 
 ### Project context
+
 - `CLAUDE.md`

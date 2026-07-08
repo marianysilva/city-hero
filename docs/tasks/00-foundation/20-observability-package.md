@@ -33,7 +33,7 @@ import and never write Sentry config or logging boilerplate themselves.
 
 ### Scenario · Single package, three consumers
 
-**Given** the monorepo has `apps/backend`, `apps/mobile`, and `apps/web`
+**Given** the monorepo has `apps/backend`, `apps/city-hero`, and `apps/web`
 **When** any of them needs to log or capture an error
 **Then** they import from `@cityhero/observability` (the package's public API)
 **And** never call Sentry SDKs or stdlib logging directly
@@ -121,14 +121,14 @@ Not applicable.
 
 ## Stack summary
 
-| Layer            | Package                      | Notes                                          |
-|------------------|------------------------------|------------------------------------------------|
-| Mobile errors    | `@sentry/react-native` 5.16+ | Expo plugin (the legacy `sentry-expo` is dead) |
-| Web errors       | `@sentry/nextjs` 8.28+       | Auto-instrumented                              |
-| Python errors    | `sentry-sdk` 2.45+           |                                                |
-| Python logs      | `structlog`                  | Contextvars + processors for PII redaction     |
-| JS logs          | The same `logger` API        | Backed by `pino` (web) and console (RN)        |
-| Trace correlation| Custom `X-Trace-Id` header   | No OpenTelemetry, no W3C `traceparent`         |
+| Layer             | Package                      | Notes                                          |
+| ----------------- | ---------------------------- | ---------------------------------------------- |
+| Mobile errors     | `@sentry/react-native` 5.16+ | Expo plugin (the legacy `sentry-expo` is dead) |
+| Web errors        | `@sentry/nextjs` 8.28+       | Auto-instrumented                              |
+| Python errors     | `sentry-sdk` 2.45+           |                                                |
+| Python logs       | `structlog`                  | Contextvars + processors for PII redaction     |
+| JS logs           | The same `logger` API        | Backed by `pino` (web) and console (RN)        |
+| Trace correlation | Custom `X-Trace-Id` header   | No OpenTelemetry, no W3C `traceparent`         |
 
 ## Explicitly out of scope (for the MVP)
 
@@ -189,18 +189,21 @@ This task introduces no end-user telemetry. Analytics events live in
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Security / LGPD: `docs/engineering/security-baseline.md`
 - Existing observability standards (must align): `docs/engineering/observability.md`
 - Research / upgrade path: `docs/engineering/observability-package-research.md`
 
 ### Library / framework references
+
 - Sentry React Native: https://docs.sentry.io/platforms/react-native/
 - Sentry Next.js: https://docs.sentry.io/platforms/javascript/guides/nextjs/
 - Sentry Python: https://docs.sentry.io/platforms/python/
 - structlog: https://www.structlog.org/
 
 ### Project context
+
 - API client (where the trace ID is generated for outbound requests): `00-foundation/05-api-client.md`
 - Error boundary (consumes the package): `00-foundation/15-error-boundary.md`
 - `CLAUDE.md`

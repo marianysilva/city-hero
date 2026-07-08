@@ -1,17 +1,17 @@
-import { statusBar } from '../atoms/StatusBar.js';
-import { staticBottomNav } from '../organisms/BottomNav.js';
+import { statusBar } from "../atoms/StatusBar.js";
+import { staticBottomNav } from "../organisms/BottomNav.js";
 
 /** Tela 27 · Perfil Cidadão (gamificação · vitrine do herói) */
 export default {
-  title: 'Perfil Cidadão',
-  group: 'gamification',
-  summary: 'XP · Nível · Conquistas · Gov.br',
+  title: "Perfil Cidadão",
+  group: "gamification",
+  summary: "XP · Nível · Conquistas · Gov.br",
   note: `Perfil = vitrine do herói. Topo em gradiente com avatar grande, level e selo <b>Gov.br verificado</b>. Stats em grid de 3 comunicam impacto concreto. "Próximo nível" cria loop de progresso.`,
   html: () => `
     <div class="relative h-full bg-slate-50 flex flex-col overflow-hidden">
      <div class="flex-1 min-h-0 overflow-y-auto">
       <div class="relative pb-14" style="background: linear-gradient(160deg,#F97316 0%, #EA580C 40%, #7C3AED 100%);">
-        ${statusBar('light')}
+        ${statusBar("light")}
         <div class="px-4 pt-1 flex items-center justify-between text-white">
           <button class="text-xl">←</button>
           <div class="text-[11px] font-bold tracking-wider">MEU PERFIL</div>
@@ -96,22 +96,26 @@ export default {
         <div class="font-extrabold text-slate-900 mb-2 px-1">Atividade recente</div>
         <div class="bg-white rounded-2xl shadow-soft">
           ${[
-            ['🕳️','Buraco · R. São Pedro','Resolvido · +80 XP','bg-emerald-500'],
-            ['🗑️','Lixo · Praça Central','Em andamento','bg-amber-500'],
-            ['💡','Poste · R. das Flores','Triagem','bg-slate-400'],
-          ].map(([e,t,s,c], i) => `
-            <div class="flex items-center gap-3 px-3 py-2.5 ${i < 2 ? 'border-b border-slate-100' : ''}">
+            ["🕳️", "Buraco · R. São Pedro", "Resolvido · +80 XP", "bg-emerald-500"],
+            ["🗑️", "Lixo · Praça Central", "Em andamento", "bg-amber-500"],
+            ["💡", "Poste · R. das Flores", "Triagem", "bg-slate-400"],
+          ]
+            .map(
+              ([e, t, s, c], i) => `
+            <div class="flex items-center gap-3 px-3 py-2.5 ${i < 2 ? "border-b border-slate-100" : ""}">
               <div class="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center">${e}</div>
               <div class="flex-1">
                 <div class="text-[12px] font-bold text-slate-900 leading-tight">${t}</div>
                 <div class="text-[10px] text-slate-500">${s}</div>
               </div>
               <span class="w-2 h-2 rounded-full ${c}"></span>
-            </div>`).join('')}
+            </div>`,
+            )
+            .join("")}
         </div>
       </div>
      </div>
 
-      ${staticBottomNav('profile')}
-    </div>`
+      ${staticBottomNav("profile")}
+    </div>`,
 };

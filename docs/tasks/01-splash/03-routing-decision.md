@@ -114,7 +114,7 @@ The user's onboarding progress is persisted server-side (or locally with sync) s
 ### Where it lives
 
 ```
-apps/mobile/src/services/init/
+apps/city-hero/src/services/init/
 ├── router.ts          ← decision tree
 ├── postLoginBuffer.ts ← stash deep-link target during login redirect
 └── routerMap.ts       ← rule → navigation action
@@ -148,10 +148,10 @@ The post-login buffer must not include sensitive params; it stores only the targ
 
 ## Analytics
 
-| Event                          | When                                       | Props                                        |
-|--------------------------------|--------------------------------------------|-----------------------------------------------|
-| `init.routing_decision`        | Router decides                             | `route`, `reason` (e.g., `unauthenticated`)  |
-| `init.post_login_resumed`      | Post-login redirect fires                  | `target_route`                                |
+| Event                     | When                      | Props                                       |
+| ------------------------- | ------------------------- | ------------------------------------------- |
+| `init.routing_decision`   | Router decides            | `route`, `reason` (e.g., `unauthenticated`) |
+| `init.post_login_resumed` | Post-login redirect fires | `target_route`                              |
 
 ## Tests
 
@@ -170,13 +170,16 @@ The post-login buffer must not include sensitive params; it stores only the targ
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Navigation `reset`: https://reactnavigation.org/docs/navigation-actions#reset
 
 ### Project context
+
 - App initialization: `02-app-initialization.md`
 - Force update flow: `04-force-update-flow.md`
 - Deep link handler: `00-foundation/12-deep-link-handler.md`

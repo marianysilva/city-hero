@@ -89,7 +89,7 @@ map content but stay visible enough to be discovered.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 ├── components/
 │   ├── PrefectureNewsBadge.tsx
 │   └── NearbyWorkBadge.tsx
@@ -119,10 +119,10 @@ The hooks use moderate stale times (e.g., 1-2 minutes) so badges feel "live" wit
 
 ### Endpoints
 
-| Method | Path                                                   | Purpose                                  |
-|--------|--------------------------------------------------------|------------------------------------------|
-| GET    | `/api/v1/prefecture-news/unread-count`                 | Count of unread announcements for user  |
-| GET    | `/api/v1/public-works/nearest?lat=&lng=&max_km=10`     | Nearest active public works              |
+| Method | Path                                               | Purpose                                |
+| ------ | -------------------------------------------------- | -------------------------------------- |
+| GET    | `/api/v1/prefecture-news/unread-count`             | Count of unread announcements for user |
+| GET    | `/api/v1/public-works/nearest?lat=&lng=&max_km=10` | Nearest active public works            |
 
 Both follow the standard contract (multi-tenant scoping, error shape, pagination not needed for these specific reads).
 
@@ -144,11 +144,11 @@ The prefecture-news read tracking and public-works geometry are owned by their d
 
 ## Analytics
 
-| Event                              | When                                    | Props                                |
-|------------------------------------|-----------------------------------------|---------------------------------------|
-| `home.badge_avisos_pressed`        | User taps the prefecture badge          | `unread_count`                        |
-| `home.badge_obra_pressed`          | User taps the active-work badge         | `work_id`                             |
-| `home.badge_avisos_rendered`       | Avisos badge rendered                   | `had_unread: bool`                    |
+| Event                        | When                            | Props              |
+| ---------------------------- | ------------------------------- | ------------------ |
+| `home.badge_avisos_pressed`  | User taps the prefecture badge  | `unread_count`     |
+| `home.badge_obra_pressed`    | User taps the active-work badge | `work_id`          |
+| `home.badge_avisos_rendered` | Avisos badge rendered           | `had_unread: bool` |
 
 ## Tests
 
@@ -158,7 +158,7 @@ The prefecture-news read tracking and public-works geometry are owned by their d
 
 ## Definition of Done
 
-- [ ] Two badge components in `apps/mobile/src/screens/Home`
+- [ ] Two badge components in `apps/city-hero/src/screens/Home`
 - [ ] Hooks for unread count and nearest work
 - [ ] Backend endpoints
 - [ ] Layout positioning into the "right-mid-overlay" slot
@@ -168,14 +168,17 @@ The prefecture-news read tracking and public-works geometry are owned by their d
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (REST conventions): `docs/engineering/architecture-patterns.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - TanStack Query: https://tanstack.com/query/latest
 
 ### Project context
+
 - Render UI base: `01-render-home-ui-base.md`
 - Avisos screen: `21-prefecture-news/`
 - Obras screen: `26-public-works-list/`

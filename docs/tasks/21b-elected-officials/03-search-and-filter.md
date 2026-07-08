@@ -52,12 +52,13 @@ define a local search input or a local chip component.
 **Given** the chip-to-level mapping
 **When** a chip is active
 **Then** the mapping is:
-  - Todos → no level filter
-  - Municipal → `municipal_executive` ∪ `city_council`
-  - Estadual → `state_assembly`
-  - Federal → `federal_lower`
-  - Senador → `federal_senate`
-**And** the mapping is sourced from a single config (`level-chip-mapping.ts`) — never duplicated across hook and component
+
+- Todos → no level filter
+- Municipal → `municipal_executive` ∪ `city_council`
+- Estadual → `state_assembly`
+- Federal → `federal_lower`
+- Senador → `federal_senate`
+  **And** the mapping is sourced from a single config (`level-chip-mapping.ts`) — never duplicated across hook and component
 
 ### Scenario · Search by name
 
@@ -115,7 +116,7 @@ define a local search input or a local chip component.
 ## Frontend (React Native)
 
 ```
-apps/mobile/src/screens/ElectedOfficials/
+apps/city-hero/src/screens/ElectedOfficials/
 ├── components/
 │   └── OfficialsResultsList.tsx     (flat list shown when filter/search active)
 ├── hooks/
@@ -140,10 +141,10 @@ apps/mobile/src/screens/ElectedOfficials/
 
 The list endpoint from task 02 gains two query params:
 
-| Param   | Type      | Notes                                                    |
-|---------|-----------|----------------------------------------------------------|
-| `level` | repeated  | Already defined in task 02 (accepts multiple values)     |
-| `q`     | string    | Substring match on `full_name`, diacritic-insensitive    |
+| Param   | Type     | Notes                                                 |
+| ------- | -------- | ----------------------------------------------------- |
+| `level` | repeated | Already defined in task 02 (accepts multiple values)  |
+| `q`     | string   | Substring match on `full_name`, diacritic-insensitive |
 
 - `q` is matched server-side using PostgreSQL `unaccent()` +
   `ILIKE`. The screen relies on the backend for the diacritic
@@ -172,12 +173,12 @@ The search query is sent to the backend but never logged with PII
 
 ## Analytics
 
-| Event                                  | When                                       | Props                                 |
-|----------------------------------------|--------------------------------------------|---------------------------------------|
-| `elected_officials.filter_changed`     | Chip tapped                                | `from`, `to`                          |
-| `elected_officials.search_submitted`   | Debounce fired with non-empty query        | `query_length`, `result_count`        |
-| `elected_officials.search_cleared`     | User cleared the search input              | —                                     |
-| `elected_officials.filters_reset`      | User tapped "Limpar filtros"               | —                                     |
+| Event                                | When                                | Props                          |
+| ------------------------------------ | ----------------------------------- | ------------------------------ |
+| `elected_officials.filter_changed`   | Chip tapped                         | `from`, `to`                   |
+| `elected_officials.search_submitted` | Debounce fired with non-empty query | `query_length`, `result_count` |
+| `elected_officials.search_cleared`   | User cleared the search input       | —                              |
+| `elected_officials.filters_reset`    | User tapped "Limpar filtros"        | —                              |
 
 > **Privacy note:** `query_length` is logged, not the query text.
 

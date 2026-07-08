@@ -96,7 +96,7 @@ will be submitted without one.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ReportConfirm/
+apps/city-hero/src/screens/ReportConfirm/
 └── components/
     └── DescriptionInput.tsx
 ```
@@ -141,10 +141,10 @@ The `reports.description` column (text, nullable) holds the user's comment. Sche
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `report_confirm.description_added` | User typed any content                     | `length_bucket`                       |
-| `report_confirm.profanity_hint_shown` | Client denylist matched                 | —                                     |
+| Event                                 | When                    | Props           |
+| ------------------------------------- | ----------------------- | --------------- |
+| `report_confirm.description_added`    | User typed any content  | `length_bucket` |
+| `report_confirm.profanity_hint_shown` | Client denylist matched | —               |
 
 ## Tests
 
@@ -166,15 +166,18 @@ The `reports.description` column (text, nullable) holds the user's comment. Sche
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Security (moderation): `docs/engineering/security-baseline.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native TextInput: https://reactnative.dev/docs/textinput
 - KeyboardAvoidingView: https://reactnative.dev/docs/keyboardavoidingview
 
 ### Project context
+
 - Render UI base: `01-render-confirm-ui-base.md`
 - `CLAUDE.md`

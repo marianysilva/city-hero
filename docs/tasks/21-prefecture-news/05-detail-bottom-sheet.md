@@ -103,7 +103,7 @@ publication time, the prefecture's source / department, and CTAs
 ### Where it lives
 
 ```
-apps/mobile/src/screens/PrefectureNews/
+apps/city-hero/src/screens/PrefectureNews/
 └── components/
     ├── NewsDetailSheet.tsx
     ├── RichTextRenderer.tsx
@@ -124,9 +124,9 @@ When the sheet opens, the read state is updated (similar to email "opened" track
 
 The announcement detail endpoint returns full content:
 
-| Method | Path                                              | Purpose                              |
-|--------|---------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/prefecture-news/{id}`                    | Full announcement                    |
+| Method | Path                           | Purpose           |
+| ------ | ------------------------------ | ----------------- |
+| GET    | `/api/v1/prefecture-news/{id}` | Full announcement |
 
 Returns: title, body (sanitized), images array, source, link_target, related resources.
 
@@ -146,12 +146,12 @@ Public content. No PII handling.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `prefecture_news.detail_opened`    | Sheet opened                               | `category`                            |
-| `prefecture_news.detail_dismissed` | Sheet closed                               | `time_open_seconds`                   |
-| `prefecture_news.detail_link_pressed` | User tapped a link in the body         | `url`                                 |
-| `prefecture_news.detail_image_viewed` | User opened the full-screen image       | `index`                               |
+| Event                                 | When                              | Props               |
+| ------------------------------------- | --------------------------------- | ------------------- |
+| `prefecture_news.detail_opened`       | Sheet opened                      | `category`          |
+| `prefecture_news.detail_dismissed`    | Sheet closed                      | `time_open_seconds` |
+| `prefecture_news.detail_link_pressed` | User tapped a link in the body    | `url`               |
+| `prefecture_news.detail_image_viewed` | User opened the full-screen image | `index`             |
 
 ## Tests
 
@@ -172,15 +172,18 @@ Public content. No PII handling.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Security (sanitization): `docs/engineering/security-baseline.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - @gorhom/bottom-sheet: https://gorhom.dev/react-native-bottom-sheet
 - react-native-render-html (for rich text): https://meliorence.github.io/react-native-render-html/
 
 ### Project context
+
 - News list (entry): `04-news-list.md`
 - `CLAUDE.md`

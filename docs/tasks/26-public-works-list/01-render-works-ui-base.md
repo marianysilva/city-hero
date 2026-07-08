@@ -55,7 +55,7 @@ Header (back + "Obras em andamento · N" title + view toggle), small map preview
 ## Frontend
 
 ```
-apps/mobile/src/screens/PublicWorks/
+apps/city-hero/src/screens/PublicWorks/
 ├── PublicWorksScreen.tsx
 ├── PublicWorksScreen.styles.ts
 ├── PublicWorksScreen.test.tsx
@@ -82,10 +82,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `public_works.viewed`          | Screen mounts                              | `count`                               |
-| `public_works.view_toggled`    | User switched map/list                     | `to: map|list`                        |
+| Event                       | When                   | Props    |
+| --------------------------- | ---------------------- | -------- |
+| `public_works.viewed`       | Screen mounts          | `count`  |
+| `public_works.view_toggled` | User switched map/list | `to: map | list` |
 
 ## Tests
 

@@ -1,5 +1,5 @@
-import { statusBar } from '../atoms/StatusBar.js';
-import { staticBottomNav } from '../organisms/BottomNav.js';
+import { statusBar } from "../atoms/StatusBar.js";
+import { staticBottomNav } from "../organisms/BottomNav.js";
 
 const svc = (emoji, label, color) => `
   <button class="bg-white rounded-2xl p-3 shadow-soft flex flex-col items-center gap-1.5 text-center">
@@ -9,14 +9,14 @@ const svc = (emoji, label, color) => `
 
 /** Tela 24 · Serviços & Obras (hub integrações da prefeitura) */
 export default {
-  title: 'Serviços & Obras',
-  group: 'support',
-  summary: 'Integrações da prefeitura · obras em andamento',
+  title: "Serviços & Obras",
+  group: "support",
+  summary: "Integrações da prefeitura · obras em andamento",
   note: `Hub que integra a Prefeitura sem precisar sair do app (webview). Card destaque exibe <b>obras em andamento no mapa</b> — feature "Projects in Progress" do briefing. Cor azul institucional convive com o lúdico nos ícones.`,
   html: () => `
     <div class="relative h-full bg-slate-50 flex flex-col overflow-hidden">
      <div class="flex-1 min-h-0 overflow-y-auto">
-      ${statusBar('dark')}
+      ${statusBar("dark")}
       <div class="px-4 flex items-center gap-3">
         <button class="w-9 h-9 rounded-full bg-white shadow-soft flex items-center justify-center">←</button>
         <div class="flex-1">
@@ -57,15 +57,15 @@ export default {
       </div>
 
       <div class="mx-4 mt-3 grid grid-cols-3 gap-2">
-        ${svc('💰','Pagar IPTU','bg-yellow-100')}
-        ${svc('🚗','Multas','bg-rose-100')}
-        ${svc('🗑️','Agendar coleta','bg-emerald-100')}
-        ${svc('💉','Vacinação','bg-sky-100')}
-        ${svc('🏥','UBS mais próxima','bg-red-100')}
-        ${svc('📅','Eventos','bg-purple-100')}
-        ${svc('📣','Ouvidoria','bg-orange-100')}
-        ${svc('🌡️','Dengue','bg-teal-100')}
-        ${svc('➕','Mais','bg-slate-100')}
+        ${svc("💰", "Pagar IPTU", "bg-yellow-100")}
+        ${svc("🚗", "Multas", "bg-rose-100")}
+        ${svc("🗑️", "Agendar coleta", "bg-emerald-100")}
+        ${svc("💉", "Vacinação", "bg-sky-100")}
+        ${svc("🏥", "UBS mais próxima", "bg-red-100")}
+        ${svc("📅", "Eventos", "bg-purple-100")}
+        ${svc("📣", "Ouvidoria", "bg-orange-100")}
+        ${svc("🌡️", "Dengue", "bg-teal-100")}
+        ${svc("➕", "Mais", "bg-slate-100")}
       </div>
 
       <div class="mx-4 mt-3 mb-4 bg-gradient-to-br from-slate-900 to-slate-700 rounded-2xl p-4 text-white flex items-center gap-3">
@@ -78,6 +78,6 @@ export default {
       </div>
      </div>
 
-      ${staticBottomNav('more')}
-    </div>`
+      ${staticBottomNav("more")}
+    </div>`,
 };

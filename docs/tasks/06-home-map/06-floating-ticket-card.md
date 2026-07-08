@@ -105,7 +105,7 @@ support count, and a primary "Apoiar" CTA.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 ├── components/
 │   └── FloatingTicketCard.tsx
 └── hooks/
@@ -129,9 +129,9 @@ The recommendation request is debounced; it doesn't fire on every micro-pan.
 
 ### Endpoint
 
-| Method | Path                                                     | Purpose                                       |
-|--------|----------------------------------------------------------|-----------------------------------------------|
-| GET    | `/api/v1/reports/recommend-nearby?lat=&lng=&max_km=2`    | Returns a single recommended report          |
+| Method | Path                                                  | Purpose                             |
+| ------ | ----------------------------------------------------- | ----------------------------------- |
+| GET    | `/api/v1/reports/recommend-nearby?lat=&lng=&max_km=2` | Returns a single recommended report |
 
 The backend:
 
@@ -161,12 +161,12 @@ Recommendation logic uses the `reports` table (geo column indexed by GiST) plus 
 
 ## Analytics
 
-| Event                          | When                                       | Props                              |
-|--------------------------------|--------------------------------------------|-------------------------------------|
-| `home.ticket_card_shown`       | Card rendered with a recommendation        | `report_id`, `score`               |
-| `home.ticket_card_tap`         | User taps the card body                    | `report_id`                         |
-| `home.ticket_card_support_tap` | User taps Apoiar                           | `report_id`, `now_supporting: bool`|
-| `home.ticket_card_dismissed`   | User dismisses                             | `report_id`                         |
+| Event                          | When                                | Props                               |
+| ------------------------------ | ----------------------------------- | ----------------------------------- |
+| `home.ticket_card_shown`       | Card rendered with a recommendation | `report_id`, `score`                |
+| `home.ticket_card_tap`         | User taps the card body             | `report_id`                         |
+| `home.ticket_card_support_tap` | User taps Apoiar                    | `report_id`, `now_supporting: bool` |
+| `home.ticket_card_dismissed`   | User dismisses                      | `report_id`                         |
 
 ## Tests
 
@@ -188,14 +188,17 @@ Recommendation logic uses the `reports` table (geo column indexed by GiST) plus 
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (multi-tenant, REST): `docs/engineering/architecture-patterns.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - TanStack Query optimistic updates: https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
 
 ### Project context
+
 - Render UI base: `01-render-home-ui-base.md`
 - Map integration: `02-map-integration-with-pins.md`
 - Offline queue: `00-foundation/09-offline-queue.md`

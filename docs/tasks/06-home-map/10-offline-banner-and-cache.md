@@ -97,7 +97,7 @@ This task ties together:
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 └── components/
     └── OfflineBanner.tsx
 ```
@@ -147,11 +147,11 @@ The cached reports include anonymized photo URLs. The cache lives within the app
 
 ## Analytics
 
-| Event                              | When                                       | Props                                  |
-|------------------------------------|--------------------------------------------|-----------------------------------------|
-| `home.offline_banner_shown`        | Banner becomes visible                     | `had_cache: bool`, `queue_count: int`  |
-| `home.offline_banner_tapped`       | User taps to open sync queue               | `queue_count`                           |
-| `home.connectivity_returned`       | Online again from offline                  | `offline_duration_seconds`             |
+| Event                        | When                         | Props                                 |
+| ---------------------------- | ---------------------------- | ------------------------------------- |
+| `home.offline_banner_shown`  | Banner becomes visible       | `had_cache: bool`, `queue_count: int` |
+| `home.offline_banner_tapped` | User taps to open sync queue | `queue_count`                         |
+| `home.connectivity_returned` | Online again from offline    | `offline_duration_seconds`            |
 
 ## Tests
 
@@ -172,15 +172,18 @@ The cached reports include anonymized photo URLs. The cache lives within the app
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 - Observability: `docs/engineering/observability.md`
 
 ### Library / framework references
+
 - @react-native-community/netinfo: https://github.com/react-native-netinfo/react-native-netinfo
 - TanStack Query persistence: https://tanstack.com/query/latest/docs/react/plugins/persistQueryClient
 
 ### Project context
+
 - Offline queue: `00-foundation/09-offline-queue.md`
 - Cold-start offline: `01-splash/05-cold-start-offline.md`
 - Map integration: `02-map-integration-with-pins.md`

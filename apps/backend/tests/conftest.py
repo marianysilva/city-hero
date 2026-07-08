@@ -53,6 +53,7 @@ _SEED_TABLES = {"roles", "permissions", "role_permissions"}
 def _alembic(command: str, *args: str) -> None:
     """Run an Alembic command synchronously. Safe to call from run_in_executor."""
     from alembic.config import Config
+
     from alembic import command as alembic_command
     cfg = Config(str(_BACKEND_ROOT / "alembic.ini"))
     cfg.set_main_option("script_location", str(_BACKEND_ROOT / "alembic"))
@@ -88,8 +89,8 @@ async def _clean_tables():
 @pytest_asyncio.fixture
 async def admin_user():
     """Create a fresh admin user and return it. Cleaned up by _clean_tables after each test."""
-    from app.core.security import hash_password
     from app.core.rbac_cache import get_role_id, load_permission_cache
+    from app.core.security import hash_password
     from app.models.user import User
     async with _session_factory() as session:
         # The RBAC cache is populated by the app lifespan, but that only runs when

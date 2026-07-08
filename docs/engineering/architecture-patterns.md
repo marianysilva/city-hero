@@ -46,7 +46,7 @@ All citizen-report endpoints follow the **Open311 GeoReport v2** spec for intero
 
 ### Folder structure per screen
 
-Co-locate screen, sub-components, styles, types, tests, and stories. Hooks specific to the screen live in a `hooks/` subfolder. Shared hooks go in `apps/mobile/src/hooks/`.
+Co-locate screen, sub-components, styles, types, tests, and stories. Hooks specific to the screen live in a `hooks/` subfolder. Shared hooks go in `apps/city-hero/src/hooks/`.
 
 ### Frontend component architecture
 
@@ -57,7 +57,7 @@ catalog of shared components.
 
 **Tiered placement**: components live by tier in
 `packages/design_system/` — tokens, atoms, molecules, organisms,
-templates. Concrete screens live in `apps/mobile/src/screens/<Screen>/`
+templates. Concrete screens live in `apps/city-hero/src/screens/<Screen>/`
 and **compose** the design-system pieces. Screen folders never define
 generic primitives (buttons, chips, badges, etc.).
 
@@ -134,12 +134,12 @@ Use RESTful conventions:
 
 All non-2xx responses return JSON with this shape:
 
-| Field      | Type   | Description                                            |
-|------------|--------|--------------------------------------------------------|
-| `code`     | string | Machine-readable identifier (e.g., `validation_error`) |
-| `message`  | string | i18n key (not literal text). Frontend translates.      |
-| `details`  | object | Optional. Field-level errors or extra context.         |
-| `traceId`  | string | UUID for cross-system correlation.                     |
+| Field     | Type   | Description                                            |
+| --------- | ------ | ------------------------------------------------------ |
+| `code`    | string | Machine-readable identifier (e.g., `validation_error`) |
+| `message` | string | i18n key (not literal text). Frontend translates.      |
+| `details` | object | Optional. Field-level errors or extra context.         |
+| `traceId` | string | UUID for cross-system correlation.                     |
 
 ### Pagination
 

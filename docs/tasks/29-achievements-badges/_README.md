@@ -14,13 +14,13 @@ detail sheet on tap showing how to unlock or the unlock context.
 
 ## Features (5 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · header, filter chips, grid](./01-render-achievements-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Completion stats + filter chips](./02-stats-and-filter.md) | S | task 01 |
-| 03 | [Medal grid · unlocked + locked variants](./03-medal-grid.md) | M | task 01, `00-foundation/05-api-client.md` |
-| 04 | [Medal detail sheet · how to unlock + context](./04-detail-sheet.md) | M | task 03 |
-| 05 | [Share unlocked medal](./05-share-medal.md) | S | task 04 |
+| #   | Task                                                                               | Effort | Depends on                                |
+| --- | ---------------------------------------------------------------------------------- | ------ | ----------------------------------------- |
+| 01  | [Render UI base · header, filter chips, grid](./01-render-achievements-ui-base.md) | S      | `00-foundation/02-design-tokens.md`       |
+| 02  | [Completion stats + filter chips](./02-stats-and-filter.md)                        | S      | task 01                                   |
+| 03  | [Medal grid · unlocked + locked variants](./03-medal-grid.md)                      | M      | task 01, `00-foundation/05-api-client.md` |
+| 04  | [Medal detail sheet · how to unlock + context](./04-detail-sheet.md)               | M      | task 03                                   |
+| 05  | [Share unlocked medal](./05-share-medal.md)                                        | S      | task 04                                   |
 
 ## Suggested implementation order
 

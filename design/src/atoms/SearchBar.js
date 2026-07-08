@@ -9,7 +9,7 @@
  * Reutilizada por: 02 (Escolher Cidade), 07 (Feed Cívico), 25 (Obras),
  * e qualquer outra tela com busca.
  */
-export const searchBar = (placeholder = 'Buscar…') => `
+export const searchBar = (placeholder = "Buscar…") => `
   <div class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-white border border-slate-200">
     <span class="text-slate-400 text-sm">🔍</span>
     <input

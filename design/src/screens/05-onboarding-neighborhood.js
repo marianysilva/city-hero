@@ -1,14 +1,14 @@
-import { statusBar } from '../atoms/StatusBar.js';
+import { statusBar } from "../atoms/StatusBar.js";
 
 /** Tela 05 · Onboarding · Seu bairro (feed hiperlocal + permissões) */
 export default {
-  title: 'Onboarding · Seu bairro',
-  group: 'onboarding',
-  summary: 'Feed hiperlocal + permissões',
+  title: "Onboarding · Seu bairro",
+  group: "onboarding",
+  summary: "Feed hiperlocal + permissões",
   note: `Último passo pede <b>permissões</b> (localização e câmera) em linguagem humana. Estado mostra 3 vizinhos reportando agora — prova social imediata.`,
   html: () => `
     <div class="relative h-full bg-gradient-to-b from-white to-sky-50">
-      ${statusBar('dark')}
+      ${statusBar("dark")}
       <div class="px-6 pt-2 flex items-center justify-between">
         <button data-nav="back" class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-600">←</button>
         <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Passo 5 de 5</span>
@@ -186,5 +186,5 @@ export default {
         </div>
         <button data-nav="next" class="px-5 py-3 rounded-full bg-brand-500 text-white font-bold text-sm shadow">Permitir &amp; continuar</button>
       </div>
-    </div>`
+    </div>`,
 };

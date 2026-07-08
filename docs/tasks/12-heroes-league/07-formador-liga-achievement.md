@@ -57,10 +57,11 @@ goal — and turns the user into a CAC engine.
 **Given** the user taps the card
 **When** the action runs
 **Then** a small sheet expands explaining:
-  - The achievement's full rules.
-  - Their current progress.
-  - The XP earned so far via shares.
-  - A simple referral pseudo-URL with their referral ID baked into the universal link.
+
+- The achievement's full rules.
+- Their current progress.
+- The XP earned so far via shares.
+- A simple referral pseudo-URL with their referral ID baked into the universal link.
 
 ### Scenario · Referral attribution
 
@@ -108,7 +109,7 @@ goal — and turns the user into a CAC engine.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/HeroesLeague/
+apps/city-hero/src/screens/HeroesLeague/
 ├── components/
 │   ├── AchievementTeaserCard.tsx
 │   └── AchievementDetailSheet.tsx
@@ -130,10 +131,10 @@ When a recipient installs, the backend emits an event that the client subscribes
 
 ### Endpoints
 
-| Method | Path                                              | Purpose                                |
-|--------|---------------------------------------------------|----------------------------------------|
-| GET    | `/api/v1/achievements/formador-liga/progress`     | Current count + unlocked status        |
-| POST   | `/api/v1/referrals/track-install`                 | Internal — called by attribution flow |
+| Method | Path                                          | Purpose                               |
+| ------ | --------------------------------------------- | ------------------------------------- |
+| GET    | `/api/v1/achievements/formador-liga/progress` | Current count + unlocked status       |
+| POST   | `/api/v1/referrals/track-install`             | Internal — called by attribution flow |
 
 The `/track-install` endpoint is called by the backend's install attribution flow when a new user signs up with a referral parameter from the universal link. It credits the sharer and emits an event.
 
@@ -152,16 +153,16 @@ The universal link includes the sharer's referral ID (`utm_content=ref_<userid>`
 
 ### `referrals` table
 
-| Column                  | Type        | Notes                                              |
-|-------------------------|-------------|----------------------------------------------------|
-| `id`                    | UUID PK     |                                                    |
-| `sharer_user_id`        | UUID FK     |                                                    |
-| `referred_user_id`      | UUID FK     | Set when a referred user signs up                 |
-| `report_id`             | UUID FK     | The original report that was shared (when known)  |
-| `utm_content`           | text        | The referral parameter from the universal link    |
-| `created_at`            | timestamptz | When the install was tracked                      |
-| `credited_at`           | timestamptz | When the referral was credited (first report)     |
-| `flagged_fraud`         | boolean     | Manual moderation outcome                          |
+| Column             | Type        | Notes                                            |
+| ------------------ | ----------- | ------------------------------------------------ |
+| `id`               | UUID PK     |                                                  |
+| `sharer_user_id`   | UUID FK     |                                                  |
+| `referred_user_id` | UUID FK     | Set when a referred user signs up                |
+| `report_id`        | UUID FK     | The original report that was shared (when known) |
+| `utm_content`      | text        | The referral parameter from the universal link   |
+| `created_at`       | timestamptz | When the install was tracked                     |
+| `credited_at`      | timestamptz | When the referral was credited (first report)    |
+| `flagged_fraud`    | boolean     | Manual moderation outcome                        |
 
 A unique constraint on `(referred_user_id)` ensures one credit per referred user. A non-unique index on `sharer_user_id` enables fast progress reads.
 
@@ -184,12 +185,12 @@ The user record gains a `formador_liga_credited_count` field that increments on 
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `league.achievement_rendered`      | Card mounted                               | `progress`, `unlocked: bool`         |
-| `league.achievement_card_tapped`   | User opened detail sheet                   | —                                     |
-| `referral.install_tracked`         | New referred install                       | `sharer_user_id`, `report_id`        |
-| `referral.credit_granted`          | Sharer credited (first report)             | `sharer_user_id`                      |
+| Event                            | When                           | Props                         |
+| -------------------------------- | ------------------------------ | ----------------------------- |
+| `league.achievement_rendered`    | Card mounted                   | `progress`, `unlocked: bool`  |
+| `league.achievement_card_tapped` | User opened detail sheet       | —                             |
+| `referral.install_tracked`       | New referred install           | `sharer_user_id`, `report_id` |
+| `referral.credit_granted`        | Sharer credited (first report) | `sharer_user_id`              |
 
 ## Tests
 
@@ -212,16 +213,19 @@ The user record gains a `formador_liga_credited_count` field that increments on 
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (gamification, real-time): `docs/engineering/architecture-patterns.md`
 - Security (anti-fraud): `docs/engineering/security-baseline.md`
 - Observability: `docs/engineering/observability.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - UTM parameters: https://en.wikipedia.org/wiki/UTM_parameters
 - Universal Links + deferred deep linking: https://branch.io/glossary/deferred-deep-linking/ (concept reference)
 
 ### Project context
+
 - Render UI base: `01-render-league-ui-base.md`
 - Share channels (sources): `05-share-channels.md`
 - Auth system: `00-foundation/06-auth-system.md`

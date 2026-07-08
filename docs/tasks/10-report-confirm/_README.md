@@ -21,16 +21,16 @@ happen as a result of this screen's submit.
 
 ## Features (8 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · header, layout, sticky CTA](./01-render-confirm-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Photo preview + anonymization status](./02-photo-preview-anonymization.md) | M | task 01, `00-foundation/08-anonymization-pipeline.md` |
-| 03 | [AI suggestions panel · category + severity](./03-ai-suggestions-panel.md) | M | task 01, `00-foundation/16-yolov8-inference-service.md` |
-| 04 | [Location confirm + adjust](./04-location-confirm-adjust.md) | S | task 01, `09-manual-report/04-mini-map-location.md` |
-| 05 | [Description input · optional comment](./05-description-input.md) | S | task 01 |
-| 06 | [Identification toggle · anonymous vs identified](./06-identification-toggle.md) | M | task 01, `00-foundation/06-auth-system.md` |
-| 07 | [XP / medal preview](./07-xp-medal-preview.md) | S | task 01 |
-| 08 | [Submit · report creation + bifurcation routing](./08-submit-and-bifurcate.md) | L | tasks 02-07, `00-foundation/07`, `00-foundation/08`, `00-foundation/09` |
+| #   | Task                                                                             | Effort | Depends on                                                              |
+| --- | -------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------- |
+| 01  | [Render UI base · header, layout, sticky CTA](./01-render-confirm-ui-base.md)    | S      | `00-foundation/02-design-tokens.md`                                     |
+| 02  | [Photo preview + anonymization status](./02-photo-preview-anonymization.md)      | M      | task 01, `00-foundation/08-anonymization-pipeline.md`                   |
+| 03  | [AI suggestions panel · category + severity](./03-ai-suggestions-panel.md)       | M      | task 01, `00-foundation/16-yolov8-inference-service.md`                 |
+| 04  | [Location confirm + adjust](./04-location-confirm-adjust.md)                     | S      | task 01, `09-manual-report/04-mini-map-location.md`                     |
+| 05  | [Description input · optional comment](./05-description-input.md)                | S      | task 01                                                                 |
+| 06  | [Identification toggle · anonymous vs identified](./06-identification-toggle.md) | M      | task 01, `00-foundation/06-auth-system.md`                              |
+| 07  | [XP / medal preview](./07-xp-medal-preview.md)                                   | S      | task 01                                                                 |
+| 08  | [Submit · report creation + bifurcation routing](./08-submit-and-bifurcate.md)   | L      | tasks 02-07, `00-foundation/07`, `00-foundation/08`, `00-foundation/09` |
 
 ## Suggested implementation order
 

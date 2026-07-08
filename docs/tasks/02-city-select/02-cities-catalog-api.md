@@ -75,9 +75,9 @@ client-side fetch + rendering hookup.
 
 ### Endpoint
 
-| Method | Path                       | Purpose                                |
-|--------|----------------------------|----------------------------------------|
-| GET    | `/api/v1/cities`           | Public catalog, no auth required       |
+| Method | Path             | Purpose                          |
+| ------ | ---------------- | -------------------------------- |
+| GET    | `/api/v1/cities` | Public catalog, no auth required |
 
 The endpoint accepts an optional `state` query (e.g., `state=SC`) to filter by Brazilian state. Future filters (region, country) can be added without breaking the contract.
 
@@ -97,21 +97,21 @@ This endpoint is the **only** city-related public read endpoint. Tenanted endpoi
 
 ### `cities` table
 
-| Column           | Type            | Notes                                             |
-|------------------|-----------------|---------------------------------------------------|
-| `id`             | UUID PK         |                                                   |
-| `name`           | varchar(120)    |                                                   |
-| `state`          | varchar(2)      | Brazilian state code (SC, RJ, etc.)              |
-| `country`        | varchar(2)      | ISO country code; default `BR`                    |
-| `slug`           | varchar(120)    | Unique, kebab-case identifier                     |
-| `status`         | varchar(20)     | `active`, `coming_soon`                           |
-| `flag_emoji`     | varchar(10)     |                                                   |
-| `subtitle_key_pt`| varchar(120)    | i18n key for the pt-BR subtitle                   |
-| `subtitle_key_en`| varchar(120)    | i18n key for the en-US subtitle                   |
-| `centroid`       | geography(Point)| For GPS auto-detect                               |
-| `bbox`           | geography(Polygon) | Bounding box of the city                       |
-| `created_at`     | timestamptz     |                                                   |
-| `updated_at`     | timestamptz     |                                                   |
+| Column            | Type               | Notes                               |
+| ----------------- | ------------------ | ----------------------------------- |
+| `id`              | UUID PK            |                                     |
+| `name`            | varchar(120)       |                                     |
+| `state`           | varchar(2)         | Brazilian state code (SC, RJ, etc.) |
+| `country`         | varchar(2)         | ISO country code; default `BR`      |
+| `slug`            | varchar(120)       | Unique, kebab-case identifier       |
+| `status`          | varchar(20)        | `active`, `coming_soon`             |
+| `flag_emoji`      | varchar(10)        |                                     |
+| `subtitle_key_pt` | varchar(120)       | i18n key for the pt-BR subtitle     |
+| `subtitle_key_en` | varchar(120)       | i18n key for the en-US subtitle     |
+| `centroid`        | geography(Point)   | For GPS auto-detect                 |
+| `bbox`            | geography(Polygon) | Bounding box of the city            |
+| `created_at`      | timestamptz        |                                     |
+| `updated_at`      | timestamptz        |                                     |
 
 A GiST index on `centroid` and `bbox` supports nearest-city queries. Subtitle keys point to i18n strings to keep translations together with the rest of the catalog.
 
@@ -124,7 +124,7 @@ Initial seed (Alembic data migration): Pôrto Belo (active), Bombinhas, Itapema,
 ### Where the data layer lives
 
 ```
-apps/mobile/src/screens/CitySelect/
+apps/city-hero/src/screens/CitySelect/
 ├── hooks/
 │   └── useCitiesCatalog.ts
 └── api/
@@ -155,10 +155,10 @@ On error, a centered error component appears in place of the list with the error
 
 ## Analytics
 
-| Event                      | When                                | Props                                       |
-|----------------------------|-------------------------------------|---------------------------------------------|
-| `city_select.fetched`      | Catalog returned successfully       | `count_active`, `count_coming_soon`         |
-| `city_select.fetch_failed` | Backend error                       | `status`, `code`                            |
+| Event                      | When                          | Props                               |
+| -------------------------- | ----------------------------- | ----------------------------------- |
+| `city_select.fetched`      | Catalog returned successfully | `count_active`, `count_coming_soon` |
+| `city_select.fetch_failed` | Backend error                 | `status`, `code`                    |
 
 ## Tests
 
@@ -180,15 +180,18 @@ On error, a centered error component appears in place of the list with the error
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (REST conventions, multi-tenant exception): `docs/engineering/architecture-patterns.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - TanStack React Query: https://tanstack.com/query/latest
 - PostGIS Point/Polygon: https://postgis.net/docs/manual-3.4/reference.html
 
 ### Project context
+
 - Render UI: `01-render-city-select-ui.md`
 - API client: `00-foundation/05-api-client.md`
 - i18n: `00-foundation/13-i18n.md`

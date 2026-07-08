@@ -80,7 +80,7 @@ spotlight different programs.
 ## Frontend
 
 ```
-apps/mobile/src/screens/Programs/
+apps/city-hero/src/screens/Programs/
 ├── components/
 │   └── FeaturedProgramCard.tsx
 └── hooks/
@@ -89,9 +89,9 @@ apps/mobile/src/screens/Programs/
 
 ## Backend
 
-| Method | Path                                                    | Purpose                                  |
-|--------|---------------------------------------------------------|------------------------------------------|
-| GET    | `/api/v1/cities/{id}/programs/featured`                 | Returns the city's featured program     |
+| Method | Path                                    | Purpose                             |
+| ------ | --------------------------------------- | ----------------------------------- |
+| GET    | `/api/v1/cities/{id}/programs/featured` | Returns the city's featured program |
 
 The endpoint returns the program's identifier + key metrics. The detail screen does its own deep fetch.
 
@@ -110,10 +110,10 @@ Aggregated program data; no individual records.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `programs.featured_rendered`       | Card mounted                               | `program_id`                          |
-| `programs.featured_pressed`        | User tapped                                | `program_id`                          |
+| Event                        | When         | Props        |
+| ---------------------------- | ------------ | ------------ |
+| `programs.featured_rendered` | Card mounted | `program_id` |
+| `programs.featured_pressed`  | User tapped  | `program_id` |
 
 ## Tests
 

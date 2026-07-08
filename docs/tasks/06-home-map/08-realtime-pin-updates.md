@@ -89,7 +89,7 @@ proxies).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 ├── hooks/
 │   ├── useReportsRealtime.ts
 │   └── useReportsPolling.ts
@@ -114,9 +114,9 @@ apps/mobile/src/screens/Home/
 
 ### Endpoints
 
-| Method | Path                                                    | Purpose                                |
-|--------|---------------------------------------------------------|----------------------------------------|
-| WS     | `/api/v1/ws/reports?bbox=&filters=&city_id=`           | Subscribe to report updates in scope  |
+| Method | Path                                         | Purpose                              |
+| ------ | -------------------------------------------- | ------------------------------------ |
+| WS     | `/api/v1/ws/reports?bbox=&filters=&city_id=` | Subscribe to report updates in scope |
 
 The WebSocket connection requires authentication (token via query param or initial message). The server validates the user's `city_id` claim matches the query.
 
@@ -151,12 +151,12 @@ No new schema. The `reports` table's `version` column (from task 02) and `last_a
 
 ## Analytics
 
-| Event                              | When                                       | Props                                  |
-|------------------------------------|--------------------------------------------|-----------------------------------------|
-| `home.realtime_connected`          | WebSocket connection established           | `transport: ws|polling`                |
-| `home.realtime_reconnected`        | After backoff, reconnected                 | `attempts`                              |
-| `home.realtime_event_received`     | Event delivered (sampled — too verbose otherwise) | `type`                            |
-| `home.realtime_disconnected`       | Disconnect detected                        | `reason`                                |
+| Event                          | When                                              | Props          |
+| ------------------------------ | ------------------------------------------------- | -------------- |
+| `home.realtime_connected`      | WebSocket connection established                  | `transport: ws | polling` |
+| `home.realtime_reconnected`    | After backoff, reconnected                        | `attempts`     |
+| `home.realtime_event_received` | Event delivered (sampled — too verbose otherwise) | `type`         |
+| `home.realtime_disconnected`   | Disconnect detected                               | `reason`       |
 
 ## Tests
 
@@ -179,17 +179,20 @@ No new schema. The `reports` table's `version` column (from task 02) and `last_a
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Observability: `docs/engineering/observability.md`
 - Security (auth on WS, scoping): `docs/engineering/security-baseline.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - FastAPI WebSockets: https://fastapi.tiangolo.com/advanced/websockets/
 - React Native WebSocket: https://reactnative.dev/docs/network#websocket-support
 - Redis Pub/Sub: https://redis.io/docs/manual/pubsub/
 
 ### Project context
+
 - Map integration: `02-map-integration-with-pins.md`
 - API client: `00-foundation/05-api-client.md`
 - `CLAUDE.md`

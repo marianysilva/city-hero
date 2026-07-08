@@ -100,7 +100,7 @@ nearby push alerts.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Onboarding/Neighborhood/
+apps/city-hero/src/screens/Onboarding/Neighborhood/
 ├── hooks/
 │   ├── useLocationPermission.ts
 │   └── useFinalizeOnboarding.ts
@@ -117,12 +117,12 @@ apps/mobile/src/screens/Onboarding/Neighborhood/
 
 ### State transitions
 
-| State         | Primary CTA         | Action                                |
-|---------------|---------------------|----------------------------------------|
-| Not requested | "Permitir localização" | Show pre-prompt → OS dialog          |
-| Granted       | "Continuar →"       | Finalize and go to Home               |
-| Denied (asked once) | "Permitir agora" | Show pre-prompt → OS dialog          |
-| Permanently denied | "Abrir Ajustes" | Open system settings                 |
+| State               | Primary CTA            | Action                      |
+| ------------------- | ---------------------- | --------------------------- |
+| Not requested       | "Permitir localização" | Show pre-prompt → OS dialog |
+| Granted             | "Continuar →"          | Finalize and go to Home     |
+| Denied (asked once) | "Permitir agora"       | Show pre-prompt → OS dialog |
+| Permanently denied  | "Abrir Ajustes"        | Open system settings        |
 
 ### After settings return
 
@@ -134,9 +134,9 @@ When the user returns from system settings, the screen re-queries permission sta
 
 The `users` table gains:
 
-| Column            | Type | Notes                                       |
-|-------------------|------|---------------------------------------------|
-| `feed_radius_km`  | int  | Default 10; constrained 1-100               |
+| Column           | Type | Notes                         |
+| ---------------- | ---- | ----------------------------- |
+| `feed_radius_km` | int  | Default 10; constrained 1-100 |
 
 ### Endpoint reuse
 
@@ -163,15 +163,15 @@ The `feed_radius_km` column on `users` is added via Alembic migration with a saf
 
 ## Analytics
 
-| Event                                       | When                                       | Props                          |
-|---------------------------------------------|--------------------------------------------|---------------------------------|
-| `onboarding.location.pre_prompt_shown`      | Pre-prompt rendered                        | —                               |
-| `onboarding.location.pre_prompt_accepted`   | User taps Continue on pre-prompt           | —                               |
-| `onboarding.location.pre_prompt_declined`   | User cancels pre-prompt                    | —                               |
-| `onboarding.location.os_prompt_granted`     | OS dialog returned granted                 | `precision: full|reduced`      |
-| `onboarding.location.os_prompt_denied`      | OS dialog returned denied                  | `permanent: bool`               |
-| `onboarding.location.settings_opened`       | User opened system settings                | —                               |
-| `onboarding.location.finalized`             | Onboarding marked complete                 | `granted: bool`, `radius_km`    |
+| Event                                     | When                             | Props                        |
+| ----------------------------------------- | -------------------------------- | ---------------------------- |
+| `onboarding.location.pre_prompt_shown`    | Pre-prompt rendered              | —                            |
+| `onboarding.location.pre_prompt_accepted` | User taps Continue on pre-prompt | —                            |
+| `onboarding.location.pre_prompt_declined` | User cancels pre-prompt          | —                            |
+| `onboarding.location.os_prompt_granted`   | OS dialog returned granted       | `precision: full             | reduced` |
+| `onboarding.location.os_prompt_denied`    | OS dialog returned denied        | `permanent: bool`            |
+| `onboarding.location.settings_opened`     | User opened system settings      | —                            |
+| `onboarding.location.finalized`           | Onboarding marked complete       | `granted: bool`, `radius_km` |
 
 ## Tests
 
@@ -192,16 +192,19 @@ The `feed_radius_km` column on `users` is added via Alembic migration with a saf
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - expo-location: https://docs.expo.dev/versions/latest/sdk/location/
 - iOS authorization best practices: https://developer.apple.com/documentation/corelocation/requesting-authorization-for-location-services
 - Android runtime permissions: https://developer.android.com/training/location/permissions
 
 ### Project context
+
 - City Select GPS detect: `02-city-select/04-gps-auto-detect.md`
 - Onboarding state machine: `03-onboarding-camera/02-onboarding-step-machine.md`
 - Render UI: `01-render-onboarding-neighborhood-ui.md`

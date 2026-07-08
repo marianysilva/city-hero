@@ -127,7 +127,7 @@ earns the user +2 XP (small but cumulative).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/DetailInProgress/
+apps/city-hero/src/screens/DetailInProgress/
 ├── components/
 │   ├── CommentsSection.tsx
 │   ├── TagRow.tsx
@@ -151,12 +151,12 @@ The mini-avatars show up to 3 recent supporters (initials, gradient backgrounds)
 
 ### Endpoints
 
-| Method | Path                                              | Purpose                                  |
-|--------|---------------------------------------------------|------------------------------------------|
-| GET    | `/api/v1/reports/{id}/tags`                       | List of tag marks (with counts + avatars)|
-| POST   | `/api/v1/reports/{id}/tags/{tag_key}`             | Mark (idempotent)                        |
-| DELETE | `/api/v1/reports/{id}/tags/{tag_key}`             | Unmark                                   |
-| GET    | `/api/v1/tag-catalog?category=...`                | Tag catalog per category (cached)        |
+| Method | Path                                  | Purpose                                   |
+| ------ | ------------------------------------- | ----------------------------------------- |
+| GET    | `/api/v1/reports/{id}/tags`           | List of tag marks (with counts + avatars) |
+| POST   | `/api/v1/reports/{id}/tags/{tag_key}` | Mark (idempotent)                         |
+| DELETE | `/api/v1/reports/{id}/tags/{tag_key}` | Unmark                                    |
+| GET    | `/api/v1/tag-catalog?category=...`    | Tag catalog per category (cached)         |
 
 The mark endpoints:
 
@@ -170,13 +170,13 @@ The mark endpoints:
 
 ### `report_tag_marks` table
 
-| Column         | Type        | Notes                                                |
-|----------------|-------------|------------------------------------------------------|
-| `id`           | UUID PK     |                                                      |
-| `report_id`    | UUID FK     |                                                      |
-| `user_id`      | UUID FK     |                                                      |
-| `tag_key`      | varchar(50) | E.g., `dangerous_at_night`, `near_school`           |
-| `created_at`   | timestamptz |                                                      |
+| Column       | Type        | Notes                                     |
+| ------------ | ----------- | ----------------------------------------- |
+| `id`         | UUID PK     |                                           |
+| `report_id`  | UUID FK     |                                           |
+| `user_id`    | UUID FK     |                                           |
+| `tag_key`    | varchar(50) | E.g., `dangerous_at_night`, `near_school` |
+| `created_at` | timestamptz |                                           |
 
 Unique constraint on `(report_id, user_id, tag_key)` (allowing rapid toggle without conflicts because we hard-delete on unmark).
 
@@ -184,13 +184,13 @@ Unique constraint on `(report_id, user_id, tag_key)` (allowing rapid toggle with
 
 For MVP, a static configuration file lists available tags per category. Future: a database-backed catalog with admin tools for cities to curate per-city tags.
 
-| Column         | Type        | Notes                                                |
-|----------------|-------------|------------------------------------------------------|
-| `key`          | varchar(50) PK | Stable machine key                               |
-| `label_key_pt` | varchar(120) | i18n key for pt-BR                                  |
-| `label_key_en` | varchar(120) | i18n key for en-US                                  |
-| `emoji`        | varchar(10) |                                                      |
-| `categories`   | jsonb       | Array of category keys this tag applies to          |
+| Column         | Type           | Notes                                      |
+| -------------- | -------------- | ------------------------------------------ |
+| `key`          | varchar(50) PK | Stable machine key                         |
+| `label_key_pt` | varchar(120)   | i18n key for pt-BR                         |
+| `label_key_en` | varchar(120)   | i18n key for en-US                         |
+| `emoji`        | varchar(10)    |                                            |
+| `categories`   | jsonb          | Array of category keys this tag applies to |
 
 ## Edge Cases
 
@@ -205,12 +205,12 @@ For MVP, a static configuration file lists available tags per category. Future: 
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `comments.tag_marked`              | User marked a tag                          | `report_id`, `tag_key`               |
-| `comments.tag_unmarked`            | User unmarked a tag                        | `report_id`, `tag_key`               |
-| `comments.more_tags_opened`        | User opened the more-tags sheet            | —                                     |
-| `comments.tag_marked_offline_queued` | Mark queued offline                      | `report_id`, `tag_key`               |
+| Event                                | When                            | Props                  |
+| ------------------------------------ | ------------------------------- | ---------------------- |
+| `comments.tag_marked`                | User marked a tag               | `report_id`, `tag_key` |
+| `comments.tag_unmarked`              | User unmarked a tag             | `report_id`, `tag_key` |
+| `comments.more_tags_opened`          | User opened the more-tags sheet | —                      |
+| `comments.tag_marked_offline_queued` | Mark queued offline             | `report_id`, `tag_key` |
 
 ## Tests
 
@@ -234,15 +234,18 @@ For MVP, a static configuration file lists available tags per category. Future: 
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (multi-tenant, idempotency, REST): `docs/engineering/architecture-patterns.md`
 - Security (rate limit, anti-fraud, moderation): `docs/engineering/security-baseline.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - TanStack Query mutations + optimistic updates: https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
 
 ### Project context
+
 - Render UI base: `01-render-detail-ui-base.md`
 - Apoiar action (XP credit pattern): `07-civic-feed/06-apoiar-action.md`
 - Offline queue: `00-foundation/09-offline-queue.md`

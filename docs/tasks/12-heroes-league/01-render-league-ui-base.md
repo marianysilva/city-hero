@@ -77,7 +77,7 @@ energy, and momentum.
 ### Component location
 
 ```
-apps/mobile/src/screens/HeroesLeague/
+apps/city-hero/src/screens/HeroesLeague/
 ├── HeroesLeagueScreen.tsx
 ├── HeroesLeagueScreen.styles.ts
 ├── HeroesLeagueScreen.test.tsx
@@ -117,10 +117,10 @@ Not applicable to this task.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `league.viewed`                | Screen mounts                              | `report_id`                           |
-| `league.back_attempted`        | User tried to go back                      | —                                     |
+| Event                   | When                  | Props       |
+| ----------------------- | --------------------- | ----------- |
+| `league.viewed`         | Screen mounts         | `report_id` |
+| `league.back_attempted` | User tried to go back | —           |
 
 ## Tests
 
@@ -141,11 +141,13 @@ Not applicable to this task.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Liga de Heróis'`)
 - Identification toggle (bifurcation source): `10-report-confirm/06-identification-toggle.md`
 - Sibling screen (Envio Anônimo): `docs/tasks/11-anonymous-send/`

@@ -117,7 +117,7 @@ isn't viable for the platform or category.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Camera/
+apps/city-hero/src/screens/Camera/
 ├── components/
 │   └── DetectionOverlay.tsx
 └── hooks/
@@ -173,13 +173,13 @@ Not applicable directly. Detection events are not persisted per-frame — only t
 
 ## Analytics
 
-| Event                              | When                                       | Props                                  |
-|------------------------------------|--------------------------------------------|-----------------------------------------|
-| `camera.model_loaded`              | On-device model loaded                     | `version`, `duration_ms`, `cached: bool` |
-| `camera.model_load_failed`         | On-device model load failed                | `reason`                                |
-| `camera.detection_emitted`         | A detection rendered (sampled)             | `category`, `confidence_bucket`         |
-| `camera.fallback_to_backend`       | Backend inference path used                | `reason`                                |
-| `camera.no_detection_session`      | A session ended with no detection ever     | `duration_seconds`                      |
+| Event                         | When                                   | Props                                    |
+| ----------------------------- | -------------------------------------- | ---------------------------------------- |
+| `camera.model_loaded`         | On-device model loaded                 | `version`, `duration_ms`, `cached: bool` |
+| `camera.model_load_failed`    | On-device model load failed            | `reason`                                 |
+| `camera.detection_emitted`    | A detection rendered (sampled)         | `category`, `confidence_bucket`          |
+| `camera.fallback_to_backend`  | Backend inference path used            | `reason`                                 |
+| `camera.no_detection_session` | A session ended with no detection ever | `duration_seconds`                       |
 
 ## Tests
 
@@ -203,12 +203,14 @@ Not applicable directly. Detection events are not persisted per-frame — only t
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Observability: `docs/engineering/observability.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - react-native-vision-camera frame processors: https://react-native-vision-camera.com/docs/guides/frame-processors
 - TensorFlow Lite (Android): https://www.tensorflow.org/lite
 - Core ML (iOS): https://developer.apple.com/documentation/coreml
@@ -216,6 +218,7 @@ Not applicable directly. Detection events are not persisted per-frame — only t
 - Ultralytics YOLOv8: https://docs.ultralytics.com/
 
 ### Project context
+
 - Foundation AI inference service: `00-foundation/16-yolov8-inference-service.md`
 - Render UI base: `01-render-camera-ui-base.md`
 - Capture / shutter: `04-capture-shutter.md`

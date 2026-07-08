@@ -83,7 +83,7 @@ usage.
 ### Component location
 
 ```
-apps/mobile/src/screens/NpsFeedback/
+apps/city-hero/src/screens/NpsFeedback/
 ├── NpsFeedbackScreen.tsx
 ├── NpsFeedbackScreen.styles.ts
 ├── NpsFeedbackScreen.test.tsx
@@ -121,10 +121,10 @@ The screen displays public-safe report data only (anonymized photos, address, pr
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `nps.viewed`                   | Screen mounts                              | `report_id`, `source: tap_avaliar|push_after_resolution` |
-| `nps.dismissed`                | User tapped "Agora não"                    | —                                     |
+| Event           | When                    | Props                             |
+| --------------- | ----------------------- | --------------------------------- |
+| `nps.viewed`    | Screen mounts           | `report_id`, `source: tap_avaliar | push_after_resolution` |
+| `nps.dismissed` | User tapped "Agora não" | —                                 |
 
 ## Tests
 
@@ -145,11 +145,13 @@ The screen displays public-safe report data only (anonymized photos, address, pr
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'NPS · Feedback'`)
 - Entry source: `14-detail-ticket/05-avaliar-cta.md`
 - `CLAUDE.md`

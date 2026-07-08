@@ -1,15 +1,15 @@
-import { statusBar } from '../atoms/StatusBar.js';
+import { statusBar } from "../atoms/StatusBar.js";
 
 /** Tela 17 · Detalhe · Reporte Mesclado (duplicata detectada) */
 export default {
-  title: 'Detalhe · Reporte Mesclado',
-  group: 'support',
-  summary: 'Duplicata detectada · juntado ao ticket principal',
+  title: "Detalhe · Reporte Mesclado",
+  group: "support",
+  summary: "Duplicata detectada · juntado ao ticket principal",
   note: `Estado quando a IA detecta que o mesmo problema já foi reportado. O reporte do cidadão <b>contribui para o mesmo ticket</b>, ganha XP e é notificado junto. Banner topo explica o que aconteceu + link pro ticket principal.`,
   html: () => `
     <div class="relative h-full bg-slate-50 flex flex-col overflow-hidden">
      <div class="flex-1 min-h-0 overflow-y-auto">
-      ${statusBar('dark')}
+      ${statusBar("dark")}
       <div class="px-4 pt-2 flex items-center gap-3">
         <button class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center">←</button>
         <div class="flex-1 min-w-0">
@@ -71,5 +71,5 @@ export default {
         <button class="flex-1 py-3 rounded-full bg-white border border-slate-200 font-bold text-[13px] text-slate-700 leading-tight">É outro problema</button>
         <button data-nav="goto" data-target="Detalhe · Em andamento" class="flex-1 py-3 rounded-full bg-brand-500 text-white font-extrabold text-sm shadow-lg">Ver ticket →</button>
       </div>
-    </div>`
+    </div>`,
 };

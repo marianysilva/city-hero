@@ -1,8 +1,9 @@
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
-import { Badge } from '@/components/atoms/Badge'
+import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
+
+import { Badge } from "@/components/atoms/Badge";
 
 interface StatusBadgeProps {
-  active: boolean
+  active: boolean;
 }
 
 export function StatusBadge({ active }: StatusBadgeProps) {
@@ -11,11 +12,11 @@ export function StatusBadge({ active }: StatusBadgeProps) {
       <Badge variant="green">
         <CheckCircleIcon className="w-3.5 h-3.5" /> Ativo
       </Badge>
-    )
+    );
   }
   return (
     <Badge variant="gray">
       <XCircleIcon className="w-3.5 h-3.5" /> Inativo
     </Badge>
-  )
+  );
 }

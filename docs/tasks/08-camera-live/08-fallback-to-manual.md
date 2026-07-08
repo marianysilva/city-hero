@@ -82,7 +82,7 @@ on the camera screen — never a "stuck" state.
 The fallback affordances live in components owned by other tasks (the denied overlay from task 02, the no-detection hint from task 03, etc.). This task wires them to a shared navigation hook:
 
 ```
-apps/mobile/src/screens/Camera/
+apps/city-hero/src/screens/Camera/
 └── hooks/
     └── useFallbackToManual.ts
 ```
@@ -115,10 +115,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                                      | When                                       | Props                                |
-|--------------------------------------------|--------------------------------------------|---------------------------------------|
-| `camera.fallback_to_manual_offered`        | A CTA appears                              | `from_state`                          |
-| `camera.fallback_to_manual_pressed`        | User chose fallback                        | `from_state`, `had_photo: bool`      |
+| Event                               | When                | Props                           |
+| ----------------------------------- | ------------------- | ------------------------------- |
+| `camera.fallback_to_manual_offered` | A CTA appears       | `from_state`                    |
+| `camera.fallback_to_manual_pressed` | User chose fallback | `from_state`, `had_photo: bool` |
 
 ## Tests
 
@@ -136,10 +136,12 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Manual Report screen: `docs/tasks/09-manual-report/`
 - Render UI base: `01-render-camera-ui-base.md`
 - Camera permission: `02-camera-permission.md`

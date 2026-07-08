@@ -1,12 +1,24 @@
-import { statusBar } from '../atoms/StatusBar.js';
-import { searchBar } from '../atoms/SearchBar.js';
-import { staticBottomNav } from '../organisms/BottomNav.js';
+import { statusBar } from "../atoms/StatusBar.js";
+import { searchBar } from "../atoms/SearchBar.js";
+import { staticBottomNav } from "../organisms/BottomNav.js";
 
 /** Molecule local · OfficialCard — usada só nesta tela. */
-const official = ({ photoUrl, name, partyAcr, partyColor, partyName, role, level, levelColor, mandate, votes, transparencyId }) => `
+const official = ({
+  photoUrl,
+  name,
+  partyAcr,
+  partyColor,
+  partyName,
+  role,
+  level,
+  levelColor,
+  mandate,
+  votes,
+  transparencyId,
+}) => `
   <div class="bg-white rounded-2xl shadow-soft p-3 mb-2.5">
     <div class="flex items-start gap-3">
-      <div class="w-14 h-14 rounded-xl bg-slate-100 flex items-center justify-center text-2xl shrink-0 overflow-hidden" ${photoUrl ? `style="background-image:url('${photoUrl}');background-size:cover;background-position:center"` : ''}>${photoUrl ? '' : '👤'}</div>
+      <div class="w-14 h-14 rounded-xl bg-slate-100 flex items-center justify-center text-2xl shrink-0 overflow-hidden" ${photoUrl ? `style="background-image:url('${photoUrl}');background-size:cover;background-position:center"` : ""}>${photoUrl ? "" : "👤"}</div>
       <div class="flex-1 min-w-0">
         <div class="flex items-center gap-1.5 flex-wrap">
           <div class="text-[13px] font-extrabold text-slate-900 leading-tight">${name}</div>
@@ -34,14 +46,14 @@ const official = ({ photoUrl, name, partyAcr, partyColor, partyName, role, level
 
 /** Tela 21b · Políticos da Cidade (lista de eleitos com link pro Portal da Transparência) */
 export default {
-  title: 'Políticos da Cidade',
-  group: 'support',
-  summary: 'Eleitos da cidade · link pro Portal da Transparência',
+  title: "Políticos da Cidade",
+  group: "support",
+  summary: "Eleitos da cidade · link pro Portal da Transparência",
   note: `Lista os <b>políticos eleitos pela cidade</b> ou que representam a região: vereadores, prefeito/vice, deputados estaduais/federais e senadores que tiveram votação relevante em Pôrto Belo. Cada card mostra cargo, partido, mandato e votos na cidade. O CTA principal é o <b>Portal da Transparência</b> (federal) já com o ID do político — o cidadão consulta gastos, despesas de gabinete, votações, etc. Fontes: TSE (eleitos + votos por município), Câmara dos Deputados, Senado, Câmara Municipal. Sem opinião editorial — só dados públicos.`,
   html: () => `
     <div class="relative h-full bg-slate-50 flex flex-col overflow-hidden">
      <div class="flex-1 min-h-0 overflow-y-auto pb-24">
-      ${statusBar('dark')}
+      ${statusBar("dark")}
 
       <div class="px-4 flex items-center gap-3">
         <button data-nav="prev" class="w-9 h-9 rounded-full bg-white shadow-soft flex items-center justify-center">←</button>
@@ -79,7 +91,7 @@ export default {
         </div>
       </div>
 
-      <div class="px-4 mt-3">${searchBar('Buscar político…')}</div>
+      <div class="px-4 mt-3">${searchBar("Buscar político…")}</div>
 
       <div class="px-4 mt-2 flex gap-1.5 text-[11px] font-bold overflow-x-auto no-scrollbar">
         <span class="px-3 py-1.5 rounded-full bg-slate-900 text-white whitespace-nowrap">Todos · 23</span>
@@ -92,48 +104,56 @@ export default {
       <div class="px-4 mt-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">Executivo municipal</div>
       <div class="px-4 mt-2">
         ${official({
-          name: 'Aroldo Schappo',
-          partyAcr: 'PSD', partyColor: 'bg-orange-100 text-orange-700',
-          partyName: 'Partido Social Democrático',
-          role: 'Prefeito', level: 'Municipal',
-          levelColor: 'bg-amber-100 text-amber-700',
-          mandate: '2025–2028',
-          votes: '6.842',
-          transparencyId: 'demo-prefeito-1',
+          name: "Aroldo Schappo",
+          partyAcr: "PSD",
+          partyColor: "bg-orange-100 text-orange-700",
+          partyName: "Partido Social Democrático",
+          role: "Prefeito",
+          level: "Municipal",
+          levelColor: "bg-amber-100 text-amber-700",
+          mandate: "2025–2028",
+          votes: "6.842",
+          transparencyId: "demo-prefeito-1",
         })}
         ${official({
-          name: 'Marcia Krammes',
-          partyAcr: 'PP', partyColor: 'bg-blue-100 text-blue-700',
-          partyName: 'Progressistas',
-          role: 'Vice-prefeita', level: 'Municipal',
-          levelColor: 'bg-amber-100 text-amber-700',
-          mandate: '2025–2028',
-          votes: '6.842',
-          transparencyId: 'demo-vice-1',
+          name: "Marcia Krammes",
+          partyAcr: "PP",
+          partyColor: "bg-blue-100 text-blue-700",
+          partyName: "Progressistas",
+          role: "Vice-prefeita",
+          level: "Municipal",
+          levelColor: "bg-amber-100 text-amber-700",
+          mandate: "2025–2028",
+          votes: "6.842",
+          transparencyId: "demo-vice-1",
         })}
       </div>
 
       <div class="px-4 mt-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">Câmara municipal · vereadores (11)</div>
       <div class="px-4 mt-2">
         ${official({
-          name: 'Robson Cabral',
-          partyAcr: 'PL', partyColor: 'bg-yellow-100 text-yellow-700',
-          partyName: 'Partido Liberal',
-          role: 'Vereador · Pres. da Câmara', level: 'Municipal',
-          levelColor: 'bg-amber-100 text-amber-700',
-          mandate: '2025–2028',
-          votes: '1.482',
-          transparencyId: 'demo-vereador-1',
+          name: "Robson Cabral",
+          partyAcr: "PL",
+          partyColor: "bg-yellow-100 text-yellow-700",
+          partyName: "Partido Liberal",
+          role: "Vereador · Pres. da Câmara",
+          level: "Municipal",
+          levelColor: "bg-amber-100 text-amber-700",
+          mandate: "2025–2028",
+          votes: "1.482",
+          transparencyId: "demo-vereador-1",
         })}
         ${official({
-          name: 'Joana Demarchi',
-          partyAcr: 'PT', partyColor: 'bg-red-100 text-red-700',
-          partyName: 'Partido dos Trabalhadores',
-          role: 'Vereadora', level: 'Municipal',
-          levelColor: 'bg-amber-100 text-amber-700',
-          mandate: '2025–2028',
-          votes: '1.024',
-          transparencyId: 'demo-vereador-2',
+          name: "Joana Demarchi",
+          partyAcr: "PT",
+          partyColor: "bg-red-100 text-red-700",
+          partyName: "Partido dos Trabalhadores",
+          role: "Vereadora",
+          level: "Municipal",
+          levelColor: "bg-amber-100 text-amber-700",
+          mandate: "2025–2028",
+          votes: "1.024",
+          transparencyId: "demo-vereador-2",
         })}
         <button class="w-full py-2 rounded-xl bg-white border border-slate-200 text-[11px] font-extrabold text-slate-700 mt-1">Ver os outros 9 vereadores →</button>
       </div>
@@ -141,14 +161,16 @@ export default {
       <div class="px-4 mt-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">Assembleia Legislativa (SC) · votação relevante na cidade</div>
       <div class="px-4 mt-2">
         ${official({
-          name: 'Carla Tavares',
-          partyAcr: 'MDB', partyColor: 'bg-emerald-100 text-emerald-700',
-          partyName: 'Movimento Democrático Brasileiro',
-          role: 'Deputada estadual', level: 'Estadual',
-          levelColor: 'bg-sky-100 text-sky-700',
-          mandate: '2023–2026',
-          votes: '3.210',
-          transparencyId: 'demo-dep-est-1',
+          name: "Carla Tavares",
+          partyAcr: "MDB",
+          partyColor: "bg-emerald-100 text-emerald-700",
+          partyName: "Movimento Democrático Brasileiro",
+          role: "Deputada estadual",
+          level: "Estadual",
+          levelColor: "bg-sky-100 text-sky-700",
+          mandate: "2023–2026",
+          votes: "3.210",
+          transparencyId: "demo-dep-est-1",
         })}
         <button class="w-full py-2 rounded-xl bg-white border border-slate-200 text-[11px] font-extrabold text-slate-700 mt-1">Ver os outros 6 estaduais →</button>
       </div>
@@ -156,24 +178,28 @@ export default {
       <div class="px-4 mt-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">Câmara dos Deputados + Senado · votação relevante na cidade</div>
       <div class="px-4 mt-2">
         ${official({
-          name: 'Bruno Werlang',
-          partyAcr: 'PSD', partyColor: 'bg-orange-100 text-orange-700',
-          partyName: 'Partido Social Democrático',
-          role: 'Deputado federal', level: 'Federal',
-          levelColor: 'bg-indigo-100 text-indigo-700',
-          mandate: '2023–2026',
-          votes: '4.105',
-          transparencyId: 'demo-dep-fed-1',
+          name: "Bruno Werlang",
+          partyAcr: "PSD",
+          partyColor: "bg-orange-100 text-orange-700",
+          partyName: "Partido Social Democrático",
+          role: "Deputado federal",
+          level: "Federal",
+          levelColor: "bg-indigo-100 text-indigo-700",
+          mandate: "2023–2026",
+          votes: "4.105",
+          transparencyId: "demo-dep-fed-1",
         })}
         ${official({
-          name: 'Helena Macedo',
-          partyAcr: 'PSDB', partyColor: 'bg-cyan-100 text-cyan-700',
-          partyName: 'Partido da Social Democracia Brasileira',
-          role: 'Senadora', level: 'Federal',
-          levelColor: 'bg-indigo-100 text-indigo-700',
-          mandate: '2023–2030',
-          votes: '5.890',
-          transparencyId: 'demo-senadora-1',
+          name: "Helena Macedo",
+          partyAcr: "PSDB",
+          partyColor: "bg-cyan-100 text-cyan-700",
+          partyName: "Partido da Social Democracia Brasileira",
+          role: "Senadora",
+          level: "Federal",
+          levelColor: "bg-indigo-100 text-indigo-700",
+          mandate: "2023–2030",
+          votes: "5.890",
+          transparencyId: "demo-senadora-1",
         })}
       </div>
 
@@ -193,6 +219,6 @@ export default {
       </div>
      </div>
 
-      ${staticBottomNav('more')}
-    </div>`
+      ${staticBottomNav("more")}
+    </div>`,
 };

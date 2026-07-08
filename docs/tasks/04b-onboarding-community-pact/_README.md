@@ -36,12 +36,12 @@ held to a higher bar than the other tutorial screens.
 
 ## Features (4 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI · header, hero, pact cards, sticky footer](./01-render-community-pact-ui.md) | S | `00-foundation/02-design-tokens.md`, `00-foundation/04-status-bar-component.md` |
-| 02 | [Age-tailored hero message (Gov.br integration · demo rotator)](./02-age-tailored-message-rotator.md) | S | task 01, `00-foundation/06-auth-system.md` |
-| 03 | [Terms modal (bottom-sheet, version-aware, candidate for shared component)](./03-terms-modal.md) | S | task 01 |
-| 04 | [Accept-terms gate, persistence and CTA enablement](./04-accept-terms-gate.md) | S | task 01, task 03, `03-onboarding-camera/02-onboarding-step-machine.md` |
+| #   | Task                                                                                                  | Effort | Depends on                                                                      |
+| --- | ----------------------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------- |
+| 01  | [Render UI · header, hero, pact cards, sticky footer](./01-render-community-pact-ui.md)               | S      | `00-foundation/02-design-tokens.md`, `00-foundation/04-status-bar-component.md` |
+| 02  | [Age-tailored hero message (Gov.br integration · demo rotator)](./02-age-tailored-message-rotator.md) | S      | task 01, `00-foundation/06-auth-system.md`                                      |
+| 03  | [Terms modal (bottom-sheet, version-aware, candidate for shared component)](./03-terms-modal.md)      | S      | task 01                                                                         |
+| 04  | [Accept-terms gate, persistence and CTA enablement](./04-accept-terms-gate.md)                        | S      | task 01, task 03, `03-onboarding-camera/02-onboarding-step-machine.md`          |
 
 ## Suggested implementation order
 
@@ -82,6 +82,6 @@ they can ship in parallel.
   copy. The brand voice here is civic pride, not finger-wagging.
 - **Position shift.** Adding this screen renumbers onboarding from 4
   steps to 5; the `StepIndicator` molecule receives `{ step: 4, total:
-  5 }` here, and the existing state machine
+5 }` here, and the existing state machine
   (`03-onboarding-camera/02-onboarding-step-machine.md`) must learn the
   new `community_pact` step key. Task 04 details the migration.

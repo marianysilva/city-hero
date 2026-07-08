@@ -59,7 +59,7 @@ A horizontal carousel of the user's most recent medals (last 5-7). Each medal: e
 ## Frontend
 
 ```
-apps/mobile/src/screens/CitizenProfile/
+apps/city-hero/src/screens/CitizenProfile/
 ├── components/
 │   ├── MedalsCarousel.tsx
 │   └── MedalCard.tsx
@@ -69,9 +69,9 @@ apps/mobile/src/screens/CitizenProfile/
 
 ## Backend
 
-| Method | Path                                              | Purpose                              |
-|--------|---------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/users/me/medals/recent?limit=`           | Recent medals                        |
+| Method | Path                                    | Purpose       |
+| ------ | --------------------------------------- | ------------- |
+| GET    | `/api/v1/users/me/medals/recent?limit=` | Recent medals |
 
 ## Database
 
@@ -87,11 +87,11 @@ Personal achievements.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `citizen_profile.medals_rendered`  | Carousel mounted                           | `count`                               |
-| `citizen_profile.medal_pressed`    | User tapped a medal                        | `medal_id`                            |
-| `citizen_profile.see_all_medals_pressed` | "Ver todas" tapped                  | —                                     |
+| Event                                    | When                | Props      |
+| ---------------------------------------- | ------------------- | ---------- |
+| `citizen_profile.medals_rendered`        | Carousel mounted    | `count`    |
+| `citizen_profile.medal_pressed`          | User tapped a medal | `medal_id` |
+| `citizen_profile.see_all_medals_pressed` | "Ver todas" tapped  | —          |
 
 ## Tests
 

@@ -43,12 +43,13 @@ before being asked to rate it.
 **Given** the category is "Buraco" (or "Iluminação", etc.)
 **When** the headline renders
 **Then** the text uses a small client-side compose function (shared with `12-heroes-league/04`):
-  - Buraco → "Seu buraco virou asfalto ✨"
-  - Iluminação → "Seu poste tá brilhando de novo 💡"
-  - Lixo → "Sua rua tá limpa de novo ♻️"
-  - Pichação → "Sua parede voltou ao normal 🎨"
-  - Etc.
-**And** the headlines are localized for en-US
+
+- Buraco → "Seu buraco virou asfalto ✨"
+- Iluminação → "Seu poste tá brilhando de novo 💡"
+- Lixo → "Sua rua tá limpa de novo ♻️"
+- Pichação → "Sua parede voltou ao normal 🎨"
+- Etc.
+  **And** the headlines are localized for en-US
 
 ### Scenario · One photo missing or anonymizing
 
@@ -91,7 +92,7 @@ before being asked to rate it.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/NpsFeedback/
+apps/city-hero/src/screens/NpsFeedback/
 └── components/
     └── CelebrationHero.tsx
 ```
@@ -126,9 +127,9 @@ Same as SCREEN 14 — only anonymized photos are shown.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `nps.hero_rendered`            | Hero mounted                               | `had_both_photos: bool`, `category`, `duration_days_bucket` |
+| Event               | When         | Props                                                       |
+| ------------------- | ------------ | ----------------------------------------------------------- |
+| `nps.hero_rendered` | Hero mounted | `had_both_photos: bool`, `category`, `duration_days_bucket` |
 
 ## Tests
 
@@ -149,11 +150,13 @@ Same as SCREEN 14 — only anonymized photos are shown.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (shared utilities): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-nps-ui-base.md`
 - Before/after slider (reused): `14-detail-ticket/02-before-after-slider.md`
 - Headline compose (shared): `12-heroes-league/04-shareable-preview-card.md`

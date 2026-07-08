@@ -19,6 +19,7 @@ from typing import Sequence, Union
 
 import bcrypt
 import sqlalchemy as sa
+
 from alembic import op
 
 revision: str = "005"

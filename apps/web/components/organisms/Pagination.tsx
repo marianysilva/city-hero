@@ -1,13 +1,13 @@
-import { Button } from '@/components/atoms/Button'
+import { Button } from "@/components/atoms/Button";
 
 interface PaginationProps {
-  page: number
-  totalPages: number
-  onPageChange: (page: number) => void
+  page: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 }
 
 export function Pagination({ page, totalPages, onPageChange }: PaginationProps) {
-  if (totalPages <= 1) return null
+  if (totalPages <= 1) return null;
 
   return (
     <div className="flex items-center justify-between mt-4 text-sm text-zinc-500">
@@ -33,5 +33,5 @@ export function Pagination({ page, totalPages, onPageChange }: PaginationProps) 
         </Button>
       </div>
     </div>
-  )
+  );
 }

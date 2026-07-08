@@ -72,7 +72,7 @@ Pre-fills use context from steps 1-2 plus the user's current location. The form 
 ## Frontend
 
 ```
-apps/mobile/src/screens/IrregularityReport/
+apps/city-hero/src/screens/IrregularityReport/
 ├── steps/
 │   └── Step3FormFields.tsx
 └── hooks/
@@ -102,11 +102,11 @@ The form data is held in memory only. **Nothing is transmitted to CityHero's bac
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `irregularity.form_field_changed`  | Field changed                              | `field`                               |
-| `irregularity.attachment_added`    | Attachment chosen                          | `kind: photo|document`               |
-| `irregularity.attachment_removed`  | Attachment removed                         | `kind`                                |
+| Event                             | When               | Props        |
+| --------------------------------- | ------------------ | ------------ |
+| `irregularity.form_field_changed` | Field changed      | `field`      |
+| `irregularity.attachment_added`   | Attachment chosen  | `kind: photo | document` |
+| `irregularity.attachment_removed` | Attachment removed | `kind`       |
 
 ## Tests
 

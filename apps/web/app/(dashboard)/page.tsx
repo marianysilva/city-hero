@@ -7,5 +7,5 @@ export default function WarRoomPage() {
         Mapa — em breve
       </div>
     </div>
-  )
+  );
 }

@@ -96,7 +96,7 @@ onboarding screens.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ManualReport/
+apps/city-hero/src/screens/ManualReport/
 ├── components/
 │   ├── MiniMap.tsx
 │   └── AdjustMapScreen.tsx
@@ -139,12 +139,12 @@ The `reports.geo`, `reports.address` columns are owned by the report-creation ta
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `manual_report.pin_dragged`        | User dragged the pin                       | `delta_m`                             |
-| `manual_report.adjust_opened`      | User opened full-screen adjust             | —                                     |
-| `manual_report.outside_city_warning_shown` | Pin moved outside city            | —                                     |
-| `manual_report.reverse_geocode_failed` | Reverse geocode error                  | `code`                                |
+| Event                                      | When                           | Props     |
+| ------------------------------------------ | ------------------------------ | --------- |
+| `manual_report.pin_dragged`                | User dragged the pin           | `delta_m` |
+| `manual_report.adjust_opened`              | User opened full-screen adjust | —         |
+| `manual_report.outside_city_warning_shown` | Pin moved outside city         | —         |
+| `manual_report.reverse_geocode_failed`     | Reverse geocode error          | `code`    |
 
 ## Tests
 
@@ -167,14 +167,17 @@ The `reports.geo`, `reports.address` columns are owned by the report-creation ta
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - Leaflet pin draggable: https://leafletjs.com/reference.html#marker-draggable
 - expo-location reverse geocode: https://docs.expo.dev/versions/latest/sdk/location/
 
 ### Project context
+
 - Render UI base: `01-render-manual-ui-base.md`
 - Foundation map wrapper: `00-foundation/10-leaflet-map-wrapper.md`
 - Cities catalog (city bbox source): `02-city-select/02-cities-catalog-api.md`

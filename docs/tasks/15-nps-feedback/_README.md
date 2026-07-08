@@ -21,14 +21,14 @@ want to engage.
 
 ## Features (6 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · gradient bg, header, sticky CTA, footer message](./01-render-nps-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Celebration hero · mini before/after + resolution context](./02-celebration-hero.md) | S | task 01, `14-detail-ticket/02-before-after-slider.md` |
-| 03 | [5-face rating scale · interactive selection](./03-rating-scale.md) | S | task 01 |
-| 04 | [Reason tag grid · positive + negative reasons](./04-reason-tags.md) | S | task 01 |
-| 05 | [Optional comment input · with cap](./05-comment-input.md) | S | task 01 |
-| 06 | [Submit · NPS API + XP grant + navigation](./06-submit-nps.md) | M | tasks 02-05, `00-foundation/05`, `00-foundation/09` |
+| #   | Task                                                                                           | Effort | Depends on                                            |
+| --- | ---------------------------------------------------------------------------------------------- | ------ | ----------------------------------------------------- |
+| 01  | [Render UI base · gradient bg, header, sticky CTA, footer message](./01-render-nps-ui-base.md) | S      | `00-foundation/02-design-tokens.md`                   |
+| 02  | [Celebration hero · mini before/after + resolution context](./02-celebration-hero.md)          | S      | task 01, `14-detail-ticket/02-before-after-slider.md` |
+| 03  | [5-face rating scale · interactive selection](./03-rating-scale.md)                            | S      | task 01                                               |
+| 04  | [Reason tag grid · positive + negative reasons](./04-reason-tags.md)                           | S      | task 01                                               |
+| 05  | [Optional comment input · with cap](./05-comment-input.md)                                     | S      | task 01                                               |
+| 06  | [Submit · NPS API + XP grant + navigation](./06-submit-nps.md)                                 | M      | tasks 02-05, `00-foundation/05`, `00-foundation/09`   |
 
 ## Suggested implementation order
 

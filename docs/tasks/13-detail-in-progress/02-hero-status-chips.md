@@ -89,7 +89,7 @@ anonymizing, placeholder.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/DetailInProgress/
+apps/city-hero/src/screens/DetailInProgress/
 └── components/
     ├── DetailHero.tsx
     └── StatusChipsRow.tsx
@@ -125,10 +125,10 @@ The hero shows only the **anonymized** photo. The reporter's identity is not exp
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `detail_in_progress.hero_rendered` | Hero mounted                               | `had_photo: bool`, `status`          |
-| `detail_in_progress.status_changed_realtime` | WS status change                  | `from`, `to`                          |
+| Event                                        | When             | Props                       |
+| -------------------------------------------- | ---------------- | --------------------------- |
+| `detail_in_progress.hero_rendered`           | Hero mounted     | `had_photo: bool`, `status` |
+| `detail_in_progress.status_changed_realtime` | WS status change | `from`, `to`                |
 
 ## Tests
 
@@ -150,15 +150,18 @@ The hero shows only the **anonymized** photo. The reporter's identity is not exp
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - expo-image (lazy + blur placeholder): https://docs.expo.dev/versions/latest/sdk/image/
 
 ### Project context
+
 - Render UI base: `01-render-detail-ui-base.md`
 - Anonymization pipeline: `00-foundation/08-anonymization-pipeline.md`
 - Real-time pattern: `06-home-map/08-realtime-pin-updates.md`

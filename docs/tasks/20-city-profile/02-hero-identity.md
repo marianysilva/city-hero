@@ -89,7 +89,7 @@ the screen energy.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CityProfile/
+apps/city-hero/src/screens/CityProfile/
 └── components/
     ├── CityHero.tsx
     └── CityHeroWaves.tsx
@@ -120,9 +120,9 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `city_profile.hero_rendered`   | Hero mounted                               | `city_id`                             |
+| Event                        | When         | Props     |
+| ---------------------------- | ------------ | --------- |
+| `city_profile.hero_rendered` | Hero mounted | `city_id` |
 
 ## Tests
 
@@ -142,11 +142,13 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-city-profile-ui-base.md`
 - Cities catalog (schema source): `02-city-select/02-cities-catalog-api.md`
 - Share & extras (consumer): `06-share-and-extras.md`

@@ -107,7 +107,7 @@ card's tap target or an inline button for failed items:
 ### Where it lives
 
 ```
-apps/mobile/src/screens/SyncQueue/
+apps/city-hero/src/screens/SyncQueue/
 ├── components/
 │   ├── ItemActionsSheet.tsx
 │   ├── DiscardConfirmModal.tsx
@@ -147,14 +147,14 @@ Local WatermelonDB only. The XP rollback updates the gamification store (which s
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `sync_queue.actions_opened`        | Sheet opened                               | `item_state`                          |
-| `sync_queue.retry_pressed`         | User picked Retry                          | `item_state`                          |
-| `sync_queue.discard_confirmed`     | User confirmed discard                     | `item_state`                          |
-| `sync_queue.discard_canceled`      | User canceled discard                      | —                                     |
-| `sync_queue.details_opened`        | Details sheet opened                       | —                                     |
-| `sync_queue.error_log_shared`      | User shared the error log                  | —                                     |
+| Event                          | When                      | Props        |
+| ------------------------------ | ------------------------- | ------------ |
+| `sync_queue.actions_opened`    | Sheet opened              | `item_state` |
+| `sync_queue.retry_pressed`     | User picked Retry         | `item_state` |
+| `sync_queue.discard_confirmed` | User confirmed discard    | `item_state` |
+| `sync_queue.discard_canceled`  | User canceled discard     | —            |
+| `sync_queue.details_opened`    | Details sheet opened      | —            |
+| `sync_queue.error_log_shared`  | User shared the error log | —            |
 
 ## Tests
 
@@ -175,6 +175,7 @@ Local WatermelonDB only. The XP rollback updates the gamification store (which s
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
@@ -182,6 +183,7 @@ Local WatermelonDB only. The XP rollback updates the gamification store (which s
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Queue list + card: `04-queue-list-and-card.md`
 - Offline queue: `00-foundation/09-offline-queue.md`
 - Error boundary + Sentry: `00-foundation/15-error-boundary.md`

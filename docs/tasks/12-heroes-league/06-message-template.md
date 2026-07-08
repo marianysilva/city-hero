@@ -41,7 +41,8 @@ a one-line description of the issue, and a clickable URL.
 
 **Given** the report is identified with category "Buraco" and severity "Moderado"
 **When** the default template fills in
-**Then** the message reads (in pt-BR): 
+**Then** the message reads (in pt-BR):
+
 > "🚨 Preciso do seu apoio! Reportei um **buraco perigoso** na R. São Pedro, 320. Quanto mais gente apoiar, mais rápido a prefeitura resolve.
 > 👉 cityhero.app/r/2847"
 
@@ -101,7 +102,7 @@ a one-line description of the issue, and a clickable URL.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/HeroesLeague/
+apps/city-hero/src/screens/HeroesLeague/
 └── components/
     ├── SuggestedMessageCard.tsx
     └── EditMessageModal.tsx
@@ -139,11 +140,11 @@ The user has full control over what they share. The default template doesn't con
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `league.template_edit_opened`      | User taps Editar                           | —                                     |
-| `league.template_edit_saved`       | User saved a custom message                | `length_bucket`                       |
-| `league.template_reset`            | User reset to default                      | —                                     |
+| Event                         | When                        | Props           |
+| ----------------------------- | --------------------------- | --------------- |
+| `league.template_edit_opened` | User taps Editar            | —               |
+| `league.template_edit_saved`  | User saved a custom message | `length_bucket` |
+| `league.template_reset`       | User reset to default       | —               |
 
 ## Tests
 
@@ -164,11 +165,13 @@ The user has full control over what they share. The default template doesn't con
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-league-ui-base.md`
 - Share channels (consumes message): `05-share-channels.md`
 - `CLAUDE.md`

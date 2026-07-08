@@ -100,7 +100,7 @@ when the user sees the actual change, they feel the system worked.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/DetailTicket/
+apps/city-hero/src/screens/DetailTicket/
 └── components/
     └── BeforeAfterSlider.tsx
 ```
@@ -149,11 +149,11 @@ Both photos shown are **anonymized**. The raw versions never reach the client.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `detail_ticket.slider_dragged`     | User dragged the handle (debounced)        | `final_position_pct`                  |
-| `detail_ticket.slider_tap_toggled` | User tapped to toggle                      | `to: before|after`                    |
-| `detail_ticket.depois_pending_shown` | The "Aguardando foto depois" overlay appeared | —                                |
+| Event                                | When                                          | Props                |
+| ------------------------------------ | --------------------------------------------- | -------------------- |
+| `detail_ticket.slider_dragged`       | User dragged the handle (debounced)           | `final_position_pct` |
+| `detail_ticket.slider_tap_toggled`   | User tapped to toggle                         | `to: before          | after` |
+| `detail_ticket.depois_pending_shown` | The "Aguardando foto depois" overlay appeared | —                    |
 
 ## Tests
 
@@ -176,17 +176,20 @@ Both photos shown are **anonymized**. The raw versions never reach the client.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native Gesture Handler: https://docs.swmansion.com/react-native-gesture-handler/
 - React Native Reanimated: https://docs.swmansion.com/react-native-reanimated/
 - expo-image: https://docs.expo.dev/versions/latest/sdk/image/
 
 ### Project context
+
 - Render UI base: `01-render-detail-ticket-ui-base.md`
 - Anonymization pipeline: `00-foundation/08-anonymization-pipeline.md`
 - `CLAUDE.md`

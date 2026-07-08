@@ -85,7 +85,7 @@ buttons below feel pushy.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/HeroesLeague/
+apps/city-hero/src/screens/HeroesLeague/
 └── components/
     ├── PivotCopySection.tsx
     └── DataSourceSheet.tsx
@@ -106,9 +106,9 @@ The numbers (`days_with_support`, `days_without_support`, `sample_size`, `method
 
 If the values become dynamic, an endpoint like:
 
-| Method | Path                              | Purpose                                |
-|--------|-----------------------------------|----------------------------------------|
-| GET    | `/api/v1/config/league-stats`     | Returns the data anchor numbers       |
+| Method | Path                          | Purpose                         |
+| ------ | ----------------------------- | ------------------------------- |
+| GET    | `/api/v1/config/league-stats` | Returns the data anchor numbers |
 
 For MVP, this can be static.
 
@@ -127,10 +127,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `league.pivot_rendered`            | Section mounted                            | `data_anchor_variant: numbers|soft`  |
-| `league.data_source_opened`        | User taps "Saber mais"                     | —                                     |
+| Event                       | When                   | Props                         |
+| --------------------------- | ---------------------- | ----------------------------- |
+| `league.pivot_rendered`     | Section mounted        | `data_anchor_variant: numbers | soft` |
+| `league.data_source_opened` | User taps "Saber mais" | —                             |
 
 ## Tests
 
@@ -151,10 +151,12 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-league-ui-base.md`
 - `CLAUDE.md`

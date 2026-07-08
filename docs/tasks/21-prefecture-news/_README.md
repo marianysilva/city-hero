@@ -20,13 +20,13 @@ by category.
 
 ## Features (5 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · official header, layout, slots](./01-render-news-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Category filter chips · sticky horizontal row](./02-category-chips.md) | S | task 01 |
-| 03 | [Pinned alert card · gradient + emergency emphasis](./03-pinned-alert-card.md) | M | task 01 |
-| 04 | [News list · paginated cards + categories](./04-news-list.md) | M | task 01, `00-foundation/05-api-client.md` |
-| 05 | [Detail bottom sheet · expanded announcement view](./05-detail-bottom-sheet.md) | M | task 04 |
+| #   | Task                                                                            | Effort | Depends on                                |
+| --- | ------------------------------------------------------------------------------- | ------ | ----------------------------------------- |
+| 01  | [Render UI base · official header, layout, slots](./01-render-news-ui-base.md)  | S      | `00-foundation/02-design-tokens.md`       |
+| 02  | [Category filter chips · sticky horizontal row](./02-category-chips.md)         | S      | task 01                                   |
+| 03  | [Pinned alert card · gradient + emergency emphasis](./03-pinned-alert-card.md)  | M      | task 01                                   |
+| 04  | [News list · paginated cards + categories](./04-news-list.md)                   | M      | task 01, `00-foundation/05-api-client.md` |
+| 05  | [Detail bottom sheet · expanded announcement view](./05-detail-bottom-sheet.md) | M      | task 04                                   |
 
 ## Suggested implementation order
 

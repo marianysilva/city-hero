@@ -56,7 +56,7 @@ Horizontal scrollable chips for status (Todas, Em planejamento, Em execução, C
 ## Frontend
 
 ```
-apps/mobile/src/screens/PublicWorks/
+apps/city-hero/src/screens/PublicWorks/
 └── hooks/
     └── useWorksFilters.ts
 ```
@@ -94,9 +94,9 @@ Not applicable.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `public_works.filter_changed`      | Chip tapped                                | `kind: status|category`, `value`     |
+| Event                         | When        | Props         |
+| ----------------------------- | ----------- | ------------- |
+| `public_works.filter_changed` | Chip tapped | `kind: status | category`, `value` |
 
 ## Tests
 

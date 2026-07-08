@@ -24,7 +24,7 @@ deeplink behavior itself is task 04). The card layout, copy, and
 secondary share button match the prototype exactly.
 
 > **Promotion rule:** `OfficialCard` lives at
-> `apps/mobile/src/screens/ElectedOfficials/components/OfficialCard.tsx`
+> `apps/city-hero/src/screens/ElectedOfficials/components/OfficialCard.tsx`
 > until a second consumer appears. If any other screen needs an
 > "official-style person card", promote it to `packages/design_system`
 > per the design-system promotion rule and update
@@ -61,11 +61,12 @@ secondary share button match the prototype exactly.
 **Given** the four groups
 **When** they render with no filter
 **Then** the inline cap is:
-  - Executivo municipal: 2 (always shows both — never collapsed)
-  - Câmara municipal: 2 cards + collapse button
-  - Assembleia Legislativa (UF): 1 card + collapse button
-  - Câmara dos Deputados + Senado: 2 cards + collapse button
-**And** the cap values are sourced from a single config object — never hardcoded across components
+
+- Executivo municipal: 2 (always shows both — never collapsed)
+- Câmara municipal: 2 cards + collapse button
+- Assembleia Legislativa (UF): 1 card + collapse button
+- Câmara dos Deputados + Senado: 2 cards + collapse button
+  **And** the cap values are sourced from a single config object — never hardcoded across components
 
 ### Scenario · Loading state
 
@@ -124,7 +125,7 @@ secondary share button match the prototype exactly.
 ## Frontend (React Native)
 
 ```
-apps/mobile/src/screens/ElectedOfficials/
+apps/city-hero/src/screens/ElectedOfficials/
 ├── components/
 │   ├── OfficialsGroup.tsx
 │   ├── OfficialCard.tsx
@@ -150,10 +151,10 @@ apps/mobile/src/screens/ElectedOfficials/
 
 ## Backend (FastAPI)
 
-| Method | Path                                                                                          | Purpose                                  |
-|--------|-----------------------------------------------------------------------------------------------|------------------------------------------|
-| GET    | `/api/v1/cities/{id}/elected-officials/summary`                                               | Totals for the KPI hero                  |
-| GET    | `/api/v1/cities/{id}/elected-officials?level=&cursor=&limit=`                                 | Paginated officials for one level        |
+| Method | Path                                                          | Purpose                           |
+| ------ | ------------------------------------------------------------- | --------------------------------- |
+| GET    | `/api/v1/cities/{id}/elected-officials/summary`               | Totals for the KPI hero           |
+| GET    | `/api/v1/cities/{id}/elected-officials?level=&cursor=&limit=` | Paginated officials for one level |
 
 - Both endpoints multi-tenant scope by `city_id`.
 - `level` accepts: `municipal_executive`, `city_council`,
@@ -175,23 +176,23 @@ apps/mobile/src/screens/ElectedOfficials/
 
 Table `elected_officials` (created by task 05):
 
-| Column            | Type             | Notes                                          |
-|-------------------|------------------|------------------------------------------------|
-| `id`              | uuid PK          |                                                |
-| `city_id`         | uuid FK          | Multi-tenant scope; indexed                   |
-| `full_name`       | text             | Public                                         |
-| `cpf_hash`        | text             | Salted hash; **never returned by API**         |
-| `party_acronym`   | text             | e.g., "PSD", "PT"                              |
-| `party_name`      | text             | Full party name                                |
-| `role`            | text             | "prefeito", "vice", "vereador", ...           |
-| `level`           | text             | enum (see Backend `level` values)              |
-| `mandate_start`   | date             |                                                |
-| `mandate_end`     | date             |                                                |
-| `votes_in_city`   | integer          | From TSE per-municipality result               |
-| `transparency_id` | text NULL        | Portal da Transparência person ID; may be null |
-| `photo_url`       | text NULL        | Hosted via official source or CDN cache        |
-| `source`          | text             | "tse", "camara", "senado", "city_council"      |
-| `last_synced_at`  | timestamptz      | When the pipeline last refreshed this row      |
+| Column            | Type        | Notes                                          |
+| ----------------- | ----------- | ---------------------------------------------- |
+| `id`              | uuid PK     |                                                |
+| `city_id`         | uuid FK     | Multi-tenant scope; indexed                    |
+| `full_name`       | text        | Public                                         |
+| `cpf_hash`        | text        | Salted hash; **never returned by API**         |
+| `party_acronym`   | text        | e.g., "PSD", "PT"                              |
+| `party_name`      | text        | Full party name                                |
+| `role`            | text        | "prefeito", "vice", "vereador", ...            |
+| `level`           | text        | enum (see Backend `level` values)              |
+| `mandate_start`   | date        |                                                |
+| `mandate_end`     | date        |                                                |
+| `votes_in_city`   | integer     | From TSE per-municipality result               |
+| `transparency_id` | text NULL   | Portal da Transparência person ID; may be null |
+| `photo_url`       | text NULL   | Hosted via official source or CDN cache        |
+| `source`          | text        | "tse", "camara", "senado", "city_council"      |
+| `last_synced_at`  | timestamptz | When the pipeline last refreshed this row      |
 
 Indexes:
 
@@ -225,14 +226,14 @@ Indexes:
 
 ## Analytics
 
-| Event                                  | When                                       | Props                                 |
-|----------------------------------------|--------------------------------------------|---------------------------------------|
-| `elected_officials.list_loaded`        | First page of any group rendered           | `city_id`, `level`, `count`           |
-| `elected_officials.group_expanded`     | User tapped "Ver os outros N..."           | `level`, `count_revealed`             |
-| `elected_officials.group_collapsed`    | User tapped "Mostrar menos"                | `level`                               |
-| `elected_officials.card_pressed`       | User tapped a card body                    | `level`, `role`                       |
-| `elected_officials.list_error`         | Fetch failed                               | `city_id`, `level`, `reason`          |
-| `elected_officials.retry_pressed`      | User tapped retry on the error banner      | `city_id`                             |
+| Event                               | When                                  | Props                        |
+| ----------------------------------- | ------------------------------------- | ---------------------------- |
+| `elected_officials.list_loaded`     | First page of any group rendered      | `city_id`, `level`, `count`  |
+| `elected_officials.group_expanded`  | User tapped "Ver os outros N..."      | `level`, `count_revealed`    |
+| `elected_officials.group_collapsed` | User tapped "Mostrar menos"           | `level`                      |
+| `elected_officials.card_pressed`    | User tapped a card body               | `level`, `role`              |
+| `elected_officials.list_error`      | Fetch failed                          | `city_id`, `level`, `reason` |
+| `elected_officials.retry_pressed`   | User tapped retry on the error banner | `city_id`                    |
 
 ## Tests
 

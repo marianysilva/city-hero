@@ -6,12 +6,12 @@ Test pyramid, coverage targets, and conventions across CityHero.
 
 Test fast and broad at the bottom, slow and narrow at the top.
 
-| Layer        | Volume       | Speed          | Examples                                  |
-|--------------|--------------|----------------|-------------------------------------------|
-| Unit         | Most tests   | ms each        | pure functions, hooks, components, services |
-| Integration  | Fewer        | tens of ms     | API + DB, multi-component flows           |
-| E2E          | Few          | seconds        | full user journeys (Detox, Playwright)    |
-| Visual       | Per UI piece | per snapshot   | Storybook + Chromatic                     |
+| Layer       | Volume       | Speed        | Examples                                    |
+| ----------- | ------------ | ------------ | ------------------------------------------- |
+| Unit        | Most tests   | ms each      | pure functions, hooks, components, services |
+| Integration | Fewer        | tens of ms   | API + DB, multi-component flows             |
+| E2E         | Few          | seconds      | full user journeys (Detox, Playwright)      |
+| Visual      | Per UI piece | per snapshot | Storybook + Chromatic                       |
 
 Avoid an inverted pyramid (lots of E2E, few units) — it's slow and flaky.
 

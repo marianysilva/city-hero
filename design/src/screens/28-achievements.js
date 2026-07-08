@@ -1,24 +1,24 @@
-import { statusBar } from '../atoms/StatusBar.js';
-import { staticBottomNav } from '../organisms/BottomNav.js';
+import { statusBar } from "../atoms/StatusBar.js";
+import { staticBottomNav } from "../organisms/BottomNav.js";
 
 const badge = (emoji, name, desc, color, unlocked = true, progress = null) => `
   <div class="flex flex-col items-center p-2">
-    <div class="w-16 h-16 rounded-2xl ${unlocked ? color : 'bg-slate-100'} flex items-center justify-center text-2xl ${unlocked ? 'shadow' : 'opacity-60'}">${unlocked ? emoji : '🔒'}</div>
-    <div class="mt-1.5 text-[10px] font-extrabold text-center leading-tight ${unlocked ? 'text-slate-800' : 'text-slate-400'}">${name}</div>
+    <div class="w-16 h-16 rounded-2xl ${unlocked ? color : "bg-slate-100"} flex items-center justify-center text-2xl ${unlocked ? "shadow" : "opacity-60"}">${unlocked ? emoji : "🔒"}</div>
+    <div class="mt-1.5 text-[10px] font-extrabold text-center leading-tight ${unlocked ? "text-slate-800" : "text-slate-400"}">${name}</div>
     <div class="text-[9px] text-slate-400 text-center leading-tight">${desc}</div>
-    ${progress !== null ? `<div class="mt-1 w-full h-1 rounded-full bg-slate-200 overflow-hidden"><div class="h-full bg-brand-500" style="width:${progress}%"></div></div>` : ''}
+    ${progress !== null ? `<div class="mt-1 w-full h-1 rounded-full bg-slate-200 overflow-hidden"><div class="h-full bg-brand-500" style="width:${progress}%"></div></div>` : ""}
   </div>`;
 
 /** Tela 28 · Conquistas & Medalhas (gamificação · grid de badges) */
 export default {
-  title: 'Conquistas & Medalhas',
-  group: 'gamification',
-  summary: 'Grid de badges · locked/unlocked',
+  title: "Conquistas & Medalhas",
+  group: "gamification",
+  summary: "Grid de badges · locked/unlocked",
   note: `Separação clara entre <b>desbloqueadas</b> (coloridas, vivas) e <b>em progresso</b> (cinza + barra). Medalha destaque no topo (in-progress) usa <i>fear of missing out</i> para puxar mais uma ação. O banner foi usado pra <b>apresentar o superpoder novo</b> — a conquista <b>Fiscal Cívico</b> (clicável, leva direto pro hub de Programas & Transparência) é a forma mais gentil de ensinar que o herói pode vigiar obras e programas, sem precisar de 4ª tela de onboarding.`,
   html: () => `
     <div class="relative h-full bg-slate-50 flex flex-col overflow-hidden">
      <div class="flex-1 min-h-0 overflow-y-auto">
-      ${statusBar('dark')}
+      ${statusBar("dark")}
       <div class="px-4 flex items-center gap-3">
         <button class="w-9 h-9 rounded-full bg-white shadow-soft flex items-center justify-center">←</button>
         <div class="flex-1">
@@ -50,20 +50,20 @@ export default {
       </div>
 
       <div class="mx-4 mt-3 bg-white rounded-2xl p-2 shadow-soft grid grid-cols-4 gap-1">
-        ${badge('🥇','Primeiro Reporte','Seu debut!',          'bg-gradient-to-br from-yellow-300 to-orange-500')}
-        ${badge('⚡','Raio Rápido',     '5 reportes em 1 dia','bg-gradient-to-br from-sky-300 to-indigo-600')}
-        ${badge('🌳','3 Bairros',       'Diversidade',        'bg-gradient-to-br from-emerald-300 to-green-600')}
-        ${badge('🔥','10 Apoios',       'Voz ativa',          'bg-gradient-to-br from-rose-300 to-red-500')}
+        ${badge("🥇", "Primeiro Reporte", "Seu debut!", "bg-gradient-to-br from-yellow-300 to-orange-500")}
+        ${badge("⚡", "Raio Rápido", "5 reportes em 1 dia", "bg-gradient-to-br from-sky-300 to-indigo-600")}
+        ${badge("🌳", "3 Bairros", "Diversidade", "bg-gradient-to-br from-emerald-300 to-green-600")}
+        ${badge("🔥", "10 Apoios", "Voz ativa", "bg-gradient-to-br from-rose-300 to-red-500")}
 
-        ${badge('👀','Olho Vivo',       'Detectou sem IA',    'bg-gradient-to-br from-amber-300 to-yellow-500')}
-        ${badge('📸','100 Fotos',       'Documentador',       'bg-gradient-to-br from-purple-300 to-fuchsia-600')}
-        ${badge('🌙','Vigia Noturno',   '5 postes apagados',  'bg-gradient-to-br from-indigo-400 to-slate-700')}
-        ${badge('🤝','Mutirão',         '5 validações',       'bg-gradient-to-br from-cyan-300 to-sky-600')}
+        ${badge("👀", "Olho Vivo", "Detectou sem IA", "bg-gradient-to-br from-amber-300 to-yellow-500")}
+        ${badge("📸", "100 Fotos", "Documentador", "bg-gradient-to-br from-purple-300 to-fuchsia-600")}
+        ${badge("🌙", "Vigia Noturno", "5 postes apagados", "bg-gradient-to-br from-indigo-400 to-slate-700")}
+        ${badge("🤝", "Mutirão", "5 validações", "bg-gradient-to-br from-cyan-300 to-sky-600")}
 
-        ${badge('🕵️','Fiscal Cívico',    'Explore 3 programas','',false,0)}
-        ${badge('🧱','Calçada Zero',    '10 calçadas',        '',false,20)}
-        ${badge('🕳️','Anti-buraco',     '25 buracos',         '',false,40)}
-        ${badge('🏆','Lenda',           'Top 1 do bairro',    '',false,10)}
+        ${badge("🕵️", "Fiscal Cívico", "Explore 3 programas", "", false, 0)}
+        ${badge("🧱", "Calçada Zero", "10 calçadas", "", false, 20)}
+        ${badge("🕳️", "Anti-buraco", "25 buracos", "", false, 40)}
+        ${badge("🏆", "Lenda", "Top 1 do bairro", "", false, 10)}
       </div>
 
       <div class="mx-4 mt-3 mb-4 bg-gradient-to-br from-slate-900 to-slate-700 rounded-2xl p-4 text-white flex items-center gap-3">
@@ -75,6 +75,6 @@ export default {
       </div>
      </div>
 
-      ${staticBottomNav('profile')}
-    </div>`
+      ${staticBottomNav("profile")}
+    </div>`,
 };

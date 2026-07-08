@@ -97,7 +97,7 @@ from SCREEN 13's task 07 with these differences in the option set:
 Reuses the `OverflowMenu` from `13-detail-in-progress/07` with a `screenVariant: 'in_progress' | 'resolved'` prop and per-variant option lists.
 
 ```
-apps/mobile/src/screens/DetailTicket/
+apps/city-hero/src/screens/DetailTicket/
 └── components/
     └── (reuses OverflowMenu from DetailInProgress with screenVariant prop)
 └── components/
@@ -117,9 +117,9 @@ A small form invoked from Reabrir reporte:
 
 ### New endpoint
 
-| Method | Path                                              | Purpose                                  |
-|--------|---------------------------------------------------|------------------------------------------|
-| POST   | `/api/v1/reports/{id}/reopen`                     | Reopen a resolved report (owner only)    |
+| Method | Path                          | Purpose                               |
+| ------ | ----------------------------- | ------------------------------------- |
+| POST   | `/api/v1/reports/{id}/reopen` | Reopen a resolved report (owner only) |
 
 The endpoint:
 
@@ -148,12 +148,12 @@ The `reports_audit_log` records reopen events. The `report_flags` table accepts 
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `detail_ticket.overflow_opened`    | Menu opened                                | `is_owner: bool`                      |
-| `detail_ticket.reopen_intent`      | User tapped Reabrir                        | —                                     |
-| `detail_ticket.reopen_submitted`   | Reopen confirmed                           | `had_photo: bool`                     |
-| `detail_ticket.flag_recurrence`    | Visitor flagged "Voltou a aparecer"        | —                                     |
+| Event                            | When                                | Props             |
+| -------------------------------- | ----------------------------------- | ----------------- |
+| `detail_ticket.overflow_opened`  | Menu opened                         | `is_owner: bool`  |
+| `detail_ticket.reopen_intent`    | User tapped Reabrir                 | —                 |
+| `detail_ticket.reopen_submitted` | Reopen confirmed                    | `had_photo: bool` |
+| `detail_ticket.flag_recurrence`  | Visitor flagged "Voltou a aparecer" | —                 |
 
 ## Tests
 
@@ -174,12 +174,14 @@ The `reports_audit_log` records reopen events. The `report_flags` table accepts 
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (variant pattern, REST): `docs/engineering/architecture-patterns.md`
 - Security (cooldown, anti-fraud): `docs/engineering/security-baseline.md`
 - Observability (audit log): `docs/engineering/observability.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-detail-ticket-ui-base.md`
 - SCREEN 13 overflow menu: `13-detail-in-progress/07-overflow-menu.md`
 - Reopen camera mode (analogous to enrich): `08-camera-live/09-enrich-mode.md`

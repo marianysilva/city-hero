@@ -108,7 +108,7 @@ Other screens lose their local settings affordances.
 **Fix applied:**
 
 - `28-citizen-profile/06-settings-and-logout.md` updated: framed as
-  *the* single entry point; the notification row is reserved but
+  _the_ single entry point; the notification row is reserved but
   disabled ("Em breve") until the catalog is defined.
 - `07-civic-feed/01-render-feed-ui-base.md` updated: the settings ⚙️
   button removed from the feed header; only the search 🔍 icon remains.
@@ -139,7 +139,7 @@ Bootstrap.
   processing and failed states use different `<Badge>` compositions
   via the existing hook.
 - `FilterChipRow` (molecule) remains — but its chips are `<Badge
-  onPress selected>` compositions, not a separate `Chip` atom.
+onPress selected>` compositions, not a separate `Chip` atom.
 
 ---
 

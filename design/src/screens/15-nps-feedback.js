@@ -1,15 +1,15 @@
-import { statusBar } from '../atoms/StatusBar.js';
+import { statusBar } from "../atoms/StatusBar.js";
 
 /** Tela 15 · NPS · Feedback pós-resolução */
 export default {
-  title: 'NPS · Feedback',
-  group: 'support',
-  summary: 'Fecha o ciclo · 5 faces + tags + XP',
+  title: "NPS · Feedback",
+  group: "support",
+  summary: "Fecha o ciclo · 5 faces + tags + XP",
   note: `Aparece automaticamente quando um reporte do usuário é marcado como "resolvido". <b>Escala de 5 faces</b> (mais humana que 0-10 mobile) + chips de tags moderadas. O survey <b>gera +15 XP</b> pra garantir resposta. Dados alimentam o BI de "Citizen Sentiment Analysis" (feature 4) e o scorecard da prefeitura.`,
   html: () => `
     <div class="relative h-full bg-gradient-to-b from-emerald-50 via-white to-white flex flex-col overflow-hidden">
       <div class="flex-1 min-h-0 overflow-y-auto">
-        ${statusBar('dark')}
+        ${statusBar("dark")}
         <div class="px-4 flex items-center justify-end">
           <button class="text-slate-500 text-[12px] font-bold">Agora não</button>
         </div>
@@ -32,17 +32,21 @@ export default {
           <div class="text-[13px] font-extrabold text-slate-900 text-center">Como foi o atendimento da prefeitura?</div>
           <div class="flex items-center justify-between mt-3 px-1">
             ${[
-              { e: '😡', l: 'Péssimo' },
-              { e: '😕', l: 'Ruim' },
-              { e: '😐', l: 'Ok' },
-              { e: '🙂', l: 'Bom', active: true },
-              { e: '😍', l: 'Excelente' },
-            ].map(r => `
-              <button class="flex flex-col items-center gap-1 ${r.active ? '' : 'opacity-55'}">
-                <span class="w-12 h-12 rounded-full ${r.active ? 'bg-brand-100 ring-2 ring-brand-500' : 'bg-slate-50'} flex items-center justify-center text-2xl transition">${r.e}</span>
+              { e: "😡", l: "Péssimo" },
+              { e: "😕", l: "Ruim" },
+              { e: "😐", l: "Ok" },
+              { e: "🙂", l: "Bom", active: true },
+              { e: "😍", l: "Excelente" },
+            ]
+              .map(
+                (r) => `
+              <button class="flex flex-col items-center gap-1 ${r.active ? "" : "opacity-55"}">
+                <span class="w-12 h-12 rounded-full ${r.active ? "bg-brand-100 ring-2 ring-brand-500" : "bg-slate-50"} flex items-center justify-center text-2xl transition">${r.e}</span>
                 <span class="text-[10px] font-bold text-slate-600">${r.l}</span>
               </button>
-            `).join('')}
+            `,
+              )
+              .join("")}
           </div>
         </div>
 
@@ -75,5 +79,5 @@ export default {
           Seu feedback vira dado público no painel da cidade.
         </p>
       </div>
-    </div>`
+    </div>`,
 };

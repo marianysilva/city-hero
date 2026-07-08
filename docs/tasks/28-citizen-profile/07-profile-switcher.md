@@ -54,14 +54,15 @@ under the new identity.
 **Given** the user opens the "Trocar perfil" row
 **When** the picker renders
 **Then** a bottom sheet lists the available personas with a name + role chip:
-  - **Cidadão Novo** (level 1, no medals)
-  - **Vigilante** (mid-level)
-  - **Guardião do Bairro** (high level, several medals)
-  - **Líder da Liga** (top level)
-  - **Anônimo Padrão** (defaults to anonymous reports)
-  - **Gestor da Prefeitura** (`role: prefecture_manager`)
-  - **Equipe de Campo** (`role: field_team`)
-**And** each entry shows a short description of what's pre-seeded for that persona
+
+- **Cidadão Novo** (level 1, no medals)
+- **Vigilante** (mid-level)
+- **Guardião do Bairro** (high level, several medals)
+- **Líder da Liga** (top level)
+- **Anônimo Padrão** (defaults to anonymous reports)
+- **Gestor da Prefeitura** (`role: prefecture_manager`)
+- **Equipe de Campo** (`role: field_team`)
+  **And** each entry shows a short description of what's pre-seeded for that persona
 
 ### Scenario · Pick a persona
 
@@ -97,11 +98,11 @@ under the new identity.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CitizenProfile/
+apps/city-hero/src/screens/CitizenProfile/
 └── components/
     └── ProfileSwitcherRow.tsx     ← rendered conditionally by SettingsList
 
-apps/mobile/src/dev/
+apps/city-hero/src/dev/
 ├── personas.ts                    ← hardcoded persona definitions + mock JWTs
 ├── DevModeBadge.tsx               ← global "DEV MODE" chip
 └── useDevPersona.ts               ← hook + setter
@@ -116,7 +117,7 @@ apps/mobile/src/dev/
 
 ### Build gating
 
-- The whole `apps/mobile/src/dev/` tree is excluded from the production bundle via the bundler's environment-based dead-code elimination.
+- The whole `apps/city-hero/src/dev/` tree is excluded from the production bundle via the bundler's environment-based dead-code elimination.
 - A unit test asserts that production builds do not include any string from `personas.ts`.
 
 ## Backend
@@ -133,7 +134,7 @@ Not applicable. Persona data is local.
 
 - **Persona's mock JWT expires**: the picker refreshes the mock JWT on each persona switch so expiry doesn't bite during long QA sessions.
 - **Picking the same persona twice**: no-op; the app does not reload.
-- **Production build accidentally ships dev personas**: the unit test in `apps/mobile/__tests__/devModeAbsentInProd.test.ts` fails CI.
+- **Production build accidentally ships dev personas**: the unit test in `apps/city-hero/__tests__/devModeAbsentInProd.test.ts` fails CI.
 
 ## Privacy / LGPD
 
@@ -141,10 +142,10 @@ Not applicable — the personas are fictional mock data.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `dev.persona_switched`             | User picks a persona                       | `from_persona`, `to_persona`         |
-| `dev.persona_reset`                | User resets data                           | `persona`                            |
+| Event                  | When                 | Props                        |
+| ---------------------- | -------------------- | ---------------------------- |
+| `dev.persona_switched` | User picks a persona | `from_persona`, `to_persona` |
+| `dev.persona_reset`    | User resets data     | `persona`                    |
 
 (These events are logged but never sent to production analytics — they exist only in dev/staging streams.)
 
@@ -155,7 +156,7 @@ Not applicable — the personas are fictional mock data.
 
 ## Definition of Done
 
-- [ ] `apps/mobile/src/dev/` package with personas + hook
+- [ ] `apps/city-hero/src/dev/` package with personas + hook
 - [ ] `ProfileSwitcherRow` conditionally rendered in Settings
 - [ ] Global `DevModeBadge` on the Profile hero
 - [ ] Persona persistence across cold starts
@@ -166,10 +167,12 @@ Not applicable — the personas are fictional mock data.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Reuse principle: see `[[feedback-reuse-principle]]` in the auto-memory (single source of truth for persona definitions)
 
 ### Project context
+
 - Settings section: `06-settings-and-logout.md`
 - Auth system (where real auth will live): `00-foundation/06-auth-system.md`
 - Open questions Q2 (no login screen yet): `docs/engineering/open-questions.md`

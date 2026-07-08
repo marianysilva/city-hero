@@ -119,7 +119,7 @@ discoverable.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/DetailInProgress/
+apps/city-hero/src/screens/DetailInProgress/
 ├── components/
 │   ├── OverflowMenu.tsx
 │   ├── ReportProblemSheet.tsx
@@ -141,13 +141,13 @@ apps/mobile/src/screens/DetailInProgress/
 
 ### Endpoints
 
-| Method | Path                                                    | Purpose                                  |
-|--------|---------------------------------------------------------|------------------------------------------|
-| POST   | `/api/v1/reports/{id}/mute`                             | Mute notifications for the report       |
-| DELETE | `/api/v1/reports/{id}/mute`                             | Unmute                                   |
-| POST   | `/api/v1/reports/{id}/flag`                             | Submit moderation report (visitors)     |
-| PATCH  | `/api/v1/reports/{id}`                                  | Edit (owner-only; allowed fields only)  |
-| DELETE | `/api/v1/reports/{id}`                                  | Soft delete (owner-only)                |
+| Method | Path                        | Purpose                                |
+| ------ | --------------------------- | -------------------------------------- |
+| POST   | `/api/v1/reports/{id}/mute` | Mute notifications for the report      |
+| DELETE | `/api/v1/reports/{id}/mute` | Unmute                                 |
+| POST   | `/api/v1/reports/{id}/flag` | Submit moderation report (visitors)    |
+| PATCH  | `/api/v1/reports/{id}`      | Edit (owner-only; allowed fields only) |
+| DELETE | `/api/v1/reports/{id}`      | Soft delete (owner-only)               |
 
 The mute endpoint records a per-user-per-report mute flag. The flag endpoint creates a moderation queue entry. The edit and delete endpoints require owner authentication and write to the audit log.
 
@@ -155,22 +155,22 @@ The mute endpoint records a per-user-per-report mute flag. The flag endpoint cre
 
 ### `report_mutes` table
 
-| Column      | Type        | Notes                              |
-|-------------|-------------|-------------------------------------|
-| `user_id`   | UUID PK FK  |                                     |
-| `report_id` | UUID PK FK  |                                     |
-| `muted_at`  | timestamptz |                                     |
+| Column      | Type        | Notes |
+| ----------- | ----------- | ----- |
+| `user_id`   | UUID PK FK  |       |
+| `report_id` | UUID PK FK  |       |
+| `muted_at`  | timestamptz |       |
 
 ### `report_flags` table
 
-| Column        | Type        | Notes                                       |
-|---------------|-------------|----------------------------------------------|
-| `id`          | UUID PK     |                                              |
-| `report_id`   | UUID FK     |                                              |
-| `flagger_id`  | UUID FK     |                                              |
-| `reason`      | varchar(50) | `fake`, `offensive`, `duplicate`, etc.       |
-| `notes`       | text        | Optional explanation                          |
-| `created_at`  | timestamptz |                                              |
+| Column       | Type        | Notes                                  |
+| ------------ | ----------- | -------------------------------------- |
+| `id`         | UUID PK     |                                        |
+| `report_id`  | UUID FK     |                                        |
+| `flagger_id` | UUID FK     |                                        |
+| `reason`     | varchar(50) | `fake`, `offensive`, `duplicate`, etc. |
+| `notes`      | text        | Optional explanation                   |
+| `created_at` | timestamptz |                                        |
 
 ### `reports_audit_log` (existing, used by edit/delete/anonymity)
 
@@ -190,13 +190,13 @@ Already defined in earlier tasks. Records every owner-action.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `detail_in_progress.overflow_opened` | Menu opened                              | `is_owner: bool`                      |
-| `detail_in_progress.mute_toggled`  | Mute or unmute                             | `now_muted: bool`                     |
-| `detail_in_progress.flag_submitted`| Report flagged                             | `reason`                              |
-| `detail_in_progress.edit_saved`    | Owner saved an edit                        | `fields: [string]`                    |
-| `detail_in_progress.deleted`       | Owner deleted                              | —                                     |
+| Event                                | When                | Props              |
+| ------------------------------------ | ------------------- | ------------------ |
+| `detail_in_progress.overflow_opened` | Menu opened         | `is_owner: bool`   |
+| `detail_in_progress.mute_toggled`    | Mute or unmute      | `now_muted: bool`  |
+| `detail_in_progress.flag_submitted`  | Report flagged      | `reason`           |
+| `detail_in_progress.edit_saved`      | Owner saved an edit | `fields: [string]` |
+| `detail_in_progress.deleted`         | Owner deleted       | —                  |
 
 ## Tests
 
@@ -218,12 +218,14 @@ Already defined in earlier tasks. Records every owner-action.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (REST, multi-tenant, owner checks): `docs/engineering/architecture-patterns.md`
 - Security (audit, rate limit): `docs/engineering/security-baseline.md`
 - Observability (audit log): `docs/engineering/observability.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-detail-ui-base.md`
 - Enriquecer action: `07-civic-feed/08-enriquecer-action.md`
 - Anonymity reversibility: `11-anonymous-send/06-reversibility.md`

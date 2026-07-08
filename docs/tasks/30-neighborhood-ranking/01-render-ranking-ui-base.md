@@ -43,7 +43,7 @@ Header (back + "Ranking" title), scope toggle (task 02), period filter (task 05)
 ## Frontend
 
 ```
-apps/mobile/src/screens/NeighborhoodRanking/
+apps/city-hero/src/screens/NeighborhoodRanking/
 ├── NeighborhoodRankingScreen.tsx
 ├── NeighborhoodRankingScreen.styles.ts
 ├── NeighborhoodRankingScreen.test.tsx
@@ -69,9 +69,9 @@ The user can opt out of leaderboards entirely via Settings.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `ranking.viewed`               | Screen mounts                              | `user_opted_in: bool`                |
+| Event            | When          | Props                 |
+| ---------------- | ------------- | --------------------- |
+| `ranking.viewed` | Screen mounts | `user_opted_in: bool` |
 
 ## Tests
 

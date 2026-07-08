@@ -97,7 +97,7 @@ slot the map fills. It does include the visual scaffolding around the map.
 ### Component location
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 ├── HomeScreen.tsx
 ├── HomeScreen.styles.ts
 ├── HomeScreen.test.tsx
@@ -141,10 +141,10 @@ The top bar shows the user's first name and UUID-derived avatar. No sensitive PI
 
 ## Analytics
 
-| Event                      | When                                       | Props                      |
-|----------------------------|--------------------------------------------|----------------------------|
-| `home.viewed`              | Screen mounts                              | `is_first_session: bool`   |
-| `home.profile_top_bar_tapped` | User taps avatar or name              | —                          |
+| Event                         | When                     | Props                    |
+| ----------------------------- | ------------------------ | ------------------------ |
+| `home.viewed`                 | Screen mounts            | `is_first_session: bool` |
+| `home.profile_top_bar_tapped` | User taps avatar or name | —                        |
 
 ## Tests
 
@@ -167,14 +167,17 @@ The top bar shows the user's first name and UUID-derived avatar. No sensitive PI
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (component patterns): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native Safe Area Context: https://github.com/th3rdwave/react-native-safe-area-context
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Home · Mapa Hiperlocal'`)
 - Bottom nav: `00-foundation/03-bottom-nav-component.md`
 - Status bar: `00-foundation/04-status-bar-component.md`

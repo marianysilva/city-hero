@@ -56,16 +56,16 @@ A scrollable table listing the city's neighborhoods with their Bolsa Família me
 ## Frontend
 
 ```
-apps/mobile/src/screens/BolsaFamiliaDetail/
+apps/city-hero/src/screens/BolsaFamiliaDetail/
 └── components/
     └── NeighborhoodBreakdown.tsx
 ```
 
 ## Backend
 
-| Method | Path                                                                          | Purpose                              |
-|--------|-------------------------------------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/cities/{id}/programs/bolsa-familia/breakdown-by-neighborhood`        | Neighborhood breakdown                |
+| Method | Path                                                                   | Purpose                |
+| ------ | ---------------------------------------------------------------------- | ---------------------- |
+| GET    | `/api/v1/cities/{id}/programs/bolsa-familia/breakdown-by-neighborhood` | Neighborhood breakdown |
 
 Multi-tenant scoped. Applies the privacy threshold server-side.
 
@@ -84,10 +84,10 @@ The k-anonymity threshold (k=5 default) hides small-count rows to prevent re-ide
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `bolsa_familia.breakdown_rendered` | Table mounted                              | `row_count`, `privacy_hidden_count`  |
-| `bolsa_familia.breakdown_searched` | User searched                              | `query_length`                        |
+| Event                              | When          | Props                               |
+| ---------------------------------- | ------------- | ----------------------------------- |
+| `bolsa_familia.breakdown_rendered` | Table mounted | `row_count`, `privacy_hidden_count` |
+| `bolsa_familia.breakdown_searched` | User searched | `query_length`                      |
 
 ## Tests
 

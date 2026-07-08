@@ -1,10 +1,10 @@
-import { statusBar } from '../atoms/StatusBar.js';
+import { statusBar } from "../atoms/StatusBar.js";
 
 /** Tela 08 · Câmera com IA (ao vivo) — viewfinder com bounding box animada */
 export default {
-  title: 'Câmera com IA (ao vivo)',
-  group: 'core',
-  summary: 'Viewfinder · bounding box · 94%',
+  title: "Câmera com IA (ao vivo)",
+  group: "core",
+  summary: "Viewfinder · bounding box · 94%",
   note: `Tela mais "wow" do app. Bounding box ciano + label com % de confiança. <b>Aviso "Anonimização ativa"</b> aparece já para mostrar compliance (LGPD) sem precisar explicar. Sem câmera frontal.`,
   html: () => `
     <div class="relative h-full text-white overflow-hidden bg-black">
@@ -12,7 +12,7 @@ export default {
       <div class="absolute inset-x-0 top-0 h-36"    style="background:linear-gradient(180deg,rgba(0,0,0,.55),transparent)"></div>
       <div class="absolute inset-x-0 bottom-0 h-48" style="background:linear-gradient(180deg,transparent,rgba(0,0,0,.65))"></div>
 
-      ${statusBar('light')}
+      ${statusBar("light")}
 
       <div class="absolute top-11 left-0 right-0 px-4 flex items-center justify-between">
         <button class="w-9 h-9 rounded-full bg-black/40 backdrop-blur flex items-center justify-center">←</button>
@@ -39,37 +39,61 @@ export default {
       </div>
     </div>`,
   onMount: (root) => {
-    const bg    = root.querySelector('.cam-bg');
-    const box   = root.querySelector('.cam-box');
-    const label = root.querySelector('.cam-label');
-    const emoji = root.querySelector('.cam-emoji');
-    const text  = root.querySelector('.cam-text');
+    const bg = root.querySelector(".cam-bg");
+    const box = root.querySelector(".cam-box");
+    const label = root.querySelector(".cam-label");
+    const emoji = root.querySelector(".cam-emoji");
+    const text = root.querySelector(".cam-text");
     if (!bg || !box || !label) return null;
 
     // Coords calibradas a partir de marcadores nas fotos originais (container 320×660, background-size:cover).
     const frames = [
-      { url: 'feed-photos/camera-buraco.png',      pos: 'center center', box: { t: 51, l: 14, w: 50, h: 26 }, emoji: '🕳️', label: 'BURACO',       conf: 94 },
-      { url: 'feed-photos/camera-placa-caida.png', pos: 'center center', box: { t: 24, l: 53, w: 44, h: 31 }, emoji: '🪧', label: 'PLACA CAÍDA', conf: 89 },
-      { url: 'feed-photos/camera-vandalismo.png',  pos: '0% 50%',        box: { t: 33, l:  4, w: 53, h: 20 }, emoji: '🎨', label: 'PICHAÇÃO',    conf: 91 },
+      {
+        url: "feed-photos/camera-buraco.png",
+        pos: "center center",
+        box: { t: 51, l: 14, w: 50, h: 26 },
+        emoji: "🕳️",
+        label: "BURACO",
+        conf: 94,
+      },
+      {
+        url: "feed-photos/camera-placa-caida.png",
+        pos: "center center",
+        box: { t: 24, l: 53, w: 44, h: 31 },
+        emoji: "🪧",
+        label: "PLACA CAÍDA",
+        conf: 89,
+      },
+      {
+        url: "feed-photos/camera-vandalismo.png",
+        pos: "0% 50%",
+        box: { t: 33, l: 4, w: 53, h: 20 },
+        emoji: "🎨",
+        label: "PICHAÇÃO",
+        conf: 91,
+      },
     ];
 
     let i = 0;
     const apply = () => {
       const f = frames[i];
-      bg.style.backgroundImage    = `url('${f.url}')`;
+      bg.style.backgroundImage = `url('${f.url}')`;
       bg.style.backgroundPosition = f.pos;
-      box.style.top    = f.box.t + '%';
-      box.style.left   = f.box.l + '%';
-      box.style.width  = f.box.w + '%';
-      box.style.height = f.box.h + '%';
-      label.style.top  = f.box.t + '%';
-      label.style.left = f.box.l + '%';
+      box.style.top = f.box.t + "%";
+      box.style.left = f.box.l + "%";
+      box.style.width = f.box.w + "%";
+      box.style.height = f.box.h + "%";
+      label.style.top = f.box.t + "%";
+      label.style.left = f.box.l + "%";
       emoji.textContent = f.emoji;
-      text.textContent  = `${f.label} · ${f.conf}%`;
+      text.textContent = `${f.label} · ${f.conf}%`;
     };
     apply();
-    const timer = setInterval(() => { i = (i + 1) % frames.length; apply(); }, 3000);
+    const timer = setInterval(() => {
+      i = (i + 1) % frames.length;
+      apply();
+    }, 3000);
 
     return { destroy: () => clearInterval(timer) };
-  }
+  },
 };

@@ -96,7 +96,7 @@ celebratory when sync completes.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/SyncQueue/
+apps/city-hero/src/screens/SyncQueue/
 └── components/
     └── ConnectivityBanner.tsx
 ```
@@ -132,10 +132,10 @@ Not applicable directly. The banner displays counts and state, not content.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `sync_queue.banner_state_changed`  | Variant transitioned                       | `from`, `to`                          |
-| `sync_queue.error_banner_tapped`   | User tapped the error variant              | —                                     |
+| Event                             | When                          | Props        |
+| --------------------------------- | ----------------------------- | ------------ |
+| `sync_queue.banner_state_changed` | Variant transitioned          | `from`, `to` |
+| `sync_queue.error_banner_tapped`  | User tapped the error variant | —            |
 
 ## Tests
 
@@ -156,11 +156,13 @@ Not applicable directly. The banner displays counts and state, not content.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-sync-ui-base.md`
 - Offline queue: `00-foundation/09-offline-queue.md`
 - `CLAUDE.md`

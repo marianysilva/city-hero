@@ -18,13 +18,13 @@ top contributors without shaming everyone else (no "lowest" view).
 
 ## Features (5 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · header, scope toggle, leaderboard slot](./01-render-ranking-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Scope toggle · Meu bairro / Cidade toda](./02-scope-toggle.md) | S | task 01 |
-| 03 | [Top 10 + user's contextual rank](./03-top-and-context.md) | M | task 01, `00-foundation/05-api-client.md` |
-| 04 | [Leaderboard row · avatar, name (or 🥷), rank, XP](./04-leaderboard-row.md) | S | task 03 |
-| 05 | [Period filter · Mensal / Anual / Total](./05-period-filter.md) | S | task 01 |
+| #   | Task                                                                                      | Effort | Depends on                                |
+| --- | ----------------------------------------------------------------------------------------- | ------ | ----------------------------------------- |
+| 01  | [Render UI base · header, scope toggle, leaderboard slot](./01-render-ranking-ui-base.md) | S      | `00-foundation/02-design-tokens.md`       |
+| 02  | [Scope toggle · Meu bairro / Cidade toda](./02-scope-toggle.md)                           | S      | task 01                                   |
+| 03  | [Top 10 + user's contextual rank](./03-top-and-context.md)                                | M      | task 01, `00-foundation/05-api-client.md` |
+| 04  | [Leaderboard row · avatar, name (or 🥷), rank, XP](./04-leaderboard-row.md)               | S      | task 03                                   |
+| 05  | [Period filter · Mensal / Anual / Total](./05-period-filter.md)                           | S      | task 01                                   |
 
 ## Suggested implementation order
 

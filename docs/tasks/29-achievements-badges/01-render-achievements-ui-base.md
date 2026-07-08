@@ -48,7 +48,7 @@ Header (back + title + share button) → completion stats + filter chips → med
 ## Frontend
 
 ```
-apps/mobile/src/screens/AchievementsBadges/
+apps/city-hero/src/screens/AchievementsBadges/
 ├── AchievementsBadgesScreen.tsx
 ├── AchievementsBadgesScreen.styles.ts
 ├── AchievementsBadgesScreen.test.tsx
@@ -74,9 +74,9 @@ Personal collection.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `achievements.viewed`          | Screen mounts                              | `unlocked_count`, `total_count`      |
+| Event                 | When          | Props                           |
+| --------------------- | ------------- | ------------------------------- |
+| `achievements.viewed` | Screen mounts | `unlocked_count`, `total_count` |
 
 ## Tests
 

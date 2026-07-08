@@ -25,11 +25,12 @@ A scrollable list of the user's recent gamification activity: level-ups, medal u
 **Given** various activity events
 **When** rendered
 **Then** types include:
-  - level_up: "Você virou Guardião · Nível 15"
-  - medal_unlocked: "Medalha 🌙 Vigia Noturno"
-  - xp_milestone: "Atingiu 2.000 XP"
-  - support_received: "Seu reporte recebeu 50 apoios"
-  - report_resolved: "Seu reporte foi resolvido"
+
+- level_up: "Você virou Guardião · Nível 15"
+- medal_unlocked: "Medalha 🌙 Vigia Noturno"
+- xp_milestone: "Atingiu 2.000 XP"
+- support_received: "Seu reporte recebeu 50 apoios"
+- report_resolved: "Seu reporte foi resolvido"
 
 ### Scenario · Tap an item
 
@@ -70,7 +71,7 @@ A scrollable list of the user's recent gamification activity: level-ups, medal u
 ## Frontend
 
 ```
-apps/mobile/src/screens/CitizenProfile/
+apps/city-hero/src/screens/CitizenProfile/
 ├── components/
 │   ├── ActivityFeed.tsx
 │   └── ActivityRow.tsx
@@ -80,9 +81,9 @@ apps/mobile/src/screens/CitizenProfile/
 
 ## Backend
 
-| Method | Path                                                      | Purpose                              |
-|--------|-----------------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/users/me/activity?cursor=&limit=`                | Personal activity feed              |
+| Method | Path                                       | Purpose                |
+| ------ | ------------------------------------------ | ---------------------- |
+| GET    | `/api/v1/users/me/activity?cursor=&limit=` | Personal activity feed |
 
 ## Database
 
@@ -99,11 +100,11 @@ Personal feed; not exposed to others.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `citizen_profile.activity_loaded`  | First page rendered                        | `count`                               |
-| `citizen_profile.activity_row_pressed` | User tapped                            | `event_type`                          |
-| `citizen_profile.activity_shared`  | User shared a row                          | `event_type`                          |
+| Event                                  | When                | Props        |
+| -------------------------------------- | ------------------- | ------------ |
+| `citizen_profile.activity_loaded`      | First page rendered | `count`      |
+| `citizen_profile.activity_row_pressed` | User tapped         | `event_type` |
+| `citizen_profile.activity_shared`      | User shared a row   | `event_type` |
 
 ## Tests
 

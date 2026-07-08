@@ -85,7 +85,7 @@ identically.
 Reuses the `SummaryCard` and `StatsRow` components from `13-detail-in-progress/03`. This task adds a `variant: 'resolved' | 'in_progress'` prop and the conditional stat content.
 
 ```
-apps/mobile/src/screens/DetailTicket/
+apps/city-hero/src/screens/DetailTicket/
 └── components/
     └── (reuses SummaryCard from DetailInProgress, with variant prop)
 ```
@@ -121,9 +121,9 @@ Same as SCREEN 13's summary card; no new PII handling.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `detail_ticket.summary_rendered`   | Card mounted                               | `resolution_duration_days_bucket`     |
+| Event                            | When         | Props                             |
+| -------------------------------- | ------------ | --------------------------------- |
+| `detail_ticket.summary_rendered` | Card mounted | `resolution_duration_days_bucket` |
 
 ## Tests
 
@@ -143,14 +143,17 @@ Same as SCREEN 13's summary card; no new PII handling.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (variant pattern): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - date-fns formatDistance: https://date-fns.org/v3.0.0/docs/formatDistance
 
 ### Project context
+
 - Render UI base: `01-render-detail-ticket-ui-base.md`
 - SCREEN 13 summary card: `13-detail-in-progress/03-summary-card.md`
 - `CLAUDE.md`

@@ -99,7 +99,7 @@ into.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CivicFeed/
+apps/city-hero/src/screens/CivicFeed/
 ├── hooks/
 │   └── useFeedItems.ts        ← TanStack infinite query
 └── components/
@@ -123,9 +123,9 @@ apps/mobile/src/screens/CivicFeed/
 
 ### Endpoint
 
-| Method | Path                                                                   | Purpose                                |
-|--------|------------------------------------------------------------------------|----------------------------------------|
-| GET    | `/api/v1/feed?radius_km=&sort=&cursor=&limit=`                         | Paginated hyperlocal feed              |
+| Method | Path                                           | Purpose                   |
+| ------ | ---------------------------------------------- | ------------------------- |
+| GET    | `/api/v1/feed?radius_km=&sort=&cursor=&limit=` | Paginated hyperlocal feed |
 
 The endpoint accepts:
 
@@ -174,12 +174,12 @@ The `reports` table (already defined in earlier tasks) is queried with the radiu
 
 ## Analytics
 
-| Event                          | When                                       | Props                              |
-|--------------------------------|--------------------------------------------|-------------------------------------|
-| `feed.list_initial_loaded`     | First page rendered                        | `count`, `radius_km`, `sort`       |
-| `feed.list_next_page_loaded`   | Subsequent page rendered                   | `count`, `cursor_age_seconds`     |
-| `feed.list_load_failed`        | Backend error                              | `code`                              |
-| `feed.list_end_reached`        | User scrolls to the end (no more items)   | `total_loaded`                      |
+| Event                        | When                                    | Props                         |
+| ---------------------------- | --------------------------------------- | ----------------------------- |
+| `feed.list_initial_loaded`   | First page rendered                     | `count`, `radius_km`, `sort`  |
+| `feed.list_next_page_loaded` | Subsequent page rendered                | `count`, `cursor_age_seconds` |
+| `feed.list_load_failed`      | Backend error                           | `code`                        |
+| `feed.list_end_reached`      | User scrolls to the end (no more items) | `total_loaded`                |
 
 ## Tests
 
@@ -201,17 +201,20 @@ The `reports` table (already defined in earlier tasks) is queried with the radiu
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (REST, multi-tenant, pagination): `docs/engineering/architecture-patterns.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - TanStack Query infinite queries: https://tanstack.com/query/latest/docs/react/guides/infinite-queries
 - Shopify FlashList: https://shopify.github.io/flash-list/
 - expo-image: https://docs.expo.dev/versions/latest/sdk/image/
 - PostGIS spatial functions: https://postgis.net/docs/reference.html
 
 ### Project context
+
 - Render UI base: `01-render-feed-ui-base.md`
 - Feed item card: `03-feed-item-card.md`
 - Filter chips: `04-filter-chips.md`

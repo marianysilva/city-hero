@@ -98,7 +98,7 @@ The home screen uses a top-level scroll/refresh container. Since the map fills t
 A simpler alternative: include a small "Atualizar" affordance somewhere accessible (next to the recenter button or as a visual cue at the top).
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 └── components/
     └── PullToRefreshOverlay.tsx
 ```
@@ -134,11 +134,11 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                              | Props                  |
-|--------------------------------|-----------------------------------|------------------------|
-| `home.pull_to_refresh`         | User triggers a refresh           | `source: gesture|button` |
-| `home.refresh_succeeded`       | Refetch returned successfully     | `duration_ms`          |
-| `home.refresh_failed`          | Refetch errored                   | `code`                 |
+| Event                    | When                          | Props            |
+| ------------------------ | ----------------------------- | ---------------- |
+| `home.pull_to_refresh`   | User triggers a refresh       | `source: gesture | button` |
+| `home.refresh_succeeded` | Refetch returned successfully | `duration_ms`    |
+| `home.refresh_failed`    | Refetch errored               | `code`           |
 
 ## Tests
 
@@ -157,14 +157,17 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native RefreshControl: https://reactnative.dev/docs/refreshcontrol
 - React Native Gesture Handler: https://docs.swmansion.com/react-native-gesture-handler/
 
 ### Project context
+
 - Map integration: `02-map-integration-with-pins.md`
 - Real-time updates: `08-realtime-pin-updates.md`
 - `CLAUDE.md`

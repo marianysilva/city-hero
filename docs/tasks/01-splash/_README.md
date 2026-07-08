@@ -16,13 +16,13 @@ independent task that can be implemented by different people/sessions.
 
 ## Features (5 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI · logo + branding + min duration](./01-render-splash-ui.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [App initialization sequence (auth + version + city + deep link)](./02-app-initialization.md) | M | `00-foundation/05-api-client.md`, `06-auth-system.md`, `12-deep-link-handler.md` |
-| 03 | [Routing decision (first-time vs returning vs has-deeplink)](./03-routing-decision.md) | S | task 02 |
-| 04 | [Force update flow (modal + app store link)](./04-force-update-flow.md) | S | task 02 |
-| 05 | [Cold start offline (skip backend checks, use cache)](./05-cold-start-offline.md) | M | task 02, `00-foundation/09-offline-queue.md` |
+| #   | Task                                                                                          | Effort | Depends on                                                                       |
+| --- | --------------------------------------------------------------------------------------------- | ------ | -------------------------------------------------------------------------------- |
+| 01  | [Render UI · logo + branding + min duration](./01-render-splash-ui.md)                        | S      | `00-foundation/02-design-tokens.md`                                              |
+| 02  | [App initialization sequence (auth + version + city + deep link)](./02-app-initialization.md) | M      | `00-foundation/05-api-client.md`, `06-auth-system.md`, `12-deep-link-handler.md` |
+| 03  | [Routing decision (first-time vs returning vs has-deeplink)](./03-routing-decision.md)        | S      | task 02                                                                          |
+| 04  | [Force update flow (modal + app store link)](./04-force-update-flow.md)                       | S      | task 02                                                                          |
+| 05  | [Cold start offline (skip backend checks, use cache)](./05-cold-start-offline.md)             | M      | task 02, `00-foundation/09-offline-queue.md`                                     |
 
 ## Suggested implementation order
 

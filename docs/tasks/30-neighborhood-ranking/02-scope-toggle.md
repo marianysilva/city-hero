@@ -54,7 +54,7 @@ A two-tile toggle: **Meu bairro** (default) vs **Cidade toda**. Switching change
 ## Frontend
 
 ```
-apps/mobile/src/screens/NeighborhoodRanking/
+apps/city-hero/src/screens/NeighborhoodRanking/
 ├── components/
 │   └── ScopeToggle.tsx
 └── hooks/
@@ -79,9 +79,9 @@ The user's neighborhood is non-PII but is used for scoping.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `ranking.scope_changed`            | User toggled                               | `to: neighborhood|city`              |
+| Event                   | When         | Props             |
+| ----------------------- | ------------ | ----------------- |
+| `ranking.scope_changed` | User toggled | `to: neighborhood | city` |
 
 ## Tests
 

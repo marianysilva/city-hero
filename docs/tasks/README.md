@@ -105,7 +105,7 @@ primitives. See:
 - [`docs/engineering/component-inventory.md`](../engineering/component-inventory.md) — the catalog of every shared component with the screens that consume it.
 
 Where a task spec's "Where it lives" section mentions a generic
-component in a screen folder (e.g., `apps/mobile/src/screens/Foo/components/Bar.tsx`),
+component in a screen folder (e.g., `apps/city-hero/src/screens/Foo/components/Bar.tsx`),
 that path is the task's draft starting point. If `Bar` is used by 2+
 screens (or fits an existing atom/molecule from the inventory), the
 inventory and the design-system rules win: `Bar` moves to
@@ -125,6 +125,7 @@ the package's public API. Conflicts resolve in favor of
 ## How to import into GitHub Projects
 
 Each file is plain Markdown. To create an issue:
+
 1. `gh issue create --title "<task title>" --body-file docs/tasks/00-foundation/03-bottom-nav-component.md`
 2. Add labels via `--label "<labels from header>"`
 3. Add to project: `gh project item-add 1 --owner marianysilva --url <issue url>`
@@ -133,15 +134,15 @@ Or via UI: New issue → paste content → add labels → assign to Project.
 
 ## Coverage by features.md section
 
-| features.md section | Coverage |
-|---|---|
-| 1. Citizen App | 32 screens (30 numeradas + 04b Pacto Cidadão + 21b Políticos eleitos) + foundation |
-| 2. Field Team App | ❌ out of MVP scope (planned for a follow-up after the citizen app) |
+| features.md section                          | Coverage                                                                                                                                                                                                                       |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1. Citizen App                               | 32 screens (30 numeradas + 04b Pacto Cidadão + 21b Políticos eleitos) + foundation                                                                                                                                             |
+| 2. Field Team App                            | ❌ out of MVP scope (planned for a follow-up after the citizen app)                                                                                                                                                            |
 | 3. Operational Management Panel (`apps/web`) | ❌ out of MVP scope — the Next.js admin panel mentioned in `CLAUDE.md` has no task specs yet and is paused per product decision (2026-06-19). The `architecture-patterns.md` section on Next.js is kept for when this resumes. |
-| 4. Data Intelligence & BI | partial (ingestion · NPS) |
-| 5. Platform Core & Integrations | ✅ foundation (Open311, multi-tenant, RBAC) |
-| 6. Citizen ++ | partial (anonymous, i18n, a11y) |
-| 11. Scope Expansion | ❌ v2 |
+| 4. Data Intelligence & BI                    | partial (ingestion · NPS)                                                                                                                                                                                                      |
+| 5. Platform Core & Integrations              | ✅ foundation (Open311, multi-tenant, RBAC)                                                                                                                                                                                    |
+| 6. Citizen ++                                | partial (anonymous, i18n, a11y)                                                                                                                                                                                                |
+| 11. Scope Expansion                          | ❌ v2                                                                                                                                                                                                                          |
 
 > **Dev-only workaround for no login flow yet:** while real auth is on
 > hold (see `docs/engineering/open-questions.md` Q2), the **profile
@@ -151,4 +152,4 @@ Or via UI: New issue → paste content → add labels → assign to Project.
 
 ---
 
-*Last updated: 2026-06-28 · 32 screens (30 numeradas + 04b Pacto Cidadão + 21b Políticos eleitos) + 18 foundation tasks*
+_Last updated: 2026-06-28 · 32 screens (30 numeradas + 04b Pacto Cidadão + 21b Políticos eleitos) + 18 foundation tasks_

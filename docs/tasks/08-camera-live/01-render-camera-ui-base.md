@@ -98,7 +98,7 @@ permission + the platform's camera library), the live AI detection
 ### Component location
 
 ```
-apps/mobile/src/screens/Camera/
+apps/city-hero/src/screens/Camera/
 ├── CameraScreen.tsx
 ├── CameraScreen.styles.ts
 ├── CameraScreen.test.tsx
@@ -118,6 +118,7 @@ apps/mobile/src/screens/Camera/
 ### Layout slots
 
 The screen exposes named slots for the other tasks:
+
 - `viewfinder` — the camera library renders here (task 02).
 - `detection-overlay` — the AI bounding box renders here (task 03).
 - `top-bar`, `bottom-controls`, `tip` — handled by this task.
@@ -147,11 +148,11 @@ The "ANONIMIZAÇÃO ATIVA" badge is a deliberate trust signal even before the us
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `camera.opened`                | Modal mounts                               | `mode: new_report|enrich`            |
-| `camera.back_pressed`          | User taps back / swipes down               | —                                     |
-| `camera.tip_dismissed`         | Tip auto-hides or first capture            | `via: timeout|capture`               |
+| Event                  | When                            | Props             |
+| ---------------------- | ------------------------------- | ----------------- |
+| `camera.opened`        | Modal mounts                    | `mode: new_report | enrich`  |
+| `camera.back_pressed`  | User taps back / swipes down    | —                 |
+| `camera.tip_dismissed` | Tip auto-hides or first capture | `via: timeout     | capture` |
 
 ## Tests
 
@@ -175,14 +176,17 @@ The "ANONIMIZAÇÃO ATIVA" badge is a deliberate trust signal even before the us
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (component patterns): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Navigation modal presentation: https://reactnavigation.org/docs/modal/
 - React Native Safe Area Context: https://github.com/th3rdwave/react-native-safe-area-context
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Câmera com IA (ao vivo)'`)
 - `CLAUDE.md`

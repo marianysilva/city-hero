@@ -98,7 +98,7 @@ the camera shutter flow — they always land here, marked as such).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ManualReport/
+apps/city-hero/src/screens/ManualReport/
 ├── components/
 │   ├── PhotoThumbnail.tsx
 │   └── PhotoSourceSheet.tsx
@@ -139,13 +139,13 @@ The `reports.photo_source` field records `camera` or `gallery`; flags like `no_e
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `manual_report.swap_intent`        | User taps "Trocar foto" / "Adicionar"     | —                                     |
-| `manual_report.swap_source_picked` | User picks Camera or Gallery               | `source`                              |
-| `manual_report.swap_completed`     | Photo replaced                             | `source`                              |
-| `manual_report.photo_validation_failed` | Size/decode issue                     | `reason`                              |
-| `manual_report.gallery_exif_flagged` | EXIF mismatch or missing                 | `flag`                                |
+| Event                                   | When                                  | Props    |
+| --------------------------------------- | ------------------------------------- | -------- |
+| `manual_report.swap_intent`             | User taps "Trocar foto" / "Adicionar" | —        |
+| `manual_report.swap_source_picked`      | User picks Camera or Gallery          | `source` |
+| `manual_report.swap_completed`          | Photo replaced                        | `source` |
+| `manual_report.photo_validation_failed` | Size/decode issue                     | `reason` |
+| `manual_report.gallery_exif_flagged`    | EXIF mismatch or missing              | `flag`   |
 
 ## Tests
 
@@ -168,16 +168,19 @@ The `reports.photo_source` field records `camera` or `gallery`; flags like `no_e
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Security (anti-fraud, gallery handling): `docs/engineering/security-baseline.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - expo-image-picker: https://docs.expo.dev/versions/latest/sdk/imagepicker/
 - expo-location reverse geocode: https://docs.expo.dev/versions/latest/sdk/location/#locationreversegeocodeasyncoptions
 
 ### Project context
+
 - Render UI base: `01-render-manual-ui-base.md`
 - Camera screen: `08-camera-live/`
 - Photo upload pipeline: `00-foundation/07-photo-upload-pipeline.md`

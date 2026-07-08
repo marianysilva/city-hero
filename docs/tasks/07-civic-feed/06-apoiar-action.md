@@ -105,7 +105,7 @@ card, the backend toggle, the XP credit, and the anti-fraud rate limit.
 ### Where it lives
 
 ```
-apps/mobile/src/services/reports/
+apps/city-hero/src/services/reports/
 ├── supportAction.ts           ← shared by Feed, Home, Detail screens
 └── hooks/
     └── useSupportToggle.ts
@@ -129,10 +129,10 @@ The action is centralized so all surfaces (Feed, Home floating card, Detail) reu
 
 ### Endpoints
 
-| Method | Path                                            | Purpose                                |
-|--------|-------------------------------------------------|----------------------------------------|
-| POST   | `/api/v1/reports/{id}/support`                  | Add support (idempotent)               |
-| DELETE | `/api/v1/reports/{id}/support`                  | Remove support                         |
+| Method | Path                           | Purpose                  |
+| ------ | ------------------------------ | ------------------------ |
+| POST   | `/api/v1/reports/{id}/support` | Add support (idempotent) |
+| DELETE | `/api/v1/reports/{id}/support` | Remove support           |
 
 Both:
 
@@ -149,13 +149,13 @@ The response includes the updated `support_count`, the user's `is_supporting` st
 
 ### `report_supports` table
 
-| Column         | Type        | Notes                                              |
-|----------------|-------------|----------------------------------------------------|
-| `id`           | UUID PK     |                                                    |
-| `report_id`    | UUID FK     |                                                    |
-| `user_id`      | UUID FK     |                                                    |
-| `city_id`      | UUID FK     | For multi-tenant indexing                          |
-| `created_at`   | timestamptz |                                                    |
+| Column       | Type        | Notes                     |
+| ------------ | ----------- | ------------------------- |
+| `id`         | UUID PK     |                           |
+| `report_id`  | UUID FK     |                           |
+| `user_id`    | UUID FK     |                           |
+| `city_id`    | UUID FK     | For multi-tenant indexing |
+| `created_at` | timestamptz |                           |
 
 A unique constraint on `(report_id, user_id)` prevents duplicate supports.
 
@@ -180,12 +180,12 @@ The `xp_events` table (defined elsewhere in gamification tasks) records the +10 
 
 ## Analytics
 
-| Event                          | When                                       | Props                              |
-|--------------------------------|--------------------------------------------|-------------------------------------|
-| `report.support_added`         | Successful support                         | `report_id`, `surface: feed|home|detail` |
-| `report.support_removed`       | Successful removal                         | `report_id`, `surface`             |
-| `report.support_throttled`     | 429 returned                               | `surface`                           |
-| `report.support_failed`        | Backend error other than 429              | `code`, `surface`                  |
+| Event                      | When                         | Props                       |
+| -------------------------- | ---------------------------- | --------------------------- |
+| `report.support_added`     | Successful support           | `report_id`, `surface: feed | home | detail` |
+| `report.support_removed`   | Successful removal           | `report_id`, `surface`      |
+| `report.support_throttled` | 429 returned                 | `surface`                   |
+| `report.support_failed`    | Backend error other than 429 | `code`, `surface`           |
 
 ## Tests
 
@@ -196,7 +196,7 @@ The `xp_events` table (defined elsewhere in gamification tasks) records the +10 
 
 ## Definition of Done
 
-- [ ] Shared support action service in `apps/mobile/src/services/reports`
+- [ ] Shared support action service in `apps/city-hero/src/services/reports`
 - [ ] `useSupportToggle` hook with optimistic + rollback + cache update
 - [ ] Backend endpoints with idempotency, rate limit, self-support reject
 - [ ] `report_supports` table + Alembic migration
@@ -209,16 +209,19 @@ The `xp_events` table (defined elsewhere in gamification tasks) records the +10 
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (multi-tenant, REST, idempotency): `docs/engineering/architecture-patterns.md`
 - Security (rate limiting, anti-fraud): `docs/engineering/security-baseline.md`
 - Observability: `docs/engineering/observability.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - TanStack Query mutations + optimistic updates: https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
 - Idempotent HTTP: https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/
 
 ### Project context
+
 - Feed item card: `03-feed-item-card.md`
 - Offline queue: `00-foundation/09-offline-queue.md`
 - Real-time pin updates (cache invalidation pattern): `06-home-map/08-realtime-pin-updates.md`

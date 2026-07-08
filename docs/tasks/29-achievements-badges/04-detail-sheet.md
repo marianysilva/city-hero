@@ -69,7 +69,7 @@ Tapping a medal opens a large bottom sheet showing: large medal art, name, descr
 ## Frontend
 
 ```
-apps/mobile/src/screens/AchievementsBadges/
+apps/city-hero/src/screens/AchievementsBadges/
 └── components/
     ├── MedalDetailSheet.tsx
     └── UnlockCelebration.tsx
@@ -94,11 +94,11 @@ Personal.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `achievements.detail_opened`       | Sheet opened                               | `medal_id`, `state`                  |
-| `achievements.see_progress_pressed` | User opened progress view                | `medal_id`                            |
-| `achievements.unlock_celebrated`   | In-detail unlock animation                 | `medal_id`                            |
+| Event                               | When                       | Props               |
+| ----------------------------------- | -------------------------- | ------------------- |
+| `achievements.detail_opened`        | Sheet opened               | `medal_id`, `state` |
+| `achievements.see_progress_pressed` | User opened progress view  | `medal_id`          |
+| `achievements.unlock_celebrated`    | In-detail unlock animation | `medal_id`          |
 
 ## Tests
 

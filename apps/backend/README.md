@@ -22,32 +22,32 @@ Async REST API built with FastAPI + PostgreSQL. Serves the mobile app (Expo), th
 
 ### HTTP Server
 
-| Package | Role |
-|---|---|
-| `fastapi` | Web framework. Defines routes, injects dependencies, validates I/O, and auto-generates `/docs` (Swagger). |
+| Package             | Role                                                                                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `fastapi`           | Web framework. Defines routes, injects dependencies, validates I/O, and auto-generates `/docs` (Swagger).                       |
 | `uvicorn[standard]` | ASGI server that listens on the port and forwards requests to FastAPI. `[standard]` adds WebSocket support and dev auto-reload. |
 
 ### Database
 
-| Package | Role |
-|---|---|
-| `sqlalchemy[asyncio]` | ORM that maps Python classes to SQL tables. `[asyncio]` enables non-blocking queries. |
-| `asyncpg` | TCP driver that connects SQLAlchemy to PostgreSQL. The `postgresql+asyncpg://...` URL is the contract between the two. |
-| `alembic` | Schema versioning: generates migration scripts (`ALTER TABLE`, `CREATE INDEX`) instead of modifying the database manually. |
+| Package               | Role                                                                                                                       |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `sqlalchemy[asyncio]` | ORM that maps Python classes to SQL tables. `[asyncio]` enables non-blocking queries.                                      |
+| `asyncpg`             | TCP driver that connects SQLAlchemy to PostgreSQL. The `postgresql+asyncpg://...` URL is the contract between the two.     |
+| `alembic`             | Schema versioning: generates migration scripts (`ALTER TABLE`, `CREATE INDEX`) instead of modifying the database manually. |
 
 ### Validation & Configuration
 
-| Package | Role |
-|---|---|
-| `pydantic` | Validates and converts data at runtime. Rejects malformed requests before touching the database. |
-| `pydantic[email]` | Adds the `EmailStr` type — validates email format without manual regex. |
+| Package             | Role                                                                                                    |
+| ------------------- | ------------------------------------------------------------------------------------------------------- |
+| `pydantic`          | Validates and converts data at runtime. Rejects malformed requests before touching the database.        |
+| `pydantic[email]`   | Adds the `EmailStr` type — validates email format without manual regex.                                 |
 | `pydantic-settings` | Reads environment variables (or `.env`) and exposes them as typed fields via `Settings` in `config.py`. |
 
 ### Security
 
-| Package | Role |
-|---|---|
-| `bcrypt` | Password hashing with configurable CPU cost — brute force is impractical even with a database dump. |
+| Package         | Role                                                                                                             |
+| --------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `bcrypt`        | Password hashing with configurable CPU cost — brute force is impractical even with a database dump.              |
 | `pyjwt[crypto]` | Creates and validates JWTs signed with `SECRET_KEY`. `[crypto]` adds future support for asymmetric keys (RS256). |
 
 ---

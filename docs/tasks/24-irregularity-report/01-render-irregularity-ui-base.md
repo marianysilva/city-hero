@@ -63,7 +63,7 @@ A multi-step layout. Header with back button + "Passo N de 5" indicator + screen
 ## Frontend
 
 ```
-apps/mobile/src/screens/IrregularityReport/
+apps/city-hero/src/screens/IrregularityReport/
 ├── IrregularityReportScreen.tsx
 ├── IrregularityReportScreen.styles.ts
 ├── IrregularityReportScreen.test.tsx
@@ -90,10 +90,10 @@ The screen scaffolding doesn't hold PII; subsequent tasks define what's collecte
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `irregularity.viewed`              | Screen mounts                              | `entry: programs|bolsa|menu`         |
-| `irregularity.back_pressed`        | User backs out                             | `from_step`                           |
+| Event                       | When           | Props            |
+| --------------------------- | -------------- | ---------------- |
+| `irregularity.viewed`       | Screen mounts  | `entry: programs | bolsa | menu` |
+| `irregularity.back_pressed` | User backs out | `from_step`      |
 
 ## Tests
 

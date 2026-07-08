@@ -1,345 +1,354 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CityHero · Mapa de Navegação</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({
-    startOnLoad: true,
-    theme: 'base',
-    themeVariables: {
-      fontFamily: 'Inter, system-ui, sans-serif',
-      fontSize: '13px',
-      primaryColor: '#EFF6FF',
-      primaryTextColor: '#0F172A',
-      primaryBorderColor: '#3B82F6',
-      lineColor: '#64748B',
-      secondaryColor: '#F3E8FF',
-      tertiaryColor: '#F0FDF4',
-    },
-    flowchart: { htmlLabels: true, curve: 'basis', padding: 15 }
-  });
-</script>
-<style>
-  body { font-family: Inter, system-ui, sans-serif; }
-  .section-title { font-weight: 800; color: #0F172A; }
-  .mermaid { background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 2px 12px -4px rgba(15,23,42,.08); }
-  .legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
-  .tag { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; }
-</style>
-</head>
-<body class="bg-slate-50 text-slate-800">
-
-<header class="bg-white border-b border-slate-200 sticky top-0 z-10">
-  <div class="max-w-[1200px] mx-auto px-6 py-3 flex items-center gap-4">
-    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white text-lg">🗺️</div>
-    <div>
-      <div class="font-extrabold text-slate-900 leading-tight">CityHero · Mapa de Navegação</div>
-      <div class="text-[11px] text-slate-500">30 telas · 6 fluxos principais</div>
-    </div>
-    <a href="./index.html" class="ml-auto px-4 py-1.5 rounded-full bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800">← Ver protótipo</a>
-  </div>
-</header>
-
-<main class="max-w-[1200px] mx-auto px-6 py-10">
-
-  <!-- Intro -->
-  <section class="mb-10 max-w-3xl">
-    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold tracking-wide">
-      🧭 INFORMATION ARCHITECTURE
-    </div>
-    <h1 class="mt-4 text-4xl font-extrabold text-slate-900 leading-tight">Como o cidadão navega.</h1>
-    <p class="mt-3 text-slate-600 text-lg">
-      Todas as telas do app agrupadas por cenário de uso. O app tem <b>5 abas fixas</b> no bottom nav
-      (Mapa, Feed, Câmera, Perfil, Mais) e o restante são telas contextuais acessadas por gestos
-      específicos — pin no mapa, notificação, card descoberta etc.
-    </p>
-  </section>
-
-  <!-- Legenda -->
-  <section class="mb-10">
-    <div class="section-title text-sm uppercase tracking-wider text-slate-400 mb-3">Legenda</div>
-    <div class="bg-white rounded-2xl p-4 flex flex-wrap gap-4 shadow-sm">
-      <span class="tag bg-blue-100 text-blue-700"><span class="legend-dot" style="background:#3B82F6"></span>Tela raiz (bottom nav)</span>
-      <span class="tag bg-emerald-100 text-emerald-700"><span class="legend-dot" style="background:#10B981"></span>Tela de ação (reportar/avaliar)</span>
-      <span class="tag bg-violet-100 text-violet-700"><span class="legend-dot" style="background:#7C3AED"></span>Detalhe/leitura</span>
-      <span class="tag bg-amber-100 text-amber-700"><span class="legend-dot" style="background:#F59E0B"></span>Utilitária/contextual</span>
-      <span class="tag bg-slate-100 text-slate-700"><span class="legend-dot" style="background:#94A3B8"></span>Setas tracejadas = transição condicional</span>
-    </div>
-  </section>
-
-  <!-- ============== VISÃO GERAL ============== -->
-  <section class="mb-14">
-    <div class="flex items-baseline gap-3 mb-3">
-      <h2 class="text-2xl font-extrabold text-slate-900">01 · Visão geral</h2>
-      <span class="text-sm text-slate-500">Sitemap completo agrupado por função</span>
-    </div>
-    <div class="mermaid">
-%%{init: { 'flowchart': { 'htmlLabels': true, 'nodeSpacing': 30, 'rankSpacing': 50 } } }%%
-flowchart TD
-    Splash["Splash / Boas-vindas"] --> City["Escolher Cidade"]
-    City --> Onb1["Onboarding · Câmera IA"]
-    Onb1 --> Onb2["Onboarding · Gamificação"]
-    Onb2 --> Onb3["Onboarding · Seu bairro"]
-    Onb3 --> Home
-
-    Home["🗺️ Home · Mapa Hiperlocal"]:::root
-    Feed["📰 Feed Cívico"]:::root
-    Cam["📷 Câmera com IA"]:::root
-    Perfil["🦸 Perfil Cidadão"]:::root
-    Mais["☰ Mais"]:::root
-
-    Home <--> Feed
-    Home <--> Cam
-    Home <--> Perfil
-    Home <--> Mais
-
-    Mais --> MyReports["Meus Reportes"]
-    Mais --> Notif["Notificações"]
-    Mais --> CityProfile["Perfil da Cidade"]
-    Mais --> Avisos["Avisos da Prefeitura"]
-    Mais --> Programs["Programas & Transparência"]
-    Mais --> Services["Serviços & Obras"]
-
-    Perfil --> Conquistas["Conquistas & Medalhas"]
-    Perfil --> Ranking["Ranking do Bairro"]
-
-    classDef root fill:#DBEAFE,stroke:#3B82F6,stroke-width:2px,color:#1E3A8A,font-weight:bold
-    </div>
-  </section>
-
-  <!-- ============== FLUXO 1: PRIMEIRO ACESSO ============== -->
-  <section class="mb-14">
-    <div class="flex items-baseline gap-3 mb-3">
-      <h2 class="text-2xl font-extrabold text-slate-900">02 · Primeiro acesso</h2>
-      <span class="text-sm text-slate-500">Da instalação ao primeiro reporte</span>
-    </div>
-    <div class="mermaid">
-flowchart LR
-    Install(["📥 Instalação"]) --> Splash["Splash / Boas-vindas"]
-    Splash --> City["Escolher Cidade"]
-    City --> Onb1["Onboarding · Câmera IA"]
-    Onb1 --> Onb2["Onboarding · Gamificação"]
-    Onb2 --> Onb3["Onboarding · Seu bairro"]
-    Onb3 --> Home["🗺️ Home · Mapa"]:::root
-    Home -.->|descobre FAB| Cam["📷 Câmera"]:::action
-    Cam -.->|primeiro reporte| Conf["Confirmação do Reporte"]
-
-    classDef root fill:#DBEAFE,stroke:#3B82F6,stroke-width:2px
-    classDef action fill:#D1FAE5,stroke:#10B981,stroke-width:2px
-    </div>
-    <p class="mt-3 text-sm text-slate-600 max-w-3xl">
-      A sequência é <b>obrigatória e linear</b> — sem pular. Cada onboarding ensina um pilar: IA (como a câmera funciona),
-      XP (por que vale a pena), e bairro (centraliza o mapa no local do usuário). Após isso o usuário cai direto no Mapa,
-      que é a tela raiz pra sempre.
-    </p>
-  </section>
-
-  <!-- ============== FLUXO 2: REPORTAR ============== -->
-  <section class="mb-14">
-    <div class="flex items-baseline gap-3 mb-3">
-      <h2 class="text-2xl font-extrabold text-slate-900">03 · Reportar um problema</h2>
-      <span class="text-sm text-slate-500">Fluxo principal · 3 caminhos convergem no Detalhe</span>
-    </div>
-    <div class="mermaid">
-flowchart TD
-    Home["🗺️ Home · Mapa"]:::root
-    Home -->|FAB câmera| Cam["📷 Câmera com IA"]:::action
-    Home -.->|AI falha / sem câmera| Manual["Reporte Manual"]:::action
-    Cam --> Conf["Confirmação do Reporte"]:::action
-    Manual --> Conf
-    Conf -->|toggle: Identificada| Liga["Liga de Heróis · viral"]:::detail
-    Conf -->|toggle: Anônima 🥷| Anon["Envio Anônimo · privado"]:::detail
-    Liga --> And["Detalhe · Em andamento"]:::detail
-    Anon --> And
-    And -->|sem sinal| Queue["Fila de Sincronização"]:::util
-
-    classDef root fill:#DBEAFE,stroke:#3B82F6,stroke-width:2px
-    classDef action fill:#D1FAE5,stroke:#10B981,stroke-width:2px
-    classDef detail fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px
-    classDef util fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
-    </div>
-    <p class="mt-3 text-sm text-slate-600 max-w-3xl">
-      O toggle "Como se identificar" na Confirmação <b>bifurca o fluxo</b>: Liga de Heróis (pós-envio público com preview
-      pra compartilhar) ou Envio Anônimo (pós-envio discreto mostrando o que a pessoa mantém mesmo no anonimato).
-      Ambos caminhos levam ao Detalhe · Em andamento — mesma experiência de acompanhamento.
-    </p>
-  </section>
-
-  <!-- ============== FLUXO 3: ACOMPANHAR ============== -->
-  <section class="mb-14">
-    <div class="flex items-baseline gap-3 mb-3">
-      <h2 class="text-2xl font-extrabold text-slate-900">04 · Acompanhar meu reporte</h2>
-      <span class="text-sm text-slate-500">Do push até o NPS pós-resolução</span>
-    </div>
-    <div class="mermaid">
-flowchart LR
-    Push(["🔔 Push / Notificação"]) --> Notif["Notificações"]:::util
-    Notif --> And["Detalhe · Em andamento"]:::detail
-    MyReports["Meus Reportes"]:::detail --> And
-    Home["🗺️ Home"]:::root -->|pin no mapa| And
-    Feed["📰 Feed Cívico"]:::root -.->|toca reporte| And
-    And -->|duplicado?| Merged["Detalhe · Reporte Mesclado"]:::detail
-    And -->|prefeitura fecha ticket| Ticket["Detalhe do Ticket · before/after"]:::detail
-    Ticket -->|avaliar · +15 XP| NPS["NPS · Feedback"]:::action
-
-    classDef root fill:#DBEAFE,stroke:#3B82F6,stroke-width:2px
-    classDef action fill:#D1FAE5,stroke:#10B981,stroke-width:2px
-    classDef detail fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px
-    classDef util fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
-    </div>
-    <p class="mt-3 text-sm text-slate-600 max-w-3xl">
-      Existem 4 portas pra chegar no Detalhe · Em andamento: push, Meus Reportes, pin no mapa, e Feed Cívico
-      (quando apoia o reporte de outra pessoa). Quando a prefeitura fecha o ticket, a próxima abertura já leva pro
-      Detalhe do Ticket com slider before/after — e o Avaliar dispara o NPS.
-    </p>
-  </section>
-
-  <!-- ============== FLUXO 4: EXPLORAR A CIDADE ============== -->
-  <section class="mb-14">
-    <div class="flex items-baseline gap-3 mb-3">
-      <h2 class="text-2xl font-extrabold text-slate-900">05 · Explorar a cidade</h2>
-      <span class="text-sm text-slate-500">Avisos, obras, programas e denúncia</span>
-    </div>
-    <div class="mermaid">
-flowchart TD
-    Home["🗺️ Home · Mapa"]:::root
-    Home -->|badge 📣 Prefeitura| Avisos["Avisos da Prefeitura"]:::detail
-    Home -->|badge obra ativa| Obras["Obras em Andamento"]:::detail
-    Home -->|discovery card 🕵️| Programs["Programas & Transparência"]:::detail
-    Mais["☰ Mais"]:::root --> CityProfile["Perfil da Cidade"]:::detail
-    Mais --> Services["Serviços & Obras"]:::detail
-    Mais --> Avisos
-    Mais --> Programs
-
-    Services --> Obras
-    Obras --> ObraDet["Detalhe da Obra"]:::detail
-    Avisos -.->|link obra| Obras
-
-    Programs --> BolsaFamilia["Detalhe · Bolsa Família"]:::detail
-    Programs -->|vê irregularidade| Denuncia["Denunciar Irregularidade"]:::action
-
-    classDef root fill:#DBEAFE,stroke:#3B82F6,stroke-width:2px
-    classDef action fill:#D1FAE5,stroke:#10B981,stroke-width:2px
-    classDef detail fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px
-    </div>
-    <p class="mt-3 text-sm text-slate-600 max-w-3xl">
-      Esse é o lado "cidadão fiscal" do app. A Home tem <b>3 pontos de entrada</b> sutis (badges + discovery card)
-      pra esses conteúdos — o restante fica no menu Mais. Programas & Transparência é o hub que cruza com a
-      funcionalidade de Denúncia (art. 339 CP · falsa denúncia é crime — a tela avisa).
-    </p>
-  </section>
-
-  <!-- ============== FLUXO 5: GAMIFICAÇÃO ============== -->
-  <section class="mb-14">
-    <div class="flex items-baseline gap-3 mb-3">
-      <h2 class="text-2xl font-extrabold text-slate-900">06 · Gamificação</h2>
-      <span class="text-sm text-slate-500">XP, conquistas, ranking</span>
-    </div>
-    <div class="mermaid">
-flowchart LR
-    Perfil["🦸 Perfil Cidadão"]:::root
-    Perfil --> Conq["Conquistas & Medalhas"]:::detail
-    Perfil --> Rank["Ranking do Bairro"]:::detail
-    Conq -.->|conquista destravada| Perfil
-    Rank -.->|toca vizinho| PerfilOutro["Perfil de outro cidadão"]:::detail
-
-    XP(["+XP"]) --> Perfil
-    Apoiar["Apoiar · +10 XP"]:::action --> XP
-    Avaliar["Avaliar · +15 XP"]:::action --> XP
-    Comentar["Marcar tag · +2 XP"]:::action --> XP
-    Reportar["Novo reporte · +50 XP"]:::action --> XP
-
-    classDef root fill:#DBEAFE,stroke:#3B82F6,stroke-width:2px
-    classDef action fill:#D1FAE5,stroke:#10B981,stroke-width:2px
-    classDef detail fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px
-    </div>
-    <p class="mt-3 text-sm text-slate-600 max-w-3xl">
-      Perfil Cidadão é a tela raiz da gamificação (aba fixa). XP é creditado em tempo real a partir de 4 ações:
-      reportar (ação âncora · +50), avaliar (pós-solução · +15), apoiar (engajamento · +10) e marcar tag em
-      comentário (participação · +2). Conquistas e Ranking ficam "atrás" do Perfil.
-    </p>
-  </section>
-
-  <!-- ============== FLUXO 6: OFFLINE ============== -->
-  <section class="mb-14">
-    <div class="flex items-baseline gap-3 mb-3">
-      <h2 class="text-2xl font-extrabold text-slate-900">07 · Modo offline</h2>
-      <span class="text-sm text-slate-500">Fluxo transversal · acontece em qualquer tela</span>
-    </div>
-    <div class="mermaid">
-flowchart LR
-    Qualquer(["📵 Sem sinal"]) --> Cam["📷 Câmera"]:::action
-    Cam --> Conf["Confirmação"]:::action
-    Conf -.->|salvo local · WatermelonDB| Queue["Fila de Sincronização"]:::util
-    Queue -.->|sinal volta| Sync(["🔄 Sync automático"])
-    Sync --> And["Detalhe · Em andamento"]:::detail
-    Home["🗺️ Home"]:::root -->|banner persistente · 3 na fila| Queue
-    MyReports["Meus Reportes"]:::detail -->|ícone pendente| Queue
-
-    classDef root fill:#DBEAFE,stroke:#3B82F6,stroke-width:2px
-    classDef action fill:#D1FAE5,stroke:#10B981,stroke-width:2px
-    classDef detail fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px
-    classDef util fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
-    </div>
-    <p class="mt-3 text-sm text-slate-600 max-w-3xl">
-      Offline é cenário crítico em áreas de praia e orla. Reportes continuam sendo criados e ficam salvos
-      localmente; a Fila de Sincronização é acessível por <b>banner persistente na Home</b> (quando há itens
-      pendentes) ou por <b>ícone de pendência em Meus Reportes</b>. XP é reservado no envio e confirmado no sync.
-    </p>
-  </section>
-
-  <!-- ============== RESUMO ============== -->
-  <section class="mb-10">
-    <div class="flex items-baseline gap-3 mb-3">
-      <h2 class="text-2xl font-extrabold text-slate-900">08 · Resumo executivo</h2>
-      <span class="text-sm text-slate-500">O que o usuário precisa aprender</span>
-    </div>
-    <div class="bg-white rounded-2xl p-6 shadow-sm grid md:grid-cols-2 gap-6">
-      <div>
-        <div class="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2">5 abas fixas</div>
-        <ul class="text-sm text-slate-700 space-y-1 list-disc pl-5">
-          <li><b>Mapa</b> — tela raiz, 95% do tempo aqui</li>
-          <li><b>Feed</b> — timeline dos vizinhos</li>
-          <li><b>Câmera</b> — FAB central, ação âncora</li>
-          <li><b>Perfil</b> — gamificação</li>
-          <li><b>Mais</b> — tudo que não precisa estar sempre acessível</li>
-        </ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CityHero · Mapa de Navegação</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "base",
+        themeVariables: {
+          fontFamily: "Inter, system-ui, sans-serif",
+          fontSize: "13px",
+          primaryColor: "#EFF6FF",
+          primaryTextColor: "#0F172A",
+          primaryBorderColor: "#3B82F6",
+          lineColor: "#64748B",
+          secondaryColor: "#F3E8FF",
+          tertiaryColor: "#F0FDF4",
+        },
+        flowchart: { htmlLabels: true, curve: "basis", padding: 15 },
+      });
+    </script>
+    <style>
+      body {
+        font-family: Inter, system-ui, sans-serif;
+      }
+      .section-title {
+        font-weight: 800;
+        color: #0f172a;
+      }
+      .mermaid {
+        background: #fff;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 2px 12px -4px rgba(15, 23, 42, 0.08);
+      }
+      .legend-dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 6px;
+        vertical-align: middle;
+      }
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-800">
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-10">
+      <div class="max-w-[1200px] mx-auto px-6 py-3 flex items-center gap-4">
+        <div
+          class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white text-lg"
+        >
+          🗺️
+        </div>
+        <div>
+          <div class="font-extrabold text-slate-900 leading-tight">
+            CityHero · Mapa de Navegação
+          </div>
+          <div class="text-[11px] text-slate-500">30 telas · 6 fluxos principais</div>
+        </div>
+        <a
+          href="./index.html"
+          class="ml-auto px-4 py-1.5 rounded-full bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800"
+          >← Ver protótipo</a
+        >
       </div>
-      <div>
-        <div class="text-xs font-bold uppercase tracking-wider text-emerald-600 mb-2">3 atalhos contextuais</div>
-        <ul class="text-sm text-slate-700 space-y-1 list-disc pl-5">
-          <li><b>Pin no mapa</b> → Detalhe do reporte</li>
-          <li><b>Badge 📣 Prefeitura</b> → Avisos oficiais</li>
-          <li><b>Discovery card</b> → Programas (após 3º reporte)</li>
-        </ul>
-      </div>
-      <div>
-        <div class="text-xs font-bold uppercase tracking-wider text-violet-600 mb-2">2 bifurcações importantes</div>
-        <ul class="text-sm text-slate-700 space-y-1 list-disc pl-5">
-          <li>Confirmação do Reporte: <b>Identificada vs Anônima</b></li>
-          <li>AI falha: <b>Câmera → Reporte Manual</b> (fallback)</li>
-        </ul>
-      </div>
-      <div>
-        <div class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-2">Fluxo crítico a validar</div>
-        <ul class="text-sm text-slate-700 space-y-1 list-disc pl-5">
-          <li>Retomar reporte em rascunho offline</li>
-          <li>Push notification → Detalhe em 1 toque</li>
-          <li>Avaliar solução no tempo certo (não atrasado)</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+    </header>
 
-  <footer class="mt-14 pt-6 border-t border-slate-200 text-center text-xs text-slate-400">
-    CityHero · v1.0 MVP · Mapa de navegação gerado em 21/04/2026
-  </footer>
+    <main class="max-w-[1200px] mx-auto px-6 py-10">
+      <!-- Intro -->
+      <section class="mb-10 max-w-3xl">
+        <div
+          class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold tracking-wide"
+        >
+          🧭 INFORMATION ARCHITECTURE
+        </div>
+        <h1 class="mt-4 text-4xl font-extrabold text-slate-900 leading-tight">
+          Como o cidadão navega.
+        </h1>
+        <p class="mt-3 text-slate-600 text-lg">
+          Todas as telas do app agrupadas por cenário de uso. O app tem <b>5 abas fixas</b> no
+          bottom nav (Mapa, Feed, Câmera, Perfil, Mais) e o restante são telas contextuais acessadas
+          por gestos específicos — pin no mapa, notificação, card descoberta etc.
+        </p>
+      </section>
 
-</main>
+      <!-- Legenda -->
+      <section class="mb-10">
+        <div class="section-title text-sm uppercase tracking-wider text-slate-400 mb-3">
+          Legenda
+        </div>
+        <div class="bg-white rounded-2xl p-4 flex flex-wrap gap-4 shadow-sm">
+          <span class="tag bg-blue-100 text-blue-700"
+            ><span class="legend-dot" style="background: #3b82f6"></span>Tela raiz (bottom
+            nav)</span
+          >
+          <span class="tag bg-emerald-100 text-emerald-700"
+            ><span class="legend-dot" style="background: #10b981"></span>Tela de ação
+            (reportar/avaliar)</span
+          >
+          <span class="tag bg-violet-100 text-violet-700"
+            ><span class="legend-dot" style="background: #7c3aed"></span>Detalhe/leitura</span
+          >
+          <span class="tag bg-amber-100 text-amber-700"
+            ><span class="legend-dot" style="background: #f59e0b"></span>Utilitária/contextual</span
+          >
+          <span class="tag bg-slate-100 text-slate-700"
+            ><span class="legend-dot" style="background: #94a3b8"></span>Setas tracejadas =
+            transição condicional</span
+          >
+        </div>
+      </section>
 
-</body>
+      <!-- ============== VISÃO GERAL ============== -->
+      <section class="mb-14">
+        <div class="flex items-baseline gap-3 mb-3">
+          <h2 class="text-2xl font-extrabold text-slate-900">01 · Visão geral</h2>
+          <span class="text-sm text-slate-500">Sitemap completo agrupado por função</span>
+        </div>
+        <div class="mermaid">
+          %%{init: { 'flowchart': { 'htmlLabels': true, 'nodeSpacing': 30, 'rankSpacing': 50 } } }%%
+          flowchart TD Splash["Splash / Boas-vindas"] --> City["Escolher Cidade"] City -->
+          Onb1["Onboarding · Câmera IA"] Onb1 --> Onb2["Onboarding · Gamificação"] Onb2 -->
+          Onb3["Onboarding · Seu bairro"] Onb3 --> Home Home["🗺️ Home · Mapa Hiperlocal"]:::root
+          Feed["📰 Feed Cívico"]:::root Cam["📷 Câmera com IA"]:::root Perfil["🦸 Perfil
+          Cidadão"]:::root Mais["☰ Mais"]:::root Home <--> Feed Home <--> Cam Home <--> Perfil Home
+          <--> Mais Mais --> MyReports["Meus Reportes"] Mais --> Notif["Notificações"] Mais -->
+          CityProfile["Perfil da Cidade"] Mais --> Avisos["Avisos da Prefeitura"] Mais -->
+          Programs["Programas & Transparência"] Mais --> Services["Serviços & Obras"] Perfil -->
+          Conquistas["Conquistas & Medalhas"] Perfil --> Ranking["Ranking do Bairro"] classDef root
+          fill:#DBEAFE,stroke:#3B82F6,stroke-width:2px,color:#1E3A8A,font-weight:bold
+        </div>
+      </section>
+
+      <!-- ============== FLUXO 1: PRIMEIRO ACESSO ============== -->
+      <section class="mb-14">
+        <div class="flex items-baseline gap-3 mb-3">
+          <h2 class="text-2xl font-extrabold text-slate-900">02 · Primeiro acesso</h2>
+          <span class="text-sm text-slate-500">Da instalação ao primeiro reporte</span>
+        </div>
+        <div class="mermaid">
+          flowchart LR Install(["📥 Instalação"]) --> Splash["Splash / Boas-vindas"] Splash -->
+          City["Escolher Cidade"] City --> Onb1["Onboarding · Câmera IA"] Onb1 --> Onb2["Onboarding
+          · Gamificação"] Onb2 --> Onb3["Onboarding · Seu bairro"] Onb3 --> Home["🗺️ Home ·
+          Mapa"]:::root Home -.->|descobre FAB| Cam["📷 Câmera"]:::action Cam -.->|primeiro reporte|
+          Conf["Confirmação do Reporte"] classDef root fill:#DBEAFE,stroke:#3B82F6,stroke-width:2px
+          classDef action fill:#D1FAE5,stroke:#10B981,stroke-width:2px
+        </div>
+        <p class="mt-3 text-sm text-slate-600 max-w-3xl">
+          A sequência é <b>obrigatória e linear</b> — sem pular. Cada onboarding ensina um pilar: IA
+          (como a câmera funciona), XP (por que vale a pena), e bairro (centraliza o mapa no local
+          do usuário). Após isso o usuário cai direto no Mapa, que é a tela raiz pra sempre.
+        </p>
+      </section>
+
+      <!-- ============== FLUXO 2: REPORTAR ============== -->
+      <section class="mb-14">
+        <div class="flex items-baseline gap-3 mb-3">
+          <h2 class="text-2xl font-extrabold text-slate-900">03 · Reportar um problema</h2>
+          <span class="text-sm text-slate-500"
+            >Fluxo principal · 3 caminhos convergem no Detalhe</span
+          >
+        </div>
+        <div class="mermaid">
+          flowchart TD Home["🗺️ Home · Mapa"]:::root Home -->|FAB câmera| Cam["📷 Câmera com
+          IA"]:::action Home -.->|AI falha / sem câmera| Manual["Reporte Manual"]:::action Cam -->
+          Conf["Confirmação do Reporte"]:::action Manual --> Conf Conf -->|toggle: Identificada|
+          Liga["Liga de Heróis · viral"]:::detail Conf -->|toggle: Anônima 🥷| Anon["Envio Anônimo ·
+          privado"]:::detail Liga --> And["Detalhe · Em andamento"]:::detail Anon --> And And
+          -->|sem sinal| Queue["Fila de Sincronização"]:::util classDef root
+          fill:#DBEAFE,stroke:#3B82F6,stroke-width:2px classDef action
+          fill:#D1FAE5,stroke:#10B981,stroke-width:2px classDef detail
+          fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px classDef util
+          fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+        </div>
+        <p class="mt-3 text-sm text-slate-600 max-w-3xl">
+          O toggle "Como se identificar" na Confirmação <b>bifurca o fluxo</b>: Liga de Heróis
+          (pós-envio público com preview pra compartilhar) ou Envio Anônimo (pós-envio discreto
+          mostrando o que a pessoa mantém mesmo no anonimato). Ambos caminhos levam ao Detalhe · Em
+          andamento — mesma experiência de acompanhamento.
+        </p>
+      </section>
+
+      <!-- ============== FLUXO 3: ACOMPANHAR ============== -->
+      <section class="mb-14">
+        <div class="flex items-baseline gap-3 mb-3">
+          <h2 class="text-2xl font-extrabold text-slate-900">04 · Acompanhar meu reporte</h2>
+          <span class="text-sm text-slate-500">Do push até o NPS pós-resolução</span>
+        </div>
+        <div class="mermaid">
+          flowchart LR Push(["🔔 Push / Notificação"]) --> Notif["Notificações"]:::util Notif -->
+          And["Detalhe · Em andamento"]:::detail MyReports["Meus Reportes"]:::detail --> And
+          Home["🗺️ Home"]:::root -->|pin no mapa| And Feed["📰 Feed Cívico"]:::root -.->|toca
+          reporte| And And -->|duplicado?| Merged["Detalhe · Reporte Mesclado"]:::detail And
+          -->|prefeitura fecha ticket| Ticket["Detalhe do Ticket · before/after"]:::detail Ticket
+          -->|avaliar · +15 XP| NPS["NPS · Feedback"]:::action classDef root
+          fill:#DBEAFE,stroke:#3B82F6,stroke-width:2px classDef action
+          fill:#D1FAE5,stroke:#10B981,stroke-width:2px classDef detail
+          fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px classDef util
+          fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+        </div>
+        <p class="mt-3 text-sm text-slate-600 max-w-3xl">
+          Existem 4 portas pra chegar no Detalhe · Em andamento: push, Meus Reportes, pin no mapa, e
+          Feed Cívico (quando apoia o reporte de outra pessoa). Quando a prefeitura fecha o ticket,
+          a próxima abertura já leva pro Detalhe do Ticket com slider before/after — e o Avaliar
+          dispara o NPS.
+        </p>
+      </section>
+
+      <!-- ============== FLUXO 4: EXPLORAR A CIDADE ============== -->
+      <section class="mb-14">
+        <div class="flex items-baseline gap-3 mb-3">
+          <h2 class="text-2xl font-extrabold text-slate-900">05 · Explorar a cidade</h2>
+          <span class="text-sm text-slate-500">Avisos, obras, programas e denúncia</span>
+        </div>
+        <div class="mermaid">
+          flowchart TD Home["🗺️ Home · Mapa"]:::root Home -->|badge 📣 Prefeitura| Avisos["Avisos da
+          Prefeitura"]:::detail Home -->|badge obra ativa| Obras["Obras em Andamento"]:::detail Home
+          -->|discovery card 🕵️| Programs["Programas & Transparência"]:::detail Mais["☰
+          Mais"]:::root --> CityProfile["Perfil da Cidade"]:::detail Mais --> Services["Serviços &
+          Obras"]:::detail Mais --> Avisos Mais --> Programs Services --> Obras Obras -->
+          ObraDet["Detalhe da Obra"]:::detail Avisos -.->|link obra| Obras Programs -->
+          BolsaFamilia["Detalhe · Bolsa Família"]:::detail Programs -->|vê irregularidade|
+          Denuncia["Denunciar Irregularidade"]:::action classDef root
+          fill:#DBEAFE,stroke:#3B82F6,stroke-width:2px classDef action
+          fill:#D1FAE5,stroke:#10B981,stroke-width:2px classDef detail
+          fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px
+        </div>
+        <p class="mt-3 text-sm text-slate-600 max-w-3xl">
+          Esse é o lado "cidadão fiscal" do app. A Home tem <b>3 pontos de entrada</b> sutis (badges
+          + discovery card) pra esses conteúdos — o restante fica no menu Mais. Programas &
+          Transparência é o hub que cruza com a funcionalidade de Denúncia (art. 339 CP · falsa
+          denúncia é crime — a tela avisa).
+        </p>
+      </section>
+
+      <!-- ============== FLUXO 5: GAMIFICAÇÃO ============== -->
+      <section class="mb-14">
+        <div class="flex items-baseline gap-3 mb-3">
+          <h2 class="text-2xl font-extrabold text-slate-900">06 · Gamificação</h2>
+          <span class="text-sm text-slate-500">XP, conquistas, ranking</span>
+        </div>
+        <div class="mermaid">
+          flowchart LR Perfil["🦸 Perfil Cidadão"]:::root Perfil --> Conq["Conquistas &
+          Medalhas"]:::detail Perfil --> Rank["Ranking do Bairro"]:::detail Conq -.->|conquista
+          destravada| Perfil Rank -.->|toca vizinho| PerfilOutro["Perfil de outro cidadão"]:::detail
+          XP(["+XP"]) --> Perfil Apoiar["Apoiar · +10 XP"]:::action --> XP Avaliar["Avaliar · +15
+          XP"]:::action --> XP Comentar["Marcar tag · +2 XP"]:::action --> XP Reportar["Novo reporte
+          · +50 XP"]:::action --> XP classDef root fill:#DBEAFE,stroke:#3B82F6,stroke-width:2px
+          classDef action fill:#D1FAE5,stroke:#10B981,stroke-width:2px classDef detail
+          fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px
+        </div>
+        <p class="mt-3 text-sm text-slate-600 max-w-3xl">
+          Perfil Cidadão é a tela raiz da gamificação (aba fixa). XP é creditado em tempo real a
+          partir de 4 ações: reportar (ação âncora · +50), avaliar (pós-solução · +15), apoiar
+          (engajamento · +10) e marcar tag em comentário (participação · +2). Conquistas e Ranking
+          ficam "atrás" do Perfil.
+        </p>
+      </section>
+
+      <!-- ============== FLUXO 6: OFFLINE ============== -->
+      <section class="mb-14">
+        <div class="flex items-baseline gap-3 mb-3">
+          <h2 class="text-2xl font-extrabold text-slate-900">07 · Modo offline</h2>
+          <span class="text-sm text-slate-500">Fluxo transversal · acontece em qualquer tela</span>
+        </div>
+        <div class="mermaid">
+          flowchart LR Qualquer(["📵 Sem sinal"]) --> Cam["📷 Câmera"]:::action Cam -->
+          Conf["Confirmação"]:::action Conf -.->|salvo local · WatermelonDB| Queue["Fila de
+          Sincronização"]:::util Queue -.->|sinal volta| Sync(["🔄 Sync automático"]) Sync -->
+          And["Detalhe · Em andamento"]:::detail Home["🗺️ Home"]:::root -->|banner persistente · 3
+          na fila| Queue MyReports["Meus Reportes"]:::detail -->|ícone pendente| Queue classDef root
+          fill:#DBEAFE,stroke:#3B82F6,stroke-width:2px classDef action
+          fill:#D1FAE5,stroke:#10B981,stroke-width:2px classDef detail
+          fill:#EDE9FE,stroke:#7C3AED,stroke-width:2px classDef util
+          fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+        </div>
+        <p class="mt-3 text-sm text-slate-600 max-w-3xl">
+          Offline é cenário crítico em áreas de praia e orla. Reportes continuam sendo criados e
+          ficam salvos localmente; a Fila de Sincronização é acessível por
+          <b>banner persistente na Home</b> (quando há itens pendentes) ou por
+          <b>ícone de pendência em Meus Reportes</b>. XP é reservado no envio e confirmado no sync.
+        </p>
+      </section>
+
+      <!-- ============== RESUMO ============== -->
+      <section class="mb-10">
+        <div class="flex items-baseline gap-3 mb-3">
+          <h2 class="text-2xl font-extrabold text-slate-900">08 · Resumo executivo</h2>
+          <span class="text-sm text-slate-500">O que o usuário precisa aprender</span>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm grid md:grid-cols-2 gap-6">
+          <div>
+            <div class="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2">
+              5 abas fixas
+            </div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc pl-5">
+              <li><b>Mapa</b> — tela raiz, 95% do tempo aqui</li>
+              <li><b>Feed</b> — timeline dos vizinhos</li>
+              <li><b>Câmera</b> — FAB central, ação âncora</li>
+              <li><b>Perfil</b> — gamificação</li>
+              <li><b>Mais</b> — tudo que não precisa estar sempre acessível</li>
+            </ul>
+          </div>
+          <div>
+            <div class="text-xs font-bold uppercase tracking-wider text-emerald-600 mb-2">
+              3 atalhos contextuais
+            </div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc pl-5">
+              <li><b>Pin no mapa</b> → Detalhe do reporte</li>
+              <li><b>Badge 📣 Prefeitura</b> → Avisos oficiais</li>
+              <li><b>Discovery card</b> → Programas (após 3º reporte)</li>
+            </ul>
+          </div>
+          <div>
+            <div class="text-xs font-bold uppercase tracking-wider text-violet-600 mb-2">
+              2 bifurcações importantes
+            </div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc pl-5">
+              <li>Confirmação do Reporte: <b>Identificada vs Anônima</b></li>
+              <li>AI falha: <b>Câmera → Reporte Manual</b> (fallback)</li>
+            </ul>
+          </div>
+          <div>
+            <div class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-2">
+              Fluxo crítico a validar
+            </div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc pl-5">
+              <li>Retomar reporte em rascunho offline</li>
+              <li>Push notification → Detalhe em 1 toque</li>
+              <li>Avaliar solução no tempo certo (não atrasado)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <footer class="mt-14 pt-6 border-t border-slate-200 text-center text-xs text-slate-400">
+        CityHero · v1.0 MVP · Mapa de navegação gerado em 21/04/2026
+      </footer>
+    </main>
+  </body>
 </html>

@@ -81,7 +81,7 @@ correction if needed.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ReportConfirm/
+apps/city-hero/src/screens/ReportConfirm/
 └── components/
     └── LocationField.tsx
 ```
@@ -114,10 +114,10 @@ Coordinates travel with the report submission. The fix source and accuracy do no
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `report_confirm.adjust_pressed`| User taps Ajustar                          | —                                     |
-| `report_confirm.location_refreshed` | User taps the refresh hint            | `from_age_seconds`                    |
+| Event                               | When                       | Props              |
+| ----------------------------------- | -------------------------- | ------------------ |
+| `report_confirm.adjust_pressed`     | User taps Ajustar          | —                  |
+| `report_confirm.location_refreshed` | User taps the refresh hint | `from_age_seconds` |
 
 ## Tests
 
@@ -138,11 +138,13 @@ Coordinates travel with the report submission. The fix source and accuracy do no
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-confirm-ui-base.md`
 - Mini-map / adjust modal (reused): `09-manual-report/04-mini-map-location.md`
 - Foundation map: `00-foundation/10-leaflet-map-wrapper.md`

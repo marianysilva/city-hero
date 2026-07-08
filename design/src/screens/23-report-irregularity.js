@@ -1,25 +1,25 @@
-import { statusBar } from '../atoms/StatusBar.js';
-import { staticBottomNav } from '../organisms/BottomNav.js';
+import { statusBar } from "../atoms/StatusBar.js";
+import { staticBottomNav } from "../organisms/BottomNav.js";
 
 const radioOpt = (label, sub, checked = false) => `
-  <label class="flex items-start gap-2.5 p-3 rounded-xl border ${checked ? 'border-rose-400 bg-rose-50' : 'border-slate-200 bg-white'} cursor-pointer">
-    <span class="mt-0.5 w-4 h-4 rounded-full border-2 ${checked ? 'border-rose-500' : 'border-slate-300'} flex items-center justify-center shrink-0">${checked ? '<span class="w-2 h-2 rounded-full bg-rose-500"></span>' : ''}</span>
+  <label class="flex items-start gap-2.5 p-3 rounded-xl border ${checked ? "border-rose-400 bg-rose-50" : "border-slate-200 bg-white"} cursor-pointer">
+    <span class="mt-0.5 w-4 h-4 rounded-full border-2 ${checked ? "border-rose-500" : "border-slate-300"} flex items-center justify-center shrink-0">${checked ? '<span class="w-2 h-2 rounded-full bg-rose-500"></span>' : ""}</span>
     <span class="flex-1 leading-tight">
-      <span class="block text-[12px] font-extrabold ${checked ? 'text-rose-700' : 'text-slate-800'}">${label}</span>
+      <span class="block text-[12px] font-extrabold ${checked ? "text-rose-700" : "text-slate-800"}">${label}</span>
       <span class="block text-[10px] text-slate-500 mt-0.5">${sub}</span>
     </span>
   </label>`;
 
 /** Tela 23 · Denunciar irregularidade (roteamento oficial) */
 export default {
-  title: 'Denunciar irregularidade',
-  group: 'support',
-  summary: 'Formulário · roteamento oficial · anonimato',
+  title: "Denunciar irregularidade",
+  group: "support",
+  summary: "Formulário · roteamento oficial · anonimato",
   note: `Formulário de denúncia que <b>não cria banco de denúncia no CityHero</b> — apenas orquestra e envia pro canal certo: <b>CGU (Fala.BR)</b> para recursos federais, <b>Ministério Público estadual</b> para desvios, <b>Ouvidoria Municipal</b> para questões operacionais. O botão "Enviar" gera o protocolo oficial e devolve o número pro cidadão. <b>Toggle de anonimato</b> com explicação honesta: anônima tem menos peso investigativo, identificada fica protegida por sigilo (Lei 13.460/2017). Upload de provas opcional (documentos/fotos). Aviso de Art. 339 do CP em destaque antes do envio. Na vida real, a prefeitura <b>não pode</b> receber denúncia contra si mesma — por isso o roteamento externo é a feature principal.`,
   html: () => `
     <div class="relative h-full bg-slate-50 flex flex-col overflow-hidden">
      <div class="flex-1 min-h-0 overflow-y-auto">
-      ${statusBar('dark')}
+      ${statusBar("dark")}
 
       <div class="px-4 flex items-center gap-3">
         <button data-nav="prev" class="w-9 h-9 rounded-full bg-white shadow-soft flex items-center justify-center">←</button>
@@ -48,11 +48,11 @@ export default {
       <div class="mx-4 mt-3">
         <div class="text-[11px] font-black text-slate-700 mb-1.5">1 · Tipo de irregularidade</div>
         <div class="space-y-1.5">
-          ${radioOpt('Beneficiário fora dos critérios',       'Recebe mesmo com renda/patrimônio acima do corte', true)}
-          ${radioOpt('Desvio ou mau uso de recurso público',  'Dinheiro do programa usado para outra finalidade')}
-          ${radioOpt('Cadastro duplicado ou fraudulento',     'Mesma pessoa em múltiplos cadastros / laranjas')}
-          ${radioOpt('Descumprimento das condicionalidades',  'Criança fora da escola, vacina em atraso, etc.')}
-          ${radioOpt('Outro',                                 'Descreva abaixo')}
+          ${radioOpt("Beneficiário fora dos critérios", "Recebe mesmo com renda/patrimônio acima do corte", true)}
+          ${radioOpt("Desvio ou mau uso de recurso público", "Dinheiro do programa usado para outra finalidade")}
+          ${radioOpt("Cadastro duplicado ou fraudulento", "Mesma pessoa em múltiplos cadastros / laranjas")}
+          ${radioOpt("Descumprimento das condicionalidades", "Criança fora da escola, vacina em atraso, etc.")}
+          ${radioOpt("Outro", "Descreva abaixo")}
         </div>
       </div>
 
@@ -140,6 +140,6 @@ export default {
       </div>
      </div>
 
-      ${staticBottomNav('more')}
-    </div>`
+      ${staticBottomNav("more")}
+    </div>`,
 };

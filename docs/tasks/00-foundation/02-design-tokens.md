@@ -15,7 +15,7 @@ themes), (2) atomic folder structure (atoms, molecules, organisms,
 templates, hooks), (3) Storybook configured for both web and mobile, (4)
 Tailwind preset for the Next.js admin, (5) the theme provider for
 React Native, and (6) the public API (`index.ts`) that re-exports
-everything consumed by `apps/mobile` and `apps/web`.
+everything consumed by `apps/city-hero` and `apps/web`.
 
 This is the **prerequisite for every UI task** in the project — every
 shared component lives here per [`design-system.md`](../../engineering/design-system.md).
@@ -42,13 +42,14 @@ lives, how it's themed, and how its variants are documented visually.
 **Given** the package is scaffolded
 **When** a developer adds a new component
 **Then** the location matches its tier per [`design-system.md`](../../engineering/design-system.md):
-  - `src/tokens/` for design primitives
-  - `src/atoms/` for primitives (Button, Pill, Chip, Switch, etc.)
-  - `src/molecules/` for compositions (FilterChipRow, EmptyState, etc.)
-  - `src/organisms/` for complex composites (FeedCard, BottomNav, etc.)
-  - `src/templates/` for page-shell shells (DetailShell, ScreenContainer)
-  - `src/hooks/` for behavior hooks (useTheme, useReducedMotion, useSwipeable)
-  - `index.ts` re-exports the public API
+
+- `src/tokens/` for design primitives
+- `src/atoms/` for primitives (Button, Pill, Chip, Switch, etc.)
+- `src/molecules/` for compositions (FilterChipRow, EmptyState, etc.)
+- `src/organisms/` for complex composites (FeedCard, BottomNav, etc.)
+- `src/templates/` for page-shell shells (DetailShell, ScreenContainer)
+- `src/hooks/` for behavior hooks (useTheme, useReducedMotion, useSwipeable)
+- `index.ts` re-exports the public API
 
 ### Scenario · Storybook for the package
 
@@ -162,7 +163,7 @@ packages/design_system/
 
 ### React Native integration
 
-`packages/design_system/src/theme/ThemeProvider.tsx` wraps `apps/mobile`
+`packages/design_system/src/theme/ThemeProvider.tsx` wraps `apps/city-hero`
 and exposes tokens via context. Components consume via `useTheme()`.
 
 ### Storybook
@@ -206,10 +207,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                       | When                              | Props                          |
-|-----------------------------|-----------------------------------|---------------------------------|
-| `theme.changed_to_dark`     | User toggles dark                 | `source: system|manual`        |
-| `theme.changed_to_light`    | User toggles light                | `source: system|manual`        |
+| Event                    | When               | Props           |
+| ------------------------ | ------------------ | --------------- |
+| `theme.changed_to_dark`  | User toggles dark  | `source: system | manual` |
+| `theme.changed_to_light` | User toggles light | `source: system | manual` |
 
 ## Tests
 
@@ -236,6 +237,7 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - **Design system rules**: `docs/engineering/design-system.md`
 - **Component inventory**: `docs/engineering/component-inventory.md`
 - Architecture (component patterns): `docs/engineering/architecture-patterns.md`
@@ -243,6 +245,7 @@ Not applicable.
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - Atomic Design: https://atomicdesign.bradfrost.com/
 - Tailwind presets: https://tailwindcss.com/docs/presets
 - Storybook: https://storybook.js.org/
@@ -250,5 +253,6 @@ Not applicable.
 - Chromatic: https://www.chromatic.com/
 
 ### Project context
+
 - Prototype: `design/index.html` (Tailwind config and CSS variables)
 - `CLAUDE.md`

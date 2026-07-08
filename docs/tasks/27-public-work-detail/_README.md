@@ -16,13 +16,13 @@ CTA at the bottom.
 
 ## Features (5 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · header, hero, scroll, slots](./01-render-work-detail-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Summary card · title, address, contractor, dates, progress](./02-summary-card.md) | S | task 01 |
-| 03 | [Milestones timeline](./03-milestones-timeline.md) | M | task 01 |
-| 04 | [Construction photo gallery](./04-photo-gallery.md) | M | task 01 |
-| 05 | [Documents links + Denunciar CTA](./05-documents-and-denunciar.md) | S | task 01 |
+| #   | Task                                                                               | Effort | Depends on                          |
+| --- | ---------------------------------------------------------------------------------- | ------ | ----------------------------------- |
+| 01  | [Render UI base · header, hero, scroll, slots](./01-render-work-detail-ui-base.md) | S      | `00-foundation/02-design-tokens.md` |
+| 02  | [Summary card · title, address, contractor, dates, progress](./02-summary-card.md) | S      | task 01                             |
+| 03  | [Milestones timeline](./03-milestones-timeline.md)                                 | M      | task 01                             |
+| 04  | [Construction photo gallery](./04-photo-gallery.md)                                | M      | task 01                             |
+| 05  | [Documents links + Denunciar CTA](./05-documents-and-denunciar.md)                 | S      | task 01                             |
 
 ## Suggested implementation order
 

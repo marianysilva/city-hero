@@ -54,7 +54,7 @@ A small "12 de 28 conquistadas" stat with a horizontal progress bar at the top, 
 ## Frontend
 
 ```
-apps/mobile/src/screens/AchievementsBadges/
+apps/city-hero/src/screens/AchievementsBadges/
 ├── components/
 │   └── CompletionStats.tsx
 └── hooks/
@@ -94,9 +94,9 @@ Personal.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `achievements.filter_changed`      | Chip tapped                                | `kind`, `value`                       |
+| Event                         | When        | Props           |
+| ----------------------------- | ----------- | --------------- |
+| `achievements.filter_changed` | Chip tapped | `kind`, `value` |
 
 ## Tests
 

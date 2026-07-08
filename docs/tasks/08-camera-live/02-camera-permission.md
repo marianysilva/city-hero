@@ -97,7 +97,7 @@ fallback via task 08 of this folder).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Camera/
+apps/city-hero/src/screens/Camera/
 ├── components/
 │   ├── CameraPermissionPrePrompt.tsx
 │   └── CameraPermissionDeniedOverlay.tsx
@@ -143,15 +143,15 @@ Not applicable.
 
 ## Analytics
 
-| Event                                  | When                                       | Props                              |
-|----------------------------------------|--------------------------------------------|-------------------------------------|
-| `camera.permission_pre_prompt_shown`   | Pre-prompt rendered                        | —                                   |
-| `camera.permission_pre_prompt_accepted`| User taps Continue                         | —                                   |
-| `camera.permission_pre_prompt_declined`| User cancels pre-prompt                    | —                                   |
-| `camera.permission_granted`            | OS dialog returned granted                 | —                                   |
-| `camera.permission_denied`             | OS dialog returned denied                  | `permanent: bool`                   |
-| `camera.permission_settings_opened`    | User opened system settings                | —                                   |
-| `camera.fallback_to_manual_pressed`    | User opted for Manual Report               | `from_state: denied|blocked|no_hw` |
+| Event                                   | When                         | Props               |
+| --------------------------------------- | ---------------------------- | ------------------- |
+| `camera.permission_pre_prompt_shown`    | Pre-prompt rendered          | —                   |
+| `camera.permission_pre_prompt_accepted` | User taps Continue           | —                   |
+| `camera.permission_pre_prompt_declined` | User cancels pre-prompt      | —                   |
+| `camera.permission_granted`             | OS dialog returned granted   | —                   |
+| `camera.permission_denied`              | OS dialog returned denied    | `permanent: bool`   |
+| `camera.permission_settings_opened`     | User opened system settings  | —                   |
+| `camera.fallback_to_manual_pressed`     | User opted for Manual Report | `from_state: denied | blocked | no_hw` |
 
 ## Tests
 
@@ -172,17 +172,20 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - expo-camera: https://docs.expo.dev/versions/latest/sdk/camera/
 - react-native-vision-camera: https://react-native-vision-camera.com/
 - iOS camera privacy: https://developer.apple.com/documentation/avfoundation/cameras_and_media_capture/requesting_authorization_to_capture_and_save_media
 - Android camera permission: https://developer.android.com/training/permissions/requesting
 
 ### Project context
+
 - Render UI base: `01-render-camera-ui-base.md`
 - Manual Report fallback: `08-fallback-to-manual.md`
 - Onboarding camera education (no permission ask): `03-onboarding-camera/`

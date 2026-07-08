@@ -145,11 +145,11 @@ Not applicable directly.
 
 ## Analytics
 
-| Event                  | When                              | Props                                              |
-|------------------------|-----------------------------------|----------------------------------------------------|
-| `api.request_failed`   | Any non-2xx after retries         | `endpoint`, `status`, `code`, `duration_ms`       |
-| `api.token_refreshed`  | Successful refresh                | `reason: expired|forced`                          |
-| `api.offline_attempt`  | Request attempted while offline   | `endpoint`                                         |
+| Event                 | When                            | Props                                       |
+| --------------------- | ------------------------------- | ------------------------------------------- |
+| `api.request_failed`  | Any non-2xx after retries       | `endpoint`, `status`, `code`, `duration_ms` |
+| `api.token_refreshed` | Successful refresh              | `reason: expired                            | forced` |
+| `api.offline_attempt` | Request attempted while offline | `endpoint`                                  |
 
 ## Tests
 
@@ -172,6 +172,7 @@ Not applicable directly.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (error response shape, multi-tenant): `docs/engineering/architecture-patterns.md`
 - Security (token handling, redaction): `docs/engineering/security-baseline.md`
@@ -179,8 +180,10 @@ Not applicable directly.
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - TanStack React Query: https://tanstack.com/query/latest
 - Mock Service Worker (testing): https://mswjs.io/
 
 ### Project context
+
 - `CLAUDE.md`

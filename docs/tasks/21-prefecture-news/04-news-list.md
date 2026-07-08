@@ -107,7 +107,7 @@ Tap any item to open the full detail (task 05).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/PrefectureNews/
+apps/city-hero/src/screens/PrefectureNews/
 ├── components/
 │   ├── NewsList.tsx
 │   └── NewsCard.tsx
@@ -125,9 +125,9 @@ apps/mobile/src/screens/PrefectureNews/
 
 ### Endpoint
 
-| Method | Path                                                          | Purpose                              |
-|--------|---------------------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/prefecture-news?category=&cursor=&limit=`            | Paginated announcements              |
+| Method | Path                                               | Purpose                 |
+| ------ | -------------------------------------------------- | ----------------------- |
+| GET    | `/api/v1/prefecture-news?category=&cursor=&limit=` | Paginated announcements |
 
 Multi-tenant scoping. Sorted by `published_at desc`. Returns pinned items separately (or with a flag).
 
@@ -147,12 +147,12 @@ Public announcements; no PII.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `prefecture_news.list_loaded`      | First page rendered                        | `count`, `filter`                     |
-| `prefecture_news.card_pressed`     | User tapped a card                         | `category`                            |
-| `prefecture_news.inline_cta_pressed`| User tapped the in-card CTA               | `target_kind`                         |
-| `prefecture_news.pull_to_refresh`  | User pulled                                | —                                     |
+| Event                                | When                        | Props             |
+| ------------------------------------ | --------------------------- | ----------------- |
+| `prefecture_news.list_loaded`        | First page rendered         | `count`, `filter` |
+| `prefecture_news.card_pressed`       | User tapped a card          | `category`        |
+| `prefecture_news.inline_cta_pressed` | User tapped the in-card CTA | `target_kind`     |
+| `prefecture_news.pull_to_refresh`    | User pulled                 | —                 |
 
 ## Tests
 
@@ -172,15 +172,18 @@ Public announcements; no PII.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (REST, multi-tenant): `docs/engineering/architecture-patterns.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - TanStack Query infinite: https://tanstack.com/query/latest/docs/react/guides/infinite-queries
 - FlashList: https://shopify.github.io/flash-list/
 
 ### Project context
+
 - Render UI base: `01-render-news-ui-base.md`
 - Detail sheet: `05-detail-bottom-sheet.md`
 - `CLAUDE.md`

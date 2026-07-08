@@ -65,7 +65,7 @@ not a substitute for the official channels — it routes to them.
 ## Frontend
 
 ```
-apps/mobile/src/screens/Programs/
+apps/city-hero/src/screens/Programs/
 └── components/
     ├── ControleSocialFooter.tsx
     └── DenunciarCtaButton.tsx
@@ -90,11 +90,11 @@ The educational content explains how the user can take action; the actual report
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `programs.footer_rendered`         | Footer mounted                             | —                                     |
-| `programs.denunciar_pressed`       | User tapped the CTA                        | `from: programs_hub`                  |
-| `programs.external_link_pressed`   | User tapped a source link                  | `url`                                 |
+| Event                            | When                      | Props                |
+| -------------------------------- | ------------------------- | -------------------- |
+| `programs.footer_rendered`       | Footer mounted            | —                    |
+| `programs.denunciar_pressed`     | User tapped the CTA       | `from: programs_hub` |
+| `programs.external_link_pressed` | User tapped a source link | `url`                |
 
 ## Tests
 

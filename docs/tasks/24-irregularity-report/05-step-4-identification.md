@@ -68,7 +68,7 @@ The screen explains the trade-offs honestly per LAI and each authority's policy 
 ## Frontend
 
 ```
-apps/mobile/src/screens/IrregularityReport/
+apps/city-hero/src/screens/IrregularityReport/
 └── steps/
     └── Step4Identification.tsx
 ```
@@ -94,10 +94,10 @@ This is the screen's main privacy mechanic. The user must make an informed choic
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `irregularity.identification_chosen` | User selected                            | `identified: bool`, `authority_id`   |
-| `irregularity.lai_explainer_opened` | User tapped the LAI                      | —                                     |
+| Event                                | When                | Props                              |
+| ------------------------------------ | ------------------- | ---------------------------------- |
+| `irregularity.identification_chosen` | User selected       | `identified: bool`, `authority_id` |
+| `irregularity.lai_explainer_opened`  | User tapped the LAI | —                                  |
 
 ## Tests
 

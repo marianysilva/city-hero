@@ -56,7 +56,7 @@ A line or bar chart showing the program's evolution semester-by-semester (or mon
 ## Frontend
 
 ```
-apps/mobile/src/screens/BolsaFamiliaDetail/
+apps/city-hero/src/screens/BolsaFamiliaDetail/
 └── components/
     └── ProgramTrendChart.tsx
 ```
@@ -81,10 +81,10 @@ Aggregated.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `bolsa_familia.chart_rendered`     | Chart mounted                              | `data_points_count`                   |
-| `bolsa_familia.chart_point_tapped` | User tapped a point                        | `point_date`                          |
+| Event                              | When                | Props               |
+| ---------------------------------- | ------------------- | ------------------- |
+| `bolsa_familia.chart_rendered`     | Chart mounted       | `data_points_count` |
+| `bolsa_familia.chart_point_tapped` | User tapped a point | `point_date`        |
 
 ## Tests
 

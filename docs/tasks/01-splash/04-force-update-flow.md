@@ -86,7 +86,7 @@ is **non-dismissible** by design.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ForceUpdate/
+apps/city-hero/src/screens/ForceUpdate/
 ├── ForceUpdateScreen.tsx
 ├── ForceUpdateScreen.styles.ts
 └── ForceUpdateScreen.test.tsx
@@ -133,11 +133,11 @@ Not applicable directly. No user data is collected.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                  |
-|--------------------------------|--------------------------------------------|-----------------------------------------|
-| `force_update.shown`           | Screen mounts                              | `current_version`, `min_required`      |
-| `force_update.cta_tapped`      | User taps the update CTA                   | `target_store`                          |
-| `force_update.back_blocked`    | User attempted to bypass                   | `attempt_method`                        |
+| Event                       | When                     | Props                             |
+| --------------------------- | ------------------------ | --------------------------------- |
+| `force_update.shown`        | Screen mounts            | `current_version`, `min_required` |
+| `force_update.cta_tapped`   | User taps the update CTA | `target_store`                    |
+| `force_update.back_blocked` | User attempted to bypass | `attempt_method`                  |
 
 ## Tests
 
@@ -157,16 +157,19 @@ Not applicable directly. No user data is collected.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 - Observability: `docs/engineering/observability.md`
 
 ### Library / framework references
+
 - React Navigation `reset`: https://reactnavigation.org/docs/navigation-actions#reset
 - Linking (open store URLs): https://reactnative.dev/docs/linking
 - Hardware back-button handling: https://reactnative.dev/docs/backhandler
 
 ### Project context
+
 - App initialization: `02-app-initialization.md`
 - Routing decision: `03-routing-decision.md`
 - `CLAUDE.md`

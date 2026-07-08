@@ -90,7 +90,7 @@ or real-time updates (task 08) — but is the substrate they all build on.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 ├── hooks/
 │   ├── useReportsInBbox.ts
 │   └── useDebouncedBbox.ts
@@ -119,9 +119,9 @@ React Query caches per-bbox results for a few minutes; consecutive small pans hi
 
 ### Endpoint
 
-| Method | Path                                                 | Purpose                              |
-|--------|------------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/reports?bbox=...&category=...&status=...`   | List reports in the bbox             |
+| Method | Path                                               | Purpose                  |
+| ------ | -------------------------------------------------- | ------------------------ |
+| GET    | `/api/v1/reports?bbox=...&category=...&status=...` | List reports in the bbox |
 
 The endpoint accepts:
 
@@ -145,18 +145,18 @@ Reports' geometries are indexed with PostGIS (GiST). Bbox queries use `ST_Inters
 
 ### `reports` table (subset relevant here)
 
-| Column          | Type             | Notes                                        |
-|-----------------|------------------|----------------------------------------------|
-| `id`            | UUID PK          |                                              |
-| `city_id`       | UUID FK          | Multi-tenant scope                           |
-| `category`      | varchar(50)      | `pothole`, `trash`, `lighting`, etc.         |
-| `status`        | varchar(20)      | `open`, `in_progress`, `resolved`, `merged`  |
-| `geo`           | geography(Point) | Indexed with GiST                            |
-| `support_count` | int              |                                              |
-| `last_activity_at` | timestamptz   |                                              |
-| `photo_id`      | UUID FK          |                                              |
-| `version`       | int              | Incremented on each update (for cache keys)  |
-| `created_at`    | timestamptz      |                                              |
+| Column             | Type             | Notes                                       |
+| ------------------ | ---------------- | ------------------------------------------- |
+| `id`               | UUID PK          |                                             |
+| `city_id`          | UUID FK          | Multi-tenant scope                          |
+| `category`         | varchar(50)      | `pothole`, `trash`, `lighting`, etc.        |
+| `status`           | varchar(20)      | `open`, `in_progress`, `resolved`, `merged` |
+| `geo`              | geography(Point) | Indexed with GiST                           |
+| `support_count`    | int              |                                             |
+| `last_activity_at` | timestamptz      |                                             |
+| `photo_id`         | UUID FK          |                                             |
+| `version`          | int              | Incremented on each update (for cache keys) |
+| `created_at`       | timestamptz      |                                             |
 
 (Other columns like description, reporter, etc. are owned by the report-creation tasks.)
 
@@ -175,12 +175,12 @@ Reports' geometries are indexed with PostGIS (GiST). Bbox queries use `ST_Inters
 
 ## Analytics
 
-| Event                       | When                                       | Props                                  |
-|-----------------------------|--------------------------------------------|----------------------------------------|
-| `home.map.pins_loaded`      | Reports fetched and rendered               | `count`, `bbox_size_km`                |
-| `home.map.region_changed`   | Bbox changed (debounced)                   | `zoom`, `delta_km`                     |
-| `home.map.pin_tapped`       | User taps a pin                            | `report_id`, `category`, `status`      |
-| `home.map.pins_fetch_failed`| Backend error                              | `code`                                 |
+| Event                        | When                         | Props                             |
+| ---------------------------- | ---------------------------- | --------------------------------- |
+| `home.map.pins_loaded`       | Reports fetched and rendered | `count`, `bbox_size_km`           |
+| `home.map.region_changed`    | Bbox changed (debounced)     | `zoom`, `delta_km`                |
+| `home.map.pin_tapped`        | User taps a pin              | `report_id`, `category`, `status` |
+| `home.map.pins_fetch_failed` | Backend error                | `code`                            |
 
 ## Tests
 
@@ -203,15 +203,18 @@ Reports' geometries are indexed with PostGIS (GiST). Bbox queries use `ST_Inters
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (multi-tenant, REST conventions): `docs/engineering/architecture-patterns.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - TanStack Query: https://tanstack.com/query/latest
 - PostGIS spatial functions: https://postgis.net/docs/reference.html
 
 ### Project context
+
 - Foundation map wrapper: `00-foundation/10-leaflet-map-wrapper.md`
 - Filter chips: `03-filter-chips.md`
 - Real-time updates: `08-realtime-pin-updates.md`

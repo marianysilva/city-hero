@@ -87,7 +87,7 @@ button navigates to SCREEN 18 (Sync Queue) for details.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/MyReports/
+apps/city-hero/src/screens/MyReports/
 └── components/
     └── PendingOfflineCard.tsx
 ```
@@ -117,11 +117,11 @@ The queue stores the reports' payloads locally; the card displays only counts (n
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `my_reports.pending_card_shown`    | Card visible                               | `count`                               |
-| `my_reports.pending_card_pressed`  | User tapped Ver                            | `count`                               |
-| `my_reports.pending_sync_completed`| Queue drained                              | —                                     |
+| Event                               | When            | Props   |
+| ----------------------------------- | --------------- | ------- |
+| `my_reports.pending_card_shown`     | Card visible    | `count` |
+| `my_reports.pending_card_pressed`   | User tapped Ver | `count` |
+| `my_reports.pending_sync_completed` | Queue drained   | —       |
 
 ## Tests
 
@@ -141,11 +141,13 @@ The queue stores the reports' payloads locally; the card displays only counts (n
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-my-reports-ui-base.md`
 - Offline queue: `00-foundation/09-offline-queue.md`
 - Sync Queue screen: `docs/tasks/18-sync-queue/`

@@ -70,7 +70,7 @@ extras (tasks 03–06).
 ### Component location
 
 ```
-apps/mobile/src/screens/CityProfile/
+apps/city-hero/src/screens/CityProfile/
 ├── CityProfileScreen.tsx
 ├── CityProfileScreen.styles.ts
 ├── CityProfileScreen.test.tsx
@@ -103,10 +103,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `city_profile.viewed`          | Screen mounts                              | `city_id`                             |
-| `city_profile.back_pressed`    | User taps back                             | —                                     |
+| Event                       | When           | Props     |
+| --------------------------- | -------------- | --------- |
+| `city_profile.viewed`       | Screen mounts  | `city_id` |
+| `city_profile.back_pressed` | User taps back | —         |
 
 ## Tests
 
@@ -126,11 +126,13 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Perfil da Cidade'`)
 - `features.md` § 5 Transparency Portal (Public View)
 - `CLAUDE.md`

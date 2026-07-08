@@ -32,11 +32,12 @@ The scrollable list below the chips. Each row card shows: status pill (colored),
 **Given** different statuses
 **When** rendered
 **Then** color matches:
-  - Em planejamento → slate
-  - Em execução → amber (with pulsing dot if very recent activity)
-  - Concluída parcialmente → sky
-  - Suspensa → rose
-  - Concluída → emerald (rare in this list — completed works archive)
+
+- Em planejamento → slate
+- Em execução → amber (with pulsing dot if very recent activity)
+- Concluída parcialmente → sky
+- Suspensa → rose
+- Concluída → emerald (rare in this list — completed works archive)
 
 ### Scenario · Tap to detail
 
@@ -71,7 +72,7 @@ The scrollable list below the chips. Each row card shows: status pill (colored),
 ## Frontend
 
 ```
-apps/mobile/src/screens/PublicWorks/
+apps/city-hero/src/screens/PublicWorks/
 ├── components/
 │   ├── WorksList.tsx
 │   └── WorkCard.tsx
@@ -81,9 +82,9 @@ apps/mobile/src/screens/PublicWorks/
 
 ## Backend
 
-| Method | Path                                                                  | Purpose                              |
-|--------|-----------------------------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/cities/{id}/public-works?status=&category=&cursor=&limit=`   | Paginated active works               |
+| Method | Path                                                                | Purpose                |
+| ------ | ------------------------------------------------------------------- | ---------------------- |
+| GET    | `/api/v1/cities/{id}/public-works?status=&category=&cursor=&limit=` | Paginated active works |
 
 Multi-tenant scoped. Sorted by `updated_at desc`.
 
@@ -103,10 +104,10 @@ Public information.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `public_works.list_loaded`         | First page rendered                        | `count`, `filter`                     |
-| `public_works.card_pressed`        | User tapped                                | `work_id`, `status`                  |
+| Event                       | When                | Props               |
+| --------------------------- | ------------------- | ------------------- |
+| `public_works.list_loaded`  | First page rendered | `count`, `filter`   |
+| `public_works.card_pressed` | User tapped         | `work_id`, `status` |
 
 ## Tests
 

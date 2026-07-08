@@ -64,7 +64,7 @@ A small map preview at the top of the screen (~140-180dp tall) showing all activ
 ## Frontend
 
 ```
-apps/mobile/src/screens/PublicWorks/
+apps/city-hero/src/screens/PublicWorks/
 └── components/
     └── WorksMapPreview.tsx
 ```
@@ -90,10 +90,10 @@ Public data; no PII.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `public_works.map_pin_tapped`      | User tapped a pin                          | `work_id`                             |
-| `public_works.map_area_tapped`     | User tapped empty area                     | —                                     |
+| Event                          | When                   | Props     |
+| ------------------------------ | ---------------------- | --------- |
+| `public_works.map_pin_tapped`  | User tapped a pin      | `work_id` |
+| `public_works.map_area_tapped` | User tapped empty area | —         |
 
 ## Tests
 

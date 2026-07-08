@@ -95,7 +95,7 @@ category chip uses an emoji and changes its visual state when active.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Home/
+apps/city-hero/src/screens/Home/
 └── hooks/
     └── useReportFilters.ts
 ```
@@ -141,10 +141,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `home.filter_chip_tapped`      | User taps a chip                           | `category`, `now_active: bool`       |
-| `home.filter_cleared`          | User taps "Todos" with active filters     | `had_categories`                      |
+| Event                     | When                                  | Props                          |
+| ------------------------- | ------------------------------------- | ------------------------------ |
+| `home.filter_chip_tapped` | User taps a chip                      | `category`, `now_active: bool` |
+| `home.filter_cleared`     | User taps "Todos" with active filters | `had_categories`               |
 
 ## Tests
 
@@ -165,14 +165,17 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - Zustand: https://github.com/pmndrs/zustand
 
 ### Project context
+
 - Map integration: `02-map-integration-with-pins.md`
 - Render UI base: `01-render-home-ui-base.md`
 - Shared chip molecule: `docs/engineering/component-inventory.md` (row `FilterChipRow`)

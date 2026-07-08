@@ -6,11 +6,11 @@ This directory contains the three applications that compose the CityHero platfor
 
 CityHero serves three fundamentally different audiences with different needs:
 
-| App | Audience | Purpose |
-|---|---|---|
-| **backend** | All clients | Single source of truth: data, business rules, AI inference, and Open311 API |
-| **web** | City Hall managers | Operational dashboard for triage, dispatch, routing, and BI |
-| **mobile** | Citizens & field teams | On-the-ground reporting with camera AI, offline support, and gamification |
+| App         | Audience               | Purpose                                                                     |
+| ----------- | ---------------------- | --------------------------------------------------------------------------- |
+| **backend** | All clients            | Single source of truth: data, business rules, AI inference, and Open311 API |
+| **web**     | City Hall managers     | Operational dashboard for triage, dispatch, routing, and BI                 |
+| **mobile**  | Citizens & field teams | On-the-ground reporting with camera AI, offline support, and gamification   |
 
 Separating them gives us:
 
@@ -49,6 +49,7 @@ All client-to-server communication goes through the backend REST API. The web an
 The backend is the **single source of truth** for the entire platform. It handles all business logic, AI inference, database access, and exposes the Open311-compliant REST API consumed by the web and mobile apps.
 
 Key design decisions:
+
 - All queries are scoped by `city_id` (multi-tenant from day one)
 - AI inference runs on the backend, not on the client — the mobile app sends raw photos
 - Photos go through automatic anonymization (face/plate blur) before becoming public (LGPD/GDPR)
@@ -87,13 +88,13 @@ See [`apps/city-hero/README.md`](./city-hero/README.md) for the full structure a
 
 ### Services
 
-| Service | How it runs | Port | Description |
-|---|---|---|---|
-| `db` | Docker (`postgres:16-alpine`) | 5432 | PostgreSQL database with persistent volume |
-| `migrate` | Docker, built from `apps/backend/Dockerfile` | — | Runs Alembic migrations, exits on success |
-| `backend` | Docker, built from `apps/backend/Dockerfile` | 8000 | FastAPI server |
-| `web` | Local process (`npm run dev`) | 3000 | Next.js dev server |
-| `mobile` | Local process (`npx expo start --web`) | 8081 | Expo web preview |
+| Service   | How it runs                                  | Port | Description                                |
+| --------- | -------------------------------------------- | ---- | ------------------------------------------ |
+| `db`      | Docker (`postgres:16-alpine`)                | 5432 | PostgreSQL database with persistent volume |
+| `migrate` | Docker, built from `apps/backend/Dockerfile` | —    | Runs Alembic migrations, exits on success  |
+| `backend` | Docker, built from `apps/backend/Dockerfile` | 8000 | FastAPI server                             |
+| `web`     | Local process (`npm run dev`)                | 3000 | Next.js dev server                         |
+| `mobile`  | Local process (`npx expo start --web`)       | 8081 | Expo web preview                           |
 
 ### Environment Configuration
 
@@ -116,11 +117,11 @@ cd apps/web && npm install && npm run dev       # in another shell
 cd apps/city-hero && npm install && npx expo start --web   # in another shell
 ```
 
-| URL | What you'll see |
-|---|---|
+| URL                        | What you'll see                             |
+| -------------------------- | ------------------------------------------- |
 | http://localhost:8000/docs | Backend — Swagger UI (interactive API docs) |
-| http://localhost:3000 | Web — Manager dashboard |
-| http://localhost:8081 | Mobile — Expo web preview |
+| http://localhost:3000      | Web — Manager dashboard                     |
+| http://localhost:8081      | Mobile — Expo web preview                   |
 
 ### Dependency Chain
 

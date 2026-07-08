@@ -99,7 +99,7 @@ behavior, and selection are implemented by their own tasks.
 ### Component location
 
 ```
-apps/mobile/src/screens/CitySelect/
+apps/city-hero/src/screens/CitySelect/
 ├── CitySelectScreen.tsx
 ├── CitySelectScreen.styles.ts
 ├── CitySelectScreen.test.tsx
@@ -153,10 +153,10 @@ Not applicable to this task (no data is collected here; the GPS card is a visual
 
 ## Analytics
 
-| Event                      | When                                | Props |
-|----------------------------|-------------------------------------|-------|
-| `city_select.viewed`       | Screen mounts                       | —     |
-| `city_select.scrolled`     | User scrolls the list               | —     |
+| Event                  | When                  | Props |
+| ---------------------- | --------------------- | ----- |
+| `city_select.viewed`   | Screen mounts         | —     |
+| `city_select.scrolled` | User scrolls the list | —     |
 
 (More fine-grained events come from the other sub-tasks.)
 
@@ -179,15 +179,18 @@ Not applicable to this task (no data is collected here; the GPS card is a visual
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (component patterns): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native FlatList (or SectionList): https://reactnative.dev/docs/flatlist
 - React Native KeyboardAvoidingView: https://reactnative.dev/docs/keyboardavoidingview
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Escolher Cidade'`)
 - Design tokens: `00-foundation/02-design-tokens.md`
 - `CLAUDE.md`

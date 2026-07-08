@@ -79,7 +79,7 @@ variant covered by task 02.
 ### Component location
 
 ```
-apps/mobile/src/screens/Onboarding/Gamification/
+apps/city-hero/src/screens/Onboarding/Gamification/
 ├── GamificationScreen.tsx
 ├── GamificationScreen.styles.ts
 ├── GamificationScreen.test.tsx
@@ -127,11 +127,11 @@ Not applicable.
 
 ## Analytics
 
-| Event                                  | When                       | Props |
-|----------------------------------------|----------------------------|-------|
-| `onboarding.gamification.viewed`       | Screen mounts              | —     |
-| `onboarding.gamification.back_pressed` | User taps back             | —     |
-| `onboarding.gamification.next_pressed` | User taps Next             | —     |
+| Event                                  | When           | Props |
+| -------------------------------------- | -------------- | ----- |
+| `onboarding.gamification.viewed`       | Screen mounts  | —     |
+| `onboarding.gamification.back_pressed` | User taps back | —     |
+| `onboarding.gamification.next_pressed` | User taps Next | —     |
 
 (Canonical events are owned by the state machine task; these are surface-level for funnel breakdown.)
 
@@ -154,15 +154,18 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native SVG: https://github.com/software-mansion/react-native-svg
 - React Native Reanimated: https://docs.swmansion.com/react-native-reanimated/
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Onboarding · Gamificação'`)
 - Onboarding state machine: `03-onboarding-camera/02-onboarding-step-machine.md`
 - Reduced-motion variant: `02-reduced-motion-illustration.md`

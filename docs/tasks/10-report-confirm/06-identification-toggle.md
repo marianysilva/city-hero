@@ -111,7 +111,7 @@ SCREEN 12 (Liga de Heróis); Anonymous → SCREEN 11 (Envio Anônimo).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ReportConfirm/
+apps/city-hero/src/screens/ReportConfirm/
 ├── components/
 │   ├── IdentificationToggle.tsx
 │   └── LaiDisclosureHint.tsx
@@ -167,11 +167,11 @@ This task is a **key privacy control**. Specific guarantees:
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `report_confirm.identification_changed` | User toggled                          | `to: identified|anonymous`           |
-| `report_confirm.lai_disclosure_shown` | First time anonymous picked              | —                                     |
-| `report_confirm.lai_disclosure_dismissed` | User dismissed                       | —                                     |
+| Event                                     | When                        | Props           |
+| ----------------------------------------- | --------------------------- | --------------- |
+| `report_confirm.identification_changed`   | User toggled                | `to: identified | anonymous` |
+| `report_confirm.lai_disclosure_shown`     | First time anonymous picked | —               |
+| `report_confirm.lai_disclosure_dismissed` | User dismissed              | —               |
 
 ## Tests
 
@@ -192,11 +192,13 @@ This task is a **key privacy control**. Specific guarantees:
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy / LGPD (Lei de Acesso à Informação): `docs/engineering/security-baseline.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-confirm-ui-base.md`
 - Auth system: `00-foundation/06-auth-system.md`
 - Submit / bifurcation: `08-submit-and-bifurcate.md`

@@ -102,7 +102,7 @@ to a positive median while still capturing nuance.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/NpsFeedback/
+apps/city-hero/src/screens/NpsFeedback/
 ├── components/
 │   ├── RatingScale.tsx
 │   └── RatingFace.tsx
@@ -144,9 +144,9 @@ The rating is part of the user's private input until submitted.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `nps.rating_selected`              | User changed rating                        | `from`, `to`                          |
+| Event                 | When                | Props        |
+| --------------------- | ------------------- | ------------ |
+| `nps.rating_selected` | User changed rating | `from`, `to` |
 
 ## Tests
 
@@ -168,15 +168,18 @@ The rating is part of the user's private input until submitted.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native Gesture Handler: https://docs.swmansion.com/react-native-gesture-handler/
 - React Native Haptics: https://docs.expo.dev/versions/latest/sdk/haptics/
 
 ### Project context
+
 - Render UI base: `01-render-nps-ui-base.md`
 - Reason tags (consumes rating): `04-reason-tags.md`
 - `CLAUDE.md`

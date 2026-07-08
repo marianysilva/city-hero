@@ -85,7 +85,7 @@ bifurcation — only the layout and slot system the other tasks fill.
 ### Component location
 
 ```
-apps/mobile/src/screens/ReportConfirm/
+apps/city-hero/src/screens/ReportConfirm/
 ├── ReportConfirmScreen.tsx
 ├── ReportConfirmScreen.styles.ts
 ├── ReportConfirmScreen.test.tsx
@@ -136,10 +136,10 @@ Not applicable to this task; subsequent tasks handle photo, anonymization, and p
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `report_confirm.viewed`        | Screen mounts                              | `entry: camera|manual|no_photo`      |
-| `report_confirm.back_pressed`  | User taps back                             | `had_progress: bool`                  |
+| Event                         | When           | Props                |
+| ----------------------------- | -------------- | -------------------- |
+| `report_confirm.viewed`       | Screen mounts  | `entry: camera       | manual | no_photo` |
+| `report_confirm.back_pressed` | User taps back | `had_progress: bool` |
 
 ## Tests
 
@@ -161,15 +161,18 @@ Not applicable to this task; subsequent tasks handle photo, anonymization, and p
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture (component patterns): `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native KeyboardAvoidingView: https://reactnative.dev/docs/keyboardavoidingview
 - React Native Safe Area Context: https://github.com/th3rdwave/react-native-safe-area-context
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Confirmação do Reporte'`)
 - Camera capture: `08-camera-live/04-capture-shutter.md`
 - Manual report submit: `09-manual-report/06-submit-and-continue.md`

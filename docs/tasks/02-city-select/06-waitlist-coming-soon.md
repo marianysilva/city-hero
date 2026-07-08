@@ -38,11 +38,12 @@ catalog city ("we don't support your city yet — sign up for updates").
 **Given** the list shows coming-soon cities
 **When** the user taps one
 **Then** a bottom sheet (or modal) opens with:
-  - Contextual copy ("Em breve em Bombinhas. Quer ser avisado?")
-  - Email field (required; pre-filled if the user is already authenticated)
-  - Optional phone field (Brazilian format, mask applied)
-  - "Avise-me" CTA
-  - Small disclosure about how the data is used
+
+- Contextual copy ("Em breve em Bombinhas. Quer ser avisado?")
+- Email field (required; pre-filled if the user is already authenticated)
+- Optional phone field (Brazilian format, mask applied)
+- "Avise-me" CTA
+- Small disclosure about how the data is used
 
 ### Scenario · Submit waitlist form
 
@@ -100,7 +101,7 @@ catalog city ("we don't support your city yet — sign up for updates").
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CitySelect/
+apps/city-hero/src/screens/CitySelect/
 ├── components/
 │   └── WaitlistSheet.tsx
 └── hooks/
@@ -125,9 +126,9 @@ The hook `useJoinWaitlist` wraps a TanStack Query mutation against the backend, 
 
 ### Endpoint
 
-| Method | Path                              | Purpose                            |
-|--------|-----------------------------------|-------------------------------------|
-| POST   | `/api/v1/waitlist`                | Submit a waitlist entry            |
+| Method | Path               | Purpose                 |
+| ------ | ------------------ | ----------------------- |
+| POST   | `/api/v1/waitlist` | Submit a waitlist entry |
 
 The endpoint accepts the form fields plus context. The backend:
 
@@ -142,19 +143,19 @@ The endpoint is **public** (no auth required) so first-time installers can also 
 
 ### `waitlist_entries` table
 
-| Column                  | Type          | Notes                                                    |
-|-------------------------|---------------|----------------------------------------------------------|
-| `id`                    | UUID PK       |                                                          |
-| `email`                 | varchar(255)  | Required                                                 |
-| `phone`                 | varchar(20)   | Optional                                                  |
-| `target_city_id`        | UUID FK       | Set when the user picked a known coming-soon city        |
-| `requested_city_name`   | varchar(120)  | Set when the user typed a free-form name                  |
-| `coords`                | geography(Point) | Optional, with consent                                |
-| `source`                | varchar(30)   | `tap_row`, `gps_no_match`, `search_no_result`             |
-| `utm_source`            | varchar(60)   | If the user came from a campaign                          |
-| `consent_at`            | timestamptz   | Explicit consent timestamp                                |
-| `created_at`            | timestamptz   |                                                           |
-| `notified_at`           | timestamptz   | Set when we email them about availability                 |
+| Column                | Type             | Notes                                             |
+| --------------------- | ---------------- | ------------------------------------------------- |
+| `id`                  | UUID PK          |                                                   |
+| `email`               | varchar(255)     | Required                                          |
+| `phone`               | varchar(20)      | Optional                                          |
+| `target_city_id`      | UUID FK          | Set when the user picked a known coming-soon city |
+| `requested_city_name` | varchar(120)     | Set when the user typed a free-form name          |
+| `coords`              | geography(Point) | Optional, with consent                            |
+| `source`              | varchar(30)      | `tap_row`, `gps_no_match`, `search_no_result`     |
+| `utm_source`          | varchar(60)      | If the user came from a campaign                  |
+| `consent_at`          | timestamptz      | Explicit consent timestamp                        |
+| `created_at`          | timestamptz      |                                                   |
+| `notified_at`         | timestamptz      | Set when we email them about availability         |
 
 A unique constraint on `(email, target_city_id)` (when both present) prevents duplicates.
 
@@ -174,11 +175,11 @@ A unique constraint on `(email, target_city_id)` (when both present) prevents du
 
 ## Analytics
 
-| Event                          | When                                       | Props                                  |
-|--------------------------------|--------------------------------------------|-----------------------------------------|
-| `waitlist.sheet_opened`        | Sheet opens                                | `source`                                |
-| `waitlist.submitted`           | Form submitted successfully                | `source`, `had_phone: bool`             |
-| `waitlist.submission_failed`   | Validation or backend error                | `code`                                  |
+| Event                        | When                        | Props                       |
+| ---------------------------- | --------------------------- | --------------------------- |
+| `waitlist.sheet_opened`      | Sheet opens                 | `source`                    |
+| `waitlist.submitted`         | Form submitted successfully | `source`, `had_phone: bool` |
+| `waitlist.submission_failed` | Validation or backend error | `code`                      |
 
 ## Tests
 
@@ -199,15 +200,18 @@ A unique constraint on `(email, target_city_id)` (when both present) prevents du
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Hook Form: https://react-hook-form.com/
 - Brazilian phone mask conventions: https://www.gov.br/anatel/pt-br/
 
 ### Project context
+
 - Cities catalog: `02-cities-catalog-api.md`
 - Search filter: `03-search-filter.md`
 - GPS auto-detect: `04-gps-auto-detect.md`

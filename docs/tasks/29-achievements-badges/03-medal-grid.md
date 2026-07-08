@@ -62,7 +62,7 @@ A 3-column grid of medal cards. Each card: medal emoji (color when unlocked, gra
 ## Frontend
 
 ```
-apps/mobile/src/screens/AchievementsBadges/
+apps/city-hero/src/screens/AchievementsBadges/
 ├── components/
 │   ├── MedalGrid.tsx
 │   └── MedalGridCard.tsx
@@ -72,9 +72,9 @@ apps/mobile/src/screens/AchievementsBadges/
 
 ## Backend
 
-| Method | Path                                                          | Purpose                              |
-|--------|---------------------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/users/me/medals?filter=&cursor=&limit=`              | Paginated medals catalog + unlock state |
+| Method | Path                                             | Purpose                                 |
+| ------ | ------------------------------------------------ | --------------------------------------- |
+| GET    | `/api/v1/users/me/medals?filter=&cursor=&limit=` | Paginated medals catalog + unlock state |
 
 ## Database
 
@@ -91,11 +91,11 @@ Personal collection.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `achievements.grid_loaded`         | First page rendered                        | `unlocked_count`, `filter`           |
-| `achievements.medal_pressed`       | User tapped                                | `medal_id`, `is_unlocked`            |
-| `achievements.realtime_unlock`     | New unlock animation triggered             | `medal_id`                            |
+| Event                          | When                           | Props                      |
+| ------------------------------ | ------------------------------ | -------------------------- |
+| `achievements.grid_loaded`     | First page rendered            | `unlocked_count`, `filter` |
+| `achievements.medal_pressed`   | User tapped                    | `medal_id`, `is_unlocked`  |
+| `achievements.realtime_unlock` | New unlock animation triggered | `medal_id`                 |
 
 ## Tests
 

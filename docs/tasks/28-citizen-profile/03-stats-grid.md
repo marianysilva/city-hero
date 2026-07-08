@@ -25,10 +25,11 @@ A 4-cell stats grid below the hero: **Reportes** (count), **Apoios** (given), **
 **Given** the user taps a cell
 **When** the action runs
 **Then** the corresponding drill-down opens:
-  - Reportes → My Reports filtered to mine (SCREEN 16)
-  - Apoios → a list of supported reports (future)
-  - Comentários → activity feed filtered to comments (future or task 05)
-  - % Cidade ajudada → an explainer of the methodology
+
+- Reportes → My Reports filtered to mine (SCREEN 16)
+- Apoios → a list of supported reports (future)
+- Comentários → activity feed filtered to comments (future or task 05)
+- % Cidade ajudada → an explainer of the methodology
 
 ### Scenario · "Cidade ajudada" methodology
 
@@ -57,7 +58,7 @@ A 4-cell stats grid below the hero: **Reportes** (count), **Apoios** (given), **
 ## Frontend
 
 ```
-apps/mobile/src/screens/CitizenProfile/
+apps/city-hero/src/screens/CitizenProfile/
 ├── components/
 │   ├── StatsGrid.tsx
 │   └── ImpactExplainerSheet.tsx
@@ -67,9 +68,9 @@ apps/mobile/src/screens/CitizenProfile/
 
 ## Backend
 
-| Method | Path                                              | Purpose                              |
-|--------|---------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/users/me/stats`                          | All citizen stats                    |
+| Method | Path                     | Purpose           |
+| ------ | ------------------------ | ----------------- |
+| GET    | `/api/v1/users/me/stats` | All citizen stats |
 
 ## Database
 
@@ -86,11 +87,11 @@ Personal stats; not shared publicly without consent.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `citizen_profile.stats_rendered`   | Mounted                                    | `reports`, `supports`, `tags`         |
-| `citizen_profile.stat_cell_pressed` | User tapped a cell                       | `stat`                                |
-| `citizen_profile.impact_explainer_opened` | Methodology view                  | —                                     |
+| Event                                     | When               | Props                         |
+| ----------------------------------------- | ------------------ | ----------------------------- |
+| `citizen_profile.stats_rendered`          | Mounted            | `reports`, `supports`, `tags` |
+| `citizen_profile.stat_cell_pressed`       | User tapped a cell | `stat`                        |
+| `citizen_profile.impact_explainer_opened` | Methodology view   | —                             |
 
 ## Tests
 

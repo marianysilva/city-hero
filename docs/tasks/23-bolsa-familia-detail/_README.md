@@ -23,13 +23,13 @@ prefecture's CadÚnico-aligned records. Includes:
 
 ## Features (5 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · hero + scroll + sticky CTA](./01-render-bolsa-ui-base.md) | S | `00-foundation/02-design-tokens.md` |
-| 02 | [Hero metrics card · KPIs + freshness](./02-hero-metrics.md) | S | task 01, `00-foundation/05-api-client.md` |
-| 03 | [Trend chart · semester history](./03-trend-chart.md) | M | task 01 |
-| 04 | [Neighborhood breakdown table](./04-neighborhood-breakdown.md) | M | task 01 |
-| 05 | [Transparency notes + Denunciar CTA](./05-transparency-and-denunciar.md) | S | task 01 |
+| #   | Task                                                                        | Effort | Depends on                                |
+| --- | --------------------------------------------------------------------------- | ------ | ----------------------------------------- |
+| 01  | [Render UI base · hero + scroll + sticky CTA](./01-render-bolsa-ui-base.md) | S      | `00-foundation/02-design-tokens.md`       |
+| 02  | [Hero metrics card · KPIs + freshness](./02-hero-metrics.md)                | S      | task 01, `00-foundation/05-api-client.md` |
+| 03  | [Trend chart · semester history](./03-trend-chart.md)                       | M      | task 01                                   |
+| 04  | [Neighborhood breakdown table](./04-neighborhood-breakdown.md)              | M      | task 01                                   |
+| 05  | [Transparency notes + Denunciar CTA](./05-transparency-and-denunciar.md)    | S      | task 01                                   |
 
 ## Suggested implementation order
 

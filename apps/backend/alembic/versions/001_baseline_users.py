@@ -11,8 +11,9 @@ Then run: alembic upgrade head
 from typing import Sequence, Union
 
 import sqlalchemy as sa
-from alembic import op
 from sqlalchemy.dialects import postgresql
+
+from alembic import op
 
 revision: str = "001"
 down_revision: Union[str, None] = None

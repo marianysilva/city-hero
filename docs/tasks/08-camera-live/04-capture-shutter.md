@@ -107,7 +107,7 @@ it to the next screen.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/Camera/
+apps/city-hero/src/screens/Camera/
 ├── hooks/
 │   └── useCapture.ts
 └── components/
@@ -156,12 +156,12 @@ Not applicable.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `camera.shutter_tapped`        | User triggers capture (touch or hardware) | `source: touch|volume_key`           |
-| `camera.capture_succeeded`     | Photo captured                             | `had_detection: bool`, `category`    |
-| `camera.capture_failed`        | Capture errored                            | `reason`                              |
-| `camera.no_gps_sheet_shown`    | GPS unavailable at capture                 | —                                     |
+| Event                       | When                                      | Props                             |
+| --------------------------- | ----------------------------------------- | --------------------------------- |
+| `camera.shutter_tapped`     | User triggers capture (touch or hardware) | `source: touch                    | volume_key` |
+| `camera.capture_succeeded`  | Photo captured                            | `had_detection: bool`, `category` |
+| `camera.capture_failed`     | Capture errored                           | `reason`                          |
+| `camera.no_gps_sheet_shown` | GPS unavailable at capture                | —                                 |
 
 ## Tests
 
@@ -184,16 +184,19 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - react-native-vision-camera takePhoto: https://react-native-vision-camera.com/docs/guides/taking-photos
 - expo-camera takePictureAsync: https://docs.expo.dev/versions/latest/sdk/camera/
 - React Native Haptics: https://docs.expo.dev/versions/latest/sdk/haptics/
 
 ### Project context
+
 - Render UI base: `01-render-camera-ui-base.md`
 - AI detection: `03-live-ai-detection.md`
 - GPS validation: `05-gps-validation-on-capture.md`

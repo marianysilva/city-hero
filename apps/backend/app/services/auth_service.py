@@ -1,7 +1,7 @@
+from fastapi import HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
-from fastapi import HTTPException, status
 
 from app.core.rbac_cache import resolve_role_id
 from app.core.security import DUMMY_PASSWORD_HASH, create_access_token, hash_password, verify_password

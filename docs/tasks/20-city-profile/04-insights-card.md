@@ -102,7 +102,7 @@ prove it.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CityProfile/
+apps/city-hero/src/screens/CityProfile/
 └── components/
     ├── ImprovementInsightsCard.tsx
     └── MonthlyTrendChart.tsx
@@ -124,9 +124,9 @@ For MVP, a small custom SVG implementation is sufficient (6 bars). For richer in
 
 The data may come from a dedicated insights endpoint:
 
-| Method | Path                                                  | Purpose                                  |
-|--------|-------------------------------------------------------|------------------------------------------|
-| GET    | `/api/v1/cities/{id}/insights/improvement`            | Returns trend data + comparison metrics |
+| Method | Path                                       | Purpose                                 |
+| ------ | ------------------------------------------ | --------------------------------------- |
+| GET    | `/api/v1/cities/{id}/insights/improvement` | Returns trend data + comparison metrics |
 
 The response includes the 6-month series, the comparison metric (% change), and the avg-resolution-time data.
 
@@ -134,7 +134,7 @@ The values come from dbt-materialized analytical tables (per `features.md` § 4)
 
 ## Database
 
-Analytical fact tables (via dbt + Airflow per `features.md` § 6 stack)  materialize per-month aggregations:
+Analytical fact tables (via dbt + Airflow per `features.md` § 6 stack) materialize per-month aggregations:
 
 - `fact_monthly_open_problems_by_city` (city_id, month, count)
 - `fact_monthly_resolution_time_by_city` (city_id, month, avg_days)
@@ -153,10 +153,10 @@ Aggregate data only. No individual identification.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `city_profile.insights_rendered`   | Card mounted                               | `improvement_pct`, `month_count`     |
-| `city_profile.insights_chart_tapped` | User tapped a bar                       | `month`, `value`                      |
+| Event                                | When              | Props                            |
+| ------------------------------------ | ----------------- | -------------------------------- |
+| `city_profile.insights_rendered`     | Card mounted      | `improvement_pct`, `month_count` |
+| `city_profile.insights_chart_tapped` | User tapped a bar | `month`, `value`                 |
 
 ## Tests
 
@@ -177,15 +177,18 @@ Aggregate data only. No individual identification.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (analytical data tables): `docs/engineering/architecture-patterns.md`
 - Observability (data freshness): `docs/engineering/observability.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native SVG (for the custom chart): https://github.com/software-mansion/react-native-svg
 - victory-native (alternative): https://commerce.nearform.com/open-source/victory/
 
 ### Project context
+
 - Render UI base: `01-render-city-profile-ui-base.md`
 - Analytical pipeline (data source): `features.md` § 4 + § 6
 - `CLAUDE.md`

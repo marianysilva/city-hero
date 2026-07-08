@@ -1,11 +1,11 @@
-import { InputHTMLAttributes, ReactNode, forwardRef } from 'react'
+import { InputHTMLAttributes, ReactNode, forwardRef } from "react";
 
 interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: ReactNode
+  label?: ReactNode;
 }
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ label, className = '', id, ...props }, ref) => (
+  ({ label, className = "", id, ...props }, ref) => (
     <label
       htmlFor={id}
       className="inline-flex items-center gap-2 text-sm text-zinc-700 cursor-pointer select-none"
@@ -20,5 +20,5 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       {label}
     </label>
   ),
-)
-Checkbox.displayName = 'Checkbox'
+);
+Checkbox.displayName = "Checkbox";

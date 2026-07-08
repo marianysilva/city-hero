@@ -33,10 +33,11 @@ potential new install.
 **When** the action runs
 **Then** the OS native share sheet opens
 **And** the share payload includes:
-  - A short subject ("Olha esse problema no nosso bairro")
-  - A short message ("João reportou um buraco na R. Central. 34 vizinhos já apoiaram.")
-  - A universal link `https://cityhero.app/r/<report_id>?utm_source=share&utm_medium=app`
-  - A photo (the anonymized variant, optional based on platform)
+
+- A short subject ("Olha esse problema no nosso bairro")
+- A short message ("João reportou um buraco na R. Central. 34 vizinhos já apoiaram.")
+- A universal link `https://cityhero.app/r/<report_id>?utm_source=share&utm_medium=app`
+- A photo (the anonymized variant, optional based on platform)
 
 ### Scenario · Anonymous report shared
 
@@ -98,7 +99,7 @@ potential new install.
 ### Where it lives
 
 ```
-apps/mobile/src/services/reports/
+apps/city-hero/src/services/reports/
 └── shareAction.ts             ← shared by Feed, Detail, Liga
 ```
 
@@ -127,9 +128,9 @@ The fallback page lives at `https://cityhero.app/r/<id>` and is served by the ba
 
 ### Endpoint for fallback data
 
-| Method | Path                              | Purpose                                    |
-|--------|-----------------------------------|---------------------------------------------|
-| GET    | `/api/v1/public/reports/{id}`     | Public-safe view of a report (no auth)     |
+| Method | Path                          | Purpose                                |
+| ------ | ----------------------------- | -------------------------------------- |
+| GET    | `/api/v1/public/reports/{id}` | Public-safe view of a report (no auth) |
 
 The endpoint:
 
@@ -157,11 +158,11 @@ No new schema. The fallback page reads the existing `reports` table.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `report.share_intent`              | User taps share                            | `report_id`, `surface`               |
-| `report.share_completed`           | OS reports a chosen target                 | `report_id`, `target`                |
-| `report.share_canceled`            | OS reports cancel                          | `report_id`                           |
+| Event                    | When                       | Props                  |
+| ------------------------ | -------------------------- | ---------------------- |
+| `report.share_intent`    | User taps share            | `report_id`, `surface` |
+| `report.share_completed` | OS reports a chosen target | `report_id`, `target`  |
+| `report.share_canceled`  | OS reports cancel          | `report_id`            |
 
 ## Tests
 
@@ -184,16 +185,19 @@ No new schema. The fallback page reads the existing `reports` table.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - React Native Share: https://reactnative.dev/docs/share
 - expo-sharing: https://docs.expo.dev/versions/latest/sdk/sharing/
 - OpenGraph protocol: https://ogp.me/
 
 ### Project context
+
 - Feed item card: `03-feed-item-card.md`
 - Deep link handler: `00-foundation/12-deep-link-handler.md`
 - Liga de Heróis screen (also uses share): `12-heroes-league/`

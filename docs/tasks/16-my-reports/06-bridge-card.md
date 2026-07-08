@@ -86,7 +86,7 @@ because it's offering a related path, not a one-time tip.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/MyReports/
+apps/city-hero/src/screens/MyReports/
 └── components/
     └── BridgeCardToPrograms.tsx
 ```
@@ -101,9 +101,9 @@ apps/mobile/src/screens/MyReports/
 
 ### Optional endpoint
 
-| Method | Path                                              | Purpose                                |
-|--------|---------------------------------------------------|----------------------------------------|
-| GET    | `/api/v1/cities/{id}/programs/summary`            | Returns count + total budget          |
+| Method | Path                                   | Purpose                      |
+| ------ | -------------------------------------- | ---------------------------- |
+| GET    | `/api/v1/cities/{id}/programs/summary` | Returns count + total budget |
 
 For MVP, this can be a static config or part of the city's general summary endpoint.
 
@@ -122,10 +122,10 @@ Not applicable.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `my_reports.bridge_card_rendered`  | Card mounted                               | `had_stats: bool`                     |
-| `my_reports.bridge_card_pressed`   | User tapped                                | —                                     |
+| Event                             | When         | Props             |
+| --------------------------------- | ------------ | ----------------- |
+| `my_reports.bridge_card_rendered` | Card mounted | `had_stats: bool` |
+| `my_reports.bridge_card_pressed`  | User tapped  | —                 |
 
 ## Tests
 
@@ -145,11 +145,13 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-my-reports-ui-base.md`
 - Programs & Transparency (destination): `docs/tasks/22-programs-transparency/`
 - `CLAUDE.md`

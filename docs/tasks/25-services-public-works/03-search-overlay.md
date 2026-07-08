@@ -69,7 +69,7 @@ A modal overlay opened from the search icon. The user types a keyword (e.g., "il
 ## Frontend
 
 ```
-apps/mobile/src/screens/ServicesPublicWorks/
+apps/city-hero/src/screens/ServicesPublicWorks/
 ├── components/
 │   └── ServicesSearchOverlay.tsx
 └── hooks/
@@ -96,12 +96,12 @@ Recent searches stored locally only.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `services.search_opened`           | Overlay opened                             | —                                     |
-| `services.search_typed`            | User typed (debounced)                     | `query_length`                        |
-| `services.search_result_pressed`   | User tapped a result                       | `service_key`                         |
-| `services.search_no_result`        | Empty result                               | `query`                               |
+| Event                            | When                   | Props          |
+| -------------------------------- | ---------------------- | -------------- |
+| `services.search_opened`         | Overlay opened         | —              |
+| `services.search_typed`          | User typed (debounced) | `query_length` |
+| `services.search_result_pressed` | User tapped a result   | `service_key`  |
+| `services.search_no_result`      | Empty result           | `query`        |
 
 ## Tests
 

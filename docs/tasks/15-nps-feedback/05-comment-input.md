@@ -68,7 +68,7 @@ Server-side moderation applies (same patterns as `10-report-confirm/05`).
 **Then** the placeholder is in English ("e.g., 'They could have warned before closing the street…'")
 
 ### Scenario · Anonymous reporter
- 
+
 **Given** the user submitted the original report anonymously
 **When** the comment is rendered
 **Then** the input works identically
@@ -94,7 +94,7 @@ Server-side moderation applies (same patterns as `10-report-confirm/05`).
 ### Where it lives
 
 ```
-apps/mobile/src/screens/NpsFeedback/
+apps/city-hero/src/screens/NpsFeedback/
 └── components/
     └── CommentInput.tsx
 ```
@@ -130,10 +130,10 @@ The comment may contain personal opinions; stored as-is in the NPS submission. F
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `nps.comment_typed`                | User typed any content                     | `length_bucket`                       |
-| `nps.profanity_hint_shown`         | Client denylist matched                    | —                                     |
+| Event                      | When                    | Props           |
+| -------------------------- | ----------------------- | --------------- |
+| `nps.comment_typed`        | User typed any content  | `length_bucket` |
+| `nps.profanity_hint_shown` | Client denylist matched | —               |
 
 ## Tests
 
@@ -155,12 +155,14 @@ The comment may contain personal opinions; stored as-is in the NPS submission. F
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Security (moderation): `docs/engineering/security-baseline.md`
 - Privacy / LGPD: `docs/engineering/security-baseline.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-nps-ui-base.md`
 - Sibling description input (shared patterns): `10-report-confirm/05-description-input.md`
 - `CLAUDE.md`

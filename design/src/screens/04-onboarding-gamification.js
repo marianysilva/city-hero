@@ -1,14 +1,14 @@
-import { statusBar } from '../atoms/StatusBar.js';
+import { statusBar } from "../atoms/StatusBar.js";
 
 /** Tela 04 · Onboarding · Gamificação */
 export default {
-  title: 'Onboarding · Gamificação',
-  group: 'onboarding',
-  summary: 'Por que reportar: XP, níveis, medalhas',
+  title: "Onboarding · Gamificação",
+  group: "onboarding",
+  summary: "Por que reportar: XP, níveis, medalhas",
   note: `Apresenta a jornada <b>Cidadão → Vigilante → Guardião</b>. Emblema com brilho (shine) puxa atenção; barra de XP antecipa o loop de progresso que o usuário vai viver.`,
   html: () => `
     <div class="relative h-full bg-gradient-to-b from-white to-amber-50">
-      ${statusBar('dark')}
+      ${statusBar("dark")}
       <div class="px-6 pt-2 flex items-center justify-between">
         <button data-nav="back" class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-600">←</button>
         <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Passo 3 de 5</span>
@@ -48,5 +48,5 @@ export default {
         </div>
         <button data-nav="next" class="px-5 py-3 rounded-full bg-slate-900 text-white font-bold text-sm">Próximo →</button>
       </div>
-    </div>`
+    </div>`,
 };

@@ -138,11 +138,11 @@ Not applicable.
 
 ## Analytics
 
-| Event                       | When                              | Props                  |
-|-----------------------------|-----------------------------------|------------------------|
-| `error.boundary_caught`     | React boundary catches            | `screen`, `error_name` |
-| `error.unhandled_rejection` | Global handler                    | `error_name`           |
-| `error.fallback_retry`      | User taps Retry on fallback UI    | `screen`               |
+| Event                       | When                           | Props                  |
+| --------------------------- | ------------------------------ | ---------------------- |
+| `error.boundary_caught`     | React boundary catches         | `screen`, `error_name` |
+| `error.unhandled_rejection` | Global handler                 | `error_name`           |
+| `error.fallback_retry`      | User taps Retry on fallback UI | `screen`               |
 
 ## Tests
 
@@ -165,15 +165,18 @@ Not applicable.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Observability: `docs/engineering/observability.md`
 - Security (PII handling): `docs/engineering/security-baseline.md`
 - Testing: `docs/engineering/testing-strategy.md`
 - Architecture (error response shape): `docs/engineering/architecture-patterns.md`
 
 ### Library / framework references
+
 - Sentry React Native: https://docs.sentry.io/platforms/react-native/
 - Sentry Next.js: https://docs.sentry.io/platforms/javascript/guides/nextjs/
 - Sentry Python (FastAPI): https://docs.sentry.io/platforms/python/integrations/fastapi/
 
 ### Project context
+
 - `CLAUDE.md`

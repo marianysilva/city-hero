@@ -13,7 +13,7 @@ Two compact UI elements below the hero:
 
 - **About card**: a short descriptive paragraph about the city
   ("Cidade litorânea com 22.456 habitantes e 92 km² divididos em 18
-  bairros...")  — sourced from the city's profile record.
+  bairros...") — sourced from the city's profile record.
 - **Quick facts grid**: 4 small white cards in a 2×4 grid showing key
   stats (population, heroes/active users, neighborhoods, km²).
 
@@ -91,7 +91,7 @@ dashboard.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/CityProfile/
+apps/city-hero/src/screens/CityProfile/
 └── components/
     ├── AboutCard.tsx
     ├── QuickFactsGrid.tsx
@@ -112,9 +112,9 @@ A small utility (`formatCompact(number)`) handles the k/M abbreviations.
 
 The city profile endpoint returns the about text and the quick facts:
 
-| Method | Path                                                  | Purpose                              |
-|--------|-------------------------------------------------------|---------------------------------------|
-| GET    | `/api/v1/cities/{id}/profile`                         | Full profile data                    |
+| Method | Path                          | Purpose           |
+| ------ | ----------------------------- | ----------------- |
+| GET    | `/api/v1/cities/{id}/profile` | Full profile data |
 
 For "Heróis" specifically, the count is computed from the `users` table for the city.
 
@@ -133,10 +133,10 @@ The "Heróis" count is aggregate; no individual users are exposed.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `city_profile.about_expanded`      | User tapped "Ver mais"                     | —                                     |
-| `city_profile.quick_facts_rendered`| Grid mounted                               | `heroes_count`                        |
+| Event                               | When                   | Props          |
+| ----------------------------------- | ---------------------- | -------------- |
+| `city_profile.about_expanded`       | User tapped "Ver mais" | —              |
+| `city_profile.quick_facts_rendered` | Grid mounted           | `heroes_count` |
 
 ## Tests
 
@@ -157,11 +157,13 @@ The "Heróis" count is aggregate; no individual users are exposed.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Render UI base: `01-render-city-profile-ui-base.md`
 - Cities catalog (schema source): `02-city-select/02-cities-catalog-api.md`
 - `CLAUDE.md`

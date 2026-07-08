@@ -100,7 +100,7 @@ guess is a starting point, the user calibrates.
 ### Where it lives
 
 ```
-apps/mobile/src/screens/ReportConfirm/
+apps/city-hero/src/screens/ReportConfirm/
 ├── components/
 │   ├── CategoryField.tsx
 │   ├── ConfidenceBadge.tsx
@@ -149,11 +149,11 @@ Not applicable directly. Severity and category are non-sensitive metadata.
 
 ## Analytics
 
-| Event                                  | When                                       | Props                                |
-|----------------------------------------|--------------------------------------------|---------------------------------------|
-| `report_confirm.category_changed`      | User tapped Trocar and picked              | `from`, `to`, `from_source`          |
-| `report_confirm.severity_changed`      | User changed severity                      | `from`, `to`, `from_source`          |
-| `report_confirm.ai_acceptance`         | User confirmed without changes             | `category`, `severity`                |
+| Event                             | When                           | Props                       |
+| --------------------------------- | ------------------------------ | --------------------------- |
+| `report_confirm.category_changed` | User tapped Trocar and picked  | `from`, `to`, `from_source` |
+| `report_confirm.severity_changed` | User changed severity          | `from`, `to`, `from_source` |
+| `report_confirm.ai_acceptance`    | User confirmed without changes | `category`, `severity`      |
 
 ## Tests
 
@@ -174,14 +174,17 @@ Not applicable directly. Severity and category are non-sensitive metadata.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - Bottom Sheet: https://gorhom.dev/react-native-bottom-sheet
 
 ### Project context
+
 - Render UI base: `01-render-confirm-ui-base.md`
 - Category grid (reused): `09-manual-report/02-category-grid.md`
 - AI inference service: `00-foundation/16-yolov8-inference-service.md`

@@ -1,25 +1,26 @@
-import type { ReactNode } from 'react'
-import { Button } from '@/components/atoms/Button'
-import { AlertMessage } from '@/components/molecules/AlertMessage'
-import { Modal } from '@/components/organisms/Modal'
-import type { ButtonVariant } from '@/components/atoms/Button'
+import type { ReactNode } from "react";
+
+import { Button } from "@/components/atoms/Button";
+import type { ButtonVariant } from "@/components/atoms/Button";
+import { AlertMessage } from "@/components/molecules/AlertMessage";
+import { Modal } from "@/components/organisms/Modal";
 
 interface ConfirmDialogProps {
-  title: string
-  description: ReactNode
-  confirmLabel: string
-  confirmVariant?: ButtonVariant
-  loading?: boolean
-  error?: string | null
-  onClose: () => void
-  onConfirm: () => void
+  title: string;
+  description: ReactNode;
+  confirmLabel: string;
+  confirmVariant?: ButtonVariant;
+  loading?: boolean;
+  error?: string | null;
+  onClose: () => void;
+  onConfirm: () => void;
 }
 
 export function ConfirmDialog({
   title,
   description,
   confirmLabel,
-  confirmVariant = 'danger',
+  confirmVariant = "danger",
   loading = false,
   error = null,
   onClose,
@@ -40,5 +41,5 @@ export function ConfirmDialog({
         </div>
       </div>
     </Modal>
-  )
+  );
 }

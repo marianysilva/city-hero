@@ -25,17 +25,17 @@ with a flag).
 
 ## Features (9 tasks)
 
-| # | Task | Effort | Depends on |
-|---|------|--------|-----------|
-| 01 | [Render UI base · viewfinder, overlays, shutter, tip](./01-render-camera-ui-base.md) | M | `00-foundation/02-design-tokens.md`, `00-foundation/04-status-bar-component.md` |
-| 02 | [Camera permission flow](./02-camera-permission.md) | S | task 01 |
-| 03 | [Live AI detection · bounding box + YOLOv8 inference](./03-live-ai-detection.md) | L | task 01, `00-foundation/16-yolov8-inference-service.md` |
-| 04 | [Capture / shutter behavior](./04-capture-shutter.md) | M | task 01, task 03 |
-| 05 | [GPS validation on capture (anti-fraud)](./05-gps-validation-on-capture.md) | M | task 04, `00-foundation/06-auth-system.md` |
-| 06 | [Flash control](./06-flash-control.md) | S | task 01 |
-| 07 | [Anonymization preview indicator (LGPD)](./07-anonymization-indicator.md) | S | task 01, `00-foundation/08-anonymization-pipeline.md` |
-| 08 | [Fallback to Manual Report (when AI/permission fail)](./08-fallback-to-manual.md) | S | task 01, task 02 |
-| 09 | [Enrich mode integration (entered from feed)](./09-enrich-mode.md) | M | task 04, `07-civic-feed/08-enriquecer-action.md` |
+| #   | Task                                                                                 | Effort | Depends on                                                                      |
+| --- | ------------------------------------------------------------------------------------ | ------ | ------------------------------------------------------------------------------- |
+| 01  | [Render UI base · viewfinder, overlays, shutter, tip](./01-render-camera-ui-base.md) | M      | `00-foundation/02-design-tokens.md`, `00-foundation/04-status-bar-component.md` |
+| 02  | [Camera permission flow](./02-camera-permission.md)                                  | S      | task 01                                                                         |
+| 03  | [Live AI detection · bounding box + YOLOv8 inference](./03-live-ai-detection.md)     | L      | task 01, `00-foundation/16-yolov8-inference-service.md`                         |
+| 04  | [Capture / shutter behavior](./04-capture-shutter.md)                                | M      | task 01, task 03                                                                |
+| 05  | [GPS validation on capture (anti-fraud)](./05-gps-validation-on-capture.md)          | M      | task 04, `00-foundation/06-auth-system.md`                                      |
+| 06  | [Flash control](./06-flash-control.md)                                               | S      | task 01                                                                         |
+| 07  | [Anonymization preview indicator (LGPD)](./07-anonymization-indicator.md)            | S      | task 01, `00-foundation/08-anonymization-pipeline.md`                           |
+| 08  | [Fallback to Manual Report (when AI/permission fail)](./08-fallback-to-manual.md)    | S      | task 01, task 02                                                                |
+| 09  | [Enrich mode integration (entered from feed)](./09-enrich-mode.md)                   | M      | task 04, `07-civic-feed/08-enriquecer-action.md`                                |
 
 ## Suggested implementation order
 

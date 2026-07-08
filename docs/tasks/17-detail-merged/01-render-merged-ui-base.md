@@ -67,7 +67,7 @@ for task 04.
 ### Component location
 
 ```
-apps/mobile/src/screens/DetailMerged/
+apps/city-hero/src/screens/DetailMerged/
 ├── DetailMergedScreen.tsx
 ├── DetailMergedScreen.styles.ts
 ├── DetailMergedScreen.test.tsx
@@ -100,10 +100,10 @@ Not applicable to this task.
 
 ## Analytics
 
-| Event                          | When                                       | Props                                |
-|--------------------------------|--------------------------------------------|---------------------------------------|
-| `detail_merged.viewed`         | Screen mounts                              | `report_id`, `parent_report_id`      |
-| `detail_merged.back_pressed`   | User taps back                             | —                                     |
+| Event                        | When           | Props                           |
+| ---------------------------- | -------------- | ------------------------------- |
+| `detail_merged.viewed`       | Screen mounts  | `report_id`, `parent_report_id` |
+| `detail_merged.back_pressed` | User taps back | —                               |
 
 ## Tests
 
@@ -123,10 +123,12 @@ Not applicable to this task.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Coding: `docs/engineering/coding-standards.md`
 - Architecture: `docs/engineering/architecture-patterns.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Project context
+
 - Prototype: `design/index.html` (search `title: 'Detalhe · Reporte Mesclado'`)
 - `CLAUDE.md`

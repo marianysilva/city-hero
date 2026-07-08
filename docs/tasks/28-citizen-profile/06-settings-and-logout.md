@@ -83,7 +83,7 @@ but disabled with a "Em breve" hint.
 ## Frontend
 
 ```
-apps/mobile/src/screens/CitizenProfile/
+apps/city-hero/src/screens/CitizenProfile/
 ├── components/
 │   ├── SettingsList.tsx
 │   ├── SettingsRow.tsx
@@ -113,12 +113,12 @@ This section is critical for compliance. All controls must work reliably; the ac
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `citizen_profile.settings_opened`  | Section visible                            | —                                     |
-| `citizen_profile.setting_changed`  | A setting was modified                     | `setting`, `new_value`               |
-| `citizen_profile.logout_pressed`   | User initiated logout                      | —                                     |
-| `citizen_profile.delete_account_initiated` | User entered deletion flow         | —                                     |
+| Event                                      | When                       | Props                  |
+| ------------------------------------------ | -------------------------- | ---------------------- |
+| `citizen_profile.settings_opened`          | Section visible            | —                      |
+| `citizen_profile.setting_changed`          | A setting was modified     | `setting`, `new_value` |
+| `citizen_profile.logout_pressed`           | User initiated logout      | —                      |
+| `citizen_profile.delete_account_initiated` | User entered deletion flow | —                      |
 
 ## Tests
 

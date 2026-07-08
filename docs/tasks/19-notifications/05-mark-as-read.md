@@ -103,7 +103,7 @@ accordingly. Offline support routes through the offline queue.
 ### Where it lives
 
 ```
-apps/mobile/src/services/notifications/
+apps/city-hero/src/services/notifications/
 ├── markReadAction.ts
 └── hooks/
     └── useMarkRead.ts
@@ -127,10 +127,10 @@ Marking read updates:
 
 ### Endpoints
 
-| Method | Path                                              | Purpose                                  |
-|--------|---------------------------------------------------|------------------------------------------|
-| PATCH  | `/api/v1/notifications/{id}`                      | Mark a single notification              |
-| POST   | `/api/v1/notifications/mark-all-read`             | Bulk mark all unread as read            |
+| Method | Path                                  | Purpose                      |
+| ------ | ------------------------------------- | ---------------------------- |
+| PATCH  | `/api/v1/notifications/{id}`          | Mark a single notification   |
+| POST   | `/api/v1/notifications/mark-all-read` | Bulk mark all unread as read |
 
 Both are idempotent and multi-tenant scoped.
 
@@ -149,11 +149,11 @@ Not applicable directly.
 
 ## Analytics
 
-| Event                              | When                                       | Props                                |
-|------------------------------------|--------------------------------------------|---------------------------------------|
-| `notifications.marked_one_read`    | Per-item mark                              | `category`                            |
-| `notifications.marked_all_read`    | Bulk mark                                  | `count_marked`                        |
-| `notifications.mark_failed`        | Backend error                              | `code`                                |
+| Event                           | When          | Props          |
+| ------------------------------- | ------------- | -------------- |
+| `notifications.marked_one_read` | Per-item mark | `category`     |
+| `notifications.marked_all_read` | Bulk mark     | `count_marked` |
+| `notifications.mark_failed`     | Backend error | `code`         |
 
 ## Tests
 
@@ -175,14 +175,17 @@ Not applicable directly.
 ## Standards & References
 
 ### Cross-cutting standards
+
 - Architecture (REST, idempotency, multi-tenant): `docs/engineering/architecture-patterns.md`
 - Coding: `docs/engineering/coding-standards.md`
 - Testing: `docs/engineering/testing-strategy.md`
 
 ### Library / framework references
+
 - TanStack Query mutations: https://tanstack.com/query/latest/docs/react/guides/mutations
 
 ### Project context
+
 - Notification card (entry point): `04-notification-card.md`
 - Time-grouped list (cache): `03-time-grouped-list.md`
 - Push handler: `00-foundation/11-push-notification-handler.md`
