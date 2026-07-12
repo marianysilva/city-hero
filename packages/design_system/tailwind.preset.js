@@ -32,7 +32,14 @@ module.exports = {
       fontFamily: {
         sans: [`"${shared.fontFamily.sans}"`, "system-ui", "sans-serif"],
       },
-      spacing: toPxScale(shared.spacing),
+      // Deliberately NOT wiring shared.spacing into theme.extend.spacing:
+      // Tailwind merges the spacing scale into max-width/min-width/min-height
+      // too, and our xs/sm/md/lg/xl/2xl/3xl/4xl keys collide with Tailwind's
+      // own named breakpoint scale for those utilities (e.g. max-w-sm should
+      // be 24rem, not our 8px spacing token) — it silently overwrote them,
+      // collapsing max-w-sm/md/lg cards and modals app-wide. Nothing in the
+      // codebase currently consumes p-{token}/gap-{token} utilities, so this
+      // is safe to leave off; revisit with distinct key names if that's needed.
       borderRadius: toPxScale(shared.radius),
       boxShadow: {
         soft: shared.shadows.soft,
