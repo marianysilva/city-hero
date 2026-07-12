@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { AccessibilityInfo } from "react-native";
 
@@ -11,9 +13,13 @@ export function useReducedMotion(): boolean {
   useEffect(() => {
     let mounted = true;
 
-    AccessibilityInfo.isReduceMotionEnabled().then((enabled) => {
-      if (mounted) setReduceMotion(enabled);
-    });
+    AccessibilityInfo.isReduceMotionEnabled()
+      .then((enabled) => {
+        if (mounted) setReduceMotion(enabled);
+      })
+      .catch(() => {
+        // Not implemented on this platform — keep the `false` default.
+      });
 
     const subscription = AccessibilityInfo.addEventListener("reduceMotionChanged", (enabled) => {
       setReduceMotion(enabled);

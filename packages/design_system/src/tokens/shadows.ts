@@ -1,4 +1,5 @@
 /**
+ * `web` values live in ./shared-values.js (shared with tailwind.preset.js).
  * `soft` is ported from the prototype's `shadow-soft` Tailwind extension
  * (design/index.html: `0 10px 30px -10px rgba(15,23,42,.18)`). `md`/`lg`
  * extrapolate from it — not pulled from a design file, refine later.
@@ -7,6 +8,7 @@
  * (shadowColor/Offset/Opacity/Radius) and Android (elevation) equivalents.
  * These are visual approximations of the web value, not an exact conversion.
  */
+import sharedValues from "./shared-values.js";
 
 export type ShadowToken = {
   web: string;
@@ -23,7 +25,7 @@ export type ShadowToken = {
 
 export const shadows: Record<"soft" | "md" | "lg", ShadowToken> = {
   soft: {
-    web: "0 10px 30px -10px rgba(15,23,42,.18)",
+    web: sharedValues.shadows.soft,
     ios: {
       shadowColor: "#0F172A",
       shadowOffset: { width: 0, height: 4 },
@@ -33,7 +35,7 @@ export const shadows: Record<"soft" | "md" | "lg", ShadowToken> = {
     android: { elevation: 4 },
   },
   md: {
-    web: "0 14px 34px -12px rgba(15,23,42,.20)",
+    web: sharedValues.shadows.md,
     ios: {
       shadowColor: "#0F172A",
       shadowOffset: { width: 0, height: 6 },
@@ -43,7 +45,7 @@ export const shadows: Record<"soft" | "md" | "lg", ShadowToken> = {
     android: { elevation: 8 },
   },
   lg: {
-    web: "0 20px 45px -15px rgba(15,23,42,.24)",
+    web: sharedValues.shadows.lg,
     ios: {
       shadowColor: "#0F172A",
       shadowOffset: { width: 0, height: 10 },

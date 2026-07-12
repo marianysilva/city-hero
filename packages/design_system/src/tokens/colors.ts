@@ -1,32 +1,16 @@
 /**
  * Color tokens. `brand` and `civic` are ported verbatim from the prototype
  * (design/src/tokens/colors.js, design/index.html) — that HTML file is the
- * source of truth for these exact hex values. `slate` mirrors Tailwind's
- * default slate scale, since the prototype already relies on Tailwind's
- * built-in `slate-*` utility classes rather than a custom scale.
+ * source of truth for these exact hex values, held in ./shared-values.js
+ * so tailwind.preset.js can read the same literals. `slate` mirrors
+ * Tailwind's default slate scale, since the prototype already relies on
+ * Tailwind's built-in `slate-*` utility classes rather than a custom scale.
  */
+import sharedValues from "./shared-values.js";
 
-export const brand = {
-  50: "#FFF7ED",
-  100: "#FFEDD5",
-  200: "#FED7AA",
-  300: "#FDBA74",
-  400: "#FB923C",
-  500: "#F97316",
-  600: "#EA580C",
-  700: "#C2410C",
-  800: "#9A3412",
-  900: "#7C2D12",
-} as const;
+export const brand = sharedValues.brand;
 
-export const civic = {
-  purple: "#7C3AED",
-  mint: "#10B981",
-  sky: "#0EA5E9",
-  amber: "#F59E0B",
-  rose: "#F43F5E",
-  slate: "#0F172A",
-} as const;
+export const civic = sharedValues.civic;
 
 export const slate = {
   50: "#F8FAFC",

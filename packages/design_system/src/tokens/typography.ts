@@ -4,9 +4,10 @@
  * utilities, no named scale) — refine against real screen designs as
  * components are built.
  */
+import sharedValues from "./shared-values.js";
 
 export const fontFamily = {
-  sans: "Plus Jakarta Sans",
+  sans: sharedValues.fontFamily.sans,
 } as const;
 
 export type TypographyVariant = {

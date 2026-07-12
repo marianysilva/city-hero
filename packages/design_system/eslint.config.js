@@ -14,7 +14,9 @@ module.exports = defineConfig([
   {
     // Config files stay CommonJS so Node (Metro/Tailwind/Storybook loaders)
     // can require() them with no build step — see eslint.config.base.js.
-    files: ["*.config.js", "*.config.mjs"],
+    // tailwind.preset.js is included here for the same reason: it requires
+    // ./src/tokens/shared-values.js directly, with no build step.
+    files: ["*.config.js", "*.config.mjs", "tailwind.preset.js"],
     rules: {
       "@typescript-eslint/no-require-imports": "off",
     },

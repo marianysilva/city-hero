@@ -1,3 +1,5 @@
+"use client";
+
 import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { useColorScheme } from "react-native";
 
@@ -15,7 +17,14 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export type ThemeProviderProps = {
   children: React.ReactNode;
-  /** Defaults to "system". Pass a persisted value to restore a user override. */
+  /**
+   * Defaults to "system". Pass a persisted value to restore a user override.
+   * Only read once, as the initial state — changing this prop on a later
+   * render does *not* update an already-mounted provider. To force a new
+   * preference onto a mounted tree, remount with a different `key` (see
+   * `.storybook/preview.tsx`'s `key={globals.theme}`) or call the `setPreference`
+   * function from `useThemeContext()` instead.
+   */
   initialPreference?: SchemePreference;
   /**
    * Called whenever the resolved preference changes (system or manual).

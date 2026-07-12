@@ -1,3 +1,5 @@
+"use client";
+
 import { useThemeContext } from "../theme/ThemeProvider";
 import type { Theme } from "../tokens/theme";
 
