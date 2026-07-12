@@ -1,7 +1,7 @@
 .PHONY: start stop restart status \
-        colima db backend web mobile \
-        stop-colima stop-db stop-backend stop-web stop-mobile \
-        logs-web logs-mobile logs-docker \
+        colima db backend web mobile design-system design \
+        stop-colima stop-db stop-backend stop-web stop-mobile stop-design-system stop-design \
+        logs-web logs-mobile logs-design-system logs-docker \
         destroy-environment setup
 
 # ── Colors ────────────────────────────────────────────────────────────────────
@@ -13,21 +13,27 @@ RED   := \033[31m
 YELLOW := \033[33m
 
 # ── Paths / files (absolute so they survive any cd) ───────────────────────────
-WEB_LOG    := $(CURDIR)/.logs/web.log
-MOBILE_LOG := $(CURDIR)/.logs/mobile.log
-WEB_PID    := $(CURDIR)/.pids/web.pid
-MOBILE_PID := $(CURDIR)/.pids/mobile.pid
+WEB_LOG           := $(CURDIR)/.logs/web.log
+MOBILE_LOG        := $(CURDIR)/.logs/mobile.log
+DESIGN_SYSTEM_LOG := $(CURDIR)/.logs/design-system.log
+DESIGN_LOG        := $(CURDIR)/.logs/design.log
+WEB_PID           := $(CURDIR)/.pids/web.pid
+MOBILE_PID        := $(CURDIR)/.pids/mobile.pid
+DESIGN_SYSTEM_PID := $(CURDIR)/.pids/design-system.pid
+DESIGN_PID        := $(CURDIR)/.pids/design.pid
 
-# ── Dependency chain: colima → db → backend → web + mobile ────────────────────
-start: colima db backend web mobile
+# ── Dependency chain: colima → db → backend → web + mobile + design-system + design ──
+start: colima db backend web mobile design-system design
 	@echo ""
 	@echo "$(GREEN)$(BOLD)✓ CityHero is running$(RESET)"
 	@echo ""
-	@echo "  Backend  → http://localhost:8000/docs"
-	@echo "  Web      → http://localhost:3000"
-	@echo "  Mobile   → http://localhost:8081"
+	@echo "  Backend        → http://localhost:8000/docs"
+	@echo "  Web            → http://localhost:3000"
+	@echo "  Mobile         → http://localhost:8081"
+	@echo "  Design System  → http://localhost:6006"
+	@echo "  Prototype      → http://localhost:5173"
 	@echo ""
-	@echo "  Logs: make logs-web | make logs-mobile | make logs-docker"
+	@echo "  Logs: make logs-web | make logs-mobile | make logs-design-system | make logs-docker"
 
 # ── Colima ────────────────────────────────────────────────────────────────────
 colima:
@@ -87,6 +93,18 @@ mobile:
 	@cd apps/city-hero && npx expo start --web > $(MOBILE_LOG) 2>&1 & echo $$! > $(MOBILE_PID)
 	@echo "  Logging to $(MOBILE_LOG)  (PID $$(cat $(MOBILE_PID)))"
 
+design-system:
+	@mkdir -p $(CURDIR)/.logs $(CURDIR)/.pids
+	@echo "$(CYAN)$(BOLD)→ Starting Design System (Storybook)...$(RESET)"
+	@cd packages/design_system && npm run storybook > $(DESIGN_SYSTEM_LOG) 2>&1 & echo $$! > $(DESIGN_SYSTEM_PID)
+	@echo "  Logging to $(DESIGN_SYSTEM_LOG)  (PID $$(cat $(DESIGN_SYSTEM_PID)))"
+
+design:
+	@mkdir -p $(CURDIR)/.logs $(CURDIR)/.pids
+	@echo "$(CYAN)$(BOLD)→ Starting Prototype (design/)...$(RESET)"
+	@cd design && python3 -m http.server 5173 > $(DESIGN_LOG) 2>&1 & echo $$! > $(DESIGN_PID)
+	@echo "  Logging to $(DESIGN_LOG)  (PID $$(cat $(DESIGN_PID)))"
+
 # ── Logs ──────────────────────────────────────────────────────────────────────
 logs-web:
 	@tail -f $(WEB_LOG)
@@ -94,11 +112,14 @@ logs-web:
 logs-mobile:
 	@tail -f $(MOBILE_LOG)
 
+logs-design-system:
+	@tail -f $(DESIGN_SYSTEM_LOG)
+
 logs-docker:
 	@docker-compose logs -f
 
 # ── Stop ──────────────────────────────────────────────────────────────────────
-stop: stop-web stop-mobile stop-backend stop-db
+stop: stop-web stop-mobile stop-design-system stop-design stop-backend stop-db
 	@echo "$(GREEN)$(BOLD)✓ All services stopped$(RESET)"
 
 stop-web:
@@ -115,6 +136,22 @@ stop-mobile:
 		kill_tree() { for c in $$(pgrep -P "$$1" 2>/dev/null); do kill_tree "$$c"; done; kill "$$1" 2>/dev/null || true; }; \
 		kill_tree $$(cat $(MOBILE_PID)); \
 		rm -f $(MOBILE_PID); \
+	fi
+
+stop-design-system:
+	@if [ -f $(DESIGN_SYSTEM_PID) ]; then \
+		echo "$(RED)→ Stopping Design System...$(RESET)"; \
+		kill_tree() { for c in $$(pgrep -P "$$1" 2>/dev/null); do kill_tree "$$c"; done; kill "$$1" 2>/dev/null || true; }; \
+		kill_tree $$(cat $(DESIGN_SYSTEM_PID)); \
+		rm -f $(DESIGN_SYSTEM_PID); \
+	fi
+
+stop-design:
+	@if [ -f $(DESIGN_PID) ]; then \
+		echo "$(RED)→ Stopping Prototype...$(RESET)"; \
+		kill_tree() { for c in $$(pgrep -P "$$1" 2>/dev/null); do kill_tree "$$c"; done; kill "$$1" 2>/dev/null || true; }; \
+		kill_tree $$(cat $(DESIGN_PID)); \
+		rm -f $(DESIGN_PID); \
 	fi
 
 stop-backend:
@@ -142,6 +179,14 @@ status:
 	@echo "$(BOLD)── Mobile ───────────────────────────$(RESET)"
 	@if [ -f $(MOBILE_PID) ] && kill -0 $$(cat $(MOBILE_PID)) 2>/dev/null; then \
 		echo "  running (PID $$(cat $(MOBILE_PID)))"; \
+	else echo "  stopped"; fi
+	@echo "$(BOLD)── Design System ────────────────────$(RESET)"
+	@if [ -f $(DESIGN_SYSTEM_PID) ] && kill -0 $$(cat $(DESIGN_SYSTEM_PID)) 2>/dev/null; then \
+		echo "  running (PID $$(cat $(DESIGN_SYSTEM_PID)))"; \
+	else echo "  stopped"; fi
+	@echo "$(BOLD)── Prototype ────────────────────────$(RESET)"
+	@if [ -f $(DESIGN_PID) ] && kill -0 $$(cat $(DESIGN_PID)) 2>/dev/null; then \
+		echo "  running (PID $$(cat $(DESIGN_PID)))"; \
 	else echo "  stopped"; fi
 
 restart: stop start
