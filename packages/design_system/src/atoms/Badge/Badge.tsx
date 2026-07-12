@@ -1,8 +1,8 @@
-import React, { forwardRef, useEffect, useRef } from "react";
-import { Animated, Pressable, Text, View, type PressableProps, type ViewProps } from "react-native";
+import React, { forwardRef } from "react";
+import { Pressable, Text, View, type PressableProps, type ViewProps } from "react-native";
 
-import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { useTheme } from "../../hooks/useTheme";
+import type { Size } from "../../tokens/size";
 
 /**
  * WCAG relative-luminance contrast check (per the spec's own formula).
@@ -20,7 +20,7 @@ function contrastText(backgroundHex: string, darkFallback: string): string {
 }
 
 export type BadgeColor = "brand" | "success" | "warning" | "danger" | "info" | "neutral";
-export type BadgeSize = "xs" | "sm" | "md" | "lg";
+export type BadgeSize = Size;
 export type BadgeVariant = "filled" | "outline" | "ghost";
 export type BadgeRadius = "sm" | "md" | "full";
 
@@ -30,8 +30,6 @@ type BaseProps = {
   size?: BadgeSize;
   variant?: BadgeVariant;
   radius?: BadgeRadius;
-  /** Subtle pulsing animation — respects the OS "reduce motion" setting. */
-  pulse?: boolean;
   /** Visual selected state for interactive chips (e.g. FilterChipRow). */
   selected?: boolean;
 };
@@ -56,9 +54,8 @@ const SIZE_TYPOGRAPHY: Record<BadgeSize, "micro" | "caption" | "body"> = {
  * section in docs/engineering/component-inventory.md for the full set of
  * compositions this replaces.
  *
- * Styling is inline (not `className`) for the same reason as Button: this
- * Storybook/Vite NativeWind interop loses backgroundColor/padding utility
- * classes to react-native-web's Pressable/View baseline styles.
+ * Styling is inline (not `className`) — see "Known limitations" in
+ * docs/engineering/design-system.md.
  */
 export const Badge = forwardRef<View, BadgeProps>(
   (
@@ -68,7 +65,6 @@ export const Badge = forwardRef<View, BadgeProps>(
       size = "md",
       variant = "filled",
       radius = "full",
-      pulse = false,
       selected = false,
       onPress,
       ...props
@@ -76,23 +72,6 @@ export const Badge = forwardRef<View, BadgeProps>(
     ref,
   ) => {
     const { colors, spacing, radius: radiusTokens, typography } = useTheme();
-    const reduceMotion = useReducedMotion();
-    const pulseAnim = useRef(new Animated.Value(1)).current;
-
-    useEffect(() => {
-      if (!pulse || reduceMotion) {
-        pulseAnim.setValue(1);
-        return;
-      }
-      const loop = Animated.loop(
-        Animated.sequence([
-          Animated.timing(pulseAnim, { toValue: 0.5, duration: 800, useNativeDriver: true }),
-          Animated.timing(pulseAnim, { toValue: 1, duration: 800, useNativeDriver: true }),
-        ]),
-      );
-      loop.start();
-      return () => loop.stop();
-    }, [pulse, reduceMotion, pulseAnim]);
 
     const SOLID_COLOR: Record<BadgeColor, string> = {
       brand: colors.brand[500],
@@ -143,7 +122,7 @@ export const Badge = forwardRef<View, BadgeProps>(
       paddingHorizontal: metrics.paddingHorizontal,
       paddingVertical: metrics.paddingVertical,
       borderRadius: RADIUS_VALUE[radius],
-      borderWidth: borderColor ? 1 : selected ? 2 : 0,
+      borderWidth: selected ? 2 : borderColor ? 1 : 0,
       borderColor: selected ? colors.brand[600] : (borderColor ?? "transparent"),
     };
 
@@ -164,28 +143,15 @@ export const Badge = forwardRef<View, BadgeProps>(
           style={containerStyle}
           {...(props as Omit<PressableProps, "onPress" | "children">)}
         >
-          <Animated.View
-            style={{
-              opacity: pulseAnim,
-              flexDirection: "row",
-              alignItems: "center",
-              gap: spacing.xs,
-            }}
-          >
-            {content}
-          </Animated.View>
+          {content}
         </Pressable>
       );
     }
 
     return (
-      <Animated.View
-        ref={ref}
-        style={[containerStyle, { opacity: pulseAnim }]}
-        {...(props as Omit<ViewProps, "children">)}
-      >
+      <View ref={ref} style={containerStyle} {...(props as Omit<ViewProps, "children">)}>
         {content}
-      </Animated.View>
+      </View>
     );
   },
 );

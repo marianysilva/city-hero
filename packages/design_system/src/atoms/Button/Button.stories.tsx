@@ -24,7 +24,7 @@ const meta: Meta<typeof Button> = {
     },
     size: {
       control: "select",
-      options: ["sm", "md", "lg"],
+      options: ["xs", "sm", "md", "lg"],
     },
     loading: { control: "boolean" },
     disabled: { control: "boolean" },
@@ -76,6 +76,7 @@ export const Sizes: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <View style={{ flexDirection: "row", gap: 12, alignItems: "center" }}>
+      <Button size="xs">Extra small</Button>
       <Button size="sm">Small</Button>
       <Button size="md">Medium</Button>
       <Button size="lg">Large</Button>

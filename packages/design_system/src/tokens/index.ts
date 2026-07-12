@@ -7,3 +7,4 @@ export { shadows } from "./shadows";
 export type { ShadowToken } from "./shadows";
 export { lightTheme, darkTheme } from "./theme";
 export type { Theme } from "./theme";
+export type { Size } from "./size";

@@ -38,7 +38,6 @@ const meta: Meta<typeof Badge> = {
     size: { control: "select", options: ["xs", "sm", "md", "lg"] },
     variant: { control: "select", options: ["filled", "outline", "ghost"] },
     radius: { control: "select", options: ["sm", "md", "full"] },
-    pulse: { control: "boolean" },
     selected: { control: "boolean" },
   },
   args: {
@@ -47,7 +46,6 @@ const meta: Meta<typeof Badge> = {
     size: "md",
     variant: "filled",
     radius: "full",
-    pulse: false,
     selected: false,
   },
 };
@@ -97,15 +95,7 @@ export const Sizes: Story = {
 /** Real composition: status pill, per the pattern in component-inventory.md. */
 export const StatusPillComposition: Story = {
   parameters: { controls: { disable: true } },
-  render: () => (
-    <Badge color="warning" pulse>
-      EM ANDAMENTO
-    </Badge>
-  ),
-};
-
-export const Pulsing: Story = {
-  args: { pulse: true, color: "brand", children: "ANONIMIZAÇÃO ATIVA" },
+  render: () => <Badge color="warning">EM ANDAMENTO</Badge>,
 };
 
 export const Selected: Story = {

@@ -2,9 +2,10 @@ import React, { forwardRef, useState } from "react";
 import { ActivityIndicator, Pressable, Text, type PressableProps } from "react-native";
 
 import { useTheme } from "../../hooks/useTheme";
+import type { Size } from "../../tokens/size";
 
 export type ButtonVariant = "primary" | "secondary" | "ghost" | "destructive";
-export type ButtonSize = "sm" | "md" | "lg";
+export type ButtonSize = Size;
 
 export type ButtonProps = Omit<PressableProps, "children" | "style" | "className"> & {
   variant?: ButtonVariant;
@@ -15,6 +16,7 @@ export type ButtonProps = Omit<PressableProps, "children" | "style" | "className
 };
 
 const SIZE_TYPOGRAPHY: Record<ButtonSize, "caption" | "body" | "bodyBold"> = {
+  xs: "caption",
   sm: "caption",
   md: "body",
   lg: "bodyBold",
@@ -25,14 +27,8 @@ const SIZE_TYPOGRAPHY: Record<ButtonSize, "caption" | "body" | "bodyBold"> = {
  * see docs/engineering/design-system.md) and every visual value (color,
  * spacing, radius, type scale) comes from design tokens, never a literal.
  *
- * Colors/spacing/radius are applied via inline `style` (a plain object, not
- * the `style={(state) => ...}` callback form — that form isn't picked up by
- * this Storybook/Vite NativeWind interop). react-native-web's Pressable
- * injects its own baseline backgroundColor/padding rules that win the
- * cascade over Tailwind `className` utilities on this element (confirmed
- * empirically — layout classes like `flex-row` are unaffected). Press
- * feedback uses onPressIn/onPressOut + local state instead of the style
- * callback, for the same reason.
+ * Colors/spacing/radius are applied via inline `style` rather than
+ * `className` — see "Known limitations" in docs/engineering/design-system.md.
  */
 export const Button = forwardRef<React.ComponentRef<typeof Pressable>, ButtonProps>(
   (
@@ -59,7 +55,7 @@ export const Button = forwardRef<React.ComponentRef<typeof Pressable>, ButtonPro
       ghost: { bg: "transparent", bgPressed: colors.brand[50], text: colors.brand[600] },
       destructive: {
         bg: colors.semantic.danger,
-        bgPressed: colors.semantic.danger,
+        bgPressed: colors.semantic.dangerPressed,
         text: "#FFFFFF",
       },
     };
@@ -68,6 +64,11 @@ export const Button = forwardRef<React.ComponentRef<typeof Pressable>, ButtonPro
       ButtonSize,
       { paddingHorizontal: number; paddingVertical: number; borderRadius: number }
     > = {
+      xs: {
+        paddingHorizontal: spacing.xs,
+        paddingVertical: spacing.xs / 2,
+        borderRadius: radius.sm,
+      },
       sm: { paddingHorizontal: spacing.sm, paddingVertical: spacing.xs, borderRadius: radius.sm },
       md: { paddingHorizontal: spacing.lg, paddingVertical: spacing.sm, borderRadius: radius.md },
       lg: { paddingHorizontal: spacing.xl, paddingVertical: spacing.md, borderRadius: radius.md },

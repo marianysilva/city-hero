@@ -30,6 +30,8 @@ export const semantic = {
   success: civic.mint,
   warning: civic.amber,
   danger: civic.rose,
+  /** One step darker than `danger` (Tailwind's rose-600) — press feedback. */
+  dangerPressed: "#E11D48",
   info: civic.sky,
 } as const;
 
