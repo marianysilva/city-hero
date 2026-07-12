@@ -194,7 +194,7 @@ start_design_system() {
   cd "$ROOT"
 
   echo "  Logging to $DESIGN_SYSTEM_LOG  (PID $(cat "$DESIGN_SYSTEM_PID"))"
-  wait_for_url "http://localhost:6006" "Design System" 60
+  wait_for_url "http://localhost:6006" "Design System" 20
 }
 
 stop_design_system() {
@@ -212,7 +212,7 @@ start_design() {
   cd "$ROOT"
 
   echo "  Logging to $DESIGN_LOG  (PID $(cat "$DESIGN_PID"))"
-  wait_for_url "http://localhost:5173" "Prototype" 15
+  wait_for_url "http://localhost:5173" "Prototype" 10
 }
 
 stop_design() {
@@ -345,6 +345,8 @@ destroy() {
 
   stop_web 2>/dev/null || true
   stop_mobile 2>/dev/null || true
+  stop_design_system 2>/dev/null || true
+  stop_design 2>/dev/null || true
 
   echo -e "${RED}-> Removing Docker containers and volumes...${RESET}"
   docker-compose down -v 2>/dev/null || true

@@ -12,6 +12,17 @@ CYAN  := \033[36m
 RED   := \033[31m
 YELLOW := \033[33m
 
+# ── Shared: stop a background process tracked in a PID file, killing its ──────
+# whole child tree. $(1) = pidfile path, $(2) = label for the log line.
+define stop_pidfile
+	@if [ -f $(1) ]; then \
+		echo "$(RED)→ Stopping $(2)...$(RESET)"; \
+		kill_tree() { for c in $$(pgrep -P "$$1" 2>/dev/null); do kill_tree "$$c"; done; kill "$$1" 2>/dev/null || true; }; \
+		kill_tree $$(cat $(1)); \
+		rm -f $(1); \
+	fi
+endef
+
 # ── Paths / files (absolute so they survive any cd) ───────────────────────────
 WEB_LOG           := $(CURDIR)/.logs/web.log
 MOBILE_LOG        := $(CURDIR)/.logs/mobile.log
@@ -123,36 +134,16 @@ stop: stop-web stop-mobile stop-design-system stop-design stop-backend stop-db
 	@echo "$(GREEN)$(BOLD)✓ All services stopped$(RESET)"
 
 stop-web:
-	@if [ -f $(WEB_PID) ]; then \
-		echo "$(RED)→ Stopping Web...$(RESET)"; \
-		kill_tree() { for c in $$(pgrep -P "$$1" 2>/dev/null); do kill_tree "$$c"; done; kill "$$1" 2>/dev/null || true; }; \
-		kill_tree $$(cat $(WEB_PID)); \
-		rm -f $(WEB_PID); \
-	fi
+	$(call stop_pidfile,$(WEB_PID),Web)
 
 stop-mobile:
-	@if [ -f $(MOBILE_PID) ]; then \
-		echo "$(RED)→ Stopping Mobile...$(RESET)"; \
-		kill_tree() { for c in $$(pgrep -P "$$1" 2>/dev/null); do kill_tree "$$c"; done; kill "$$1" 2>/dev/null || true; }; \
-		kill_tree $$(cat $(MOBILE_PID)); \
-		rm -f $(MOBILE_PID); \
-	fi
+	$(call stop_pidfile,$(MOBILE_PID),Mobile)
 
 stop-design-system:
-	@if [ -f $(DESIGN_SYSTEM_PID) ]; then \
-		echo "$(RED)→ Stopping Design System...$(RESET)"; \
-		kill_tree() { for c in $$(pgrep -P "$$1" 2>/dev/null); do kill_tree "$$c"; done; kill "$$1" 2>/dev/null || true; }; \
-		kill_tree $$(cat $(DESIGN_SYSTEM_PID)); \
-		rm -f $(DESIGN_SYSTEM_PID); \
-	fi
+	$(call stop_pidfile,$(DESIGN_SYSTEM_PID),Design System)
 
 stop-design:
-	@if [ -f $(DESIGN_PID) ]; then \
-		echo "$(RED)→ Stopping Prototype...$(RESET)"; \
-		kill_tree() { for c in $$(pgrep -P "$$1" 2>/dev/null); do kill_tree "$$c"; done; kill "$$1" 2>/dev/null || true; }; \
-		kill_tree $$(cat $(DESIGN_PID)); \
-		rm -f $(DESIGN_PID); \
-	fi
+	$(call stop_pidfile,$(DESIGN_PID),Prototype)
 
 stop-backend:
 	@echo "$(RED)→ Stopping backend + migrate...$(RESET)"
@@ -199,7 +190,7 @@ restart: stop start
 destroy-environment:
 	@echo "$(RED)$(BOLD)⚠ This will delete the Colima VM (ALL Docker data on this machine, not just CityHero), stop all local services, and remove every gitignored file (node_modules, .env, .venv, build caches, logs, pids, etc).$(RESET)"
 	@read -p "Type 'yes' to continue: " confirm && [ "$$confirm" = "yes" ] || (echo "Aborted."; exit 1)
-	@$(MAKE) stop-web stop-mobile 2>/dev/null || true
+	@$(MAKE) stop-web stop-mobile stop-design-system stop-design 2>/dev/null || true
 	@echo "$(RED)→ Deleting Colima VM (also removes all Docker containers/images/volumes)...$(RESET)"
 	@colima delete --data -f 2>/dev/null || true
 	@echo "$(RED)→ Removing gitignored files (node_modules, .env, .venv, build caches, logs, pids)...$(RESET)"
