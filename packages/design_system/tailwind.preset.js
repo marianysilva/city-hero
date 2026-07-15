@@ -16,7 +16,8 @@
 const shared = require("./src/tokens/shared-values.js");
 
 const px = (n) => `${n}px`;
-const toPxScale = (record) => Object.fromEntries(Object.entries(record).map(([key, n]) => [key, px(n)]));
+const toPxScale = (record) =>
+  Object.fromEntries(Object.entries(record).map(([key, n]) => [key, px(n)]));
 
 module.exports = {
   theme: {
