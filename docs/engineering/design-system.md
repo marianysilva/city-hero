@@ -21,6 +21,12 @@ We use a five-tier mental model:
 | Templates | DetailShell, EmptyScreen, ScreenContainer (header + scroll + bottom CTA shells)                                                                            | `packages/design_system/src/templates/` |
 | Screens   | HomeScreen, FeedCivicoScreen, CitizenProfileScreen, etc. — concrete screens compose templates + organisms                                                  | `apps/city-hero/src/screens/<Screen>/`  |
 
+> **Routing vs. screen tier**: `apps/city-hero` uses Expo Router, whose
+> `app/` directory is reserved for route/layout files only (see
+> `architecture-patterns.md`). The "Screens" tier above still lives at
+> `apps/city-hero/src/screens/<Screen>/` — each `app/**` route file is a
+> thin wrapper that imports and renders the matching screen from there.
+
 **The rule:** if a UI piece is used by **two or more screens** (or
 could plausibly be), it lives in the design system at the appropriate
 tier. Screen folders hold only the screen-specific composition + any
@@ -118,20 +124,30 @@ Stories live next to the component. Each story file should include:
   manipulate props in the browser.
 - **Accessibility checks** via the `@storybook/addon-a11y` panel.
 
-Visual regression: Chromatic (or equivalent) catches unintended
-visual changes on every PR. Snapshots cover all variants.
+Visual regression: **local Storybook screenshot testing** (a
+`@storybook/test-runner` config driving Playwright +
+`jest-image-snapshot`), not Chromatic — Chromatic was evaluated and
+explicitly dropped in `00-foundation/02-design-tokens.md`'s Definition
+of Done: it's a paid external SaaS built around a second reviewer
+approving visual diffs, and this is a solo project with nobody to
+review them. Snapshots cover all variants, run locally and in CI
+without an external service.
 
 ## Known limitations
 
-- **Storybook's Vite/NativeWind interop drops utility-class styling on
-  `Pressable`/`View`.** `react-native-web`'s `Pressable`/`View` inject their
-  own baseline `backgroundColor`/`padding` rules that win the cascade over
-  Tailwind `className` utilities in this Storybook setup (confirmed
-  empirically — layout classes like `flex-row` are unaffected). Until this
-  is fixed at the Storybook/NativeWind wiring level, apply colors, spacing,
-  and radius via inline `style` objects sourced from tokens instead of
-  `className` for any component rendered through `Pressable`/`View`. Don't
-  re-explain this per component — link back to this section.
+- **Dynamic token values (colors, spacing, radius) go through inline
+  `style`, not `className`.** This isn't a Storybook-specific bug: per
+  NativeWind's own precedence rules, an inline `style` prop always wins
+  over `className` for the same CSS property, on every platform — and
+  our tokens (`colors.brand[500]`, `spacing.md`, etc.) are resolved at
+  runtime from the active theme (light/dark), so they can't be
+  expressed as static Tailwind utility classes without piping the
+  theme through CSS variables first. Until tokens are wired into the
+  Tailwind config as CSS variables, apply colors, spacing, and radius
+  via inline `style` objects sourced from tokens; `className` stays
+  fine for static layout (`flex-row`, `items-center`, etc.), as
+  `Button.tsx`/`Badge.tsx` already do. Don't re-explain this per
+  component — link back to this section.
 
 ## Naming conventions
 
@@ -153,17 +169,18 @@ packages/design_system/
     ├── tokens/                  # colors, typography, spacing, radii, shadows, theme
     ├── atoms/                   # Button, Pill, Chip, Switch, Avatar, TextInput, ...
     │   ├── Button/
-    │   │   ├── Button.tsx
+    │   │   ├── Button.tsx          # props type exported inline from here
     │   │   ├── Button.stories.tsx
-    │   │   ├── Button.test.tsx
-    │   │   └── Button.types.ts
+    │   │   └── Button.test.tsx     # add once the component has behavior worth testing
     │   └── ...
     ├── molecules/               # FilterChipRow, StatsRow, StatusBadge, EmptyState, ...
     ├── organisms/               # FeedCard, BottomNav, OverflowMenu, TimelineCard, ...
     ├── templates/               # DetailShell, ScreenContainer, ...
     ├── theme/
-    │   ├── ThemeProvider.tsx
-    │   └── useTheme.ts
+    │   └── ThemeProvider.tsx
+    ├── hooks/
+    │   ├── useTheme.ts
+    │   └── useReducedMotion.ts
     └── index.ts                 # public re-exports
 ```
 
@@ -171,10 +188,10 @@ packages/design_system/
 
 ```
 // good:
-import { Button, FeedCard, DetailShell } from '@cityhero/design-system';
+import { Button, FeedCard, DetailShell } from '@city-hero/design-system';
 
 // bad — don't reach into internal paths:
-import { Button } from '@cityhero/design-system/src/atoms/Button/Button';
+import { Button } from '@city-hero/design-system/src/atoms/Button/Button';
 ```
 
 The package's `index.ts` re-exports everything that's public.
@@ -210,4 +227,4 @@ canonical list of all shared components by tier and their consumers.
 - React composition patterns: https://react.dev/learn/passing-data-deeply-with-context
 - Headless UI principles: https://headlessui.com/
 - Storybook: https://storybook.js.org/
-- Chromatic visual regression: https://www.chromatic.com/
+- Storybook visual testing (test-runner + image snapshots, the non-Chromatic path used here): https://storybook.js.org/docs/writing-tests/visual-testing

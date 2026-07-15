@@ -166,10 +166,10 @@ requirements; remove them.
 
 ### R9 · Reuse principle reinforced — 2026-06-19
 
-**Direction:** Mariany said: "Sempre que tiver código parecido /
-reconstruindo códigos existentes devemos avaliar a viabilidade de criar
-algo centralizado pra reaproveitar / reutilizar! Se for possível nunca
-duplicar código nem lógica, nem componente, nem documentação."
+**Direction:** Mariany said (translated from Portuguese): "Whenever
+there's similar code / we're rebuilding existing code, we should
+evaluate creating something centralized to reuse. If at all possible,
+never duplicate code, logic, components, or documentation."
 
 **Fix applied:** Saved a feedback memory
 (`feedback-reuse-principle`) that applies broadly: UI, hooks, services,
@@ -186,7 +186,7 @@ everywhere; eliminate ambiguity.
 
 **Fix applied:** All 8 task specs that defined a local filter-chips
 component (`06`, `07/04`, `16/02`, `19/02`, `21/02`, `22/01`, `26/03`,
-`29/02`) now consume `FilterChipRow` from `@cityhero/design-system`.
+`29/02`) now consume `FilterChipRow` from `@city-hero/design-system`.
 Each screen owns only the chip list definition + filter callback.
 
 **Note:** the inventory already showed `FilterChipRow` as the

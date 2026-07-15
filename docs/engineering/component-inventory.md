@@ -61,7 +61,7 @@ dots, links).
 
 **Props (simple):**
 
-- `color`: `brand` · `success` · `warning` · `danger` · `info` · `neutral` · `gradient-*` · any token color name
+- `color`: `brand` · `success` · `warning` · `danger` · `info` · `neutral` (the full `BadgeColor` union implemented in `Badge.tsx` today — no `gradient-*` variant exists yet; the XP/medal pill example below is aspirational until a gradient background is added to the component)
 - `size`: `xs` · `sm` · `md` · `lg`
 - `variant`: `filled` · `outline` · `ghost`
 - `radius`: `sm` · `md` · `full` (default — pill)
@@ -79,17 +79,17 @@ tiny and composition does the rest. Reference patterns:
 
 **Concepts that were standalone components and now compose `Badge`:**
 
-| Concept                          | Composition                                                                                  | Used by                        |
-| -------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------ |
-| Status pill (EM ANDAMENTO etc.)  | `<Badge color="warning"><PulsingDot /> EM ANDAMENTO</Badge>`                                 | 06, 13, 14, 26                 |
-| Category chip                    | `<Badge color={category.color}>{emoji} {label}</Badge>`                                      | Feed, hero                     |
-| Confidence (AI %)                | `<Badge color="semantic" size="sm">85% Buraco</Badge>`                                       | 08, 10, 13                     |
-| Anonymization active             | `<Badge color="brand" pulse><Dot /> ANONIMIZAÇÃO ATIVA</Badge>`                              | 08 camera                      |
-| Anonymization result             | `<Badge color="info" size="sm">2 placas · 0 rostos</Badge>`                                  | 10, 13, 14                     |
-| XP / medal pill                  | `<Badge color="gradient-violet"><Icon name="bolt" /> +50 XP · Vigia Noturno</Badge>`         | 10, 11, 12, 28                 |
-| Filter chip                      | `<Badge size="md" selected={isActive} onPress={pick}>{label}</Badge>` inside `FilterChipRow` | 06, 07, 16, 19, 21, 22, 26, 29 |
-| Kicker label ("FEED", "REPORTE") | `<Badge size="xs" variant="ghost" color="neutral">FEED</Badge>`                              | Headers                        |
-| Anonymous indicator              | `<Badge color="brand" size="sm">🥷 Anônimo</Badge>`                                          | Feed cards, rows               |
+| Concept                          | Composition                                                                                                                                                                                                           | Used by                        |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
+| Status pill (EM ANDAMENTO etc.)  | `<Badge color="warning"><PulsingDot /> EM ANDAMENTO</Badge>`                                                                                                                                                          | 06, 13, 14, 26                 |
+| Category chip                    | `<Badge color={category.color}>{emoji} {label}</Badge>`                                                                                                                                                               | Feed, hero                     |
+| Confidence (AI %)                | `<Badge color="semantic" size="sm">85% Buraco</Badge>`                                                                                                                                                                | 08, 10, 13                     |
+| Anonymization active             | `<Badge color="brand" pulse><Dot /> ANONIMIZAÇÃO ATIVA</Badge>`                                                                                                                                                       | 08 camera                      |
+| Anonymization result             | `<Badge color="info" size="sm">2 placas · 0 rostos</Badge>`                                                                                                                                                           | 10, 13, 14                     |
+| XP / medal pill                  | `<Badge color="brand"><Icon name="bolt" /> +50 XP · Vigia Noturno</Badge>` — a gradient background would need a `gradient-*` color added to `Badge` first (not implemented yet); use a solid `brand` color until then | 10, 11, 12, 28                 |
+| Filter chip                      | `<Badge size="md" selected={isActive} onPress={pick}>{label}</Badge>` inside `FilterChipRow`                                                                                                                          | 06, 07, 16, 19, 21, 22, 26, 29 |
+| Kicker label ("FEED", "REPORTE") | `<Badge size="xs" variant="ghost" color="neutral">FEED</Badge>`                                                                                                                                                       | Headers                        |
+| Anonymous indicator              | `<Badge color="brand" size="sm">🥷 Anônimo</Badge>`                                                                                                                                                                   | Feed cards, rows               |
 
 **Rule (binding):** if you find yourself defining `XYZBadge` or
 `XYZPill` in a screen folder, **stop** and compose `Badge` with the
@@ -113,7 +113,7 @@ principle: one container, infinite compositions.
 | `PaginationDots`          | Onboarding step dots                                                            | 03, 04, 05                                     |
 | `StepIndicator`           | "Passo N de M" indicator (used in onboarding + irregularity flow)               | 02, 03, 04, 05, 24                             |
 | `ShareButton`             | Standard share icon + tap handler that invokes the share service                | All detail screens, profile, achievements      |
-| `Toggle` (Identification) | Anônima vs Identificada tile pair                                               | 10, 24                                         |
+| `Toggle` (Identification) | Anonymous vs. Identified tile pair                                              | 10, 24                                         |
 | `MapPinIcon`              | Drop-shape pin with category emoji + status overlay                             | 06, 26                                         |
 | `RecenterButton`          | Floating button → recenter map                                                  | 06, 26                                         |
 | `StickyBottomCta`         | Sticky bar template + slot for one or two buttons                               | 09, 10, 11, 12, 13, 14, 15, 17, 18, 23, 24, 27 |
@@ -146,7 +146,7 @@ principle: one container, infinite compositions.
 | `ConfettiBackground`  | Decorative SVG confetti respecting reduced-motion               | Used by CelebrationHero                       |
 | `BadgeIllustration`   | Animated medal/badge illustration                               | 04 onboarding, 29 detail                      |
 | `MedalCard`           | Medal card (locked/in-progress/unlocked variants)               | 28 carousel, 29 grid                          |
-| `LeaderboardRow`      | Position + avatar + name + level + XP + delta                   | 30 (leaderboard, podium and pelotão)          |
+| `LeaderboardRow`      | Position + avatar + name + level + XP + delta                   | 30 (leaderboard, podium and main pack)        |
 | `SearchOverlay`       | Standard full-screen search modal (input + results + recent)    | 07 feed, 25 services                          |
 | `PendingOfflineCard`  | Highlighted card showing offline queue items + CTA              | 06 home, 16 my reports                        |
 

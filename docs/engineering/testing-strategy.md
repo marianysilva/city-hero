@@ -6,12 +6,12 @@ Test pyramid, coverage targets, and conventions across CityHero.
 
 Test fast and broad at the bottom, slow and narrow at the top.
 
-| Layer       | Volume       | Speed        | Examples                                    |
-| ----------- | ------------ | ------------ | ------------------------------------------- |
-| Unit        | Most tests   | ms each      | pure functions, hooks, components, services |
-| Integration | Fewer        | tens of ms   | API + DB, multi-component flows             |
-| E2E         | Few          | seconds      | full user journeys (Detox, Playwright)      |
-| Visual      | Per UI piece | per snapshot | Storybook + Chromatic                       |
+| Layer       | Volume       | Speed        | Examples                                                        |
+| ----------- | ------------ | ------------ | --------------------------------------------------------------- |
+| Unit        | Most tests   | ms each      | pure functions, hooks, components, services                     |
+| Integration | Fewer        | tens of ms   | API + DB, multi-component flows                                 |
+| E2E         | Few          | seconds      | full user journeys (Detox, Playwright)                          |
+| Visual      | Per UI piece | per snapshot | Storybook + local screenshot testing (test-runner + Playwright) |
 
 Avoid an inverted pyramid (lots of E2E, few units) — it's slow and flaky.
 
@@ -72,7 +72,7 @@ Test what the user sees and does:
 Used sparingly for **happy paths only** — the most-used flows. Detox is slow and flaky compared to unit/integration; reserve for high-value scenarios:
 
 - Onboarding flow
-- Report a pothole (Camera → Confirm → Liga de Heróis)
+- Report a pothole (Camera → Confirm → Heroes League)
 - Login + view My Reports
 - NPS feedback after resolution
 
@@ -82,13 +82,13 @@ Do NOT use E2E for edge cases — those go to unit/integration.
 
 Same philosophy: happy paths and a small set of high-impact flows. The web admin is for managers; expect a small but critical user base.
 
-## Visual regression (Storybook + Chromatic)
+## Visual regression (Storybook, no Chromatic)
 
-Every component in `packages/design_system` has Storybook stories covering its key states. Chromatic catches unintended visual changes on PRs.
+Every component in `packages/design_system` has Storybook stories covering its key states. Chromatic was evaluated and explicitly dropped (see `00-foundation/02-design-tokens.md`'s Definition of Done): it's a paid external SaaS built around a second reviewer approving visual diffs, and this is a solo project with no one to review them. The local alternative is a `@storybook/test-runner` config that drives Playwright and `jest-image-snapshot` to catch unintended visual changes on PRs, without any external service.
 
 ## Snapshot tests
 
-Use **sparingly** — they catch visual regressions but generate noisy diffs. Prefer Chromatic for visual checks. Snapshot only for stable, structural artifacts (tokens, generated code).
+Use **sparingly** — they catch visual regressions but generate noisy diffs. Prefer the Storybook test-runner screenshots above for visual checks. Snapshot only for stable, structural artifacts (tokens, generated code).
 
 ## TDD
 
@@ -110,9 +110,10 @@ Performance tests are not run on every PR — they run on a nightly job and on r
 
 ## Test data
 
-- Use **factories** (factory_boy in Python, fishery in TS) instead of fixture JSON.
-- Keep factories close to the model they create.
-- Tests should not depend on a specific seed/data state — they create what they need.
+- Backend: plain **pytest fixtures** that construct real ORM instances against the test database (see `admin_user` in `apps/backend/tests/conftest.py`) — not fixture JSON, and no `factory_boy` (not installed; a single fixture per entity is enough at this scale). Add a factory library only once enough tests need varied, randomized instances of the same model that hand-written fixtures become repetitive.
+- Frontend: prefer building test data inline in the test file; reach for a factory library (e.g., `fishery`) only if the same shape needs to vary across many test files.
+- Keep fixtures/factories close to the model they create.
+- Tests should not depend on a specific seed/data state — they create what they need. Reference (seed) tables like `roles`/`permissions` are the exception: they're migration-seeded once per test session and preserved between tests (see `_clean_tables` in `conftest.py`).
 
 ## CI pipeline
 
@@ -135,4 +136,4 @@ A flaky test is worse than no test — it teaches the team to ignore CI. When a 
 - React Testing Library: https://testing-library.com/docs/react-testing-library/intro/
 - Detox: https://wix.github.io/Detox/
 - Playwright: https://playwright.dev/
-- Chromatic: https://www.chromatic.com/
+- Storybook visual testing (test-runner + image snapshots): https://storybook.js.org/docs/writing-tests/visual-testing

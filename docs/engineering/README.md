@@ -12,7 +12,8 @@ guidance.
 - [Component Inventory](./component-inventory.md) — canonical catalog of every shared component (tokens, atoms, molecules, organisms, templates) and the screens that consume each. Single source of truth for reuse.
 - [Testing Strategy](./testing-strategy.md) — test pyramid, coverage targets, TDD guidance, mocking conventions, visual regression.
 - [Security Baseline](./security-baseline.md) — OWASP top 10, input validation, SQL injection prevention, auth/authz, secrets management, LGPD compliance.
-- [Observability](./observability.md) — structured logging, trace IDs, metrics, Sentry integration, health checks.
+- [Observability](./observability.md) — structured logging, trace IDs, Sentry integration, health checks, and what's deliberately out of scope for the MVP (metrics, OpenTelemetry).
+- [Observability Package Research](./observability-package-research.md) — the OpenTelemetry/Grafana upgrade path for when the MVP-scoped setup above stops being enough. Not the current implementation.
 - [Open Questions](./open-questions.md) — running audit log of contradictions, gaps, and pending product/design decisions discovered while reviewing the task catalog.
 - [Design Hygiene](./design-hygiene.md) — running log of prototype artifacts that turned out not to be product requirements (removed before implementation to avoid churn).
 

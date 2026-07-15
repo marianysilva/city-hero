@@ -14,7 +14,7 @@ deviation requires explicit security review and an ADR.
 ## Authentication
 
 - Passwords hashed with **bcrypt** (cost factor ≥12). Never SHA, never MD5.
-- JWT access tokens are short-lived (≤60 min). Refresh tokens are long-lived (≤30 days) and **rotated on every use** (single-use refresh).
+- JWT access tokens are short-lived (≤60 min — currently 60 min via `ACCESS_TOKEN_EXPIRE_MINUTES` in `app/core/config.py`). Refresh tokens are long-lived (≤30 days) and **rotated on every use** (single-use refresh) — **not implemented yet**; `apps/backend` currently issues only the access token (see the `implement refresh tokens for longer sessions` comment in `config.py`). This is the target for when refresh tokens land, not the current state.
 - Refresh token theft detection: if an old token is used after rotation, revoke the entire family and force logout.
 - Sensitive operations (account deletion, password reset) require recent re-auth or email confirmation.
 
