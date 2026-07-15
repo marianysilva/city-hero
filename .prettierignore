@@ -17,3 +17,8 @@ nativewind-env.d.ts
 # Vendored third-party skill packages — not project-authored, reformatting
 # them creates noise and diverges from upstream on the next sync.
 .agents/
+
+# Claude Code's own tooling config (agent/skill definitions) — managed by
+# the harness, not this project's Markdown prose-wrap standard (see the
+# "Markdown / documentation" section in docs/engineering/coding-standards.md).
+.claude/
