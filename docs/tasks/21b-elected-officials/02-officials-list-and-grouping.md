@@ -264,6 +264,6 @@ Indexes:
 - Render UI base: `01-render-officials-ui-base.md`
 - Search + filter: `03-search-and-filter.md`
 - Transparency deeplink: `04-transparency-deeplink.md`
-- Data pipeline: `05-data-ingestion-pipeline.md`
+- Data pipeline (moved to `docs/out-of-mvp/` — depends on Airflow + dbt): `../../out-of-mvp/21b-elected-officials/05-data-ingestion-pipeline.md`
 - Component inventory (Avatar, Badge, Banner, Skeleton): `docs/engineering/component-inventory.md`
 - `CLAUDE.md`

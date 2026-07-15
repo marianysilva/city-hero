@@ -3,7 +3,7 @@
 > **Type:** Backend feature · ETL + data
 > **Screen:** SCREEN 21b · Politicians of the City
 > **Effort:** L (3-5 days)
-> **Dependencies:** `21b-elected-officials/02-officials-list-and-grouping.md` (schema contract), `analytics/pipelines/` (Airflow setup from foundation), `analytics/transformations/` (dbt setup from foundation)
+> **Dependencies:** `docs/tasks/21b-elected-officials/02-officials-list-and-grouping.md` (schema contract), `analytics/pipelines/` (Airflow setup from foundation), `analytics/transformations/` (dbt setup from foundation)
 > **Status:** ⬜ Not started
 > **Labels:** `backend`, `data`, `etl`, `airflow`, `dbt`
 
@@ -296,8 +296,8 @@ they flow to the standard observability package
 - Security baseline (CPF, secrets, allowlists): `docs/engineering/security-baseline.md`
 - Open questions (ToS reviews land here): `docs/engineering/open-questions.md`
 - Observability foundation: `docs/tasks/00-foundation/20-observability-package.md`
-- List + grouping (consumer): `02-officials-list-and-grouping.md`
-- Transparency CTA (consumer of `transparency_id`): `04-transparency-deeplink.md`
+- List + grouping (consumer): `docs/tasks/21b-elected-officials/02-officials-list-and-grouping.md`
+- Transparency CTA (consumer of `transparency_id`): `docs/tasks/21b-elected-officials/04-transparency-deeplink.md`
 - TSE open data: `https://divulgacandcontas.tse.jus.br/`
 - Câmara dos Deputados open data: `https://dadosabertos.camara.leg.br/`
 - Senado Federal open data: `https://legis.senado.leg.br/dadosabertos/`

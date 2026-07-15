@@ -86,6 +86,25 @@ docs/tasks/
 └── 30-neighborhood-ranking/         ← SCREEN 30
 ```
 
+## Out-of-MVP tasks
+
+Tasks whose Acceptance Criteria hard-depend on infrastructure outside
+`apps/backend` and `apps/city-hero` (the Operational Panel `apps/web`,
+the Field Team App, or the analytics stack — Airflow, dbt, Superset)
+live in a sibling folder, not here — even when the task's own header
+labels it `backend`:
+
+```
+docs/out-of-mvp/
+├── 21b-elected-officials/
+│   └── 05-data-ingestion-pipeline.md   ← requires Airflow (analytics/pipelines) + dbt (analytics/transformations)
+└── 20-city-profile/
+    └── 04-insights-card.md             ← backend endpoint requires dbt-materialized fact tables (analytics/transformations)
+```
+
+Each moved file keeps its own Acceptance Criteria untouched; only its
+path and any now-broken cross-references were updated.
+
 ## Conventions
 
 - **Suggested labels** (in each task header): `mobile`, `backend`, `database`,
@@ -139,7 +158,7 @@ Or via UI: New issue → paste content → add labels → assign to Project.
 | 1. Citizen App                               | 32 screens (30 numeradas + 04b Pacto Cidadão + 21b Políticos eleitos) + foundation                                                                                                                                             |
 | 2. Field Team App                            | ❌ out of MVP scope (planned for a follow-up after the citizen app)                                                                                                                                                            |
 | 3. Operational Management Panel (`apps/web`) | ❌ out of MVP scope — the Next.js admin panel mentioned in `CLAUDE.md` has no task specs yet and is paused per product decision (2026-06-19). The `architecture-patterns.md` section on Next.js is kept for when this resumes. |
-| 4. Data Intelligence & BI                    | partial (ingestion · NPS)                                                                                                                                                                                                      |
+| 4. Data Intelligence & BI                    | partial (NPS) — elected-officials ingestion and the city-profile insights card moved to `docs/out-of-mvp/` (hard Airflow/dbt dependency)                                                                                       |
 | 5. Platform Core & Integrations              | ✅ foundation (Open311, multi-tenant, RBAC)                                                                                                                                                                                    |
 | 6. Citizen ++                                | partial (anonymous, i18n, a11y)                                                                                                                                                                                                |
 | 11. Scope Expansion                          | ❌ v2                                                                                                                                                                                                                          |
@@ -152,4 +171,4 @@ Or via UI: New issue → paste content → add labels → assign to Project.
 
 ---
 
-_Last updated: 2026-06-28 · 32 screens (30 numeradas + 04b Pacto Cidadão + 21b Políticos eleitos) + 18 foundation tasks_
+_Last updated: 2026-07-15 · 32 screens (30 numeradas + 04b Pacto Cidadão + 21b Políticos eleitos) + 18 foundation tasks · 2 tasks moved to `docs/out-of-mvp/`_

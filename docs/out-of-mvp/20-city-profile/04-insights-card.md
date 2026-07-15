@@ -189,6 +189,6 @@ Aggregate data only. No individual identification.
 
 ### Project context
 
-- Render UI base: `01-render-city-profile-ui-base.md`
+- Render UI base: `docs/tasks/20-city-profile/01-render-city-profile-ui-base.md`
 - Analytical pipeline (data source): `features.md` § 4 + § 6
 - `CLAUDE.md`

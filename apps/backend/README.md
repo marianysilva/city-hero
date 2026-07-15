@@ -104,13 +104,34 @@ GET /users/me  Authorization: Bearer <token>
 **Prerequisite:** PostgreSQL running with a `cityhero` database created.
 
 ```bash
-# 1. Install dependencies
+# 1. Python Environment
 cd apps/backend
 python3 -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
+```
 
+Env Activate
+
+```bash
+source .venv/Scripts/activate # Windows
+source .venv/bin/activate # Linux or MacOs
+```
+
+Pip Upgrade
+
+```bash
+python.exe -m pip install --upgrade pip # Windows
+pip install --upgrade pip # Linux or MacOs
+```
+
+Requirements
+
+```bash
+pip install -r requirements.txt
+```
+
+Start
+
+```bash
 # 2. Set environment variables
 cp .env.sample .env
 # edit .env with your DATABASE_URL and SECRET_KEY

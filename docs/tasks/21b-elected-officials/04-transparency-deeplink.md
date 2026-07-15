@@ -194,5 +194,5 @@ No new tables. The `transparency_id` column on `elected_officials`
 - Deep-link / browser wrapper: `docs/tasks/00-foundation/12-deep-link-handler.md`
 - Analytics tracking foundation: `docs/tasks/00-foundation/14-analytics-tracking.md`
 - List + grouping (consumes the CTA): `02-officials-list-and-grouping.md`
-- Data pipeline (sets `transparency_id`): `05-data-ingestion-pipeline.md`
+- Data pipeline (sets `transparency_id`, moved to `docs/out-of-mvp/` — depends on Airflow + dbt): `../../out-of-mvp/21b-elected-officials/05-data-ingestion-pipeline.md`
 - `CLAUDE.md`
