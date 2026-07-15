@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@config "../../../packages/design_system/tailwind.preset.js";
+@source "../../../packages/design_system/src";
 
 :root {
   --background: #ffffff;
