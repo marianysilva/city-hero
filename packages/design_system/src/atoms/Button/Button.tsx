@@ -1,3 +1,5 @@
+"use client";
+
 import React, { forwardRef, useState } from "react";
 import { ActivityIndicator, Pressable, Text, type PressableProps } from "react-native";
 

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { forwardRef } from "react";
 import { Pressable, Text, View, type PressableProps, type ViewProps } from "react-native";
 
