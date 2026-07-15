@@ -13,12 +13,17 @@
 #   ./scripts/dev.sh backend        # start only backend (needs db)
 #   ./scripts/dev.sh web            # start only web
 #   ./scripts/dev.sh mobile         # start only mobile
+#   ./scripts/dev.sh design-system  # start only design system (Storybook)
+#   ./scripts/dev.sh design         # start only prototype (design/)
 #   ./scripts/dev.sh stop-web       # stop only web
 #   ./scripts/dev.sh stop-mobile    # stop only mobile
+#   ./scripts/dev.sh stop-design-system  # stop only design system
+#   ./scripts/dev.sh stop-design    # stop only prototype
 #   ./scripts/dev.sh stop-backend   # stop only backend
 #   ./scripts/dev.sh stop-db        # stop only database
 #   ./scripts/dev.sh logs-web       # tail web logs
 #   ./scripts/dev.sh logs-mobile    # tail mobile logs
+#   ./scripts/dev.sh logs-design-system  # tail design system logs
 #   ./scripts/dev.sh logs-docker    # tail container logs
 #   ./scripts/dev.sh setup          # first-time setup + start
 #   ./scripts/dev.sh destroy        # remove containers, volumes, gitignored files
@@ -42,8 +47,12 @@ LOG_DIR="$ROOT/.logs"
 PID_DIR="$ROOT/.pids"
 WEB_LOG="$LOG_DIR/web.log"
 MOBILE_LOG="$LOG_DIR/mobile.log"
+DESIGN_SYSTEM_LOG="$LOG_DIR/design-system.log"
+DESIGN_LOG="$LOG_DIR/design.log"
 WEB_PID="$PID_DIR/web.pid"
 MOBILE_PID="$PID_DIR/mobile.pid"
+DESIGN_SYSTEM_PID="$PID_DIR/design-system.pid"
+DESIGN_PID="$PID_DIR/design.pid"
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 ensure_dirs() { mkdir -p "$LOG_DIR" "$PID_DIR"; }
@@ -174,10 +183,47 @@ stop_mobile() {
   kill_pid_file "$MOBILE_PID" "Mobile"
 }
 
+# ── Service: Design System (Storybook) ────────────────────────────────────────
+start_design_system() {
+  ensure_dirs
+  echo -e "${CYAN}${BOLD}-> Starting Design System (Storybook)...${RESET}"
+
+  cd "$ROOT/packages/design_system"
+  node "$ROOT/node_modules/storybook/dist/bin/dispatcher.js" dev -p 6006 > "$DESIGN_SYSTEM_LOG" 2>&1 &
+  echo $! > "$DESIGN_SYSTEM_PID"
+  cd "$ROOT"
+
+  echo "  Logging to $DESIGN_SYSTEM_LOG  (PID $(cat "$DESIGN_SYSTEM_PID"))"
+  wait_for_url "http://localhost:6006" "Design System" 20
+}
+
+stop_design_system() {
+  kill_pid_file "$DESIGN_SYSTEM_PID" "Design System"
+}
+
+# ── Service: Prototype (design/ static HTML) ──────────────────────────────────
+start_design() {
+  ensure_dirs
+  echo -e "${CYAN}${BOLD}-> Starting Prototype (design/)...${RESET}"
+
+  cd "$ROOT/design"
+  python3 -m http.server 5173 > "$DESIGN_LOG" 2>&1 &
+  echo $! > "$DESIGN_PID"
+  cd "$ROOT"
+
+  echo "  Logging to $DESIGN_LOG  (PID $(cat "$DESIGN_PID"))"
+  wait_for_url "http://localhost:5173" "Prototype" 10
+}
+
+stop_design() {
+  kill_pid_file "$DESIGN_PID" "Prototype"
+}
+
 # ── Logs ──────────────────────────────────────────────────────────────────────
-logs_web()    { tail -f "$WEB_LOG"; }
-logs_mobile() { tail -f "$MOBILE_LOG"; }
-logs_docker() { docker-compose logs -f; }
+logs_web()           { tail -f "$WEB_LOG"; }
+logs_mobile()        { tail -f "$MOBILE_LOG"; }
+logs_design_system() { tail -f "$DESIGN_SYSTEM_LOG"; }
+logs_docker()        { docker-compose logs -f; }
 
 # ── Composite commands ────────────────────────────────────────────────────────
 start_all() {
@@ -185,19 +231,25 @@ start_all() {
   start_backend
   start_web
   start_mobile
+  start_design_system
+  start_design
   echo ""
   echo -e "${GREEN}${BOLD}CityHero is running${RESET}"
   echo ""
-  echo "  Backend  -> http://localhost:8000/docs"
-  echo "  Web      -> http://localhost:3000"
-  echo "  Mobile   -> http://localhost:8081"
+  echo "  Backend        -> http://localhost:8000/docs"
+  echo "  Web            -> http://localhost:3000"
+  echo "  Mobile         -> http://localhost:8081"
+  echo "  Design System  -> http://localhost:6006"
+  echo "  Prototype      -> http://localhost:5173"
   echo ""
-  echo "  Logs: ./scripts/dev.sh logs-web | logs-mobile | logs-docker"
+  echo "  Logs: ./scripts/dev.sh logs-web | logs-mobile | logs-design-system | logs-docker"
 }
 
 stop_all() {
   stop_web
   stop_mobile
+  stop_design_system
+  stop_design
   stop_backend
   stop_db
   echo -e "${GREEN}${BOLD}All services stopped${RESET}"
@@ -218,6 +270,20 @@ show_status() {
   echo -e "${BOLD}-- Mobile ---------------------------${RESET}"
   if [ -f "$MOBILE_PID" ] && kill -0 "$(cat "$MOBILE_PID")" 2>/dev/null; then
     echo "  running (PID $(cat "$MOBILE_PID"))"
+  else
+    echo "  stopped"
+  fi
+
+  echo -e "${BOLD}-- Design System ---------------------${RESET}"
+  if [ -f "$DESIGN_SYSTEM_PID" ] && kill -0 "$(cat "$DESIGN_SYSTEM_PID")" 2>/dev/null; then
+    echo "  running (PID $(cat "$DESIGN_SYSTEM_PID"))"
+  else
+    echo "  stopped"
+  fi
+
+  echo -e "${BOLD}-- Prototype ------------------------${RESET}"
+  if [ -f "$DESIGN_PID" ] && kill -0 "$(cat "$DESIGN_PID")" 2>/dev/null; then
+    echo "  running (PID $(cat "$DESIGN_PID"))"
   else
     echo "  stopped"
   fi
@@ -279,6 +345,8 @@ destroy() {
 
   stop_web 2>/dev/null || true
   stop_mobile 2>/dev/null || true
+  stop_design_system 2>/dev/null || true
+  stop_design 2>/dev/null || true
 
   echo -e "${RED}-> Removing Docker containers and volumes...${RESET}"
   docker-compose down -v 2>/dev/null || true
@@ -295,19 +363,24 @@ case "${1:-help}" in
   stop)         stop_all ;;
   restart)      stop_all; start_all ;;
   status)       show_status ;;
-  db)           start_db ;;
-  backend)      start_backend ;;
-  web)          start_web ;;
-  mobile)       start_mobile ;;
-  stop-db)      stop_db ;;
-  stop-backend) stop_backend ;;
-  stop-web)     stop_web ;;
-  stop-mobile)  stop_mobile ;;
-  logs-web)     logs_web ;;
-  logs-mobile)  logs_mobile ;;
-  logs-docker)  logs_docker ;;
-  setup)        setup ;;
-  destroy)      destroy ;;
+  db)                start_db ;;
+  backend)           start_backend ;;
+  web)               start_web ;;
+  mobile)            start_mobile ;;
+  design-system)     start_design_system ;;
+  design)            start_design ;;
+  stop-db)           stop_db ;;
+  stop-backend)      stop_backend ;;
+  stop-web)          stop_web ;;
+  stop-mobile)       stop_mobile ;;
+  stop-design-system) stop_design_system ;;
+  stop-design)       stop_design ;;
+  logs-web)          logs_web ;;
+  logs-mobile)       logs_mobile ;;
+  logs-design-system) logs_design_system ;;
+  logs-docker)       logs_docker ;;
+  setup)             setup ;;
+  destroy)           destroy ;;
   *)
     echo "CityHero dev helper (Windows / Git Bash)"
     echo ""
@@ -323,15 +396,20 @@ case "${1:-help}" in
     echo "  backend        Start only backend (needs db)"
     echo "  web            Start only web"
     echo "  mobile         Start only mobile"
+    echo "  design-system  Start only design system (Storybook)"
+    echo "  design         Start only prototype (design/)"
     echo ""
-    echo "  stop-db        Stop only database"
-    echo "  stop-backend   Stop only backend"
-    echo "  stop-web       Stop only web"
-    echo "  stop-mobile    Stop only mobile"
+    echo "  stop-db             Stop only database"
+    echo "  stop-backend        Stop only backend"
+    echo "  stop-web            Stop only web"
+    echo "  stop-mobile         Stop only mobile"
+    echo "  stop-design-system  Stop only design system"
+    echo "  stop-design         Stop only prototype"
     echo ""
-    echo "  logs-web       Tail web logs"
-    echo "  logs-mobile    Tail mobile logs"
-    echo "  logs-docker    Tail container logs"
+    echo "  logs-web             Tail web logs"
+    echo "  logs-mobile          Tail mobile logs"
+    echo "  logs-design-system   Tail design system logs"
+    echo "  logs-docker          Tail container logs"
     echo ""
     echo "  setup          First-time setup (generate .env, install deps, start)"
     echo "  destroy        Remove containers, volumes, and gitignored files"

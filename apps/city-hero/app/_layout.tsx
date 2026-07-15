@@ -1,10 +1,10 @@
+import { ThemeProvider as DesignSystemThemeProvider, useTheme } from "@city-hero/design-system";
 import { useFonts } from "expo-font";
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
-
-import { useColorScheme } from "@/components/useColorScheme";
+import "../global.css";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -43,10 +43,21 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  return (
+    <DesignSystemThemeProvider>
+      <NavigationThemeBridge />
+    </DesignSystemThemeProvider>
+  );
+}
+
+// Drives expo-router's nav chrome (header/tab bar) from the design system's
+// resolved theme, so a manual `setPreference()` override affects the whole
+// app instead of just design-system-styled content.
+function NavigationThemeBridge() {
+  const { scheme } = useTheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={scheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: "modal" }} />

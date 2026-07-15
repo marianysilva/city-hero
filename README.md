@@ -40,7 +40,7 @@ python3 -m http.server 5173
 >
 > On **Linux** you can alternatively skip both and follow the individual setup instructions in each project's own README (`apps/backend/README.md`, `apps/web/README.md`, etc.), running the services directly (e.g. `docker compose up`, `uvicorn`, `npm run dev`).
 
-> **Live reload:** all three apps pick up source changes without a manual restart. Web (`next dev`) and mobile (`expo start`) use Fast Refresh; the backend runs `uvicorn --reload` with its source bind-mounted via `docker-compose.override.yml`, so editing a `.py` under `apps/backend/` restarts the API in place. **Still needs a rebuild:** new Python deps (`docker-compose up -d --build backend`) and new JS deps (`npm install`). New Alembic migrations apply on the next `migrate` run.
+> **Live reload:** all three apps pick up source changes without a manual restart. Web (`next dev`) and mobile (`expo start`) use Fast Refresh; the backend runs `uvicorn --reload` with its source bind-mounted via `docker-compose.override.yml`, so editing a `.py` under `apps/backend/` restarts the API in place. Design System (`storybook dev`) also hot-reloads via Vite. **Still needs a rebuild:** new Python deps (`docker-compose up -d --build backend`) and new JS deps (`npm install`). New Alembic migrations apply on the next `migrate` run. **No hot reload:** the `design/` prototype is served as plain static files (`python3 -m http.server`) — refresh the browser manually to see changes.
 
 ### First-time setup (macOS)
 
@@ -80,6 +80,8 @@ Once running:
 | API Docs (Swagger) | http://localhost:8000/docs |
 | Web Dashboard      | http://localhost:3000      |
 | Mobile (browser)   | http://localhost:8081      |
+| Design System      | http://localhost:6006      |
+| Prototype          | http://localhost:5173      |
 
 ### Make command reference (macOS)
 
@@ -92,6 +94,7 @@ Once running:
 | `make logs-docker`         | Stream backend + db logs                                                                                             |
 | `make logs-web`            | Stream Next.js logs                                                                                                  |
 | `make logs-mobile`         | Stream Expo logs                                                                                                     |
+| `make logs-design-system`  | Stream Storybook logs                                                                                                |
 | `make stop-colima`         | Stop the Colima VM (full shutdown)                                                                                   |
 | `make setup`               | First-time setup (generates `.env` secrets, `npm install`) + `make start`                                            |
 | `make destroy-environment` | ⚠️ Deletes the Colima VM (all Docker data on this machine) and removes every gitignored file. Asks for confirmation. |
@@ -101,19 +104,21 @@ Once running:
 Useful when iterating on a single layer:
 
 ```bash
-make colima    # VM only
-make db        # PostgreSQL (waits until healthy)
-make backend   # Migrations + FastAPI (waits until healthy)
-make web       # Next.js dev server (local)
-make mobile    # Expo web dev server (local)
+make colima          # VM only
+make db              # PostgreSQL (waits until healthy)
+make backend         # Migrations + FastAPI (waits until healthy)
+make web             # Next.js dev server (local)
+make mobile          # Expo web dev server (local)
+make design-system   # packages/design_system Storybook (local)
+make design          # design/ static prototype, served via `python3 -m http.server` (local)
 ```
 
-> **Note:** `db` must be running before `backend`, and `backend` must be running before `web`/`mobile` — the API client in both apps expects the backend to be reachable.
+> **Note:** `db` must be running before `backend`, and `backend` must be running before `web`/`mobile` — the API client in both apps expects the backend to be reachable. `design-system` and `design` are standalone (no backend dependency).
 
 ### Stopping (macOS)
 
 ```bash
-make stop          # Stop web, mobile, backend, db (keeps Colima running)
+make stop          # Stop web, mobile, design-system, design, backend, db (keeps Colima running)
 make stop-colima   # Also stop the VM (full shutdown)
 ```
 
@@ -135,25 +140,25 @@ First-time setup (generates `.env` secrets, installs JS deps, then starts everyt
 Afterwards, start/stop the stack with:
 
 ```bash
-./scripts/dev.sh start      # db → backend → web → mobile
+./scripts/dev.sh start      # db → backend → web → mobile → design-system → design
 ./scripts/dev.sh stop       # stop everything
 ./scripts/dev.sh restart    # stop + start
 ./scripts/dev.sh status     # show running state
 ```
 
-The URLs are the same as the macOS workflow (Backend `:8000`, Web `:3000`, Mobile `:8081`).
+The URLs are the same as the macOS workflow (Backend `:8000`, Web `:3000`, Mobile `:8081`, Design System `:6006`, Prototype `:5173`).
 
-| Command                                                                  | Description                                                              |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
-| `./scripts/dev.sh start`                                                 | Start all services (db → backend → web → mobile)                         |
-| `./scripts/dev.sh stop`                                                  | Stop all services                                                        |
-| `./scripts/dev.sh restart`                                               | Stop then start                                                          |
-| `./scripts/dev.sh status`                                                | Show running state of each service                                       |
-| `./scripts/dev.sh db` / `backend` / `web` / `mobile`                     | Start a single service (respect the `db → backend → web/mobile` order)   |
-| `./scripts/dev.sh stop-db` / `stop-backend` / `stop-web` / `stop-mobile` | Stop a single service                                                    |
-| `./scripts/dev.sh logs-web` / `logs-mobile` / `logs-docker`              | Tail logs                                                                |
-| `./scripts/dev.sh setup`                                                 | First-time setup (generate `.env`, `npm install`) + start                |
-| `./scripts/dev.sh destroy`                                               | Remove containers, volumes, and gitignored files. Asks for confirmation. |
+| Command                                                                                                         | Description                                                                  |
+| --------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `./scripts/dev.sh start`                                                                                        | Start all services (db → backend → web → mobile → design-system → design)    |
+| `./scripts/dev.sh stop`                                                                                         | Stop all services                                                            |
+| `./scripts/dev.sh restart`                                                                                      | Stop then start                                                              |
+| `./scripts/dev.sh status`                                                                                       | Show running state of each service                                           |
+| `./scripts/dev.sh db` / `backend` / `web` / `mobile` / `design-system` / `design`                               | Start a single service (`design-system`/`design` have no backend dependency) |
+| `./scripts/dev.sh stop-db` / `stop-backend` / `stop-web` / `stop-mobile` / `stop-design-system` / `stop-design` | Stop a single service                                                        |
+| `./scripts/dev.sh logs-web` / `logs-mobile` / `logs-design-system` / `logs-docker`                              | Tail logs                                                                    |
+| `./scripts/dev.sh setup`                                                                                        | First-time setup (generate `.env`, `npm install`) + start                    |
+| `./scripts/dev.sh destroy`                                                                                      | Remove containers, volumes, and gitignored files. Asks for confirmation.     |
 
 > **Notes:** Build images one at a time on WSL2 to avoid TAR errors — the script already sequences `migrate` then `backend` for this reason. Web and mobile run as local Node processes (not containers), with PIDs tracked in `.pids/` and logs in `.logs/`.
 
