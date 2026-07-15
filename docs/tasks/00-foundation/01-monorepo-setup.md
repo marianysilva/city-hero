@@ -63,15 +63,19 @@ refactor, test, chore, perf, ci)
 ```
 city-hero/
 ├── apps/
-│   ├── backend/                 # FastAPI (Python)
-│   ├── web/                     # Next.js
-│   ├── city-hero/               # Expo
-│   └── ai_service/              # YOLOv8 inference (FastAPI, separate)
+│   ├── backend/                 # FastAPI (Python) — real
+│   ├── web/                     # Next.js — real (code exists; product paused, see docs/tasks/README.md)
+│   ├── city-hero/               # Expo — real (stock Expo Router scaffold + design-system wired in)
+│   └── ai_service/              # YOLOv8 inference (FastAPI, separate) — PLANNED, not yet created
+│                                 # (see 00-foundation/16-yolov8-inference-service.md)
 ├── packages/
-│   ├── design_system/           # Shared RN+Web components
-│   ├── api_client/              # Shared HTTP client
-│   ├── i18n/                    # Translation catalogs and helpers
-│   └── ia_research/             # Notebooks + YOLOv8 training (Python)
+│   ├── design_system/           # Shared RN+Web components — real
+│   ├── types/                   # Shared TypeScript types (@city-hero/types) — real
+│   ├── ia_research/             # Notebooks + YOLOv8 training (Python) — real
+│   ├── api_client/              # Shared HTTP client — PLANNED, not yet created
+│   │                             # (see 00-foundation/05-api-client.md)
+│   └── i18n/                    # Translation catalogs and helpers — PLANNED, not yet created
+│                                 # (see 00-foundation/13-i18n.md)
 ├── analytics/
 │   ├── pipelines/               # Airflow DAGs
 │   ├── transformations/         # dbt
@@ -82,17 +86,24 @@ city-hero/
 │   ├── features.md
 │   └── user-stories.md
 ├── .github/
-│   ├── workflows/
+│   ├── workflows/                # ci.yml, codeql.yml, security.yml
 │   └── PULL_REQUEST_TEMPLATE.md
-├── .husky/
-├── package.json                 # root workspace
+├── .husky/                       # pre-commit, commit-msg
+├── package.json                  # root workspace (npm workspaces: apps/*, packages/*)
 ├── tsconfig.base.json
-├── .eslintrc + .prettierrc
-├── commitlint config
-├── lint-staged config
-├── docker-compose.yml
+├── turbo.json
+├── eslint.config.base.js + .prettierrc.json
+├── commitlint.config.js
+├── .lintstagedrc.js
+├── docker-compose.yml + docker-compose.override.yml
 └── .gitignore
 ```
+
+> `packages/types` was added after this task's original write-up and isn't part of the original plan
+> — it ships real shared TS types and is kept here rather than removed since the doc must reflect
+> the actual tree. `apps/ai_service`, `packages/api_client`, and `packages/i18n` remain
+> aspirational: their own task files exist and specify what they'll contain, but the
+> folders/packages themselves are not yet created.
 
 ## Tooling decisions
 
@@ -109,17 +120,29 @@ city-hero/
 
 ## CI baseline
 
-The CI runs on every PR with parallel jobs:
+`.github/workflows/ci.yml` runs on every push to `main` and every pull request into `main`. Its jobs
+have no `needs:` between them, so they all run in parallel:
 
-| Job           | Purpose                                           |
-| ------------- | ------------------------------------------------- |
-| `lint`        | ESLint + Prettier check across all JS/TS packages |
-| `typecheck`   | `tsc --noEmit` across all TS packages             |
-| `test`        | Unit + integration tests across all packages      |
-| `python-lint` | Ruff on `apps/backend` and `apps/ai_service`      |
-| `python-test` | pytest with the test database                     |
+| Job (`name:` shown as a check)      | Purpose                                                                                   |
+| ----------------------------------- | ----------------------------------------------------------------------------------------- |
+| `Format (prettier --check)`         | `npm run format:check` at the repo root                                                   |
+| `Backend · Lint (ruff)`             | `ruff check .` in `apps/backend`                                                          |
+| `Backend · Tests (pytest)`          | `pytest -v` in `apps/backend` against a `postgis/postgis:16-3.4-alpine` service container |
+| `Web · Lint + Type Check`           | `tsc --noEmit` + `npx eslint .` in `apps/web`                                             |
+| `Web · Build (next build)`          | `npm run build --workspace=apps/web`                                                      |
+| `Mobile · Type Check`               | `tsc --noEmit --project apps/city-hero/tsconfig.json`                                     |
+| `Mobile · Lint (eslint)`            | `npx eslint .` in `apps/city-hero`                                                        |
+| `Mobile · Tests (jest-expo)`        | `npx jest --ci` in `apps/city-hero`                                                       |
+| `Design System · Lint + Type Check` | `npm run typecheck` + `npm run lint` in `packages/design_system`                          |
+| `Docker · Backend image builds`     | `docker build ./apps/backend`                                                             |
 
-Caches: dependency cache for the JS package manager and pip.
+`apps/ai_service` does not exist yet (see the folder structure note above), so there is no Python
+job scoped to it — Ruff and pytest run only against `apps/backend` today. There's also no single
+generic `lint`/`typecheck`/`test` job; every app/package gets its own named job, and that list is
+exactly what's required in branch protection below.
+
+Caches: `actions/setup-node` (npm) and `actions/setup-python` (pip) cache dependencies in every job
+that needs them.
 
 ## Branch protection
 
@@ -132,6 +155,23 @@ Caches: dependency cache for the JS package manager and pip.
 - 0 required approving reviews — solo project, no second developer to review.
 - No force pushes, no deletions.
 - Linear history (squash or rebase merge only).
+
+## Frontend
+
+Not applicable as a standalone deliverable — this task produces the shared tooling that every
+frontend package/app consumes (root `tsconfig.base.json`, `eslint.config.base.js`, Prettier config),
+not a UI itself. See "Tooling decisions" above for what `apps/web` and `apps/city-hero` inherit.
+
+## Backend
+
+Not applicable as a standalone deliverable — this task doesn't add API endpoints. Its
+backend-relevant output is Ruff wiring and the `Backend · Lint (ruff)` / `Backend · Tests (pytest)`
+CI jobs scoped to `apps/backend` (its own `pyproject.toml` holds the Ruff config; see "CI baseline"
+above).
+
+## Database
+
+Not applicable — this task introduces no schema or migrations.
 
 ## Edge Cases
 
@@ -147,11 +187,13 @@ Caches: dependency cache for the JS package manager and pip.
 
 ## Privacy / LGPD
 
-Not applicable.
+Not applicable — this task provisions build tooling and CI only; no user or citizen data passes
+through it.
 
 ## Analytics
 
-Not applicable.
+Not applicable — there is no runtime/product surface here to instrument; tooling has no user-facing
+events.
 
 ## Tests
 
@@ -168,8 +210,9 @@ Not applicable.
 - [x] ESLint (shared root `eslint.config.base.js` spread into each app's Next.js/Expo config) +
       Prettier (shared root config) configured
 - [x] Husky pre-commit and commit-msg hooks
-- [x] CI pipeline running lint / typecheck / test / python-lint / python-test (already existed
-      before this task)
+- [x] CI pipeline running the 10 named jobs listed under "CI baseline" above (format, backend
+      lint/test, web lint+typecheck/build, mobile typecheck/lint/test, design-system lint+typecheck,
+      Docker image build) — already existed before this task
 - [x] Branch protection enabled on `main`
 - [x] PR template
 - [x] Root README with setup instructions (already existed)

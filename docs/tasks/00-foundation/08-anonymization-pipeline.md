@@ -12,10 +12,12 @@
 ## Context
 
 **Legal requirement.** Every photo a citizen uploads must pass through this pipeline before it
-becomes publicly visible. The pipeline detects sensitive content (faces, license plates, document
-numbers, and other configurable categories) and applies an irreversible blur over those regions.
-Without this, CityHero is in violation of LGPD and exposes minors and bystanders who never consented
-to appear publicly.
+becomes publicly visible. At MVP launch the pipeline detects and blurs **faces and license plates**
+— the hard requirement per `CLAUDE.md`. The category list is configurable and designed to extend to
+document numbers and other sensitive content per `docs/features.md` § 1 as detection models for
+those categories become available (see "Privacy / LGPD" below for the exact MVP-vs-extended scope
+split). Without this, CityHero is in violation of LGPD and exposes minors and bystanders who never
+consented to appear publicly.
 
 The pipeline is driven by an AI service (`00-foundation/16-yolov8-inference-service.md`) that
 detects objects with bounding boxes; this task is the orchestration layer that takes a raw photo,
@@ -117,6 +119,22 @@ screen content)\
 **Then** the kernel size and strength are large enough to make recovery infeasible\
 **And** the original is never embedded in metadata
 
+## Frontend
+
+**Not applicable to the citizen app.** This task is a backend-only orchestration pipeline; no
+citizen-facing screen calls it directly. Two UI touch points exist but are out of scope here:
+
+- The **moderator review queue UI** (approve / blur-more / reject) is a manager-panel screen. Per
+  `docs/tasks/README.md`'s "Out-of-MVP tasks" section, the Operational Management Panel (`apps/web`)
+  has no task specs yet and is paused per product decision (2026-06-19) — see
+  `docs/tasks/00-foundation/_README.md`. This task only needs to ship the **API** the future
+  moderator UI will call (`GET /api/v1/admin/anonymization/queue` and the approve/blur-more
+  endpoints below); building the screen itself is tracked separately when the panel resumes.
+- Citizen-facing screens (Civic Feed, report detail) only ever consume the **output** of this
+  pipeline — a signed URL to the anonymized photo — through the endpoints owned by
+  `00-foundation/07-photo-upload-pipeline.md`. There is no anonymization-specific UI in the citizen
+  app.
+
 ## Backend (orchestration)
 
 ### Where the pipeline lives
@@ -131,8 +149,13 @@ apps/backend/src/services/anonymization/
 
 ### Behavior
 
-- A background worker picks up anonymization jobs from the queue (typically Redis-backed via Celery
-  or arq).
+- A background worker picks up anonymization jobs from a Redis-backed queue. **Recommended: `arq`**
+  — it's asyncio-native (matches FastAPI's async style), needs only the Redis instance already
+  provisioned in `00-foundation/17-docker-dev-environment.md`, and has a much smaller operational
+  footprint than Celery (no separate broker like RabbitMQ, no beat scheduler, no Flower). Celery
+  remains a valid alternative only if the team later needs its broader ecosystem (e.g., cron-style
+  periodic tasks across many languages) — for a single-city MVP at this scale, introducing the full
+  Celery stack is more infrastructure than the problem needs.
 - For each job: fetch the raw photo from the storage bucket, call the AI service to detect, apply
   blur using OpenCV (or PIL with a strong Gaussian kernel), upload the anonymized version, generate
   a thumbnail, update the photo record.
@@ -221,6 +244,15 @@ All admin endpoints require the `moderator` or higher role.
 
 This pipeline **is** the LGPD compliance layer for photos. Specific measures:
 
+- **MVP-required scope (hard legal requirement per `CLAUDE.md`): faces and license plates.** Every
+  photo must be blurred for these two categories before it is publicly visible — this is
+  non-negotiable and blocks launch of any photo-receiving screen.
+- **Extended scope (configurable, not launch-blocking): document numbers, name tags, screen
+  content.** `docs/features.md` § 1 asks to "search for more sensitive things that can appear in the
+  photo" — this pipeline's category configuration (see "Configuration" above) supports adding these
+  as detector classes become available from `16-yolov8-inference-service.md`'s privacy model, and
+  they should be enabled as soon as the model supports them with acceptable recall. Until then, the
+  MVP ships with faces + plates only; this is a scope decision, not a silent omission.
 - The original (pre-anonymization) photo never leaves the encrypted raw bucket.
 - Raw access is logged and restricted to roles `admin`, `auditor`, `moderator`.
 - The 90-day raw retention is enforced by a scheduled cleanup job.
@@ -279,7 +311,8 @@ See `security-baseline.md` for the full LGPD framework.
 
 - OpenCV (Gaussian blur): https://docs.opencv.org/
 - Pillow (PIL): https://pillow.readthedocs.io/
-- Celery: https://docs.celeryq.dev/ — or arq: https://arq-docs.helpmanual.io/
+- arq (recommended, Redis-only, asyncio-native): https://arq-docs.helpmanual.io/
+- Celery (heavier alternative, only if broader ecosystem is needed later): https://docs.celeryq.dev/
 - LGPD: Lei nº 13.709/2018
 
 ### Project context

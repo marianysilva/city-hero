@@ -3,7 +3,8 @@
 > **Type:** Foundation · Observability\
 > **Screen(s):** All\
 > **Effort:** S (≤1 day)\
-> **Dependencies:** `00-foundation/01-monorepo-setup.md`\
+> **Dependencies:** `00-foundation/01-monorepo-setup.md`,
+> `00-foundation/20-observability-package.md`\
 > **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `web`, `backend`, `observability`, `foundation`
 
@@ -100,32 +101,63 @@ catches an error, it:
 - In dev, the fallback shows the full stack trace; in prod, it shows only a trace ID for support
   reference.
 
-### Sentry initialization
+**Implementation note (React 19 has no hook-based error boundary):** as of React 19, catching render
+errors still requires the class-component lifecycle methods `static getDerivedStateFromError` and
+`componentDidCatch` — there is no function-component/hook equivalent (confirmed against the current
+React docs). Do not implement the catch mechanism as a hook. Build `ErrorBoundary.tsx` on top of the
+`react-error-boundary` package (supports React 18.0.0 and 19.0.0+, so it's compatible with this
+repo's React 19.2.3) rather than hand-rolling the class boilerplate: it wraps the same
+`getDerivedStateFromError`/`componentDidCatch` class internally and adds `resetKeys`,
+`FallbackComponent`/`fallbackRender`, and an imperative `resetErrorBoundary()`. Its
+`useErrorBoundary()` hook is a convenience for _triggering_ the boundary from an event handler (e.g.
+`showBoundary(err)` from a non-render callback) or reading `error`/`resetBoundary` inside the
+fallback — it is not a replacement for the class-based catch mechanism.
 
-Sentry is initialized at app startup with the DSN from environment, the current environment label
-(`dev`/`staging`/`prod`), the release identifier, a moderate sampling rate for performance traces,
-and a pre-send hook that scrubs PII fields by key name.
+**Mobile integration with Expo Router (`~56.2.11`):** Expo Router has its own error boundary
+convention — exporting a named `ErrorBoundary` component (props: `error`, `retry`) from any route
+file (e.g. `app/_layout.tsx`, or a specific route) automatically wraps that route in a React error
+boundary; if a route doesn't export one, the error propagates to the nearest ancestor route that
+does. This task should use that convention at the root (`app/_layout.tsx`) instead of hand-wrapping
+the tree in a separate top-level provider, and may add per-route `ErrorBoundary` exports for
+finer-grained recovery (e.g. the camera screen). The route's `ErrorBoundary` export renders the
+shared `ErrorFallback` component from `packages/design_system` and forwards `retry` to it; it must
+still report to Sentry via the observability client described below, since Expo Router's convention
+only handles the catch/fallback/retry UI, not telemetry.
 
-The same approach applies to the web (Next.js + `@sentry/nextjs`) with separate client and server
-configurations.
+### Sentry initialization and PII scrubbing
+
+Sentry init (DSN from environment, environment label, release identifier, performance sampling rate)
+and the PII pre-send scrubbing hook are **not** implemented in this task — they are owned by
+`00-foundation/20-observability-package.md` (`@cityhero/observability/react-native` and
+`@cityhero/observability/react`). This task's boundary and global handlers call into that package's
+already-initialized client (e.g. `captureException` re-exported from `@cityhero/observability`)
+rather than importing `@sentry/react-native` or `@sentry/nextjs` directly. Per
+`20-observability-package.md`'s CI gate, no app-level code may import a `@sentry/*` package
+directly.
 
 ### Native crash reporting
 
-iOS and Android crashes are auto-captured by Sentry's native SDKs and uploaded on the next app
-launch.
+iOS and Android crashes are auto-captured by Sentry's native SDKs (initialized by
+`@cityhero/observability/react-native`, see `00-foundation/20-observability-package.md`) and
+uploaded on the next app launch.
 
 ## Backend (FastAPI)
 
-Sentry's FastAPI integration captures unhandled exceptions and attaches the request context. A
-global exception handler:
+A global FastAPI exception handler catches unhandled exceptions and:
 
-- Logs the exception with the trace ID.
-- Returns a JSON response following the standard error shape (see `architecture-patterns.md`).
-- Triggers the same PII scrubbing as the frontend.
+- Logs the exception with the trace ID, via `@cityhero/observability`'s Python `get_logger()` (see
+  `00-foundation/20-observability-package.md` — this task does not configure `structlog` or Sentry's
+  FastAPI integration itself, only wires the handler that calls into it).
+- Reports the exception to Sentry through the observability package's already-initialized client
+  (`init_sentry()` ran at app startup, owned by `20-observability-package.md`), which attaches
+  request context (URL, headers, user ID, trace ID) and applies the shared PII scrubber.
+- Returns a JSON response following the standard error shape (see `architecture-patterns.md`): `500`
+  with body `{ code: "internal_error", traceId: "..." }`.
 
 ## Database
 
-Not applicable.
+Not applicable — error/crash events are reported to Sentry, not persisted in the application
+database; this task owns no schema.
 
 ## Edge Cases
 
@@ -156,18 +188,27 @@ Not applicable.
 
 - **Unit**: the ErrorBoundary catches a throwing child and renders the fallback.
 - **Integration**: the Retry button remounts the subtree.
-- **PII scrubbing**: feeds a mock event with sensitive fields and asserts they're removed.
-- **Backend**: an unhandled exception returns 500 with a trace ID, and Sentry receives the event.
+- **PII scrubbing**: covered by `00-foundation/20-observability-package.md`'s own test suite; this
+  task only asserts that the boundary/handler pass errors through the package's client rather than a
+  raw `@sentry/*` SDK (regression test for the "no direct Sentry import" rule).
+- **Backend**: an unhandled exception returns 500 with a trace ID, and Sentry receives the event
+  (verified against the observability package's already-initialized client, not a fresh Sentry
+  init).
 
 ## Definition of Done
 
-- [ ] ErrorBoundary component in `packages/design_system`
-- [ ] App wrapped at root level (and at finer granularity where useful)
-- [ ] Sentry initialized on mobile, web, and backend
-- [ ] PII scrubber implemented and tested on all platforms
-- [ ] Source maps uploaded on each release (CI step)
-- [ ] Release tagging functional
-- [ ] User identifier set in Sentry context after login
+- [ ] `ErrorBoundary.tsx`/`ErrorFallback.tsx` built in `packages/design_system` on top of
+      `react-error-boundary`
+- [ ] Mobile root (`app/_layout.tsx`) uses Expo Router's `ErrorBoundary` export convention; key
+      per-route boundaries added where useful (e.g. camera screen)
+- [ ] Web (Next.js) wrapped at root level with the same shared fallback UI
+- [ ] Boundary and global handlers call `@cityhero/observability` (never `@sentry/*` directly) —
+      depends on `00-foundation/20-observability-package.md` being in place first
+- [ ] Backend global exception handler wired to the observability package's Sentry client and
+      returns the standard `{ code, traceId }` error shape
+- [ ] Release tagging visible on captured errors (release identifier comes from the observability
+      package's init config)
+- [ ] User identifier set in Sentry context after login (via the package's identify/context API)
 - [ ] Documentation for triggering test errors in dev
 
 ## Standards & References
@@ -181,10 +222,19 @@ Not applicable.
 
 ### Library / framework references
 
-- Sentry React Native: https://docs.sentry.io/platforms/react-native/
-- Sentry Next.js: https://docs.sentry.io/platforms/javascript/guides/nextjs/
-- Sentry Python (FastAPI): https://docs.sentry.io/platforms/python/integrations/fastapi/
+- react-error-boundary: https://github.com/bvaughn/react-error-boundary (supports React 18.0.0 and
+  19.0.0+; provides `ErrorBoundary`, `useErrorBoundary`, `resetErrorBoundary` — the underlying catch
+  mechanism is still React's class-component `getDerivedStateFromError`/`componentDidCatch`, no hook
+  equivalent exists in React 19)
+- Expo Router error handling (built-in `ErrorBoundary` route export):
+  https://docs.expo.dev/router/error-handling/
+- Sentry React Native: https://docs.sentry.io/platforms/react-native/ (initialized only via
+  `00-foundation/20-observability-package.md`, not directly by this task)
+- Sentry Next.js: https://docs.sentry.io/platforms/javascript/guides/nextjs/ (same note)
+- Sentry Python (FastAPI): https://docs.sentry.io/platforms/python/integrations/fastapi/ (same note)
 
 ### Project context
 
+- Observability package (owns Sentry init, logging, PII scrubber, trace ID — this task's hard
+  dependency): `00-foundation/20-observability-package.md`
 - `CLAUDE.md`

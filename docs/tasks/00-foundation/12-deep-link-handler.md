@@ -56,7 +56,8 @@ the link's intent
 
 **Given** a URL with a path that doesn't match any known route\
 **When** the handler processes it\
-**Then** the app navigates to Home and shows a non-blocking toast: "Link inválido"\
+**Then** the app navigates to Home and shows a non-blocking toast (pt-BR user-facing copy, the app's
+default locale): "Link inválido" ("Invalid link")\
 **And** logs the unknown path to telemetry for review
 
 ### Scenario · Authentication-gated targets
@@ -92,12 +93,19 @@ recipients)\
 
 ### Where the handler lives
 
+> **Verified against current expo-router docs (SDK 56, 2026-07):** `apps/city-hero` uses
+> **expo-router**, not manually-configured React Navigation. Expo Router builds its `linking` config
+> automatically from the file-based routes under `app/` (e.g., a future `app/report/[id].tsx`
+> already resolves `cityhero://report/123` and, once the universal-link host is verified,
+> `https://cityhero.app/r/123` too) — there is no separate linking-config file to hand-write. The
+> code below is scoped to the behavior expo-router does **not** give for free: validating/rejecting
+> unknown paths, buffering the intent until cold-start init completes, and auth-gating.
+
 ```
 apps/city-hero/src/services/deep-links/
-├── parser.ts            ← URL → typed intent
-├── router.ts            ← intent → navigation action
-├── linkingConfig.ts     ← React Navigation linking spec
-└── pendingLink.ts       ← buffer link until init completes
+├── parser.ts            ← raw URL → typed intent (validates host/path, extracts params)
+├── router.ts            ← intent → navigation action (calls expo-router's `router.push`/`replace`)
+└── pendingLink.ts        ← buffer the intent until init completes
 ```
 
 On the web, Next.js handles the parallel routes natively; the universal-link fallback page is a thin
@@ -106,10 +114,12 @@ CTA.
 
 ### Behavior
 
-- Listens for incoming URLs from both the cold-start launch and warm-start events.
+- Listens for incoming URLs from both the cold-start launch (`Linking.getInitialURL()` /
+  expo-router's initial route) and warm-start events (`Linking.addEventListener('url', ...)`).
 - Parses to a typed intent (e.g., "open report ID abc", "open city profile", "open share preview").
-- Buffers the intent until app init (`02-app-initialization`) signals readiness, then routes.
-- Falls back to Home with a toast for unknown paths.
+- Buffers the intent until app init (`02-app-initialization`) signals readiness, then routes via
+  expo-router's `router.push()`/`router.replace()`.
+- Falls back to Home with a toast for unknown paths (a path with no matching file under `app/`).
 - Resolves auth gating by stashing the intent and re-running it after login.
 
 ### Routes
@@ -126,14 +136,20 @@ CTA.
 
 ### Configuration
 
-The React Navigation linking config maps URL templates to nav state, with type-safety so an unknown
-path is a TS error.
+- `app.json`'s `expo.scheme` declares the `cityhero://` custom scheme;
+  `expo.experiments.typedRoutes: true` gives compile-time safety for known routes (an unknown path
+  used with `router.push()` is a TS error).
+- expo-router derives the actual URL↔screen mapping from the `app/` file tree — this task does not
+  write a manual linking config. `parser.ts`/`router.ts` only handle the cases expo-router can't:
+  malformed URLs, truly unknown paths (no matching file), auth gating, and cross-tenant prompts.
 
 ### Native setup
 
-- iOS: Associated Domains + apple-app-site-association file served from the universal-link host.
-- Android: Digital Asset Links + assetlinks.json file served from the universal-link host. Activity
-  intent filters declared in the manifest.
+- iOS: Associated Domains (`ios.associatedDomains: ["applinks:cityhero.app"]` in `app.json`) +
+  apple-app-site-association file served from the universal-link host.
+- Android: Digital Asset Links + assetlinks.json file served from the universal-link host. Expo
+  config plugins generate the Activity intent filters at build time from `app.json` — no manual
+  manifest editing.
 
 ## Backend
 
@@ -153,8 +169,9 @@ Not applicable directly. The links reference existing resources by ID.
 
 ## Edge Cases
 
-- **Expired or deleted resource**: the resolver detects a 404 and routes to Home with a toast: "Esse
-  conteúdo não está mais disponível".
+- **Expired or deleted resource**: the resolver detects a 404 and routes to Home with a toast (pt-BR
+  user-facing copy, same convention as the Unknown-route scenario above): "Esse conteúdo não está
+  mais disponível" ("This content is no longer available").
 - **Link with future-only feature**: the app version check during init detects unsupported features
   and prompts to update.
 - **User has no city set yet**: the link prompts to choose a city first, then opens the target.
@@ -192,7 +209,8 @@ Not applicable directly. The links reference existing resources by ID.
 ## Definition of Done
 
 - [ ] Parser, router, pending-link buffer
-- [ ] React Navigation linking config
+- [ ] `app.json` scheme + typed-routes config; file-based routes cover every URL pattern in the
+      table above
 - [ ] iOS Associated Domains and AASA file served
 - [ ] Android App Links and assetlinks.json served
 - [ ] Web fallback pages for at least report and public-work resources
@@ -210,10 +228,14 @@ Not applicable directly. The links reference existing resources by ID.
 
 ### Library / framework references
 
-- React Navigation linking: https://reactnavigation.org/docs/configuring-links
+- Expo Router linking overview (verified current for SDK 56, 2026-07) — confirms file-based routes
+  auto-generate the linking config, superseding a hand-written React Navigation linking spec:
+  https://docs.expo.dev/linking/overview/
+- Expo Router typed routes: https://docs.expo.dev/router/reference/typed-routes/
 - iOS Universal Links: https://developer.apple.com/ios/universal-links/
 - Android App Links: https://developer.android.com/training/app-links
-- Expo Linking: https://docs.expo.dev/guides/linking/
+- Expo Linking (low-level `Linking.createURL`/`getInitialURL` APIs used under the hood):
+  https://docs.expo.dev/guides/linking/
 
 ### Project context
 

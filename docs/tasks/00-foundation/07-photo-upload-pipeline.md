@@ -3,8 +3,7 @@
 > **Type:** Foundation · Media pipeline\
 > **Screen(s):** Camera (08), Manual Report (09), Confirm Report (10), Field Team app (out of MVP)\
 > **Effort:** L (3-5 days)\
-> **Dependencies:** `00-foundation/05-api-client.md`, `00-foundation/09-offline-queue.md`,
-> `00-foundation/17-docker-dev-environment.md`\
+> **Dependencies:** `00-foundation/05-api-client.md`, `00-foundation/17-docker-dev-environment.md`\
 > **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `backend`, `media`, `lgpd`, `foundation`
 
@@ -18,6 +17,13 @@ retry on transient failures, and graceful enqueue when the device is offline.
 The output of this pipeline feeds the **anonymization pipeline**
 (`00-foundation/08-anonymization-pipeline.md`), which is a LGPD legal requirement before any photo
 becomes publicly visible.
+
+**Relationship to the offline queue (`00-foundation/09-offline-queue.md`):** this task is built
+first and defines the input/output shape the offline queue hands work through (photo URI/asset +
+report metadata → photo ID). `09-offline-queue.md` depends on this task, not the other way around —
+see the "Suggested implementation order" in `00-foundation/_README.md` (07 before 09). This task's
+online path does not require the offline queue to exist yet; the "Offline at upload time" scenario
+below only needs to define the contract, not the finished queue implementation.
 
 ## User Story
 
@@ -86,6 +92,19 @@ multipart-resumable is supported)\
 **And** the photo record in the database stores the bucket path, content hash (SHA-256), and
 metadata
 
+### Scenario · Raw photo is never publicly reachable before anonymization
+
+**Given** a photo has been uploaded and durably stored, but `anonymized_at` is still null\
+**When** any consumer other than the uploading user's own "my report" view or an internal service
+requests it (e.g., the Civic Feed, another citizen's detail screen, an unauthenticated request)\
+**Then** the API never returns a signed URL, path, or reference to the raw bucket for that photo\
+**And** the response indicates the photo is still processing (e.g., a `processing` status), not an
+error and not the raw image\
+**And** this holds even transiently — there is no code path where the raw file is served publicly
+while `anonymized_at` is null (see the gating rule owned by
+`00-foundation/08-anonymization-pipeline.md`'s "Public access" scenario, which this task's endpoints
+must honor)
+
 ## Frontend (React Native)
 
 ### Where the pipeline lives
@@ -113,6 +132,13 @@ packages/api_client/src/uploads/
 A photo-manipulation library compresses the long edge to the target size and re-encodes JPEG at the
 target quality. Compression is done on a worker thread when supported to avoid jank.
 
+`expo-image-manipulator` is the recommended library (already used elsewhere in the Expo SDK stack).
+As of current Expo SDK versions, use the **context-based API**
+(`ImageManipulator.manipulate(uri).resize({...}).renderAsync()` then
+`.saveAsync({ compress, format: SaveFormat.JPEG })`) — the older free-function
+`manipulateAsync(uri, actions, saveOptions)` still works but is the legacy pattern; new code should
+use the context API per current docs.
+
 ### Progress reporting
 
 The host screen subscribes to progress events (0–100%) and shows a bar or percentage. Resume from
@@ -122,11 +148,11 @@ the same percentage when retrying after a transient error.
 
 ### Endpoints
 
-| Method | Path                       | Purpose                                                 |
-| ------ | -------------------------- | ------------------------------------------------------- |
-| POST   | `/api/v1/photos`           | Upload a photo (multipart). Returns the photo ID.       |
-| POST   | `/api/v1/photos/presigned` | Issue a pre-signed S3 PUT URL for direct upload.        |
-| GET    | `/api/v1/photos/{id}`      | Fetch metadata (not the binary). Signed URL for binary. |
+| Method | Path                       | Purpose                                                                                                                                                                                                                                                                      |
+| ------ | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| POST   | `/api/v1/photos`           | Upload a photo (multipart). Returns the photo ID.                                                                                                                                                                                                                            |
+| POST   | `/api/v1/photos/presigned` | Issue a pre-signed S3 PUT URL for direct upload.                                                                                                                                                                                                                             |
+| GET    | `/api/v1/photos/{id}`      | Fetch metadata (not the binary). Returns a signed URL to the **anonymized** binary only once `anonymized_at` is set; while null, returns a `processing` status and no bucket reference (raw or anonymized) — see the "Raw photo is never publicly reachable" scenario above. |
 
 The two upload paths support two strategies:
 

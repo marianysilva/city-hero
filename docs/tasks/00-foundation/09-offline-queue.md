@@ -17,6 +17,22 @@ network returns.
 
 This is also a competitive differentiator — most civic-report apps fail silently offline.
 
+> **Design-decision flag (library fit):** this doc commits to WatermelonDB per `CLAUDE.md`'s
+> architecture decision ("reports queue locally (SQLite/WatermelonDB) and sync when online"). Per
+> WatermelonDB's own sync docs (https://watermelondb.dev/docs/Sync/Frontend and
+> `/Implementation/SyncImpl`), adopting it properly means implementing the full **Watermelon Sync
+> Protocol** — a `synchronize()` call with paired `pullChanges`/`pushChanges` handlers, and tracking
+> `lastPulledAt` / `schemaVersion` / `migrationsEnabledAtVersion` / `lastSyncedSchemaVersion` to
+> reconcile schema migrations across devices. This task's actual Backend contract below does **not**
+> use that protocol at all — it reuses the plain online REST endpoints plus an `Idempotency-Key`
+> header, i.e. WatermelonDB is used here only as a local reactive SQLite wrapper, not for its sync
+> engine. For a single-writer FIFO retry queue like this one, a lighter local store (`expo-sqlite`
+> directly, or even an AsyncStorage-backed FIFO list given the queue size is small) would avoid the
+> WatermelonDB schema/migration ceremony (`schema.ts`, `Model` subclasses, `Database`/adapter setup)
+> for no functional gain. This is flagged as an open design decision, not changed here — if the team
+> wants WatermelonDB's reactive queries and observability for the Sync Queue screen (18) badly
+> enough, keep it; otherwise revisit before implementation.
+
 ## User Story
 
 **As a** Citizen in a low-connectivity area,\
@@ -218,7 +234,12 @@ A scheduled job purges expired entries.
 
 ### Library / framework references
 
-- WatermelonDB: https://watermelondb.dev/
+- WatermelonDB: https://watermelondb.dev/ (see the design-decision flag in Context — this task uses
+  it only as a local store, not its sync engine)
+- WatermelonDB Sync Protocol (for context on what's being skipped):
+  https://watermelondb.dev/docs/Sync/Frontend
+- expo-sqlite (lighter alternative under consideration):
+  https://docs.expo.dev/versions/latest/sdk/sqlite/
 - @react-native-community/netinfo: https://github.com/react-native-netinfo/react-native-netinfo
 - Idempotent HTTP: https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/
 

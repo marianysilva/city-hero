@@ -103,6 +103,14 @@ redeploying the backend.
 **And** detection recall on the test set stays above the threshold (false negatives are the bigger
 risk for anonymization)
 
+## Frontend
+
+**Not applicable.** This is a standalone backend microservice (`apps/ai_service/`) with no UI of its
+own and no direct client from `apps/city-hero` or `apps/web` — the mobile app and web dashboard
+never call it directly. The main FastAPI backend (`apps/backend`) is the only caller, per "Backend
+integration" below; it proxies category pre-fill suggestions and privacy detections to the clients
+that need them (Camera screen 08, Manual Report screen 09, and the anonymization pipeline).
+
 ## Service architecture
 
 ### Where the service lives
@@ -149,9 +157,10 @@ produced it.
 
 ### Queue mode (async)
 
-A queue consumer subscribes to a Redis (or RabbitMQ) stream/queue and processes inference jobs in
-batches. Useful for backfills and the anonymization pipeline at scale. Results are written to a
-results topic or directly back to the photo record.
+A queue consumer subscribes to a Redis stream/queue (the same Redis instance provisioned in
+`17-docker-dev-environment.md` — no separate broker like RabbitMQ is needed at this scale) and
+processes inference jobs in batches. Useful for backfills and the anonymization pipeline at scale.
+Results are written to a results topic or directly back to the photo record.
 
 ## Model lifecycle
 
@@ -255,7 +264,13 @@ These feed Grafana / Datadog dashboards (see `observability.md`).
 
 ### Library / framework references
 
-- Ultralytics YOLOv8: https://docs.ultralytics.com/
+- Ultralytics YOLOv8: https://docs.ultralytics.com/ — the `ultralytics` package's core inference
+  pattern is stable and version-agnostic
+  (`from ultralytics import YOLO; model = YOLO("path/to/ weights.pt"); results = model(source)`,
+  reading `result.boxes.xyxy/conf/cls`). Note the same package now also ships newer architectures
+  (YOLO11, YOLO26); YOLOv8 remains a fully supported, well-documented choice for the custom-trained
+  weights this project already plans around (`packages/ia_research`), so no change is needed here —
+  just don't assume the training/inference API differs across these versions, it doesn't.
 - PyTorch: https://pytorch.org/docs/
 - OpenCV: https://docs.opencv.org/
 - FastAPI: https://fastapi.tiangolo.com/

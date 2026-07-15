@@ -4,8 +4,8 @@
 > **Screen(s):** All UI\
 > **Effort:** M (1-2 days)\
 > **Dependencies:** `00-foundation/01-monorepo-setup.md`\
-> **Status:** 🟡 Mostly done — lint rules (color/spacing literals) and visual regression (Chromatic
-> dropped, Playwright TBD) still open\
+> **Status:** 🟡 Mostly done — lint rules (color/spacing literals) and visual regression (Playwright
+> TBD) still open\
 > **Labels:** `design-system`, `foundation`, `frontend`, `tokens`, `storybook`
 
 ## Context
@@ -99,11 +99,12 @@ xl, full); shadows (soft, md, lg)\
 **And** never an internal path
 (`import { Button } from '@cityhero/design-system/src/atoms/Button/Button'` is blocked by ESLint)
 
-### Scenario · Chromatic visual regression
+### Scenario · Playwright visual regression
 
 **Given** the CI pipeline is set up\
 **When** a PR touches design-system files\
-**Then** Chromatic (or equivalent) takes snapshots of all stories\
+**Then** a Playwright Test spec takes `expect(page).toHaveScreenshot()` snapshots of all stories via
+their built Storybook `iframe.html?id=...` URLs\
 **And** unintended visual diffs are flagged for review
 
 ### Scenario · Storybook entry on Definition of Done
@@ -191,11 +192,13 @@ disallowed; only the root re-export is allowed).
 
 ## Backend
 
-Not applicable.
+Not applicable — this task only produces a frontend package (tokens, theme provider, Storybook); it
+has no server-side surface.
 
 ## Database
 
-Not applicable.
+Not applicable — no persisted data; theme preference (light/dark override) is stored client-side in
+`AsyncStorage`, not in PostgreSQL.
 
 ## Edge Cases
 
@@ -207,7 +210,7 @@ Not applicable.
 
 ## Privacy / LGPD
 
-Not applicable.
+Not applicable — tokens, theming, and Storybook carry no user or citizen data.
 
 ## Analytics
 
@@ -220,7 +223,11 @@ Not applicable.
 
 - **Unit**: token snapshots for stability (any token change → visible diff).
 - **Lint**: ESLint catches color and spacing literals; lint blocks deep imports.
-- **Visual regression**: Storybook + Chromatic for token preview page and a sample of every atom.
+- **Visual regression**: plain Playwright Test — a spec navigates to each story's
+  `iframe.html?id=...` URL in the built Storybook and asserts with `expect(page).toHaveScreenshot()`
+  (Playwright's built-in snapshot comparison) for the token preview page and a sample of every atom
+  (see Definition of Done and [`design-system.md`](../../engineering/design-system.md) § Storybook
+  setup); this Playwright suite is itself still unimplemented (tracked as a follow-up below).
 - **Theme provider**: components render correctly under both light and dark.
 
 ## Definition of Done
@@ -231,8 +238,15 @@ Not applicable.
       validated against real screen designs)
 - [x] `ThemeProvider` + `useTheme` hook (+ `useReducedMotion`)
 - [x] Tailwind preset exposed and consumed by `apps/web` — via a shared `tailwind.preset.js` loaded
-      through Tailwind v4's `@config` compatibility directive (not a CSS-only `@theme` block:
-      NativeWind's stable 4.x line still needs a JS preset, so one file serves both platforms)
+      through Tailwind v4's `@config` compatibility directive. The installed `nativewind` is
+      `^5.0.0-preview.4` (see `apps/city-hero/package.json`), and v5 itself supports both the
+      CSS-first `@theme` block and a backward-compatible classic JS preset (loaded via
+      `presets: [require("nativewind/preset"), ...]` in `apps/city-hero/tailwind.config.js`, with
+      `apps/city-hero/global.css` pointing at it via `@config "./tailwind.config.js"`) — the
+      JS-preset path was kept, not because v5 lacks `@theme` support, but so the token values live
+      in one plain CommonJS module (`src/tokens/shared-values.js`) consumed as-is by both
+      `apps/web`'s Tailwind v4 config and `apps/city-hero`'s NativeWind config, instead of
+      duplicating them into two config languages
 - [x] Storybook running with addons (a11y, docs; essentials/viewport/interactions/controls are core
       in Storybook v9+, no separate install needed)
 - [x] `.storybook/preview.tsx` wraps stories with `ThemeProvider` + theme toggle
@@ -241,9 +255,9 @@ Not applicable.
       different plugin or a custom rule, out of scope for this pass
 - [x] `index.ts` re-exports the public API
 - [x] Light + dark themes complete
-- [ ] CI step: token snapshot, Chromatic on every PR — **Chromatic explicitly dropped** (solo
-      project, no second reviewer to approve visual diffs in an external SaaS); Playwright
-      screenshot testing was chosen as the local alternative but not yet implemented — follow-up
+- [ ] CI step: token snapshot + visual regression on every PR — plain Playwright Test
+      (`expect(page).toHaveScreenshot()` against each story's `iframe.html` URL) is the chosen
+      approach but not yet implemented — follow-up
 - [x] Documentation in Storybook (Docs page) explaining how to add a new component — see the
       `Tokens/Overview` story's docs description
 - [x] All existing references in task specs match the structure here
@@ -269,7 +283,8 @@ theming for native.
 - Tailwind presets: https://tailwindcss.com/docs/presets
 - Storybook: https://storybook.js.org/
 - Storybook + React Native Web: https://storybook.js.org/blog/storybook-for-react-native-web/
-- Chromatic: https://www.chromatic.com/
+- Playwright Test visual comparisons (the chosen approach):
+  https://playwright.dev/docs/test-snapshots
 
 ### Project context
 
