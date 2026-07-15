@@ -154,6 +154,24 @@ jobs:
       - run: npx jest --ci
         working-directory: apps/city-hero
 
+  # ── Design system ──────────────────────────────────────────────────────────
+  design-system-quality:
+    name: Design System · Lint + Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Type check
+        run: npm run typecheck
+        working-directory: packages/design_system
+      - name: Lint
+        run: npm run lint
+        working-directory: packages/design_system
+
   # ── Container build ────────────────────────────────────────────────────────
   docker-build:
     name: Docker · Backend image builds

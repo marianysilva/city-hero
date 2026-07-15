@@ -7,6 +7,13 @@ coverage
 package-lock.json
 *.svg
 
+# Python virtualenvs (not project-authored, vendored third-party packages)
+.venv/
+
+# Auto-generated type declarations
+expo-env.d.ts
+nativewind-env.d.ts
+
 # Vendored third-party skill packages — not project-authored, reformatting
 # them creates noise and diverges from upstream on the next sync.
 .agents/

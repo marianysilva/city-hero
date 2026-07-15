@@ -121,6 +121,18 @@ Stories live next to the component. Each story file should include:
 Visual regression: Chromatic (or equivalent) catches unintended
 visual changes on every PR. Snapshots cover all variants.
 
+## Known limitations
+
+- **Storybook's Vite/NativeWind interop drops utility-class styling on
+  `Pressable`/`View`.** `react-native-web`'s `Pressable`/`View` inject their
+  own baseline `backgroundColor`/`padding` rules that win the cascade over
+  Tailwind `className` utilities in this Storybook setup (confirmed
+  empirically — layout classes like `flex-row` are unaffected). Until this
+  is fixed at the Storybook/NativeWind wiring level, apply colors, spacing,
+  and radius via inline `style` objects sourced from tokens instead of
+  `className` for any component rendered through `Pressable`/`View`. Don't
+  re-explain this per component — link back to this section.
+
 ## Naming conventions
 
 - **Component files**: `PascalCase.tsx` (e.g., `Button.tsx`,
