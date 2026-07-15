@@ -91,13 +91,11 @@ Do NOT use E2E for edge cases — those go to unit/integration.
 Same philosophy: happy paths and a small set of high-impact flows. The web admin is for managers;
 expect a small but critical user base.
 
-## Visual regression (Storybook, no Chromatic)
+## Visual regression (Storybook + Playwright)
 
-Every component in `packages/design_system` has Storybook stories covering its key states. Chromatic
-was evaluated and explicitly dropped (see `00-foundation/02-design-tokens.md`'s Definition of Done):
-it's a paid external SaaS built around a second reviewer approving visual diffs, and this is a solo
-project with no one to review them. The local alternative is a `@storybook/test-runner` config that
-drives Playwright and `jest-image-snapshot` to catch unintended visual changes on PRs, without any
+Every component in `packages/design_system` has Storybook stories covering its key states. A
+Playwright Test spec navigates to each story's built Storybook `iframe.html?id=...` URL and asserts
+with `expect(page).toHaveScreenshot()` to catch unintended visual changes on PRs, without any
 external service.
 
 ## Snapshot tests

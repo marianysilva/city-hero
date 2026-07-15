@@ -111,11 +111,11 @@ Stories live next to the component. Each story file should include:
   browser.
 - **Accessibility checks** via the `@storybook/addon-a11y` panel.
 
-Visual regression: **local Storybook screenshot testing** (a `@storybook/test-runner` config driving
-Playwright + `jest-image-snapshot`), not Chromatic — Chromatic was evaluated and explicitly dropped
-in `00-foundation/02-design-tokens.md`'s Definition of Done: it's a paid external SaaS built around
-a second reviewer approving visual diffs, and this is a solo project with nobody to review them.
-Snapshots cover all variants, run locally and in CI without an external service.
+Visual regression: **plain Playwright Test**. A spec navigates to each story in the built Storybook
+(via its `iframe.html?id=...` URL) and asserts with `expect(page).toHaveScreenshot()` — Playwright's
+own built-in snapshot comparison, so there's no separate visual-diffing dependency to maintain.
+Baseline screenshots are committed and diffed on every run, locally and in CI, without an external
+service.
 
 ## Known limitations
 
@@ -204,5 +204,6 @@ components by tier and their consumers.
 - React composition patterns: https://react.dev/learn/passing-data-deeply-with-context
 - Headless UI principles: https://headlessui.com/
 - Storybook: https://storybook.js.org/
-- Storybook visual testing (test-runner + image snapshots, the non-Chromatic path used here):
-  https://storybook.js.org/docs/writing-tests/visual-testing
+- Playwright Test visual comparisons: https://playwright.dev/docs/test-snapshots
+- Storybook's own testing docs (for story discovery / `iframe.html` URLs):
+  https://storybook.js.org/docs/writing-tests
