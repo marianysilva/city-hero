@@ -9,4 +9,4 @@ pydantic[email]>=2.13.4
 bcrypt>=5.0.0
 pyjwt[crypto]>=2.13.0
 alembic>=1.14.0
-strawberry-graphql[fastapi]>=0.243.0
+strawberry-graphql[fastapi]>=0.320.3
