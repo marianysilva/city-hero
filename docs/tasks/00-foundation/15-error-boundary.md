@@ -128,9 +128,9 @@ only handles the catch/fallback/retry UI, not telemetry.
 
 Sentry init (DSN from environment, environment label, release identifier, performance sampling rate)
 and the PII pre-send scrubbing hook are **not** implemented in this task — they are owned by
-`00-foundation/20-observability-package.md` (`@cityhero/observability/react-native` and
-`@cityhero/observability/react`). This task's boundary and global handlers call into that package's
-already-initialized client (e.g. `captureException` re-exported from `@cityhero/observability`)
+`00-foundation/20-observability-package.md` (`@city-hero/observability/react-native` and
+`@city-hero/observability/react`). This task's boundary and global handlers call into that package's
+already-initialized client (e.g. `captureException` re-exported from `@city-hero/observability`)
 rather than importing `@sentry/react-native` or `@sentry/nextjs` directly. Per
 `20-observability-package.md`'s CI gate, no app-level code may import a `@sentry/*` package
 directly.
@@ -138,14 +138,14 @@ directly.
 ### Native crash reporting
 
 iOS and Android crashes are auto-captured by Sentry's native SDKs (initialized by
-`@cityhero/observability/react-native`, see `00-foundation/20-observability-package.md`) and
+`@city-hero/observability/react-native`, see `00-foundation/20-observability-package.md`) and
 uploaded on the next app launch.
 
 ## Backend (FastAPI)
 
 A global FastAPI exception handler catches unhandled exceptions and:
 
-- Logs the exception with the trace ID, via `@cityhero/observability`'s Python `get_logger()` (see
+- Logs the exception with the trace ID, via `@city-hero/observability`'s Python `get_logger()` (see
   `00-foundation/20-observability-package.md` — this task does not configure `structlog` or Sentry's
   FastAPI integration itself, only wires the handler that calls into it).
 - Reports the exception to Sentry through the observability package's already-initialized client
@@ -202,7 +202,7 @@ database; this task owns no schema.
 - [ ] Mobile root (`app/_layout.tsx`) uses Expo Router's `ErrorBoundary` export convention; key
       per-route boundaries added where useful (e.g. camera screen)
 - [ ] Web (Next.js) wrapped at root level with the same shared fallback UI
-- [ ] Boundary and global handlers call `@cityhero/observability` (never `@sentry/*` directly) —
+- [ ] Boundary and global handlers call `@city-hero/observability` (never `@sentry/*` directly) —
       depends on `00-foundation/20-observability-package.md` being in place first
 - [ ] Backend global exception handler wired to the observability package's Sentry client and
       returns the standard `{ code, traceId }` error shape

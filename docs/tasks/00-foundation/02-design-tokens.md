@@ -95,9 +95,9 @@ xl, full); shadows (soft, md, lg)\
 
 **Given** a screen imports a component\
 **When** the import line is written\
-**Then** the path is the package root (`import { Button } from '@cityhero/design-system'`)\
+**Then** the path is the package root (`import { Button } from '@city-hero/design-system'`)\
 **And** never an internal path
-(`import { Button } from '@cityhero/design-system/src/atoms/Button/Button'` is blocked by ESLint)
+(`import { Button } from '@city-hero/design-system/src/atoms/Button/Button'` is blocked by ESLint)
 
 ### Scenario · Playwright visual regression
 
@@ -187,7 +187,7 @@ flip between light/dark themes.
 ESLint plugin `eslint-plugin-no-color-literals` plus a custom rule for spacing literals. The rule
 allowlist exempts `src/tokens/`.
 
-A separate rule blocks deep imports into the package ( `@cityhero/design-system/src/...` is
+A separate rule blocks deep imports into the package ( `@city-hero/design-system/src/...` is
 disallowed; only the root re-export is allowed).
 
 ## Backend

@@ -126,7 +126,7 @@ packages/analytics/
 - App lifecycle events (cold start, foreground, background).
 - Errors (`error.boundary_caught`, `error.unhandled_rejection` — defined and emitted by
   `00-foundation/15-error-boundary.md`; this package only receives and forwards them). Each carries
-  the shared trace ID from `@cityhero/observability` (see
+  the shared trace ID from `@city-hero/observability` (see
   `00-foundation/20-observability-package.md`) so an event here can be cross-referenced with the
   matching Sentry issue and backend log lines.
 
