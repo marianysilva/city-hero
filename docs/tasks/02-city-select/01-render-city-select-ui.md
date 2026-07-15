@@ -29,7 +29,7 @@ implemented by their own tasks.
 **Given** the screen is the active route\
 **When** it renders\
 **Then** the status bar variant is `dark` (light background)\
-**And** a top bar shows a back button on the left and a "Step 2 of 5" indicator on the right\
+**And** a top bar shows a back button on the left and a "Passo 1 de 5" indicator on the right\
 **And** the title "Qual é a sua cidade?" appears in extrabold
 
 ### Scenario · GPS detection card placeholder

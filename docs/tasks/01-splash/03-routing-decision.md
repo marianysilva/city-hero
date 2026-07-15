@@ -89,6 +89,21 @@ city)
 **Then** the app navigates to Login\
 **And** the city / language preferences from the previous session are preserved (improves UX)
 
+### Scenario · Terms version outdated (re-accept required)
+
+**Given** the user is authenticated, has a city, and finished onboarding previously, but the
+platform's current terms version (per `04b-onboarding-community-pact/04-accept-terms-gate.md`) is
+newer than the user's `terms_version_accepted`\
+**When** the routing task evaluates\
+**Then** the app navigates directly to the Community Pact screen (SCREEN 04b) — not the full
+onboarding flow — with a "re-accept" mode that skips the age-tailored hero rotation and jumps
+straight to the updated pact cards + footer gate\
+**And** once the user accepts the new version, they return to Home (or the original deep-link target
+if one was pending)\
+**And** this check runs after the force-update and deep-link rules but before "full setup → Home",
+since an outdated terms acceptance blocks normal use the same way a force update does, just scoped
+to one screen instead of the whole app
+
 ## Behavior
 
 ### Decision tree (priority order)
@@ -101,8 +116,10 @@ The router evaluates conditions top-down; the first matching rule wins:
 4. **Not authenticated** → Login.
 5. **Authenticated, no city** → City Select.
 6. **Authenticated, has city, onboarding incomplete** → Onboarding (resume at saved step).
-7. **Authenticated, has city, onboarding done, has deep link** → Deep link target.
-8. **Authenticated, full setup** → Home.
+7. **Authenticated, has city, onboarding done, terms version outdated** → Community Pact (re-accept
+   mode).
+8. **Authenticated, has city, onboarding done, terms current, has deep link** → Deep link target.
+9. **Authenticated, full setup** → Home.
 
 ### Resume after login
 
@@ -128,8 +145,13 @@ apps/city-hero/src/services/init/
 ### Behavior
 
 - Receives the typed init result and returns a navigation action (route name + params).
-- Uses React Navigation's `reset` to ensure the splash is removed from the stack (no back-button to
-  splash).
+- Uses Expo Router's `router.replace()` (or a `<Redirect>` from the splash route) to swap to the
+  destination route, so the splash is removed from history — no back-button/back-gesture returns to
+  it. For simple, single-condition gates (e.g., "force update blocks everything else"), the root
+  layout can additionally wrap the relevant route groups in `Stack.Protected` guards; this task's
+  multi-branch decision tree (deep link + city + onboarding-step resume, all combined) still needs
+  its own imperative logic on top of that, since `Stack.Protected` alone doesn't model stashing a
+  deep-link target or resuming a specific onboarding step.
 - The post-login buffer is cleared after successful redirection.
 
 ## Backend
@@ -140,7 +162,10 @@ what task 02 already specifies.
 ## Database
 
 The user record stores `onboarding_completed_at` and `onboarding_current_step` so resume works
-across devices.
+across devices. It also stores `terms_version_accepted` (see
+`04b-onboarding-community-pact/04-accept-terms-gate.md`), which the router compares against the
+platform's current required terms version (a small config value, not a per-user field) to decide
+whether rule 7 above fires.
 
 ## Edge Cases
 
@@ -177,6 +202,7 @@ small set of allowed parameters.
 - [ ] Router with the decision tree
 - [ ] Post-login buffer
 - [ ] Onboarding-step persistence on backend/local
+- [ ] Terms-version check (routes to Community Pact re-accept mode when outdated)
 - [ ] Telemetry for routing decisions
 - [ ] Tests covering all branches
 
@@ -189,11 +215,15 @@ small set of allowed parameters.
 
 ### Library / framework references
 
-- React Navigation `reset`: https://reactnavigation.org/docs/navigation-actions#reset
+- Expo Router — imperative redirects (`router.replace`):
+  https://docs.expo.dev/router/reference/redirects/
+- Expo Router — protected routes (`Stack.Protected`):
+  https://docs.expo.dev/router/advanced/protected/
 
 ### Project context
 
 - App initialization: `02-app-initialization.md`
 - Force update flow: `04-force-update-flow.md`
 - Deep link handler: `00-foundation/12-deep-link-handler.md`
+- Terms re-accept gate: `04b-onboarding-community-pact/04-accept-terms-gate.md`
 - `CLAUDE.md`
