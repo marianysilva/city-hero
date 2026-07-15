@@ -1,65 +1,65 @@
 # Programs · Footer + Denunciar irregularity entry
 
-> **Type:** Screen feature · UI + content
-> **Screen:** SCREEN 22 · Programs & Transparency
-> **Effort:** S (≤1 day)
-> **Dependencies:** `22-programs-transparency/01-render-programs-ui-base.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · UI + content\
+> **Screen:** SCREEN 22 · Programs & Transparency\
+> **Effort:** S (≤1 day)\
+> **Dependencies:** `22-programs-transparency/01-render-programs-ui-base.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `frontend`, `screen`, `accountability`
 
 ## Context
 
-A small educational footer at the bottom of the scroll area explaining
-what **controle social** is and how the data here helps it work
-("CityHero conecta os dados públicos (Portal da Transparência, dados
-abertos da prefeitura) com você. Quando algo não bate, denuncie aos
-órgãos competentes."), followed by a prominent "🛡️ Denunciar
-irregularidade" button that opens SCREEN 24 (Denunciar Irregularidade).
+A small educational footer at the bottom of the scroll area explaining what **controle social** is
+and how the data here helps it work ("CityHero conecta os dados públicos (Portal da Transparência,
+dados abertos da prefeitura) com você. Quando algo não bate, denuncie aos órgãos competentes."),
+followed by a prominent "🛡️ Denunciar irregularidade" button that opens SCREEN 24 (Denunciar
+Irregularidade).
 
-The footer reinforces that **CityHero is a tool for accountability**,
-not a substitute for the official channels — it routes to them.
+The footer reinforces that **CityHero is a tool for accountability**, not a substitute for the
+official channels — it routes to them.
 
 ## Acceptance Criteria
 
 ### Scenario · Default render
 
-**Given** the user scrolled to the bottom
-**When** the footer renders
-**Then** a short educational paragraph appears in slate-600
+**Given** the user scrolled to the bottom\
+**When** the footer renders\
+**Then** a short educational paragraph appears in slate-600\
 **And** below: a primary CTA button "🛡️ Denunciar irregularidade" in a brand-tinted variant
 
 ### Scenario · Tap the CTA
 
-**Given** the user wants to file an irregularity report
-**When** they tap the button
-**Then** the app navigates to SCREEN 24 (Denunciar Irregularidade)
+**Given** the user wants to file an irregularity report\
+**When** they tap the button\
+**Then** the app navigates to SCREEN 24 (Denunciar Irregularidade)\
 **And** the entry context is preserved (e.g., "from_programs_hub") for analytics
 
 ### Scenario · Educational content links
 
-**Given** the paragraph mentions external sources (Portal da Transparência)
-**When** rendered
-**Then** the source names are styled as links
+**Given** the paragraph mentions external sources (Portal da Transparência)\
+**When** rendered\
+**Then** the source names are styled as links\
 **And** tapping opens the source in the OS browser
 
 ### Scenario · Footer always visible at end of scroll
 
-**Given** the user scrolls past the programs grid
-**When** they reach the end
-**Then** the footer is visible without extra interaction
+**Given** the user scrolls past the programs grid\
+**When** they reach the end\
+**Then** the footer is visible without extra interaction\
 **And** below the footer, sufficient bottom padding accommodates the bottom nav
 
 ### Scenario · Localization
 
-**Given** en-US
-**When** the footer renders
-**Then** copy is in English ("CityHero connects public data... Report to the relevant authorities when something looks wrong.")
+**Given** en-US\
+**When** the footer renders\
+**Then** copy is in English ("CityHero connects public data... Report to the relevant authorities
+when something looks wrong.")
 
 ### Scenario · Accessibility
 
-**Given** SR is on
-**When** the footer is read
-**Then** the paragraph is announced as a region
+**Given** SR is on\
+**When** the footer is read\
+**Then** the paragraph is announced as a region\
 **And** the CTA is clearly labeled with its destination
 
 ## Frontend
@@ -86,7 +86,8 @@ Not applicable.
 
 ## Privacy / LGPD
 
-The educational content explains how the user can take action; the actual report is filed at the official channels (CityHero doesn't store it).
+The educational content explains how the user can take action; the actual report is filed at the
+official channels (CityHero doesn't store it).
 
 ## Analytics
 

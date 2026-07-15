@@ -1,25 +1,22 @@
 # SCREEN 23 · Bolsa Família Detail
 
-> **Group:** 02 · App Core
-> **Prototype screen:** `design/index.html` (search for `title: 'Detalhe · Bolsa Família'`)
+> **Group:** 02 · App Core\
+> **Prototype screen:** `design/index.html` (search for `title: 'Detalhe · Bolsa Família'`)\
 > **Position in navigation:** From the featured card or programs grid on SCREEN 22
 
 ## Overview
 
-The detail view of the Bolsa Família federal program for the active
-city. Pulls data from the Portal da Transparência (federal) and the
-prefecture's CadÚnico-aligned records. Includes:
+The detail view of the Bolsa Família federal program for the active city. Pulls data from the Portal
+da Transparência (federal) and the prefecture's CadÚnico-aligned records. Includes:
 
-- A hero card with the program description and key metrics (famílias,
-  valor mensal, valor anual, % população).
-- A trend chart (semester-by-semester) showing beneficiaries + total
-  value over time.
-- A breakdown by neighborhood (which `bairros` have the most
-  beneficiaries — useful for identifying concentrations).
-- A transparency notes section explaining what's public (per STF MS
-  36.020/2020) and what's protected by LGPD.
-- A primary "Denunciar irregularidade" CTA at the bottom that routes
-  to SCREEN 24.
+- A hero card with the program description and key metrics (famílias, valor mensal, valor anual, %
+  população).
+- A trend chart (semester-by-semester) showing beneficiaries + total value over time.
+- A breakdown by neighborhood (which `bairros` have the most beneficiaries — useful for identifying
+  concentrations).
+- A transparency notes section explaining what's public (per STF MS 36.020/2020) and what's
+  protected by LGPD.
+- A primary "Denunciar irregularidade" CTA at the bottom that routes to SCREEN 24.
 
 ## Features (5 tasks)
 
@@ -41,14 +38,12 @@ prefecture's CadÚnico-aligned records. Includes:
 
 ## Product notes
 
-- **Per STF MS 36.020/2020**: the Bolsa Família beneficiary registry
-  is **nominally public**, but the app aggregates per-neighborhood to
-  avoid individual exposure unless the user drills into the official
-  Portal da Transparência.
-- **Per LGPD**: individual records aren't shown in the app. The
-  prefecture's Open Data feed pre-aggregates them.
-- **Data sources cited**: each metric shows its source ("Fonte: Portal
-  da Transparência · jan/2026") so users can verify.
-- **Comparison to similar cities** (optional polish): if the data
-  exists, the screen can show how Pôrto Belo compares to similar
-  coastal cities in SC.
+- **Per STF MS 36.020/2020**: the Bolsa Família beneficiary registry is **nominally public**, but
+  the app aggregates per-neighborhood to avoid individual exposure unless the user drills into the
+  official Portal da Transparência.
+- **Per LGPD**: individual records aren't shown in the app. The prefecture's Open Data feed
+  pre-aggregates them.
+- **Data sources cited**: each metric shows its source ("Fonte: Portal da Transparência · jan/2026")
+  so users can verify.
+- **Comparison to similar cities** (optional polish): if the data exists, the screen can show how
+  Pôrto Belo compares to similar coastal cities in SC.

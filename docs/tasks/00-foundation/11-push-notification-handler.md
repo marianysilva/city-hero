@@ -1,94 +1,96 @@
 # Push Notification Handler · FCM + APNs + tap routing
 
-> **Type:** Foundation · Notifications
-> **Screen(s):** Notifications (19), Detail (13/14), and any screen reachable via push
-> **Effort:** M (1-2 days)
-> **Dependencies:** `00-foundation/05-api-client.md`, `00-foundation/06-auth-system.md`, `00-foundation/12-deep-link-handler.md`
-> **Status:** ⬜ Not started
+> **Type:** Foundation · Notifications\
+> **Screen(s):** Notifications (19), Detail (13/14), and any screen reachable via push\
+> **Effort:** M (1-2 days)\
+> **Dependencies:** `00-foundation/05-api-client.md`, `00-foundation/06-auth-system.md`,
+> `00-foundation/12-deep-link-handler.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `backend`, `notifications`, `foundation`
 
 ## Context
 
-Push notifications keep the citizen in the loop without opening the app:
-status changes on their reports, neighborhood alerts, and prefecture
-announcements. They're also how we re-engage dormant users (carefully — too
-many = uninstall).
+Push notifications keep the citizen in the loop without opening the app: status changes on their
+reports, neighborhood alerts, and prefecture announcements. They're also how we re-engage dormant
+users (carefully — too many = uninstall).
 
-This task wires the cross-platform push pipeline: device-token registration
-on the backend, dispatch from the backend, foreground/background/quit
-handling on the device, and tap routing into the right screen.
+This task wires the cross-platform push pipeline: device-token registration on the backend, dispatch
+from the backend, foreground/background/quit handling on the device, and tap routing into the right
+screen.
 
 ## User Story
 
-**As a** Citizen,
-**I want** to be notified when something happens with my report (or in my neighborhood),
+**As a** Citizen,\
+**I want** to be notified when something happens with my report (or in my neighborhood),\
 **In order to** stay engaged without checking the app every day.
 
 ## Acceptance Criteria
 
 ### Scenario · First-time permission
 
-**Given** the user just completed onboarding
-**When** the app prompts for notification permission
-**Then** the OS dialog appears
-**And** if granted, the device token is registered with the backend
+**Given** the user just completed onboarding\
+**When** the app prompts for notification permission\
+**Then** the OS dialog appears\
+**And** if granted, the device token is registered with the backend\
 **And** if denied, the user can re-enable it later in Settings
 
 ### Scenario · Token registration
 
-**Given** the user granted permission
-**When** the app obtains a device token (FCM on Android, APNs on iOS)
-**Then** the token is sent to the backend along with the user ID, platform, and language
+**Given** the user granted permission\
+**When** the app obtains a device token (FCM on Android, APNs on iOS)\
+**Then** the token is sent to the backend along with the user ID, platform, and language\
 **And** the backend stores it and uses it for future dispatches
 
 ### Scenario · Token rotation
 
-**Given** the OS rotates the device token
-**When** the app detects the new token
-**Then** the backend is notified
+**Given** the OS rotates the device token\
+**When** the app detects the new token\
+**Then** the backend is notified\
 **And** the old token is marked stale
 
 ### Scenario · Receiving in foreground
 
-**Given** the app is open
-**When** a push arrives
-**Then** an in-app banner shows it (top-of-screen) with category icon
-**And** does **not** show the system notification
+**Given** the app is open\
+**When** a push arrives\
+**Then** an in-app banner shows it (top-of-screen) with category icon\
+**And** does **not** show the system notification\
 **And** tapping the banner triggers the same routing as a system notification tap
 
 ### Scenario · Receiving in background
 
-**Given** the app is in background
-**When** a push arrives
-**Then** the system notification appears
+**Given** the app is in background\
+**When** a push arrives\
+**Then** the system notification appears\
 **And** the badge count on the app icon is incremented
 
 ### Scenario · Receiving when quit
 
-**Given** the app is force-quit
-**When** a push arrives
-**Then** the OS shows the notification
-**And** if the user taps it, the app launches and routes to the target screen
-**And** the launch sequence (Splash → init → routing) waits for the deep-link target before navigating to Home
+**Given** the app is force-quit\
+**When** a push arrives\
+**Then** the OS shows the notification\
+**And** if the user taps it, the app launches and routes to the target screen\
+**And** the launch sequence (Splash → init → routing) waits for the deep-link target before
+navigating to Home
 
 ### Scenario · Tap routing
 
-**Given** a notification has a `target` payload (e.g., `{ kind: "report", id: "abc" }`)
-**When** the user taps it
-**Then** the app navigates to the appropriate screen (e.g., Report Detail)
+**Given** a notification has a `target` payload (e.g., `{ kind: "report", id: "abc" }`)\
+**When** the user taps it\
+**Then** the app navigates to the appropriate screen (e.g., Report Detail)\
 **And** marks the notification as read in the Notifications screen
 
 ### Scenario · Categories
 
-**Given** the backend dispatches a notification
-**When** the device receives it
-**Then** the notification carries a category label (status update, neighborhood alert, prefecture announcement, gamification) for display + analytics
+**Given** the backend dispatches a notification\
+**When** the device receives it\
+**Then** the notification carries a category label (status update, neighborhood alert, prefecture
+announcement, gamification) for display + analytics
 
 ### Scenario · Localization
 
-**Given** the user's language is en-US
-**When** the backend dispatches a notification
-**Then** the title and body are in en-US
+**Given** the user's language is en-US\
+**When** the backend dispatches a notification\
+**Then** the title and body are in en-US\
 **And** the backend uses the user's stored language to pick the template
 
 ## Frontend (React Native / Expo)
@@ -109,30 +111,28 @@ apps/city-hero/src/services/notifications/
 - On login, request permission and register the device token. On token rotation, update the backend.
 - A background-message handler responds to silent pushes (e.g., for re-syncing).
 - Foreground messages render an in-app banner instead of a system notification.
-- Tap handling converts the notification's payload to a deep link and delegates to the deep-link handler.
+- Tap handling converts the notification's payload to a deep link and delegates to the deep-link
+  handler.
 
 ### Out of scope (for now)
 
-Per-user preferences (mute categories, quiet hours, rate limits) are
-**not** in MVP scope. The product hasn't defined the notification
-catalog yet, and over-engineering preferences before the catalog
-exists is wasteful. When defined, preferences will live under
-**Mais → Configurações** (`28-citizen-profile/06-settings-and-logout.md`)
-and reuse a single `/notifications/preferences` endpoint added at that
-time.
+Per-user preferences (mute categories, quiet hours, rate limits) are **not** in MVP scope. The
+product hasn't defined the notification catalog yet, and over-engineering preferences before the
+catalog exists is wasteful. When defined, preferences will live under **Mais → Configurações**
+(`28-citizen-profile/06-settings-and-logout.md`) and reuse a single `/notifications/preferences`
+endpoint added at that time.
 
 ### Real-time update strategy
 
-For the MVP, **Push (FCM/APNs) is the single channel** for delivering
-events to the device — including while the app is open (rendered as
-the foreground in-app banner above). No WebSocket, no polling.
-Trade-off documented in `architecture-patterns.md` § Real-time
-updates: on-screen lists may take 5–30s to reflect changes; acceptable
-for the MVP per product decision (2026-06-19).
+For the MVP, **Push (FCM/APNs) is the single channel** for delivering events to the device —
+including while the app is open (rendered as the foreground in-app banner above). No WebSocket, no
+polling. Trade-off documented in `architecture-patterns.md` § Real-time updates: on-screen lists may
+take 5–30s to reflect changes; acceptable for the MVP per product decision (2026-06-19).
 
 ### Permission UX
 
-Don't request permission at first launch — request after onboarding so the user understands why we need it.
+Don't request permission at first launch — request after onboarding so the user understands why we
+need it.
 
 ## Backend (FastAPI)
 
@@ -148,11 +148,14 @@ Don't request permission at first launch — request after onboarding so the use
 
 ### Dispatch worker
 
-A background worker reads the events that should produce notifications (status changes, supports, achievements) and dispatches via the appropriate provider (FCM/APNs). It uses the user's stored language to pick the template.
+A background worker reads the events that should produce notifications (status changes, supports,
+achievements) and dispatches via the appropriate provider (FCM/APNs). It uses the user's stored
+language to pick the template.
 
 ### Templates
 
-Templates live in `apps/backend/src/templates/notifications/<category>/<lang>.json`. Each has `title` and `body` with placeholders.
+Templates live in `apps/backend/src/templates/notifications/<category>/<lang>.json`. Each has
+`title` and `body` with placeholders.
 
 ## Database (PostgreSQL)
 
@@ -190,12 +193,15 @@ Templates live in `apps/backend/src/templates/notifications/<category>/<lang>.js
 - **Stale device tokens**: the backend prunes tokens not seen in 60 days.
 - **Multiple devices per user**: all active tokens receive the dispatch.
 - **App uninstalled**: provider returns invalid-token error → backend marks token stale.
-- **User logs out**: device token is unregistered immediately so the next user on this device doesn't get the previous user's notifications.
-- **Push provider outage**: dispatch worker retries with backoff; failed dispatches are visible in the ops dashboard.
+- **User logs out**: device token is unregistered immediately so the next user on this device
+  doesn't get the previous user's notifications.
+- **Push provider outage**: dispatch worker retries with backoff; failed dispatches are visible in
+  the ops dashboard.
 
 ## Privacy / LGPD
 
-- Notification content is stored in the DB without PII (uses i18n keys + IDs, not literal text with names).
+- Notification content is stored in the DB without PII (uses i18n keys + IDs, not literal text with
+  names).
 - The user can disable notifications entirely; the backend honors this immediately.
 - Tokens are not shared with third parties.
 
@@ -210,7 +216,8 @@ Templates live in `apps/backend/src/templates/notifications/<category>/<lang>.js
 
 ## Tests
 
-- **Unit (mobile)**: token rotation triggers backend update; foreground handler renders banner; tap routing converts payload to navigation.
+- **Unit (mobile)**: token rotation triggers backend update; foreground handler renders banner; tap
+  routing converts payload to navigation.
 - **Unit (backend)**: dispatch worker selects correct locale; templates render with placeholders.
 - **Integration**: end-to-end dispatch with a mocked FCM/APNs server.
 - **E2E**: send a real push to a test device, verify it lands and routes correctly.

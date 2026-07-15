@@ -1,29 +1,33 @@
 # Citizen Profile · Recent activity feed
 
-> **Type:** Screen feature · UI + data
-> **Screen:** SCREEN 28 · Citizen Profile
-> **Effort:** M (1-2 days)
-> **Dependencies:** `28-citizen-profile/01-render-profile-ui-base.md`, `00-foundation/05-api-client.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · UI + data\
+> **Screen:** SCREEN 28 · Citizen Profile\
+> **Effort:** M (1-2 days)\
+> **Dependencies:** `28-citizen-profile/01-render-profile-ui-base.md`,
+> `00-foundation/05-api-client.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `backend`, `screen`
 
 ## Context
 
-A scrollable list of the user's recent gamification activity: level-ups, medal unlocks, big XP gains, support milestones, etc. Each row has a colored icon + headline + supporting context + time. Activity items are personal — only the user sees this. Tapping each can navigate to the relevant context.
+A scrollable list of the user's recent gamification activity: level-ups, medal unlocks, big XP
+gains, support milestones, etc. Each row has a colored icon + headline + supporting context + time.
+Activity items are personal — only the user sees this. Tapping each can navigate to the relevant
+context.
 
 ## Acceptance Criteria
 
 ### Scenario · Default render
 
-**Given** the user has activity
-**When** the feed renders
-**Then** rows appear sorted by most recent
+**Given** the user has activity\
+**When** the feed renders\
+**Then** rows appear sorted by most recent\
 **And** each row: colored icon + headline + context + relative time
 
 ### Scenario · Activity types
 
-**Given** various activity events
-**When** rendered
+**Given** various activity events\
+**When** rendered\
 **Then** types include:
 
 - level_up: "Você virou Guardião · Nível 15"
@@ -34,38 +38,39 @@ A scrollable list of the user's recent gamification activity: level-ups, medal u
 
 ### Scenario · Tap an item
 
-**Given** the user taps a row
-**When** the action runs
-**Then** navigates to the relevant screen (Detail · Ticket for a report, Achievements for a medal, etc.)
+**Given** the user taps a row\
+**When** the action runs\
+**Then** navigates to the relevant screen (Detail · Ticket for a report, Achievements for a medal,
+etc.)
 
 ### Scenario · Pagination
 
-**Given** many items
-**When** scrolling
+**Given** many items\
+**When** scrolling\
 **Then** next page fetches
 
 ### Scenario · Share an activity
 
-**Given** the user wants to share a milestone
-**When** they tap a small share icon on a row
+**Given** the user wants to share a milestone\
+**When** they tap a small share icon on a row\
 **Then** the share sheet opens with a celebratory message
 
 ### Scenario · Empty state
 
-**Given** the user is brand new
-**When** no activity exists
+**Given** the user is brand new\
+**When** no activity exists\
 **Then** a friendly empty message ("Sua jornada começa aqui · faça seu primeiro reporte")
 
 ### Scenario · Localization
 
-**Given** en-US
-**When** rendered
+**Given** en-US\
+**When** rendered\
 **Then** activity copy translates
 
 ### Scenario · Accessibility
 
-**Given** SR is on
-**When** navigated
+**Given** SR is on\
+**When** navigated\
 **Then** each row announced as a group with headline + time
 
 ## Frontend
@@ -87,7 +92,8 @@ apps/city-hero/src/screens/CitizenProfile/
 
 ## Database
 
-A `user_activity_events` table or computed from various sources (xp_events, medals_unlocked, etc.). For MVP, a unified events feed.
+A `user_activity_events` table or computed from various sources (xp_events, medals_unlocked, etc.).
+For MVP, a unified events feed.
 
 ## Edge Cases
 

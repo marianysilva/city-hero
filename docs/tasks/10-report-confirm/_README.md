@@ -1,23 +1,20 @@
 # SCREEN 10 · Report Confirmation
 
-> **Group:** 02 · App Core
-> **Prototype screen:** `design/index.html` (search for `title: 'Confirmação do Reporte'`)
+> **Group:** 02 · App Core\
+> **Prototype screen:** `design/index.html` (search for `title: 'Confirmação do Reporte'`)\
 > **Position in navigation:** After camera capture (SCREEN 08) or after manual report (SCREEN 09)
 
 ## Overview
 
-The pre-submit review screen — where the user inspects what the AI
-already filled in (category, severity, location) and tweaks anything
-that's off. The photo preview shows the **anonymization status** ("2
-plates blurred · 0 faces") reinforcing trust. An optional comment
-field lets users add context. The **"Como se identificar"** toggle is
-the bifurcation moment: Identified routes to the Liga de Heróis
-celebration screen (viral share); Anonymous routes to the Envio Anônimo
-private confirmation. Both grant the same XP — anonymity isn't penalized.
+The pre-submit review screen — where the user inspects what the AI already filled in (category,
+severity, location) and tweaks anything that's off. The photo preview shows the **anonymization
+status** ("2 plates blurred · 0 faces") reinforcing trust. An optional comment field lets users add
+context. The **"Como se identificar"** toggle is the bifurcation moment: Identified routes to the
+Liga de Heróis celebration screen (viral share); Anonymous routes to the Envio Anônimo private
+confirmation. Both grant the same XP — anonymity isn't penalized.
 
-This is also where the **actual report is created** server-side. The
-upload pipeline, anonymization handoff, and gamification credit all
-happen as a result of this screen's submit.
+This is also where the **actual report is created** server-side. The upload pipeline, anonymization
+handoff, and gamification credit all happen as a result of this screen's submit.
 
 ## Features (8 tasks)
 
@@ -43,13 +40,20 @@ happen as a result of this screen's submit.
           └─→ 07 (XP preview) ─────────┘
 ```
 
-01 first; 02–07 in parallel; 08 closes the flow by orchestrating all of them into the report-create endpoint and the post-submit bifurcation.
+01 first; 02–07 in parallel; 08 closes the flow by orchestrating all of them into the report-create
+endpoint and the post-submit bifurcation.
 
 ## Product notes
 
-- **Bifurcation is the key UX moment**: Identified → Liga de Heróis (viral, "share + recruit"); Anonymous → Envio Anônimo (private, "your XP and tracking remain, your identity doesn't").
-- **AI does the work, user confirms**: the form is mostly pre-filled. The verbs are "Trocar" (swap) rather than "Selecionar" (pick) — implying the AI made a guess that the user can override.
-- **Anonymization status is honest**: the badge shows the actual counts ("2 plates blurred · 0 faces"). When the pipeline hasn't completed yet, a "Anonimizando…" state is shown instead.
-- **Severity** is suggested by AI but the user has the last word; the manager panel uses this for prioritization.
-- **XP/medal preview** anchors the action emotionally — "you'll earn 50 XP and the 🏅 Olho Vivo badge".
-- **No-photo path** (from manual report when permission denied): the screen renders without the photo preview slot; submit still works.
+- **Bifurcation is the key UX moment**: Identified → Liga de Heróis (viral, "share + recruit");
+  Anonymous → Envio Anônimo (private, "your XP and tracking remain, your identity doesn't").
+- **AI does the work, user confirms**: the form is mostly pre-filled. The verbs are "Trocar" (swap)
+  rather than "Selecionar" (pick) — implying the AI made a guess that the user can override.
+- **Anonymization status is honest**: the badge shows the actual counts ("2 plates blurred · 0
+  faces"). When the pipeline hasn't completed yet, a "Anonimizando…" state is shown instead.
+- **Severity** is suggested by AI but the user has the last word; the manager panel uses this for
+  prioritization.
+- **XP/medal preview** anchors the action emotionally — "you'll earn 50 XP and the 🏅 Olho Vivo
+  badge".
+- **No-photo path** (from manual report when permission denied): the screen renders without the
+  photo preview slot; submit still works.

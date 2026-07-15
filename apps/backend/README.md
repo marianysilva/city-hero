@@ -1,20 +1,27 @@
 # CityHero — Backend
 
-Async REST API built with FastAPI + PostgreSQL. Serves the mobile app (Expo), the web dashboard (Next.js), and future Open311 integrations with city hall systems.
+Async REST API built with FastAPI + PostgreSQL. Serves the mobile app (Expo), the web dashboard
+(Next.js), and future Open311 integrations with city hall systems.
 
 ---
 
 ## Structure
 
-**`app/core/`** — application-wide singletons: environment config (Pydantic Settings), the async SQLAlchemy engine and session factory, and security utilities (bcrypt hashing, JWT generation/validation).
+**`app/core/`** — application-wide singletons: environment config (Pydantic Settings), the async
+SQLAlchemy engine and session factory, and security utilities (bcrypt hashing, JWT
+generation/validation).
 
-**`app/models/`** — SQLAlchemy ORM classes, one per database table. Each file defines the table schema as a typed Python class that Alembic uses to generate migrations.
+**`app/models/`** — SQLAlchemy ORM classes, one per database table. Each file defines the table
+schema as a typed Python class that Alembic uses to generate migrations.
 
-**`app/schemas/`** — Pydantic models that define the exact shape of every API request body and response. Nothing from the database is returned to clients without going through one of these.
+**`app/schemas/`** — Pydantic models that define the exact shape of every API request body and
+response. Nothing from the database is returned to clients without going through one of these.
 
-**`app/routers/`** — FastAPI route handlers grouped by domain. Each file is a self-contained API module that gets mounted in `main.py` with its own URL prefix.
+**`app/routers/`** — FastAPI route handlers grouped by domain. Each file is a self-contained API
+module that gets mounted in `main.py` with its own URL prefix.
 
-**`main.py`** — the application entry point: instantiates FastAPI, registers routers, configures CORS, and wires up the startup lifecycle.
+**`main.py`** — the application entry point: instantiates FastAPI, registers routers, configures
+CORS, and wires up the startup lifecycle.
 
 ---
 
@@ -99,18 +106,42 @@ GET /users/me  Authorization: Bearer <token>
 
 ## Running locally
 
-> The default, tested way to run the backend is through the repo-root Makefile (`make start` / `make setup`, macOS + Colima) — see the [root README](../../README.md#getting-started). It runs this service in Docker, migrations included. The steps below are for running it standalone, outside Docker (e.g. to use `--reload` against a local interpreter).
+> The default, tested way to run the backend is through the repo-root Makefile (`make start` /
+> `make setup`, macOS + Colima) — see the [root README](../../README.md#getting-started). It runs
+> this service in Docker, migrations included. The steps below are for running it standalone,
+> outside Docker (e.g. to use `--reload` against a local interpreter).
 
 **Prerequisite:** PostgreSQL running with a `cityhero` database created.
 
 ```bash
-# 1. Install dependencies
+# 1. Python Environment
 cd apps/backend
 python3 -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
+```
 
+Env Activate
+
+```bash
+source .venv/Scripts/activate # Windows
+source .venv/bin/activate # Linux or MacOs
+```
+
+Pip Upgrade
+
+```bash
+python.exe -m pip install --upgrade pip # Windows
+pip install --upgrade pip # Linux or MacOs
+```
+
+Requirements
+
+```bash
+pip install -r requirements.txt
+```
+
+Start
+
+```bash
 # 2. Set environment variables
 cp .env.sample .env
 # edit .env with your DATABASE_URL and SECRET_KEY
@@ -136,7 +167,8 @@ alembic upgrade head
 alembic history
 ```
 
-> Never modify the database directly. All schema changes go through an Alembic migration to keep a versioned history.
+> Never modify the database directly. All schema changes go through an Alembic migration to keep a
+> versioned history.
 
 ---
 
@@ -151,4 +183,5 @@ ruff check .            # Python lint (PEP 8 + extra rules)
 
 ## Environment Variables
 
-See [`.env.sample`](./.env.sample) — every variable is documented there (what it configures, how it's used, and how to fill it in).
+See [`.env.sample`](./.env.sample) — every variable is documented there (what it configures, how
+it's used, and how to fill it in).

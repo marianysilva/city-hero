@@ -1,86 +1,87 @@
 # Docker Dev Environment · PostGIS + Redis + MinIO + AI service
 
-> **Type:** Foundation · Infrastructure
-> **Screen(s):** Backend stack (powers all screens)
-> **Effort:** M (1-2 days)
-> **Dependencies:** `00-foundation/01-monorepo-setup.md`
-> **Status:** ⬜ Not started
+> **Type:** Foundation · Infrastructure\
+> **Screen(s):** Backend stack (powers all screens)\
+> **Effort:** M (1-2 days)\
+> **Dependencies:** `00-foundation/01-monorepo-setup.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `infrastructure`, `foundation`, `docker`, `backend`, `postgis`
 
 ## Context
 
-A Docker Compose dev stack that boots the full backend universe in one
-command:
+A Docker Compose dev stack that boots the full backend universe in one command:
 
-- **PostgreSQL with PostGIS** — geographic queries are core (heatmaps,
-  clustering, "10km radius feed", smart routing). Without PostGIS, every
-  spatial query reverts to slow and incorrect raw lat/lng math.
+- **PostgreSQL with PostGIS** — geographic queries are core (heatmaps, clustering, "10km radius
+  feed", smart routing). Without PostGIS, every spatial query reverts to slow and incorrect raw
+  lat/lng math.
 - **Redis** — rate-limiting state, session cache, and async-job broker.
-- **MinIO** — S3-compatible object storage for photos pre-cloud (so the
-  full pipeline runs locally before AWS).
+- **MinIO** — S3-compatible object storage for photos pre-cloud (so the full pipeline runs locally
+  before AWS).
 - **FastAPI backend** — the main API.
 - **Next.js web admin** — the manager-facing app.
 - **AI inference service** — separate FastAPI app running YOLOv8.
 
 ## User Story
 
-**As a** Backend Developer,
-**I want** to run a single command and have the entire stack running locally,
+**As a** Backend Developer,\
+**I want** to run a single command and have the entire stack running locally,\
 **In order to** develop and run integration tests without manual setup.
 
 ## Acceptance Criteria
 
 ### Scenario · One-command boot
 
-**Given** the developer just cloned the repo and copied `.env.example` to `.env`
-**When** they run the dev-up command
-**Then** all services start in dependency order (db → redis → minio → backend → ai → web)
-**And** the backend health endpoint returns 200 within 30 seconds
-**And** the web admin is reachable on its port
+**Given** the developer just cloned the repo and copied `.env.example` to `.env`\
+**When** they run the dev-up command\
+**Then** all services start in dependency order (db → redis → minio → backend → ai → web)\
+**And** the backend health endpoint returns 200 within 30 seconds\
+**And** the web admin is reachable on its port\
 **And** the AI service is reachable on its port
 
 ### Scenario · PostGIS extension
 
-**Given** the database container is healthy
-**When** the backend connects on first run
-**Then** an Alembic migration enables the PostGIS extension
-**And** subsequent migrations can use geometry/geography types and PostGIS functions
+**Given** the database container is healthy\
+**When** the backend connects on first run\
+**Then** an Alembic migration enables the PostGIS extension\
+**And** subsequent migrations can use geometry/geography types and PostGIS functions\
 **And** a query for the PostGIS version returns successfully
 
 ### Scenario · MinIO bucket bootstrap
 
-**Given** the MinIO container is running
-**When** the backend starts
-**Then** it creates buckets for raw photos, anonymized photos, and thumbnails if missing
+**Given** the MinIO container is running\
+**When** the backend starts\
+**Then** it creates buckets for raw photos, anonymized photos, and thumbnails if missing\
 **And** sets bucket policies (private with signed-URL access)
 
 ### Scenario · Redis as cache and queue
 
-**Given** Redis is running
-**When** the backend starts
-**Then** Redis is reachable from the backend
-**And** the backend can use it as a cache (for rate limits, ephemeral data) and as a job queue broker
+**Given** Redis is running\
+**When** the backend starts\
+**Then** Redis is reachable from the backend\
+**And** the backend can use it as a cache (for rate limits, ephemeral data) and as a job queue
+broker
 
 ### Scenario · AI service decoupled
 
-**Given** the AI service container is running
-**When** the backend posts an inference request to the AI service
-**Then** the service responds with detected objects (or 503 if the model is still loading)
-**And** the AI service runs in a separate container (separate Python process, separate model loading)
+**Given** the AI service container is running\
+**When** the backend posts an inference request to the AI service\
+**Then** the service responds with detected objects (or 503 if the model is still loading)\
+**And** the AI service runs in a separate container (separate Python process, separate model
+loading)
 
 ### Scenario · Volumes persist across restarts
 
-**Given** the dev stops and restarts the stack
-**When** the stack restarts
-**Then** Postgres data persists (named volume)
-**And** MinIO objects persist (named volume)
+**Given** the dev stops and restarts the stack\
+**When** the stack restarts\
+**Then** Postgres data persists (named volume)\
+**And** MinIO objects persist (named volume)\
 **And** Redis cache is volatile (acceptable — it's a cache)
 
 ### Scenario · Env validation
 
-**Given** required env vars are missing
-**When** the dev starts the backend container
-**Then** the backend exits with a clear error naming the missing var
+**Given** required env vars are missing\
+**When** the dev starts the backend container\
+**Then** the backend exits with a clear error naming the missing var\
 **And** points to the example env file for reference
 
 ## Services
@@ -96,22 +97,23 @@ The compose file defines these services:
 | `ai-service` | Built from `apps/ai_service` | 8001       | model files (read-only) | `/health` HTTP       |
 | `web`        | Built from `apps/web`        | 3000       | (none)                  | (depends on backend) |
 
-Service dependencies are declared so each service waits for its dependencies
-to be healthy before starting.
+Service dependencies are declared so each service waits for its dependencies to be healthy before
+starting.
 
 ## Environment variables
 
 The `.env.example` enumerates required variables grouped by purpose:
 
 - **Postgres**: user, password, database name.
-- **Backend**: app name, secret key, JWT algorithm, token expiry, allowed CORS origins, log level, environment label.
+- **Backend**: app name, secret key, JWT algorithm, token expiry, allowed CORS origins, log level,
+  environment label.
 - **Storage (MinIO)**: root user, root password, bucket names.
 - **Inference**: AI service URL, model path, confidence thresholds.
 - **Web**: public API URL.
 - **Optional integrations**: Sentry DSN, SMTP credentials.
 
-Each variable in `.env.example` has a short comment explaining its purpose
-and any safe default for dev.
+Each variable in `.env.example` has a short comment explaining its purpose and any safe default for
+dev.
 
 ## Backend changes required
 
@@ -133,9 +135,11 @@ See `00-foundation/16-yolov8-inference-service.md` for the full spec.
 ## Edge Cases
 
 - **Apple Silicon**: the chosen PostGIS image must be multi-arch (works on arm64).
-- **Port conflict**: the host machine may already use 5432, 6379, 9000, 3000, 8000. Document how to override ports via env vars or a local `docker-compose.override.yml`.
+- **Port conflict**: the host machine may already use 5432, 6379, 9000, 3000, 8000. Document how to
+  override ports via env vars or a local `docker-compose.override.yml`.
 - **MinIO password length**: must satisfy MinIO's minimum length (8).
-- **AI service slow startup** (~30s loading model): the backend treats initial 503s with retries / circuit breaker, not crashes.
+- **AI service slow startup** (~30s loading model): the backend treats initial 503s with retries /
+  circuit breaker, not crashes.
 - **Volumes growing on disk**: documentation explains how to wipe them when needed.
 - **This is dev only**: production uses managed services (RDS, S3, ElastiCache, ECS) — not Compose.
 

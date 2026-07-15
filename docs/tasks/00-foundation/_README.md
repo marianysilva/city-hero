@@ -1,7 +1,7 @@
 # 00 · Foundation · Shared components and infrastructure
 
-Tasks that must be in place **before** screen tasks — without them, the screen
-work either repeats itself or breaks on integration.
+Tasks that must be in place **before** screen tasks — without them, the screen work either repeats
+itself or breaks on integration.
 
 ## Tasks (18)
 
@@ -51,8 +51,8 @@ work either repeats itself or breaks on integration.
 
 ## Notes
 
-- **Anonymization (08) is a legal blocker**: no screen accepting a photo can
-  ship without it. LGPD/GDPR is non-negotiable.
-- **Offline queue (09)** is a competitive differentiator — Pôrto Belo has
-  coastline zones with poor signal.
+- **Anonymization (08) is a legal blocker**: no screen accepting a photo can ship without it.
+  LGPD/GDPR is non-negotiable.
+- **Offline queue (09)** is a competitive differentiator — Pôrto Belo has coastline zones with poor
+  signal.
 - XL items (08, 16) likely need to be split into subtasks during implementation.

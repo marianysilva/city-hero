@@ -1,86 +1,90 @@
 # Photo Upload Pipeline · Compress, upload, retry, EXIF strip
 
-> **Type:** Foundation · Media pipeline
-> **Screen(s):** Camera (08), Manual Report (09), Confirm Report (10), Field Team app (out of MVP)
-> **Effort:** L (3-5 days)
-> **Dependencies:** `00-foundation/05-api-client.md`, `00-foundation/09-offline-queue.md`, `00-foundation/17-docker-dev-environment.md`
-> **Status:** ⬜ Not started
+> **Type:** Foundation · Media pipeline\
+> **Screen(s):** Camera (08), Manual Report (09), Confirm Report (10), Field Team app (out of MVP)\
+> **Effort:** L (3-5 days)\
+> **Dependencies:** `00-foundation/05-api-client.md`, `00-foundation/09-offline-queue.md`,
+> `00-foundation/17-docker-dev-environment.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `backend`, `media`, `lgpd`, `foundation`
 
 ## Context
 
-The pipeline that takes a photo from capture all the way to durable storage,
-ready for AI processing and feed display. It handles client-side compression
-to keep upload sizes reasonable on slow networks, EXIF stripping to remove
-sensitive metadata, multipart upload with progress reporting, retry on
-transient failures, and graceful enqueue when the device is offline.
+The pipeline that takes a photo from capture all the way to durable storage, ready for AI processing
+and feed display. It handles client-side compression to keep upload sizes reasonable on slow
+networks, EXIF stripping to remove sensitive metadata, multipart upload with progress reporting,
+retry on transient failures, and graceful enqueue when the device is offline.
 
 The output of this pipeline feeds the **anonymization pipeline**
-(`00-foundation/08-anonymization-pipeline.md`), which is a LGPD legal
-requirement before any photo becomes publicly visible.
+(`00-foundation/08-anonymization-pipeline.md`), which is a LGPD legal requirement before any photo
+becomes publicly visible.
 
 ## User Story
 
-**As a** Citizen,
-**I want** my photo to upload reliably even on poor connections,
+**As a** Citizen,\
+**I want** my photo to upload reliably even on poor connections,\
 **In order to** report problems without losing my work to network hiccups.
 
 ## Acceptance Criteria
 
 ### Scenario · Standard upload (online, good network)
 
-**Given** the user just captured a photo and confirmed the report
-**When** the upload starts
-**Then** the photo is compressed to a target max long edge (e.g., 1920px) and JPEG quality (e.g., 85)
-**And** EXIF metadata is stripped except for orientation
-**And** GPS coordinates from the device sensor (not EXIF) are attached as a separate metadata field
-**And** the upload uses multipart with progress events surfaced to the UI
+**Given** the user just captured a photo and confirmed the report\
+**When** the upload starts\
+**Then** the photo is compressed to a target max long edge (e.g., 1920px) and JPEG quality
+(e.g., 85)\
+**And** EXIF metadata is stripped except for orientation\
+**And** GPS coordinates from the device sensor (not EXIF) are attached as a separate metadata field\
+**And** the upload uses multipart with progress events surfaced to the UI\
 **And** the response returns a photo ID stored on the new report
 
 ### Scenario · Slow network, partial upload
 
-**Given** the network is slow and the upload is in progress
-**When** the connection drops mid-upload
-**Then** the client retries the upload from the beginning (or resumes from the last chunk if multipart-resumable is supported)
-**And** retry follows exponential backoff with a cap on attempts
+**Given** the network is slow and the upload is in progress\
+**When** the connection drops mid-upload\
+**Then** the client retries the upload from the beginning (or resumes from the last chunk if
+multipart-resumable is supported)\
+**And** retry follows exponential backoff with a cap on attempts\
 **And** the user is shown a "retrying" state, not a failure
 
 ### Scenario · Offline at upload time
 
-**Given** the device has no internet
-**When** the user submits the report
-**Then** the photo and report metadata are saved to the offline queue
-**And** the user gets an immediate "saved locally · will sync" confirmation
+**Given** the device has no internet\
+**When** the user submits the report\
+**Then** the photo and report metadata are saved to the offline queue\
+**And** the user gets an immediate "saved locally · will sync" confirmation\
 **And** the queue auto-syncs when connectivity returns
 
 ### Scenario · EXIF metadata stripped
 
-**Given** the source photo carries EXIF metadata (camera info, GPS, timestamps)
-**When** the upload pipeline processes it
-**Then** all EXIF is removed except orientation
+**Given** the source photo carries EXIF metadata (camera info, GPS, timestamps)\
+**When** the upload pipeline processes it\
+**Then** all EXIF is removed except orientation\
 **And** the orientation is applied so the image is correctly oriented when re-displayed
 
 ### Scenario · Compression preserves orientation
 
-**Given** the source photo is in landscape with EXIF orientation flag
-**When** compressed
-**Then** the saved image is correctly rotated and re-encoded without the orientation flag
+**Given** the source photo is in landscape with EXIF orientation flag\
+**When** compressed\
+**Then** the saved image is correctly rotated and re-encoded without the orientation flag\
 **And** does not appear sideways in the feed
 
 ### Scenario · Server-side validation
 
-**Given** an upload arrives at the backend
-**When** the file is processed
-**Then** the server validates MIME type by content (not extension), size (max 10MB), and dimensions (max 8000×8000)
+**Given** an upload arrives at the backend\
+**When** the file is processed\
+**Then** the server validates MIME type by content (not extension), size (max 10MB), and dimensions
+(max 8000×8000)\
 **And** rejects malformed or oversized files with a clear error code
 
 ### Scenario · Storage layout
 
-**Given** an upload succeeds
-**When** the backend stores the file
-**Then** the raw photo lands in the raw bucket (private, retained 30 days for audit)
-**And** the file path includes the city ID, year/month, and a UUID
-**And** the photo record in the database stores the bucket path, content hash (SHA-256), and metadata
+**Given** an upload succeeds\
+**When** the backend stores the file\
+**Then** the raw photo lands in the raw bucket (private, retained 30 days for audit)\
+**And** the file path includes the city ID, year/month, and a UUID\
+**And** the photo record in the database stores the bucket path, content hash (SHA-256), and
+metadata
 
 ## Frontend (React Native)
 
@@ -97,17 +101,22 @@ packages/api_client/src/uploads/
 ### Behavior
 
 - Receives a captured photo URI or asset, target compression settings, and the report metadata.
-- Returns a promise that resolves to the photo ID after a successful upload, with progress events along the way.
-- On offline detection, hands off to the offline queue with the same input shape so the resumed flow goes through the same path.
-- Surfaces granular states (compressing, uploading, retrying, succeeded, failed) so the host screen can render appropriate feedback.
+- Returns a promise that resolves to the photo ID after a successful upload, with progress events
+  along the way.
+- On offline detection, hands off to the offline queue with the same input shape so the resumed flow
+  goes through the same path.
+- Surfaces granular states (compressing, uploading, retrying, succeeded, failed) so the host screen
+  can render appropriate feedback.
 
 ### Compression
 
-A photo-manipulation library compresses the long edge to the target size and re-encodes JPEG at the target quality. Compression is done on a worker thread when supported to avoid jank.
+A photo-manipulation library compresses the long edge to the target size and re-encodes JPEG at the
+target quality. Compression is done on a worker thread when supported to avoid jank.
 
 ### Progress reporting
 
-The host screen subscribes to progress events (0–100%) and shows a bar or percentage. Resume from the same percentage when retrying after a transient error.
+The host screen subscribes to progress events (0–100%) and shows a bar or percentage. Resume from
+the same percentage when retrying after a transient error.
 
 ## Backend (FastAPI)
 
@@ -121,8 +130,10 @@ The host screen subscribes to progress events (0–100%) and shows a bar or perc
 
 The two upload paths support two strategies:
 
-- **Server-relayed**: the client posts to FastAPI, which streams to MinIO/S3. Simpler, slower for large files.
-- **Direct-to-storage with pre-signed URL**: the client gets a pre-signed URL and uploads directly. Faster, lower backend CPU. Default for production.
+- **Server-relayed**: the client posts to FastAPI, which streams to MinIO/S3. Simpler, slower for
+  large files.
+- **Direct-to-storage with pre-signed URL**: the client gets a pre-signed URL and uploads directly.
+  Faster, lower backend CPU. Default for production.
 
 ### Server-side validation
 
@@ -133,7 +144,9 @@ The two upload paths support two strategies:
 
 ### Anonymization handoff
 
-After the raw photo is durably stored, the backend enqueues an anonymization job (see `00-foundation/08-anonymization-pipeline.md`). The photo record's `anonymized_at` is null until that job completes.
+After the raw photo is durably stored, the backend enqueues an anonymization job (see
+`00-foundation/08-anonymization-pipeline.md`). The photo record's `anonymized_at` is null until that
+job completes.
 
 ## Database (PostgreSQL)
 
@@ -163,10 +176,12 @@ Indexes on `user_id`, `city_id`, and `content_hash`.
 ## Edge Cases
 
 - **Duplicate upload** (same hash): return the existing photo ID instead of creating a new record.
-- **Photo from gallery vs camera**: gallery uploads are flagged for manual review (anti-fraud, see `CLAUDE.md`). The pipeline preserves the source flag.
+- **Photo from gallery vs camera**: gallery uploads are flagged for manual review (anti-fraud, see
+  `CLAUDE.md`). The pipeline preserves the source flag.
 - **Very small image** (< 200×200): rejected as likely junk.
 - **HEIC/HEIF format on iOS**: convert to JPEG client-side before upload.
-- **Multi-photo upload (future)**: pipeline must support a sequence; for MVP, one photo per report is sufficient.
+- **Multi-photo upload (future)**: pipeline must support a sequence; for MVP, one photo per report
+  is sufficient.
 - **Upload mid-app-kill**: the offline queue holds the work; no data lost.
 - **Storage quota exceeded**: clear error to the user; ops alert on backend.
 
@@ -188,8 +203,10 @@ Indexes on `user_id`, `city_id`, and `content_hash`.
 
 ## Tests
 
-- **Unit (mobile)**: compression preserves orientation; EXIF is stripped; offline triggers enqueue; progress events are dispatched.
-- **Unit (backend)**: MIME sniffing rejects mismatched extensions; size and dimension caps enforced; duplicate hash returns existing ID.
+- **Unit (mobile)**: compression preserves orientation; EXIF is stripped; offline triggers enqueue;
+  progress events are dispatched.
+- **Unit (backend)**: MIME sniffing rejects mismatched extensions; size and dimension caps enforced;
+  duplicate hash returns existing ID.
 - **Integration**: upload → record persisted → anonymization job enqueued.
 - **E2E**: capture a photo, confirm a report, see a "synced" indicator on the resulting record.
 - **Load**: backend handles concurrent uploads under expected load (Locust scenario).
@@ -218,7 +235,8 @@ Indexes on `user_id`, `city_id`, and `content_hash`.
 
 - expo-image-manipulator: https://docs.expo.dev/versions/latest/sdk/imagemanipulator/
 - python-magic (MIME sniffing): https://pypi.org/project/python-magic/
-- AWS S3 pre-signed URLs: https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html
+- AWS S3 pre-signed URLs:
+  https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html
 - MinIO equivalent: https://min.io/docs/minio/linux/developers/python/API.html
 
 ### Project context

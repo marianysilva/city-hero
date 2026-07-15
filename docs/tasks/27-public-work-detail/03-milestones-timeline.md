@@ -1,59 +1,63 @@
 # Public Work Detail · Milestones timeline
 
-> **Type:** Screen feature · UI + content
-> **Screen:** SCREEN 27 · Public Work Detail
-> **Effort:** M (1-2 days)
-> **Dependencies:** `27-public-work-detail/01-render-work-detail-ui-base.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · UI + content\
+> **Screen:** SCREEN 27 · Public Work Detail\
+> **Effort:** M (1-2 days)\
+> **Dependencies:** `27-public-work-detail/01-render-work-detail-ui-base.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `frontend`, `backend`, `screen`
 
 ## Context
 
-A vertical timeline of the work's milestones (similar pattern to `13-detail-in-progress/04` but with construction-specific states): Planejamento → Edital publicado → Licitação encerrada → Contrato assinado → Início das obras → Vistoria intermediária → Conclusão prevista → Conclusão. Each entry has a date, a short description, an actor (e.g., "Câmara Municipal", "Empresa X"), and an optional document link.
+A vertical timeline of the work's milestones (similar pattern to `13-detail-in-progress/04` but with
+construction-specific states): Planejamento → Edital publicado → Licitação encerrada → Contrato
+assinado → Início das obras → Vistoria intermediária → Conclusão prevista → Conclusão. Each entry
+has a date, a short description, an actor (e.g., "Câmara Municipal", "Empresa X"), and an optional
+document link.
 
 ## Acceptance Criteria
 
 ### Scenario · Default render
 
-**Given** milestones exist
-**When** the timeline renders
-**Then** entries appear chronologically with colored dots per state
+**Given** milestones exist\
+**When** the timeline renders\
+**Then** entries appear chronologically with colored dots per state\
 **And** completed entries are full-color; future ones muted
 
 ### Scenario · Document links
 
-**Given** an entry has a linked document (e.g., the edital)
-**When** the user taps the link
+**Given** an entry has a linked document (e.g., the edital)\
+**When** the user taps the link\
 **Then** the OS browser opens the source PDF
 
 ### Scenario · Tap for more
 
-**Given** an entry has notes/context
-**When** tapped
+**Given** an entry has notes/context\
+**When** tapped\
 **Then** a sheet expands with the details
 
 ### Scenario · SLA / delay indicators
 
-**Given** a milestone is behind schedule
-**When** rendered
+**Given** a milestone is behind schedule\
+**When** rendered\
 **Then** an "Atrasado X dias" amber pill appears next to it
 
 ### Scenario · Real-time updates
 
-**Given** the prefecture updates a milestone
-**When** the WS pushes
+**Given** the prefecture updates a milestone\
+**When** the WS pushes\
 **Then** the new entry appears with animation
 
 ### Scenario · Localization
 
-**Given** en-US
-**When** rendered
+**Given** en-US\
+**When** rendered\
 **Then** state labels translate
 
 ### Scenario · Accessibility
 
-**Given** SR is on
-**When** navigated
+**Given** SR is on\
+**When** navigated\
 **Then** entries read as list items
 
 ## Frontend
@@ -74,7 +78,8 @@ apps/city-hero/src/screens/PublicWorkDetail/
 
 ## Database
 
-`public_work_milestones` table with: id, work_id, state, title_key, actor, occurred_at, scheduled_for, document_url, notes.
+`public_work_milestones` table with: id, work_id, state, title_key, actor, occurred_at,
+scheduled_for, document_url, notes.
 
 ## Edge Cases
 

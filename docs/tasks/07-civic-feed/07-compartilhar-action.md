@@ -1,37 +1,35 @@
 # Civic Feed · Compartilhar action
 
-> **Type:** Screen feature · UX + integrations
-> **Screen:** SCREEN 07 · Civic Feed (also reused on Detail screens 13, 14, and Liga de Heróis)
-> **Effort:** S (≤1 day)
-> **Dependencies:** `07-civic-feed/03-feed-item-card.md`, `00-foundation/12-deep-link-handler.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · UX + integrations\
+> **Screen:** SCREEN 07 · Civic Feed (also reused on Detail screens 13, 14, and Liga de Heróis)\
+> **Effort:** S (≤1 day)\
+> **Dependencies:** `07-civic-feed/03-feed-item-card.md`, `00-foundation/12-deep-link-handler.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `frontend`, `screen`, `ux`, `growth`
 
 ## Context
 
-Citizens share reports with neighbors, family groups, or social media to
-amplify pressure on the prefecture and recruit more supporters.
-Compartilhar opens the OS share sheet with a pre-formatted message
-including a deep link to the report. The deep link uses the universal
-form (`https://cityhero.app/r/<id>`) so recipients without the app see a
-preview page; recipients with the app open straight to the detail screen.
+Citizens share reports with neighbors, family groups, or social media to amplify pressure on the
+prefecture and recruit more supporters. Compartilhar opens the OS share sheet with a pre-formatted
+message including a deep link to the report. The deep link uses the universal form
+(`https://cityhero.app/r/<id>`) so recipients without the app see a preview page; recipients with
+the app open straight to the detail screen.
 
-This is also a low-key acquisition channel — every shared link is a
-potential new install.
+This is also a low-key acquisition channel — every shared link is a potential new install.
 
 ## User Story
 
-**As a** Citizen who supports a report,
-**I want** to share it with friends and family,
+**As a** Citizen who supports a report,\
+**I want** to share it with friends and family,\
 **In order to** add pressure on the prefecture and bring others on board.
 
 ## Acceptance Criteria
 
 ### Scenario · Open share sheet
 
-**Given** the user taps the share icon on a feed card (or any other surface)
-**When** the action runs
-**Then** the OS native share sheet opens
+**Given** the user taps the share icon on a feed card (or any other surface)\
+**When** the action runs\
+**Then** the OS native share sheet opens\
 **And** the share payload includes:
 
 - A short subject ("Olha esse problema no nosso bairro")
@@ -41,57 +39,58 @@ potential new install.
 
 ### Scenario · Anonymous report shared
 
-**Given** the report being shared is anonymous
-**When** the share payload is built
-**Then** the message uses "Um vizinho reportou…" (no name)
+**Given** the report being shared is anonymous\
+**When** the share payload is built\
+**Then** the message uses "Um vizinho reportou…" (no name)\
 **And** the link is the same — recipients see the same anonymized post
 
 ### Scenario · Universal link opens the app (installed)
 
-**Given** the recipient has the app installed
-**When** they tap the shared link
-**Then** the app opens directly to the report's detail screen
+**Given** the recipient has the app installed\
+**When** they tap the shared link\
+**Then** the app opens directly to the report's detail screen\
 **And** if not authenticated, they're routed through login first; the deep-link target is preserved
 
 ### Scenario · Universal link opens fallback page (not installed)
 
-**Given** the recipient does not have the app installed
-**When** they tap the link
-**Then** a web fallback page renders showing the report (anonymized photo, description, support count)
+**Given** the recipient does not have the app installed\
+**When** they tap the link\
+**Then** a web fallback page renders showing the report (anonymized photo, description, support
+count)\
 **And** offers an install CTA (App Store / Play Store)
 
 ### Scenario · WhatsApp deep link
 
-**Given** the user picks WhatsApp from the share sheet
-**When** the share fires
-**Then** the message is formatted appropriately for WhatsApp (URL preview with title + image)
+**Given** the user picks WhatsApp from the share sheet\
+**When** the share fires\
+**Then** the message is formatted appropriately for WhatsApp (URL preview with title + image)\
 **And** OpenGraph tags on the fallback page produce a clean preview
 
 ### Scenario · Failed share
 
-**Given** the OS share sheet returns a cancel or error
-**When** the user dismisses the sheet
-**Then** no error is shown (cancel is a normal action)
+**Given** the OS share sheet returns a cancel or error\
+**When** the user dismisses the sheet\
+**Then** no error is shown (cancel is a normal action)\
 **And** if the share completed, telemetry records the chosen target if available
 
 ### Scenario · Throttling
 
-**Given** a user shares many reports in rapid succession
-**When** the rate exceeds a threshold (e.g., 20 shares/minute)
-**Then** subsequent shares show a soft warning ("Você está compartilhando muito rápido")
+**Given** a user shares many reports in rapid succession\
+**When** the rate exceeds a threshold (e.g., 20 shares/minute)\
+**Then** subsequent shares show a soft warning ("Você está compartilhando muito rápido")\
 **And** legitimate use isn't blocked; this is just a soft signal
 
 ### Scenario · Share from anonymous user
 
-**Given** the user is not logged in (browsing as anonymous on web fallback)
-**When** they share from the web fallback
+**Given** the user is not logged in (browsing as anonymous on web fallback)\
+**When** they share from the web fallback\
 **Then** the share works the same way (link is the same)
 
 ### Scenario · Accessibility
 
-**Given** screen reader is on
-**When** the user activates the share button
-**Then** the action is announced
+**Given** screen reader is on\
+**When** the user activates the share button\
+**Then** the action is announced\
 **And** the OS share sheet is the platform-native experience (its own a11y)
 
 ## Frontend (React Native)
@@ -106,9 +105,11 @@ apps/city-hero/src/services/reports/
 ### Behavior
 
 - A function `shareReport(report)` builds the payload and invokes the OS share API.
-- Universal link generation includes UTM parameters: `utm_source=share`, `utm_medium=app`, optionally `utm_campaign` from where the share was triggered.
+- Universal link generation includes UTM parameters: `utm_source=share`, `utm_medium=app`,
+  optionally `utm_campaign` from where the share was triggered.
 - For anonymous reports, the message is rebuilt to omit names.
-- Telemetry fires before the share sheet opens (intent) and after if the OS reports the chosen target.
+- Telemetry fires before the share sheet opens (intent) and after if the OS reports the chosen
+  target.
 
 ### UI considerations
 
@@ -119,12 +120,16 @@ apps/city-hero/src/services/reports/
 
 ### Web fallback page
 
-The fallback page lives at `https://cityhero.app/r/<id>` and is served by the backend (or by the web app's Next.js routing). It:
+The fallback page lives at `https://cityhero.app/r/<id>` and is served by the backend (or by the web
+app's Next.js routing). It:
 
-- Fetches the public-safe view of the report (anonymized photo, description, support count, status, neighborhood).
+- Fetches the public-safe view of the report (anonymized photo, description, support count, status,
+  neighborhood).
 - Includes OpenGraph tags for rich previews on social platforms.
-- Has a CTA "Abrir no CityHero" that uses the universal link (re-tries opening the app if installed).
-- Has Apple/Google universal-link verification files at `/.well-known/apple-app-site-association` and `/.well-known/assetlinks.json` (per `00-foundation/12-deep-link-handler.md`).
+- Has a CTA "Abrir no CityHero" that uses the universal link (re-tries opening the app if
+  installed).
+- Has Apple/Google universal-link verification files at `/.well-known/apple-app-site-association`
+  and `/.well-known/assetlinks.json` (per `00-foundation/12-deep-link-handler.md`).
 
 ### Endpoint for fallback data
 
@@ -145,15 +150,19 @@ No new schema. The fallback page reads the existing `reports` table.
 
 ## Edge Cases
 
-- **Report deleted**: the fallback page shows a friendly "Esse problema foi resolvido ou removido" with a CTA back to CityHero.
+- **Report deleted**: the fallback page shows a friendly "Esse problema foi resolvido ou removido"
+  with a CTA back to CityHero.
 - **Photo not yet anonymized**: the OG image uses a category-emoji placeholder.
 - **Long descriptions**: trimmed for the share message and the OG description.
-- **Recipient on an unsupported platform**: the link still opens the fallback page in any modern browser.
+- **Recipient on an unsupported platform**: the link still opens the fallback page in any modern
+  browser.
 
 ## Privacy / LGPD
 
-- The shared message and fallback page expose only public-safe fields (per the anonymization pipeline).
-- The reporter's name is included **only** if the report is not anonymous; the user already opted into public attribution.
+- The shared message and fallback page expose only public-safe fields (per the anonymization
+  pipeline).
+- The reporter's name is included **only** if the report is not anonymous; the user already opted
+  into public attribution.
 - UTM parameters are non-identifying.
 
 ## Analytics
@@ -166,7 +175,8 @@ No new schema. The fallback page reads the existing `reports` table.
 
 ## Tests
 
-- **Unit (frontend)**: payload constructed correctly for identified vs anonymous; URL includes the report ID and UTM params.
+- **Unit (frontend)**: payload constructed correctly for identified vs anonymous; URL includes the
+  report ID and UTM params.
 - **Unit (backend)**: public endpoint returns only safe fields; OG tags rendered correctly.
 - **Integration**: deep link from the share opens the right screen.
 - **E2E**: share to WhatsApp (or a sandbox target) and verify the preview.

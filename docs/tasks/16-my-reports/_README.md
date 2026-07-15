@@ -1,21 +1,19 @@
 # SCREEN 16 · My Reports
 
-> **Group:** 02 · App Core
-> **Prototype screen:** `design/index.html` (search for `title: 'Meus Reportes'`)
-> **Position in navigation:** From the Mais menu in the bottom nav, or directly via deep link / push tap
+> **Group:** 02 · App Core\
+> **Prototype screen:** `design/index.html` (search for `title: 'Meus Reportes'`)\
+> **Position in navigation:** From the Mais menu in the bottom nav, or directly via deep link / push
+> tap
 
 ## Overview
 
-The user's history: every report they've ever submitted, with status
-chips (Triagem, Em Andamento, Resolvido), pending offline items
-highlighted at the top, and a status KPI strip summarizing the whole
-history (Total / Resolvidos / Em andamento / Triagem). Filter chips
-let the user slice by status; tapping any row opens the appropriate
-detail screen (13, 14, or 17 depending on state).
+The user's history: every report they've ever submitted, with status chips (Triagem, Em Andamento,
+Resolvido), pending offline items highlighted at the top, and a status KPI strip summarizing the
+whole history (Total / Resolvidos / Em andamento / Triagem). Filter chips let the user slice by
+status; tapping any row opens the appropriate detail screen (13, 14, or 17 depending on state).
 
-A "bridge card" at the bottom encourages contextual discovery of
-Programs & Transparency while reports are being processed — turning
-"wait time" into engagement.
+A "bridge card" at the bottom encourages contextual discovery of Programs & Transparency while
+reports are being processed — turning "wait time" into engagement.
 
 ## Features (6 tasks)
 
@@ -39,8 +37,13 @@ Programs & Transparency while reports are being processed — turning
 
 ## Product notes
 
-- **Status colors are consistent with the rest of the app**: amber for in-progress, emerald for resolved, slate for triage.
+- **Status colors are consistent with the rest of the app**: amber for in-progress, emerald for
+  resolved, slate for triage.
 - **Pending offline card** is the user's reassurance that nothing was lost.
-- **Bridge card** is a soft growth surface — encourages users who're waiting on resolutions to explore Programs without nagging.
+- **Bridge card** is a soft growth surface — encourages users who're waiting on resolutions to
+  explore Programs without nagging.
 - **Row tap routes by status**: open → SCREEN 13, resolved → SCREEN 14, merged → SCREEN 17.
-- **XP indicators on resolved rows** (and "Foto depois disponível ✓") give a small celebration as the user scrolls past their wins. The actual XP value is owned by the gamification rules (`docs/engineering/open-questions.md` Q1) — the row only displays whatever value the backend returns.
+- **XP indicators on resolved rows** (and "Foto depois disponível ✓") give a small celebration as
+  the user scrolls past their wins. The actual XP value is owned by the gamification rules
+  (`docs/engineering/open-questions.md` Q1) — the row only displays whatever value the backend
+  returns.

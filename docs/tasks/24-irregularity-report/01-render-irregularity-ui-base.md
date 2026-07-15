@@ -1,63 +1,65 @@
 # Irregularity Report · Render UI base
 
-> **Type:** Screen feature · UI
-> **Screen:** SCREEN 24 · Irregularity Report
-> **Effort:** S (≤1 day)
-> **Dependencies:** `00-foundation/02-design-tokens.md`, `00-foundation/04-status-bar-component.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · UI\
+> **Screen:** SCREEN 24 · Irregularity Report\
+> **Effort:** S (≤1 day)\
+> **Dependencies:** `00-foundation/02-design-tokens.md`, `00-foundation/04-status-bar-component.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `frontend`, `screen`, `ui`
 
 ## Context
 
-A multi-step layout. Header with back button + "Passo N de 5" indicator + screen title. Scrollable middle area for the current step's content. Sticky bottom CTA bar with "Voltar" + "Continuar" (or "Enviar" at the last step).
+A multi-step layout. Header with back button + "Passo N de 5" indicator + screen title. Scrollable
+middle area for the current step's content. Sticky bottom CTA bar with "Voltar" + "Continuar" (or
+"Enviar" at the last step).
 
 ## Acceptance Criteria
 
 ### Scenario · Default render
 
-**Given** the user opens the screen
-**When** it renders
-**Then** status bar is `dark`
-**And** header: back button + step indicator + title ("Denunciar irregularidade")
-**And** below: scrollable step content slot
+**Given** the user opens the screen\
+**When** it renders\
+**Then** status bar is `dark`\
+**And** header: back button + step indicator + title ("Denunciar irregularidade")\
+**And** below: scrollable step content slot\
 **And** sticky bottom CTA bar with Voltar + Continuar
 
 ### Scenario · Step indicator
 
-**Given** the user is on step N of 5
-**When** rendered
-**Then** "Passo N de 5" is visible
+**Given** the user is on step N of 5\
+**When** rendered\
+**Then** "Passo N de 5" is visible\
 **And** a small progress bar fills proportionally
 
 ### Scenario · Slot system
 
-**Given** the screen exposes positional slots
-**When** tasks plug in
+**Given** the screen exposes positional slots\
+**When** tasks plug in\
 **Then** named slots are: `header` (shell), `step-content` (per step task), `cta-bar`
 
 ### Scenario · Voltar at step 1
 
-**Given** the user is on step 1
-**When** they tap Voltar
+**Given** the user is on step 1\
+**When** they tap Voltar\
 **Then** the screen closes and returns to the previous (Programs or Bolsa Família detail)
 
 ### Scenario · Voltar at later step
 
-**Given** the user is on step >1
-**When** they tap Voltar
+**Given** the user is on step >1\
+**When** they tap Voltar\
 **Then** they navigate to the previous step in the flow
 
 ### Scenario · Theming
 
-**Given** dark mode
-**When** rendered
+**Given** dark mode\
+**When** rendered\
 **Then** background adapts
 
 ### Scenario · Accessibility
 
-**Given** SR is on
-**When** the screen mounts
-**Then** title + step indicator announced ("Step 1 of 5")
+**Given** SR is on\
+**When** the screen mounts\
+**Then** title + step indicator announced ("Step 1 of 5")\
 **And** Voltar/Continuar labeled
 
 ## Frontend
@@ -82,11 +84,13 @@ Not applicable.
 
 ## Edge Cases
 
-- **User abandoned mid-flow**: state preserved for the session; cleared on cold start (the user's choices are pre-handoff).
+- **User abandoned mid-flow**: state preserved for the session; cleared on cold start (the user's
+  choices are pre-handoff).
 
 ## Privacy / LGPD
 
-The screen scaffolding doesn't hold PII; subsequent tasks define what's collected and how it's handled (always with the principle: nothing is stored by CityHero).
+The screen scaffolding doesn't hold PII; subsequent tasks define what's collected and how it's
+handled (always with the principle: nothing is stored by CityHero).
 
 ## Analytics
 

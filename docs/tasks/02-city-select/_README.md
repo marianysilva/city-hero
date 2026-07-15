@@ -1,20 +1,20 @@
 # SCREEN 02 · Choose City
 
-> **Group:** 01 · Entry & Onboarding
-> **Prototype screen:** `design/index.html` (search for `title: 'Escolher Cidade'`)
-> **Position in navigation:** After Splash, before the Onboarding triplet (see `design/navigation.html` § 02)
+> **Group:** 01 · Entry & Onboarding\
+> **Prototype screen:** `design/index.html` (search for `title: 'Escolher Cidade'`)\
+> **Position in navigation:** After Splash, before the Onboarding triplet (see
+> `design/navigation.html` § 02)
 
 ## Overview
 
-The first explicit user choice in the app: which city the user belongs to.
-This is **load-bearing** for the multi-tenant architecture — every report,
-every feed item, every API call after this is scoped by the chosen city. The
-screen does it gently: the GPS pre-detects the city and offers a one-tap
-confirmation, so for most users this is a 2-second step.
+The first explicit user choice in the app: which city the user belongs to. This is **load-bearing**
+for the multi-tenant architecture — every report, every feed item, every API call after this is
+scoped by the chosen city. The screen does it gently: the GPS pre-detects the city and offers a
+one-tap confirmation, so for most users this is a 2-second step.
 
-The screen also acts as a **growth surface**: showing "coming soon" cities
-demonstrates expansion ambition and lets non-pilot users join a waitlist —
-turning a friction step into a lead-capture moment.
+The screen also acts as a **growth surface**: showing "coming soon" cities demonstrates expansion
+ambition and lets non-pilot users join a waitlist — turning a friction step into a lead-capture
+moment.
 
 ## Features (6 tasks)
 
@@ -36,14 +36,16 @@ turning a friction step into a lead-capture moment.
           │                                       └─→ 06 (waitlist)
 ```
 
-01 and 02 can be parallel. 03 and 04 sit on top of 02. 05 unifies the
-selection flow whether the user came via GPS, search, or list. 06 attaches
-to the same flow but for non-active cities.
+01 and 02 can be parallel. 03 and 04 sit on top of 02. 05 unifies the selection flow whether the
+user came via GPS, search, or list. 06 attaches to the same flow but for non-active cities.
 
 ## Product notes
 
-- **Multi-tenant is non-negotiable**: after this screen, every backend call must include the `city_id` (header + JWT claim). See `docs/engineering/architecture-patterns.md` § Multi-tenant scoping.
+- **Multi-tenant is non-negotiable**: after this screen, every backend call must include the
+  `city_id` (header + JWT claim). See `docs/engineering/architecture-patterns.md` § Multi-tenant
+  scoping.
 - **Pilot city** is Pôrto Belo, SC. Other SC cities show as "Em breve" / "Coming soon".
 - **Switching cities later** is allowed via the City Profile screen — this isn't a one-shot lock-in.
 - The GPS detection is opt-in (the user can decline location permission and pick manually).
-- **Sales tool**: the "coming soon" list demonstrates regional expansion to the pilot prefecture (we'd love to claim Bombinhas, Itapema, BC are negotiating).
+- **Sales tool**: the "coming soon" list demonstrates regional expansion to the pilot prefecture
+  (we'd love to claim Bombinhas, Itapema, BC are negotiating).

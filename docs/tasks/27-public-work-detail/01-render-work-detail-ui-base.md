@@ -1,48 +1,51 @@
 # Public Work Detail · Render UI base
 
-> **Type:** Screen feature · UI
-> **Screen:** SCREEN 27 · Public Work Detail
-> **Effort:** S (≤1 day)
-> **Dependencies:** `00-foundation/02-design-tokens.md`, `00-foundation/04-status-bar-component.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · UI\
+> **Screen:** SCREEN 27 · Public Work Detail\
+> **Effort:** S (≤1 day)\
+> **Dependencies:** `00-foundation/02-design-tokens.md`, `00-foundation/04-status-bar-component.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `frontend`, `screen`, `ui`
 
 ## Context
 
-Reuses the shared **DetailShell** from `13-detail-in-progress/01` (hero, scroll container, sticky bottom CTA, overflow menu) with task-specific content. The status chips use construction-specific colors.
+Reuses the shared **DetailShell** from `13-detail-in-progress/01` (hero, scroll container, sticky
+bottom CTA, overflow menu) with task-specific content. The status chips use construction-specific
+colors.
 
 ## Acceptance Criteria
 
 ### Scenario · Default render
 
-**Given** the user opens a public work
-**When** the screen renders
-**Then** the shared DetailShell renders the hero, scroll area, and sticky bottom CTA
-**And** the hero shows the latest construction photo or a category placeholder
-**And** status chips at the bottom of the hero use construction-specific colors (per `26-public-works-list/04`)
+**Given** the user opens a public work\
+**When** the screen renders\
+**Then** the shared DetailShell renders the hero, scroll area, and sticky bottom CTA\
+**And** the hero shows the latest construction photo or a category placeholder\
+**And** status chips at the bottom of the hero use construction-specific colors (per
+`26-public-works-list/04`)
 
 ### Scenario · Slot system
 
-**Given** the screen exposes slots
-**When** tasks plug in
+**Given** the screen exposes slots\
+**When** tasks plug in\
 **Then** named slots are: `hero`, `summary`, `timeline`, `gallery`, `documents-and-denunciar`
 
 ### Scenario · Back navigation
 
-**Given** the user taps back
-**When** the action runs
+**Given** the user taps back\
+**When** the action runs\
 **Then** returns to SCREEN 26 (or the entry point)
 
 ### Scenario · Overflow menu
 
-**Given** the user wants secondary actions
-**When** they tap ⋯
+**Given** the user wants secondary actions\
+**When** they tap ⋯\
 **Then** a sheet shows: Compartilhar, Reportar problema, Salvar (future)
 
 ### Scenario · Accessibility
 
-**Given** SR is on
-**When** mounted
+**Given** SR is on\
+**When** mounted\
 **Then** title and status announced
 
 ## Frontend
