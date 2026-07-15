@@ -351,8 +351,23 @@ destroy() {
   echo -e "${RED}-> Removing Docker containers and volumes...${RESET}"
   docker-compose down -v 2>/dev/null || true
 
-  echo -e "${RED}-> Removing gitignored files (node_modules, .env, .venv, build caches, logs, pids)...${RESET}"
-  git clean -fdx -e .claude/
+  # npm workspaces symlinks each workspace package into node_modules/ by its
+  # package.json "name" (e.g. node_modules/city-hero -> apps/city-hero, since
+  # that package is named "city-hero"). On Windows this link is a directory
+  # junction/reparse point, not a plain symlink. `git clean -dx` does its own
+  # directory walk and does not reliably stop at a Windows junction boundary —
+  # it can recurse straight through it and delete the *real* source files the
+  # junction points to, not just the link. `rm -rf` doesn't have this problem
+  # (POSIX rm always treats a directory entry that's a symlink/junction as a
+  # single item to unlink, never descending into its target), so node_modules
+  # is removed with plain rm first, then excluded from git clean entirely —
+  # both here and via .gitignore, so nothing re-walks that symlinked tree.
+  echo -e "${RED}-> Removing node_modules (workspace-symlink safe)...${RESET}"
+  find . -maxdepth 3 -type d -name node_modules -not -path "*/node_modules/*" -print0 |
+    xargs -0 -r rm -rf
+
+  echo -e "${RED}-> Removing remaining gitignored files (.env, .venv, build caches, logs, pids)...${RESET}"
+  git clean -fdx -e .claude/ -e node_modules/
 
   echo -e "${GREEN}${BOLD}Environment destroyed.${RESET} Run './scripts/dev.sh setup' to rebuild from scratch."
 }
