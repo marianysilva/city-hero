@@ -1,20 +1,38 @@
 # Monorepo Setup (Reconciled) Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development
+> (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use
+> checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Close out `docs/tasks/00-foundation/01-monorepo-setup.md` by adding the root tooling (Prettier, Husky, lint-staged, commitlint, PR template, branch protection, shared `tsconfig`) that doesn't exist yet, and by correcting every doc reference from `apps/city-hero` to the real folder name `apps/city-hero`.
+**Goal:** Close out `docs/tasks/00-foundation/01-monorepo-setup.md` by adding the root tooling
+(Prettier, Husky, lint-staged, commitlint, PR template, branch protection, shared `tsconfig`) that
+doesn't exist yet, and by correcting every doc reference from `apps/city-hero` to the real folder
+name `apps/city-hero`.
 
-**Architecture:** No new runtime code. This is pure repo-tooling work: one root-level config file per concern (Prettier, tsconfig base, lint-staged, commitlint), two Husky git hooks wired to those configs, a GitHub PR template, a GitHub branch-protection API call, and a scripted docs find/replace.
+**Architecture:** No new runtime code. This is pure repo-tooling work: one root-level config file
+per concern (Prettier, tsconfig base, lint-staged, commitlint), two Husky git hooks wired to those
+configs, a GitHub PR template, a GitHub branch-protection API call, and a scripted docs
+find/replace.
 
-**Tech Stack:** npm workspaces + Turborepo (already in place), Husky v9, lint-staged, Prettier 3, commitlint (conventional-commits config), `gh` CLI for branch protection.
+**Tech Stack:** npm workspaces + Turborepo (already in place), Husky v9, lint-staged, Prettier 3,
+commitlint (conventional-commits config), `gh` CLI for branch protection.
 
 ## Global Constraints
 
-- Do not migrate off npm/Turborepo — Yarn Berry from the original task spec is explicitly rejected (confirmed by user).
-- Do not rename `apps/city-hero` to `apps/city-hero` — the folder name stays; docs get corrected instead (confirmed by user).
-- Do not create `packages/api_client`, `packages/i18n`, or `apps/ai_service` — those belong to foundation tasks 05, 13, 16 respectively (YAGNI).
-- Conventional Commits prefixes allowed: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `perf`, `ci` (from `CLAUDE.md` → Git Conventions).
-- Git hooks must not break the existing CI jobs (`Backend · Lint (ruff)`, `Backend · Tests (pytest)`, `Web · Lint + Type Check`, `Web · Build (next build)`, `Mobile · Type Check`, `Mobile · Lint (eslint)`, `Mobile · Tests (jest-expo)`, `Docker · Backend image builds`) — CI never runs `git commit`, so hook installation via `npm ci`'s `prepare` script is harmless, but each task's verification step must confirm the corresponding `turbo run lint` / `turbo run typecheck` still passes repo-wide.
+- Do not migrate off npm/Turborepo — Yarn Berry from the original task spec is explicitly rejected
+  (confirmed by user).
+- Do not rename `apps/city-hero` to `apps/city-hero` — the folder name stays; docs get corrected
+  instead (confirmed by user).
+- Do not create `packages/api_client`, `packages/i18n`, or `apps/ai_service` — those belong to
+  foundation tasks 05, 13, 16 respectively (YAGNI).
+- Conventional Commits prefixes allowed: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `perf`,
+  `ci` (from `CLAUDE.md` → Git Conventions).
+- Git hooks must not break the existing CI jobs (`Backend · Lint (ruff)`,
+  `Backend · Tests (pytest)`, `Web · Lint + Type Check`, `Web · Build (next build)`,
+  `Mobile · Type Check`, `Mobile · Lint (eslint)`, `Mobile · Tests (jest-expo)`,
+  `Docker · Backend image builds`) — CI never runs `git commit`, so hook installation via `npm ci`'s
+  `prepare` script is harmless, but each task's verification step must confirm the corresponding
+  `turbo run lint` / `turbo run typecheck` still passes repo-wide.
 - Repo: `marianysilva/city-hero`, default branch `main`.
 
 ---
@@ -25,17 +43,20 @@
 
 - Modify: `CLAUDE.md` (2 occurrences)
 - Modify: 183 files under `docs/**` (206 total occurrences of the literal string `apps/city-hero`)
-- Modify: `docs/tasks/00-foundation/01-monorepo-setup.md:68` (one occurrence that is NOT the `apps/city-hero` string — it's a bare `mobile/` line inside an ASCII folder-tree diagram, handled separately since a blind `mobile` → `city-hero` replace would corrupt unrelated prose elsewhere in the same files, e.g. "mobile-first", "React Native (mobile)")
+- Modify: `docs/tasks/00-foundation/01-monorepo-setup.md:68` (one occurrence that is NOT the
+  `apps/city-hero` string — it's a bare `mobile/` line inside an ASCII folder-tree diagram, handled
+  separately since a blind `mobile` → `city-hero` replace would corrupt unrelated prose elsewhere in
+  the same files, e.g. "mobile-first", "React Native (mobile)")
 
 **Interfaces:**
 
 - Consumes: nothing (first task, no code dependency)
-- Produces: every doc path reference now reads `apps/city-hero/...`, matching the real folder on disk. All later tasks that touch these docs (Task 7) build on this corrected state.
+- Produces: every doc path reference now reads `apps/city-hero/...`, matching the real folder on
+  disk. All later tasks that touch these docs (Task 7) build on this corrected state.
 
 - [ ] **Step 1: Confirm current occurrence count**
 
-Run: `grep -rlo "apps/city-hero" docs/ CLAUDE.md | wc -l` (counts matching files)
-Expected: `184`
+Run: `grep -rlo "apps/city-hero" docs/ CLAUDE.md | wc -l` (counts matching files) Expected: `184`
 
 - [ ] **Step 2: Run the scripted replace**
 
@@ -45,8 +66,8 @@ git grep -lz "apps/city-hero" -- docs CLAUDE.md | xargs -0 sed -i 's#apps/city-h
 
 - [ ] **Step 3: Fix the one bare tree-diagram line by hand**
 
-In `docs/tasks/00-foundation/01-monorepo-setup.md`, find the folder-structure
-block (around line 68) and change:
+In `docs/tasks/00-foundation/01-monorepo-setup.md`, find the folder-structure block (around line 68)
+and change:
 
 ```
 │   ├── mobile/                  # Expo
@@ -60,15 +81,13 @@ to:
 
 - [ ] **Step 4: Verify zero remaining `apps/city-hero` references**
 
-Run: `grep -rn "apps/city-hero" docs/ CLAUDE.md`
-Expected: no output (exit code 1)
+Run: `grep -rn "apps/city-hero" docs/ CLAUDE.md` Expected: no output (exit code 1)
 
 - [ ] **Step 5: Verify no unintended damage to unrelated "mobile" prose**
 
-Run: `git diff --stat`
-Expected: only files that legitimately contained `apps/city-hero` are listed
-(184 files + the one manual edit = 185). Spot-check 3 random files from the
-diff to confirm only the path string changed, e.g.:
+Run: `git diff --stat` Expected: only files that legitimately contained `apps/city-hero` are listed
+(184 files + the one manual edit = 185). Spot-check 3 random files from the diff to confirm only the
+path string changed, e.g.:
 
 ```bash
 git diff docs/tasks/01-splash/02-app-initialization.md | head -20
@@ -95,9 +114,8 @@ git commit -m "docs: correct apps/city-hero references to the real apps/city-her
 **Interfaces:**
 
 - Consumes: nothing
-- Produces: `tsconfig.base.json` at repo root, extended via relative path
-  `../../tsconfig.base.json` by any TS project two levels deep
-  (`apps/*/tsconfig.json`, `packages/*/tsconfig.json`).
+- Produces: `tsconfig.base.json` at repo root, extended via relative path `../../tsconfig.base.json`
+  by any TS project two levels deep (`apps/*/tsconfig.json`, `packages/*/tsconfig.json`).
 
 - [ ] **Step 1: Create the base config**
 
@@ -121,9 +139,8 @@ Create `tsconfig.base.json`:
 
 - [ ] **Step 2: Wire `apps/web/tsconfig.json` to extend it**
 
-Modify `apps/web/tsconfig.json` — add `"extends"` as the first key, keep
-every existing key under `compilerOptions` as-is (they override the base,
-which is intended: Next.js needs `target: ES2017`):
+Modify `apps/web/tsconfig.json` — add `"extends"` as the first key, keep every existing key under
+`compilerOptions` as-is (they override the base, which is intended: Next.js needs `target: ES2017`):
 
 ```json
 {
@@ -165,15 +182,13 @@ which is intended: Next.js needs `target: ES2017`):
 
 - [ ] **Step 3: Verify web typecheck still passes**
 
-Run: `cd apps/web && npx tsc --noEmit`
-Expected: no errors (exit code 0)
+Run: `cd apps/web && npx tsc --noEmit` Expected: no errors (exit code 0)
 
 - [ ] **Step 4: Wire `apps/city-hero/tsconfig.json` to extend both configs**
 
 TypeScript 5.9 (already the resolved version in this repo — confirmed via
-`node -e "console.log(require('./node_modules/typescript/package.json').version)"`
-→ `5.9.3`) supports an array in `"extends"`, where later entries win.
-Modify `apps/city-hero/tsconfig.json`:
+`node -e "console.log(require('./node_modules/typescript/package.json').version)"` → `5.9.3`)
+supports an array in `"extends"`, where later entries win. Modify `apps/city-hero/tsconfig.json`:
 
 ```json
 {
@@ -191,13 +206,11 @@ Modify `apps/city-hero/tsconfig.json`:
 
 - [ ] **Step 5: Verify mobile typecheck still passes**
 
-Run: `cd apps/city-hero && npx tsc --noEmit`
-Expected: no errors (exit code 0). If it fails because `tsconfig.base.json`'s
-`module`/`moduleResolution` conflicts with Expo's Metro bundler expectations,
-remove `"module"` and `"moduleResolution"` from `tsconfig.base.json` and
-re-run this step — Expo's own base already sets the correct values for
-Metro, and `apps/web` doesn't need those two specific keys duplicated (it
-already redeclares them locally in Step 2).
+Run: `cd apps/city-hero && npx tsc --noEmit` Expected: no errors (exit code 0). If it fails because
+`tsconfig.base.json`'s `module`/`moduleResolution` conflicts with Expo's Metro bundler expectations,
+remove `"module"` and `"moduleResolution"` from `tsconfig.base.json` and re-run this step — Expo's
+own base already sets the correct values for Metro, and `apps/web` doesn't need those two specific
+keys duplicated (it already redeclares them locally in Step 2).
 
 - [ ] **Step 6: Simplify `packages/types/tsconfig.json` to extend the base**
 
@@ -219,8 +232,7 @@ Modify `packages/types/tsconfig.json` — drop every key that's now inherited:
 
 - [ ] **Step 7: Verify packages/types typecheck still passes**
 
-Run: `cd packages/types && npx tsc --noEmit`
-Expected: no errors (exit code 0)
+Run: `cd packages/types && npx tsc --noEmit` Expected: no errors (exit code 0)
 
 - [ ] **Step 8: Commit**
 
@@ -240,27 +252,24 @@ git commit -m "chore: add shared root tsconfig.base.json"
 - Create: `.prettierignore`
 - Modify: `apps/web/eslint.config.mjs`
 - Modify: `apps/city-hero/eslint.config.js`
-- Modify: `package.json` (add `prettier` + `eslint-plugin-import`
-  devDependencies, `format`/`format:check` scripts)
+- Modify: `package.json` (add `prettier` + `eslint-plugin-import` devDependencies,
+  `format`/`format:check` scripts)
 
 **Interfaces:**
 
 - Consumes: nothing
-- Produces: `eslint.config.base.js` (a plain CommonJS array of ESLint flat
-  config objects, spread into both `apps/web/eslint.config.mjs` and
-  `apps/city-hero/eslint.config.js`), `.prettierrc.json` (read automatically
-  by any `prettier` invocation anywhere in the repo), and the `prettier`
-  binary at `node_modules/.bin/prettier` — consumed by Task 4's lint-staged
-  config.
+- Produces: `eslint.config.base.js` (a plain CommonJS array of ESLint flat config objects, spread
+  into both `apps/web/eslint.config.mjs` and `apps/city-hero/eslint.config.js`), `.prettierrc.json`
+  (read automatically by any `prettier` invocation anywhere in the repo), and the `prettier` binary
+  at `node_modules/.bin/prettier` — consumed by Task 4's lint-staged config.
 
-**Why one shared file works across both apps:** `apps/web/eslint.config.mjs`
-is ESM, `apps/city-hero/eslint.config.js` is CommonJS. Writing the shared
-base as **CommonJS** (`eslint.config.base.js`, `module.exports = [...]`)
-lets the CJS app `require()` it directly, and the ESM app `import` it —
-Node's ESM loader exposes a CJS module's `module.exports` as the default
-import, so `import shared from "../../eslint.config.base.js"` works from
-`apps/web`'s `.mjs` file without any extra interop config. Writing the base
-as `.mjs` instead would break `apps/city-hero`'s `require()`.
+**Why one shared file works across both apps:** `apps/web/eslint.config.mjs` is ESM,
+`apps/city-hero/eslint.config.js` is CommonJS. Writing the shared base as **CommonJS**
+(`eslint.config.base.js`, `module.exports = [...]`) lets the CJS app `require()` it directly, and
+the ESM app `import` it — Node's ESM loader exposes a CJS module's `module.exports` as the default
+import, so `import shared from "../../eslint.config.base.js"` works from `apps/web`'s `.mjs` file
+without any extra interop config. Writing the base as `.mjs` instead would break `apps/city-hero`'s
+`require()`.
 
 - [ ] **Step 1: Install the shared dependencies**
 
@@ -323,10 +332,9 @@ export default eslintConfig;
 
 - [ ] **Step 4: Verify web lint still passes**
 
-Run: `cd apps/web && npx eslint .`
-Expected: exits `0` (or only pre-existing warnings, no new errors from
-`import/order` — if it flags real out-of-order imports, that's a legitimate
-finding; fix with `npx eslint . --fix`).
+Run: `cd apps/web && npx eslint .` Expected: exits `0` (or only pre-existing warnings, no new errors
+from `import/order` — if it flags real out-of-order imports, that's a legitimate finding; fix with
+`npx eslint . --fix`).
 
 - [ ] **Step 5: Spread it into `apps/city-hero/eslint.config.js`**
 
@@ -349,9 +357,8 @@ module.exports = defineConfig([
 
 - [ ] **Step 6: Verify mobile lint still passes**
 
-Run: `cd apps/city-hero && npx eslint .`
-Expected: exits `0` (or only pre-existing warnings; fix real `import/order`
-findings with `npx eslint . --fix`).
+Run: `cd apps/city-hero && npx eslint .` Expected: exits `0` (or only pre-existing warnings; fix
+real `import/order` findings with `npx eslint . --fix`).
 
 - [ ] **Step 7: Create the Prettier config**
 
@@ -393,17 +400,14 @@ Modify `package.json` — add two entries to `"scripts"`:
 
 - [ ] **Step 10: Verify Prettier runs cleanly**
 
-Run: `npm run format:check`
-Expected: exits non-zero and lists currently-unformatted files (this is
-expected — nothing has been formatted yet). Then run `npm run format`
-followed by `npm run format:check` again.
-Expected: second `format:check` run exits `0` with no output.
+Run: `npm run format:check` Expected: exits non-zero and lists currently-unformatted files (this is
+expected — nothing has been formatted yet). Then run `npm run format` followed by
+`npm run format:check` again. Expected: second `format:check` run exits `0` with no output.
 
 - [ ] **Step 11: Verify lint and typecheck still pass after reformatting**
 
-Run: `npm run lint && npm run typecheck`
-Expected: both succeed — Prettier reformatting must not introduce syntax
-errors or trip any existing lint rule.
+Run: `npm run lint && npm run typecheck` Expected: both succeed — Prettier reformatting must not
+introduce syntax errors or trip any existing lint rule.
 
 - [ ] **Step 12: Commit**
 
@@ -424,13 +428,12 @@ git commit -m "chore: add shared root ESLint layer and Prettier config"
 
 **Interfaces:**
 
-- Consumes: `prettier` binary and `.prettierrc.json` from Task 3, and the
-  updated `apps/web/eslint.config.mjs` / `apps/city-hero/eslint.config.js`
-  (now spreading `eslint.config.base.js`) from Task 3; `ruff` on `PATH` for
-  staged Python files (installed via `pip install ruff`, same as the
-  `Backend · Lint (ruff)` CI job).
-- Produces: a working `pre-commit` git hook. Task 5 adds a second hook
-  (`commit-msg`) to the same `.husky/` directory created here.
+- Consumes: `prettier` binary and `.prettierrc.json` from Task 3, and the updated
+  `apps/web/eslint.config.mjs` / `apps/city-hero/eslint.config.js` (now spreading
+  `eslint.config.base.js`) from Task 3; `ruff` on `PATH` for staged Python files (installed via
+  `pip install ruff`, same as the `Backend · Lint (ruff)` CI job).
+- Produces: a working `pre-commit` git hook. Task 5 adds a second hook (`commit-msg`) to the same
+  `.husky/` directory created here.
 
 - [ ] **Step 1: Install Husky and lint-staged**
 
@@ -444,8 +447,7 @@ Modify `package.json` — add to `"scripts"`:
 "prepare": "husky"
 ```
 
-Run: `npm run prepare`
-Expected: creates a `.husky/` directory (if not already present) and a
+Run: `npm run prepare` Expected: creates a `.husky/` directory (if not already present) and a
 `.husky/_/` internal folder (gitignored automatically by Husky v9).
 
 - [ ] **Step 3: Create the lint-staged config**
@@ -478,11 +480,10 @@ git add apps/web/app/lib/api.ts
 git commit -m "test: trigger lint-staged"
 ```
 
-Expected: the commit is blocked — `eslint --fix` either fixes it silently
-(if it's just a style issue) or fails with a lint error. If ESLint
-auto-fixes and the commit succeeds, that's also a valid pass (lint-staged
-ran); confirm by checking `git log -1 --oneline` shows the test commit,
-then verify the file changed and revert:
+Expected: the commit is blocked — `eslint --fix` either fixes it silently (if it's just a style
+issue) or fails with a lint error. If ESLint auto-fixes and the commit succeeds, that's also a valid
+pass (lint-staged ran); confirm by checking `git log -1 --oneline` shows the test commit, then
+verify the file changed and revert:
 
 ```bash
 git reset --soft HEAD~1
@@ -495,11 +496,10 @@ git checkout -- apps/web/app/lib/api.ts
 git commit --allow-empty -m "test: verify clean commit passes lint-staged"
 ```
 
-Expected: commit succeeds immediately (no staged files matched, or all
-matched files pass).
+Expected: commit succeeds immediately (no staged files matched, or all matched files pass).
 
-Run: `git reset --hard HEAD~1` to remove the empty test commit (safe here —
-it has no content and was just created in this same step).
+Run: `git reset --hard HEAD~1` to remove the empty test commit (safe here — it has no content and
+was just created in this same step).
 
 - [ ] **Step 7: Commit the hook setup itself**
 
@@ -521,8 +521,7 @@ git commit -m "chore: add Husky pre-commit hook running lint-staged"
 **Interfaces:**
 
 - Consumes: `.husky/` directory created in Task 4.
-- Produces: nothing consumed by later tasks — this is a terminal enforcement
-  hook.
+- Produces: nothing consumed by later tasks — this is a terminal enforcement hook.
 
 - [ ] **Step 1: Install commitlint**
 
@@ -552,8 +551,8 @@ npx --no -- commitlint --edit "$1"
 git commit --allow-empty -m "this has no conventional prefix"
 ```
 
-Expected: commit is rejected with a commitlint error listing the allowed
-types (`feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `perf`, `ci`, …).
+Expected: commit is rejected with a commitlint error listing the allowed types (`feat`, `fix`,
+`docs`, `refactor`, `test`, `chore`, `perf`, `ci`, …).
 
 - [ ] **Step 5: Verify a conventional commit message is accepted**
 
@@ -583,8 +582,7 @@ git commit -m "chore: add commitlint commit-msg hook for conventional commits"
 **Interfaces:**
 
 - Consumes: nothing
-- Produces: nothing consumed by later tasks — GitHub picks this up
-  automatically for every new PR.
+- Produces: nothing consumed by later tasks — GitHub picks this up automatically for every new PR.
 
 - [ ] **Step 1: Create the template**
 
@@ -628,13 +626,12 @@ git commit -m "docs: add pull request template"
 **Interfaces:**
 
 - Consumes: the completed state of Tasks 1–6 (this task documents that they're done).
-- Produces: nothing consumed by later tasks except Task 8, which flips the
-  header status once branch protection (the one remaining item) is also done.
+- Produces: nothing consumed by later tasks except Task 8, which flips the header status once branch
+  protection (the one remaining item) is also done.
 
 - [ ] **Step 1: Update the "Tooling decisions" section**
 
-In `docs/tasks/00-foundation/01-monorepo-setup.md`, replace the "Tooling
-decisions" section body:
+In `docs/tasks/00-foundation/01-monorepo-setup.md`, replace the "Tooling decisions" section body:
 
 ```
 - **JS package manager**: Yarn (Berry/v3+) using node-modules linker (PnP is incompatible with Expo). Pin the version in the repo so a new contributor doesn't accidentally mix versions.
@@ -682,19 +679,17 @@ git commit -m "docs: reconcile monorepo-setup task doc with completed tooling wo
 
 **Interfaces:**
 
-- Consumes: the exact CI job names already running on `main` (`Backend ·
-Lint (ruff)`, `Backend · Tests (pytest)`, `Web · Lint + Type Check`, `Web ·
-Build (next build)`, `Mobile · Type Check`, `Mobile · Lint (eslint)`,
-  `Mobile · Tests (jest-expo)`, `Docker · Backend image builds`).
+- Consumes: the exact CI job names already running on `main` (`Backend · Lint (ruff)`,
+  `Backend · Tests (pytest)`, `Web · Lint + Type Check`, `Web · Build (next build)`,
+  `Mobile · Type Check`, `Mobile · Lint (eslint)`, `Mobile · Tests (jest-expo)`,
+  `Docker · Backend image builds`).
 - Produces: nothing consumed by later tasks — this is the final task.
 
-**⚠️ Before running Step 1:** this changes how `main` accepts changes for
-everyone going forward (direct pushes to `main`, including by the repo
-owner unless `enforce_admins` is later flipped to `true`, will require a PR
-with 1 approval and green required checks after this runs). Confirm with the
-user immediately before applying, even though the design was already
-approved — this is the one step in the whole plan that's live infrastructure,
-not a file in the repo.
+**⚠️ Before running Step 1:** this changes how `main` accepts changes for everyone going forward
+(direct pushes to `main`, including by the repo owner unless `enforce_admins` is later flipped to
+`true`, will require a PR with 1 approval and green required checks after this runs). Confirm with
+the user immediately before applying, even though the design was already approved — this is the one
+step in the whole plan that's live infrastructure, not a file in the repo.
 
 - [ ] **Step 1: Apply branch protection**
 
@@ -767,8 +762,8 @@ In `docs/tasks/00-foundation/01-monorepo-setup.md`:
 
 - [ ] **Step 4: Commit**
 
-Note: from this point on, direct pushes to `main` are blocked — this final
-commit (and everything after it) must go through a PR.
+Note: from this point on, direct pushes to `main` are blocked — this final commit (and everything
+after it) must go through a PR.
 
 ```bash
 git checkout -b chore/finish-monorepo-setup

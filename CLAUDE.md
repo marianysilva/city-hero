@@ -4,7 +4,9 @@ See @README.md for full project overview and @docs/features.md for the feature c
 
 ## Project Overview
 
-CityHero is an intelligent urban maintenance and citizen engagement platform. It connects citizens (who see problems) with City Halls (who have limited resources to fix them) using AI (Computer Vision), Gamification, and Data Prediction.
+CityHero is an intelligent urban maintenance and citizen engagement platform. It connects citizens
+(who see problems) with City Halls (who have limited resources to fix them) using AI (Computer
+Vision), Gamification, and Data Prediction.
 
 **Monorepo structure:**
 
@@ -33,7 +35,8 @@ CityHero is an intelligent urban maintenance and citizen engagement platform. It
 ## Code Style & Conventions
 
 - Python: follow PEP 8, use type hints on all function signatures, docstrings on public functions
-- TypeScript/React: use ES modules (import/export), destructure imports, functional components with hooks
+- TypeScript/React: use ES modules (import/export), destructure imports, functional components with
+  hooks
 - All API endpoints MUST follow Open311 GeoReport v2 spec
 - Use kebab-case for URL paths, camelCase for JSON properties
 - All list endpoints must include pagination
@@ -42,7 +45,9 @@ CityHero is an intelligent urban maintenance and citizen engagement platform. It
 
 ## Privacy & Compliance (LGPD/GDPR)
 
-IMPORTANT: Every photo upload pipeline MUST include the automatic anonymization step (face/plate blur) BEFORE the image becomes publicly visible. Never skip or defer this step. This is a legal requirement.
+IMPORTANT: Every photo upload pipeline MUST include the automatic anonymization step (face/plate
+blur) BEFORE the image becomes publicly visible. Never skip or defer this step. This is a legal
+requirement.
 
 ## Workflow
 
@@ -60,14 +65,17 @@ IMPORTANT: Every photo upload pipeline MUST include the automatic anonymization 
 ## Git Conventions
 
 - Branch naming: `feat/short-description`, `fix/short-description`, `chore/short-description`
-- Commit messages: conventional commits format (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`)
+- Commit messages: conventional commits format (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`,
+  `chore:`)
 - Keep commits atomic — one logical change per commit
 - Always write a descriptive PR body summarizing changes and linking relevant issues
 
 ## Architecture Decisions
 
 - Multi-tenant design from day one — all queries must be scoped by `city_id`
-- Backend is the single source of truth for AI inference — mobile sends raw photos, backend runs YOLOv8
-- Superset dashboards read from analytical tables (dbt output), never from the transactional DB directly
+- Backend is the single source of truth for AI inference — mobile sends raw photos, backend runs
+  YOLOv8
+- Superset dashboards read from analytical tables (dbt output), never from the transactional DB
+  directly
 - Offline-first mobile: reports queue locally (SQLite/WatermelonDB) and sync when online
 - Anti-fraud: GPS validation is mandatory — gallery uploads are flagged for manual review

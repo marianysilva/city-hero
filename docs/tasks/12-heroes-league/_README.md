@@ -1,26 +1,23 @@
 # SCREEN 12 · Heroes League (post-submit, viral)
 
-> **Group:** 02 · App Core
-> **Prototype screen:** `design/index.html` (search for `title: 'Liga de Heróis'`)
+> **Group:** 02 · App Core\
+> **Prototype screen:** `design/index.html` (search for `title: 'Liga de Heróis'`)\
 > **Position in navigation:** Routed from SCREEN 10 Confirmação when the user picked "Identificada"
 
 ## Overview
 
-The **viral, growth-loop** post-submit screen for **identified reports**.
-It does three things at once:
+The **viral, growth-loop** post-submit screen for **identified reports**. It does three things at
+once:
 
 1. **Celebrates** the submission (XP + medal banner with confetti).
-2. **Explains the value of sharing with data** ("reportes com apoio
-   resolvem em 3 dias vs 7" — a real prefecture stat that should be
-   sourced before launch).
-3. **Offers the right channels** for Brazilian context (WhatsApp
-   primary, Stories, X/Threads, copy link, more) plus an **editable
-   suggested message** and a **shareable preview card** that previews
+2. **Explains the value of sharing with data** ("reportes com apoio resolvem em 3 dias vs 7" — a
+   real prefecture stat that should be sourced before launch).
+3. **Offers the right channels** for Brazilian context (WhatsApp primary, Stories, X/Threads, copy
+   link, more) plus an **editable suggested message** and a **shareable preview card** that previews
    exactly what neighbors will see when they receive the link.
 
-The achievement teaser **"Formador de Liga"** gives a clear goal (3
-friends install the app), turning the screen into a CAC engine —
-every shared link is a potential install.
+The achievement teaser **"Formador de Liga"** gives a clear goal (3 friends install the app),
+turning the screen into a CAC engine — every shared link is a potential install.
 
 ## Features (8 tasks)
 
@@ -48,17 +45,14 @@ every shared link is a potential install.
 
 ## Product notes
 
-- **Data anchor must be real**: "3 dias vs 7" should be derived from
-  actual prefecture data once available. Before launch, mark the stat
-  with a footnote or source it from a credible study. Lying with data
-  damages trust irreversibly.
-- **WhatsApp is primary for BR**: prioritize the WhatsApp channel
-  visually (large icon, leftmost position) — it's where 95%+ of
-  Brazilian sharing happens.
-- **Preview card simulates a real link preview**: shows the user the
-  link is well-formatted and looks professional, not a raw URL.
-- **The CTA "🚀 Compartilhar & formar liga"** ties the share action to
-  the gamification goal — sharing earns XP and progress toward
-  "Formador de Liga".
-- **"Pular" is intentional, not buried**: users who don't want to share
-  must have a clear escape. Hiding it would create dark-pattern vibes.
+- **Data anchor must be real**: "3 dias vs 7" should be derived from actual prefecture data once
+  available. Before launch, mark the stat with a footnote or source it from a credible study. Lying
+  with data damages trust irreversibly.
+- **WhatsApp is primary for BR**: prioritize the WhatsApp channel visually (large icon, leftmost
+  position) — it's where 95%+ of Brazilian sharing happens.
+- **Preview card simulates a real link preview**: shows the user the link is well-formatted and
+  looks professional, not a raw URL.
+- **The CTA "🚀 Compartilhar & formar liga"** ties the share action to the gamification goal —
+  sharing earns XP and progress toward "Formador de Liga".
+- **"Pular" is intentional, not buried**: users who don't want to share must have a clear escape.
+  Hiding it would create dark-pattern vibes.

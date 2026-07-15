@@ -1,21 +1,18 @@
 # SCREEN 26 · Public Works List
 
-> **Group:** 02 · App Core
-> **Prototype screen:** `design/index.html` (search for `title: 'Obras em Andamento'`)
+> **Group:** 02 · App Core\
+> **Prototype screen:** `design/index.html` (search for `title: 'Obras em Andamento'`)\
 > **Position in navigation:** From SCREEN 25 Services or from the badge on Home
 
 ## Overview
 
-A scannable list of all public works currently active in the city,
-plus a small map preview at the top showing all work locations. Each
-row card shows: status pill (Em planejamento, Em execução, Concluída
-parcialmente, Suspensa), title, address, contractor (when public),
-budget, start/end dates, and a small progress bar. Filter chips at
-the top slice by status and by category (Pavimentação, Saúde,
-Educação, etc.).
+A scannable list of all public works currently active in the city, plus a small map preview at the
+top showing all work locations. Each row card shows: status pill (Em planejamento, Em execução,
+Concluída parcialmente, Suspensa), title, address, contractor (when public), budget, start/end
+dates, and a small progress bar. Filter chips at the top slice by status and by category
+(Pavimentação, Saúde, Educação, etc.).
 
-The screen makes works **visible** — a prefecture that can't hide
-construction is more accountable.
+The screen makes works **visible** — a prefecture that can't hide construction is more accountable.
 
 ## Features (5 tasks)
 
@@ -37,8 +34,12 @@ construction is more accountable.
 
 ## Product notes
 
-- **Data sources**: the city's Open Data feed for active works. Each work has lat/lng so it appears on the map.
-- **Map vs list toggle**: some users prefer the map view (where works are); others prefer the list (with details). Both modes share data.
-- **Real-time status updates**: works update via WebSocket; users see "started yesterday" or "finished" without refreshing.
-- **Budget transparency**: shown when public; for works under bidding, the bid value (not the contracted value) is shown.
+- **Data sources**: the city's Open Data feed for active works. Each work has lat/lng so it appears
+  on the map.
+- **Map vs list toggle**: some users prefer the map view (where works are); others prefer the list
+  (with details). Both modes share data.
+- **Real-time status updates**: works update via WebSocket; users see "started yesterday" or
+  "finished" without refreshing.
+- **Budget transparency**: shown when public; for works under bidding, the bid value (not the
+  contracted value) is shown.
 - **Tap routes to detail**: SCREEN 27 (Public Work Detail) shows everything.

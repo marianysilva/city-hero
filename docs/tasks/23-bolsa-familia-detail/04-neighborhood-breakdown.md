@@ -1,56 +1,58 @@
 # Bolsa Família · Neighborhood breakdown
 
-> **Type:** Screen feature · UI + data
-> **Screen:** SCREEN 23 · Bolsa Família Detail
-> **Effort:** M (1-2 days)
-> **Dependencies:** `23-bolsa-familia-detail/01-render-bolsa-ui-base.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · UI + data\
+> **Screen:** SCREEN 23 · Bolsa Família Detail\
+> **Effort:** M (1-2 days)\
+> **Dependencies:** `23-bolsa-familia-detail/01-render-bolsa-ui-base.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `backend`, `screen`, `data`
 
 ## Context
 
-A scrollable table listing the city's neighborhoods with their Bolsa Família metrics: famílias atendidas, % famílias do bairro, valor mensal repassado. Useful for identifying concentrations of need.
+A scrollable table listing the city's neighborhoods with their Bolsa Família metrics: famílias
+atendidas, % famílias do bairro, valor mensal repassado. Useful for identifying concentrations of
+need.
 
 ## Acceptance Criteria
 
 ### Scenario · Default render
 
-**Given** breakdown data is available
-**When** the table renders
-**Then** rows appear (one per bairro) sorted by `families desc`
-**And** each row shows bairro name + families count + % share + monthly value
+**Given** breakdown data is available\
+**When** the table renders\
+**Then** rows appear (one per bairro) sorted by `families desc`\
+**And** each row shows bairro name + families count + % share + monthly value\
 **And** a "Outros" footer aggregates very small bairros if needed
 
 ### Scenario · Filter / search
 
-**Given** the city has many neighborhoods
-**When** the user uses a search input or filter
+**Given** the city has many neighborhoods\
+**When** the user uses a search input or filter\
 **Then** rows filter accordingly
 
 ### Scenario · Tap a row
 
-**Given** the user taps a bairro
-**When** the action runs
-**Then** the bairro's profile screen opens (future) or a sheet shows the same data with context
+**Given** the user taps a bairro\
+**When** the action runs\
+**Then** the bairro's profile screen opens (future) or a sheet shows the same data with context\
 **And** for MVP, tap is a no-op with informational hover
 
 ### Scenario · Privacy guard
 
-**Given** a bairro has fewer than the minimum threshold (e.g., 5 families)
-**When** the row renders
-**Then** the exact count is replaced with "<5 famílias" to avoid identifying individuals (LGPD)
+**Given** a bairro has fewer than the minimum threshold (e.g., 5 families)\
+**When** the row renders\
+**Then** the exact count is replaced with "<5 famílias" to avoid identifying individuals (LGPD)\
 **And** other cells show "—"
 
 ### Scenario · Localization
 
-**Given** en-US
-**When** rendered
+**Given** en-US\
+**When** rendered\
 **Then** column labels translate; values formatted per locale
 
 ### Scenario · Accessibility
 
-**Given** SR is on
-**When** the table is read
+**Given** SR is on\
+**When** the table is read\
 **Then** announced as a table with column headers and row data
 
 ## Frontend

@@ -1,28 +1,27 @@
 # SCREEN 06 · Home · Hyperlocal Map
 
-> **Group:** 02 · App Core
-> **Prototype screen:** `design/index.html` (search for `title: 'Home · Mapa Hiperlocal'`)
+> **Group:** 02 · App Core\
+> **Prototype screen:** `design/index.html` (search for `title: 'Home · Mapa Hiperlocal'`)\
 > **Position in navigation:** Root tab — first tab after onboarding completes
 
 ## Overview
 
-The most-used screen in the app. The user's primary entry point after
-onboarding, returning here from any other tab. It surfaces:
+The most-used screen in the app. The user's primary entry point after onboarding, returning here
+from any other tab. It surfaces:
 
-- The **hyperlocal map** (real OpenStreetMap tiles via the Leaflet wrapper)
-  with category-colored pins for nearby reports.
-- A **floating profile card** at the top with the user's level + XP — a
-  constant reminder that everything is gamified.
+- The **hyperlocal map** (real OpenStreetMap tiles via the Leaflet wrapper) with category-colored
+  pins for nearby reports.
+- A **floating profile card** at the top with the user's level + XP — a constant reminder that
+  everything is gamified.
 - **Filter chips** to slice the map by category.
-- A central **camera FAB** (the anchor action) plus a small "Avisos da
-  Prefeitura" badge and an "Obra ativa" badge.
+- A central **camera FAB** (the anchor action) plus a small "Avisos da Prefeitura" badge and an
+  "Obra ativa" badge.
 - A **floating ticket card** showing a high-priority nearby report.
-- A one-time **discovery card** that introduces Programs & Transparency
-  after the user's 3rd report.
+- A one-time **discovery card** that introduces Programs & Transparency after the user's 3rd report.
 - Real-time pin updates, pull-to-refresh, and offline awareness.
 
-This screen pulls on a lot of foundations: the map wrapper, API client,
-auth state, location services, push notifications, and the offline queue.
+This screen pulls on a lot of foundations: the map wrapper, API client, auth state, location
+services, push notifications, and the offline queue.
 
 ## Features (10 tasks)
 
@@ -53,14 +52,17 @@ auth state, location services, push notifications, and the offline queue.
               └─→ 07 (discovery card)
 ```
 
-01 and 02 are foundational; everything else plugs in. 03–10 can be built
-in parallel after 02 is in place.
+01 and 02 are foundational; everything else plugs in. 03–10 can be built in parallel after 02 is in
+place.
 
 ## Product notes
 
-- **Default zoom and center**: the map opens at zoom 16 centered on the user (if location granted) or the active city's centroid.
+- **Default zoom and center**: the map opens at zoom 16 centered on the user (if location granted)
+  or the active city's centroid.
 - **Filter chips** are sticky at the top under the profile card. Active state highlights.
-- **The floating ticket card** is not a list — it's the single most-relevant nearby report (highest priority + close to the user). Tapping opens its detail.
+- **The floating ticket card** is not a list — it's the single most-relevant nearby report (highest
+  priority + close to the user). Tapping opens its detail.
 - **Discovery card** appears once after the 3rd successful report. Dismissible. Tracked per-user.
 - **Mini badges** are non-intrusive entry points — they don't compete with the map.
-- The screen is **the busiest** in the app; performance matters. Pin clustering at low zoom; debounced bbox queries.
+- The screen is **the busiest** in the app; performance matters. Pin clustering at low zoom;
+  debounced bbox queries.

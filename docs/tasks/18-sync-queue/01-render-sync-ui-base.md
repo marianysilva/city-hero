@@ -1,78 +1,78 @@
 # Sync Queue · Render UI base
 
-> **Type:** Screen feature · UI
-> **Screen:** SCREEN 18 · Sync Queue
-> **Effort:** S (≤1 day)
-> **Dependencies:** `00-foundation/02-design-tokens.md`, `00-foundation/04-status-bar-component.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · UI\
+> **Screen:** SCREEN 18 · Sync Queue\
+> **Effort:** S (≤1 day)\
+> **Dependencies:** `00-foundation/02-design-tokens.md`, `00-foundation/04-status-bar-component.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `frontend`, `screen`, `ui`
 
 ## Context
 
-The base layout: a slate-50 background, a top connectivity banner slot
-(task 02), a header row with "Fila de envio" title + "Última tentativa
-há N min" subtitle on the left and a manual sync button on the right
-(task 03), then a scrollable list of queue items (task 04).
+The base layout: a slate-50 background, a top connectivity banner slot (task 02), a header row with
+"Fila de envio" title + "Última tentativa há N min" subtitle on the left and a manual sync button on
+the right (task 03), then a scrollable list of queue items (task 04).
 
-The screen is reachable from the offline banner on Home, the
-pending-offline card on My Reports, or a notification. The back
-navigation returns to the entry point naturally.
+The screen is reachable from the offline banner on Home, the pending-offline card on My Reports, or
+a notification. The back navigation returns to the entry point naturally.
 
 ## User Story
 
-**As a** Citizen,
-**I want** a clean layout that surfaces the queue state at a glance,
+**As a** Citizen,\
+**I want** a clean layout that surfaces the queue state at a glance,\
 **In order to** trust nothing is lost.
 
 ## Acceptance Criteria
 
 ### Scenario · Default render
 
-**Given** the user opens the screen
-**When** it renders
-**Then** the status bar variant is `dark`
-**And** the connectivity banner slot is at the top
-**And** below: a header row with the title "Fila de envio" + a small "Última tentativa há N min" line + the manual sync button on the right
+**Given** the user opens the screen\
+**When** it renders\
+**Then** the status bar variant is `dark`\
+**And** the connectivity banner slot is at the top\
+**And** below: a header row with the title "Fila de envio" + a small "Última tentativa há N min"
+line + the manual sync button on the right\
 **And** below the header: the queue list slot
 
 ### Scenario · Slot system
 
-**Given** the screen exposes positional slots
-**When** other tasks plug in
-**Then** the named slots are: `connectivity-banner`, `header-row`, `queue-list`
+**Given** the screen exposes positional slots\
+**When** other tasks plug in\
+**Then** the named slots are: `connectivity-banner`, `header-row`, `queue-list`\
 **And** the order reflects the prototype
 
 ### Scenario · Header subtitle updates
 
-**Given** sync attempts happen periodically
-**When** the last-attempt timestamp updates
+**Given** sync attempts happen periodically\
+**When** the last-attempt timestamp updates\
 **Then** the subtitle reflects the new value ("agora", "há 1 min", "há 15 min")
 
 ### Scenario · Empty queue
 
-**Given** the queue is empty
-**When** the screen renders
-**Then** an empty state replaces the list ("Tudo certo · nada pra enviar")
-**And** the connectivity banner adapts to a green "Conectado · nada na fila" variant or hides entirely
+**Given** the queue is empty\
+**When** the screen renders\
+**Then** an empty state replaces the list ("Tudo certo · nada pra enviar")\
+**And** the connectivity banner adapts to a green "Conectado · nada na fila" variant or hides
+entirely
 
 ### Scenario · Back navigation
 
-**Given** the user taps back
-**When** the action runs
+**Given** the user taps back\
+**When** the action runs\
 **Then** the screen returns to the previous screen (per the navigation stack)
 
 ### Scenario · Theming
 
-**Given** the user is in dark mode
-**When** the screen renders
-**Then** the background and cards adapt tonally
+**Given** the user is in dark mode\
+**When** the screen renders\
+**Then** the background and cards adapt tonally\
 **And** the gradient banner remains constant
 
 ### Scenario · Accessibility
 
-**Given** screen reader is on
-**When** the screen mounts
-**Then** the title is announced as a heading
+**Given** screen reader is on\
+**When** the screen mounts\
+**Then** the title is announced as a heading\
 **And** the slot order is preserved as reading order
 
 ## Frontend (React Native)

@@ -1,62 +1,63 @@
 # Onboarding · Gamification · Reduced-motion variant
 
-> **Type:** Screen feature · Accessibility
-> **Screen:** SCREEN 04 · Onboarding · Gamification
-> **Effort:** S (≤1 day)
-> **Dependencies:** `04-onboarding-gamification/01-render-onboarding-gamification-ui.md`, `03-onboarding-camera/03-reduced-motion-illustration.md` (shared `useReducedMotion` hook)
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · Accessibility\
+> **Screen:** SCREEN 04 · Onboarding · Gamification\
+> **Effort:** S (≤1 day)\
+> **Dependencies:** `04-onboarding-gamification/01-render-onboarding-gamification-ui.md`,
+> `03-onboarding-camera/03-reduced-motion-illustration.md` (shared `useReducedMotion` hook)\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `accessibility`, `screen`
 
 ## Context
 
-The Gamification screen animates by default (badge shine, XP bar fill,
-level pill scale-in). For users with reduced-motion preferences, those
-animations are unsafe or uncomfortable. This task delivers a static
-variant that preserves visual intent without motion.
+The Gamification screen animates by default (badge shine, XP bar fill, level pill scale-in). For
+users with reduced-motion preferences, those animations are unsafe or uncomfortable. This task
+delivers a static variant that preserves visual intent without motion.
 
-It reuses the `useReducedMotion` hook shared across onboarding screens
-(introduced in `03-onboarding-camera/03-reduced-motion-illustration.md`).
+It reuses the `useReducedMotion` hook shared across onboarding screens (introduced in
+`03-onboarding-camera/03-reduced-motion-illustration.md`).
 
 ## User Story
 
-**As a** Citizen with reduced-motion preferences enabled,
-**I want** the Gamification onboarding step to be static,
+**As a** Citizen with reduced-motion preferences enabled,\
+**I want** the Gamification onboarding step to be static,\
 **In order to** continue without discomfort.
 
 ## Acceptance Criteria
 
 ### Scenario · Reduced motion enabled
 
-**Given** the OS-level reduce-motion preference is on
-**When** the screen mounts
-**Then** the badge illustration renders without the shine sweep
-**And** the XP bar appears already at its target fill (no animation)
+**Given** the OS-level reduce-motion preference is on\
+**When** the screen mounts\
+**Then** the badge illustration renders without the shine sweep\
+**And** the XP bar appears already at its target fill (no animation)\
 **And** the level pills appear in their final positions (no stagger animation)
 
 ### Scenario · Reduced motion disabled
 
-**Given** reduce-motion is off
-**When** the screen mounts
+**Given** reduce-motion is off\
+**When** the screen mounts\
 **Then** the default animations run as designed in task 01
 
 ### Scenario · Visual parity
 
-**Given** the static variant
-**When** compared to the animated final state
+**Given** the static variant\
+**When** compared to the animated final state\
 **Then** layout, positions, and colors are identical
 
 ### Scenario · Accessibility labels unchanged
 
-**Given** the screen reader is on
-**When** comparing reduced-motion ON vs OFF
-**Then** the labels are identical between the two modes
+**Given** the screen reader is on\
+**When** comparing reduced-motion ON vs OFF\
+**Then** the labels are identical between the two modes\
 **And** descriptions don't reference animation
 
 ## Frontend (React Native)
 
 ### Where it lives
 
-The `BadgeIllustration`, `LevelPills`, and `XpProgressBar` components from task 01 each accept a `reducedMotion: boolean` prop.
+The `BadgeIllustration`, `LevelPills`, and `XpProgressBar` components from task 01 each accept a
+`reducedMotion: boolean` prop.
 
 The screen calls `useReducedMotion()` and passes the value into all three.
 
@@ -86,7 +87,8 @@ Not applicable.
 
 ## Analytics
 
-The shared event `accessibility.reduced_motion_active` from task 03's reduced-motion variant covers this; no extra event is needed.
+The shared event `accessibility.reduced_motion_active` from task 03's reduced-motion variant covers
+this; no extra event is needed.
 
 ## Tests
 
@@ -110,8 +112,10 @@ The shared event `accessibility.reduced_motion_active` from task 03's reduced-mo
 
 ### Library / framework references
 
-- React Native AccessibilityInfo: https://reactnative.dev/docs/accessibilityinfo#isreducemotionenabled
-- WCAG 2.1 — Animation from Interactions: https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html
+- React Native AccessibilityInfo:
+  https://reactnative.dev/docs/accessibilityinfo#isreducemotionenabled
+- WCAG 2.1 — Animation from Interactions:
+  https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html
 
 ### Project context
 

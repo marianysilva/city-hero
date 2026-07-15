@@ -1,13 +1,12 @@
 # Component Inventory
 
-The canonical list of every shared UI component in CityHero, organized
-by atomic-design tier. Each row points to the **screen tasks** that
-consume it. This is the **single source of truth** for reuse —
-implementations and task specs must match.
+The canonical list of every shared UI component in CityHero, organized by atomic-design tier. Each
+row points to the **screen tasks** that consume it. This is the **single source of truth** for reuse
+— implementations and task specs must match.
 
-When a new shared component is needed, add a row here first, then
-build it. When a screen-local component is used by 2+ screens, promote
-it: move the file to the design system and update this inventory.
+When a new shared component is needed, add a row here first, then build it. When a screen-local
+component is used by 2+ screens, promote it: move the file to the design system and update this
+inventory.
 
 See [`design-system.md`](./design-system.md) for the rules.
 
@@ -51,53 +50,51 @@ Foundation task: `00-foundation/02-design-tokens.md`.
 
 ### `Badge` (canonical container)
 
-`Badge` is the **single atom** that every "label-shaped surface"
-reuses (status pills, category chips, confidence scores, anonymization
-indicators, XP/medal celebration pills, "ANONIMIZAÇÃO ATIVA" pulsing
-pills, anonymous indicators, kickers, filter chips, etc.). The pattern
-follows libraries like Ant Design and React Bootstrap: simple visual
-props, with **children** carrying the actual content (text, icons,
-dots, links).
+`Badge` is the **single atom** that every "label-shaped surface" reuses (status pills, category
+chips, confidence scores, anonymization indicators, XP/medal celebration pills, "ANONIMIZAÇÃO ATIVA"
+pulsing pills, anonymous indicators, kickers, filter chips, etc.). The pattern follows libraries
+like Ant Design and React Bootstrap: simple visual props, with **children** carrying the actual
+content (text, icons, dots, links).
 
 **Props (simple):**
 
-- `color`: `brand` · `success` · `warning` · `danger` · `info` · `neutral` · `gradient-*` · any token color name
+- `color`: `brand` · `success` · `warning` · `danger` · `info` · `neutral` (the full `BadgeColor`
+  union implemented in `Badge.tsx` today — no `gradient-*` variant exists yet; the XP/medal pill
+  example below is aspirational until a gradient background is added to the component)
 - `size`: `xs` · `sm` · `md` · `lg`
 - `variant`: `filled` · `outline` · `ghost`
 - `radius`: `sm` · `md` · `full` (default — pill)
 - `pulse?`: boolean — subtle pulsing animation (respects `prefers-reduced-motion`)
-- `onPress?`: when set, the badge becomes pressable with haptics (interactive chips inside `FilterChipRow`)
+- `onPress?`: when set, the badge becomes pressable with haptics (interactive chips inside
+  `FilterChipRow`)
 - `selected?`: visual selected state for interactive chips
 
 **Children-first composition:**
 
-The badge renders whatever you put inside: text, emoji + text, dot +
-text, link, avatar + text. There is **no `kind` prop** — the API stays
-tiny and composition does the rest. Reference patterns:
+The badge renders whatever you put inside: text, emoji + text, dot + text, link, avatar + text.
+There is **no `kind` prop** — the API stays tiny and composition does the rest. Reference patterns:
 [Ant Design Badge](https://ant.design/components/badge) and
 [React Bootstrap Badge](https://react-bootstrap.netlify.app/docs/components/badge).
 
 **Concepts that were standalone components and now compose `Badge`:**
 
-| Concept                          | Composition                                                                                  | Used by                        |
-| -------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------ |
-| Status pill (EM ANDAMENTO etc.)  | `<Badge color="warning"><PulsingDot /> EM ANDAMENTO</Badge>`                                 | 06, 13, 14, 26                 |
-| Category chip                    | `<Badge color={category.color}>{emoji} {label}</Badge>`                                      | Feed, hero                     |
-| Confidence (AI %)                | `<Badge color="semantic" size="sm">85% Buraco</Badge>`                                       | 08, 10, 13                     |
-| Anonymization active             | `<Badge color="brand" pulse><Dot /> ANONIMIZAÇÃO ATIVA</Badge>`                              | 08 camera                      |
-| Anonymization result             | `<Badge color="info" size="sm">2 placas · 0 rostos</Badge>`                                  | 10, 13, 14                     |
-| XP / medal pill                  | `<Badge color="gradient-violet"><Icon name="bolt" /> +50 XP · Vigia Noturno</Badge>`         | 10, 11, 12, 28                 |
-| Filter chip                      | `<Badge size="md" selected={isActive} onPress={pick}>{label}</Badge>` inside `FilterChipRow` | 06, 07, 16, 19, 21, 22, 26, 29 |
-| Kicker label ("FEED", "REPORTE") | `<Badge size="xs" variant="ghost" color="neutral">FEED</Badge>`                              | Headers                        |
-| Anonymous indicator              | `<Badge color="brand" size="sm">🥷 Anônimo</Badge>`                                          | Feed cards, rows               |
+| Concept                          | Composition                                                                                                                                                                                                           | Used by                        |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
+| Status pill (EM ANDAMENTO etc.)  | `<Badge color="warning"><PulsingDot /> EM ANDAMENTO</Badge>`                                                                                                                                                          | 06, 13, 14, 26                 |
+| Category chip                    | `<Badge color={category.color}>{emoji} {label}</Badge>`                                                                                                                                                               | Feed, hero                     |
+| Confidence (AI %)                | `<Badge color="semantic" size="sm">85% Buraco</Badge>`                                                                                                                                                                | 08, 10, 13                     |
+| Anonymization active             | `<Badge color="brand" pulse><Dot /> ANONIMIZAÇÃO ATIVA</Badge>`                                                                                                                                                       | 08 camera                      |
+| Anonymization result             | `<Badge color="info" size="sm">2 placas · 0 rostos</Badge>`                                                                                                                                                           | 10, 13, 14                     |
+| XP / medal pill                  | `<Badge color="brand"><Icon name="bolt" /> +50 XP · Vigia Noturno</Badge>` — a gradient background would need a `gradient-*` color added to `Badge` first (not implemented yet); use a solid `brand` color until then | 10, 11, 12, 28                 |
+| Filter chip                      | `<Badge size="md" selected={isActive} onPress={pick}>{label}</Badge>` inside `FilterChipRow`                                                                                                                          | 06, 07, 16, 19, 21, 22, 26, 29 |
+| Kicker label ("FEED", "REPORTE") | `<Badge size="xs" variant="ghost" color="neutral">FEED</Badge>`                                                                                                                                                       | Headers                        |
+| Anonymous indicator              | `<Badge color="brand" size="sm">🥷 Anônimo</Badge>`                                                                                                                                                                   | Feed cards, rows               |
 
-**Rule (binding):** if you find yourself defining `XYZBadge` or
-`XYZPill` in a screen folder, **stop** and compose `Badge` with the
-right children instead. Promote to a named higher-tier component
-_only_ when 3+ identical compositions repeat verbatim — and even then,
-the new component is a thin convenience wrapper that still uses
-`Badge` internally. This is a direct application of the reuse
-principle: one container, infinite compositions.
+**Rule (binding):** if you find yourself defining `XYZBadge` or `XYZPill` in a screen folder,
+**stop** and compose `Badge` with the right children instead. Promote to a named higher-tier
+component _only_ when 3+ identical compositions repeat verbatim — and even then, the new component
+is a thin convenience wrapper that still uses `Badge` internally. This is a direct application of
+the reuse principle: one container, infinite compositions.
 
 ## Molecules
 
@@ -113,15 +110,14 @@ principle: one container, infinite compositions.
 | `PaginationDots`          | Onboarding step dots                                                            | 03, 04, 05                                     |
 | `StepIndicator`           | "Passo N de M" indicator (used in onboarding + irregularity flow)               | 02, 03, 04, 05, 24                             |
 | `ShareButton`             | Standard share icon + tap handler that invokes the share service                | All detail screens, profile, achievements      |
-| `Toggle` (Identification) | Anônima vs Identificada tile pair                                               | 10, 24                                         |
+| `Toggle` (Identification) | Anonymous vs. Identified tile pair                                              | 10, 24                                         |
 | `MapPinIcon`              | Drop-shape pin with category emoji + status overlay                             | 06, 26                                         |
 | `RecenterButton`          | Floating button → recenter map                                                  | 06, 26                                         |
 | `StickyBottomCta`         | Sticky bar template + slot for one or two buttons                               | 09, 10, 11, 12, 13, 14, 15, 17, 18, 23, 24, 27 |
 
-> **Consolidated into `Badge` (atom):** `StatusBadge`, `CategoryChip`,
-> `ConfidenceBadge`, `AnonymizationBadge`, `XpMedalPill`, plus the old
-> `Pill` and `Chip` atoms, are no longer standalone components. Every
-> one of them is a `<Badge>` composition with children. See the Badge
+> **Consolidated into `Badge` (atom):** `StatusBadge`, `CategoryChip`, `ConfidenceBadge`,
+> `AnonymizationBadge`, `XpMedalPill`, plus the old `Pill` and `Chip` atoms, are no longer
+> standalone components. Every one of them is a `<Badge>` composition with children. See the Badge
 > section in the Atoms table above.
 
 ## Organisms
@@ -146,7 +142,7 @@ principle: one container, infinite compositions.
 | `ConfettiBackground`  | Decorative SVG confetti respecting reduced-motion               | Used by CelebrationHero                       |
 | `BadgeIllustration`   | Animated medal/badge illustration                               | 04 onboarding, 29 detail                      |
 | `MedalCard`           | Medal card (locked/in-progress/unlocked variants)               | 28 carousel, 29 grid                          |
-| `LeaderboardRow`      | Position + avatar + name + level + XP + delta                   | 30 (leaderboard, podium and pelotão)          |
+| `LeaderboardRow`      | Position + avatar + name + level + XP + delta                   | 30 (leaderboard, podium and main pack)        |
 | `SearchOverlay`       | Standard full-screen search modal (input + results + recent)    | 07 feed, 25 services                          |
 | `PendingOfflineCard`  | Highlighted card showing offline queue items + CTA              | 06 home, 16 my reports                        |
 
@@ -203,5 +199,4 @@ When a component becomes obsolete:
 2. Search the repo for the import and replace with the new equivalent.
 3. Delete the component file.
 
-This document is **load-bearing** for the codebase's coherence — keep
-it accurate.
+This document is **load-bearing** for the codebase's coherence — keep it accurate.

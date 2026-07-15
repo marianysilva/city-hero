@@ -1,14 +1,14 @@
 # SCREEN 04 · Onboarding · Gamification
 
-> **Group:** 01 · Entry & Onboarding
-> **Prototype screen:** `design/index.html` (search for `title: 'Onboarding · Gamificação'`)
+> **Group:** 01 · Entry & Onboarding\
+> **Prototype screen:** `design/index.html` (search for `title: 'Onboarding · Gamificação'`)\
 > **Position in navigation:** Step 2 of 3 onboarding steps
 
 ## Overview
 
-The second onboarding step. It introduces the gamification loop — XP, levels
-(Citizen → Watchman → Guardian), and badges — with an animated badge that
-shines and a progress bar that hints at the loop the user will live in.
+The second onboarding step. It introduces the gamification loop — XP, levels (Citizen → Watchman →
+Guardian), and badges — with an animated badge that shines and a progress bar that hints at the loop
+the user will live in.
 
 The promise: "Reportar é trabalhar pela cidade — e a gente reconhece."
 
@@ -26,12 +26,13 @@ The promise: "Reportar é trabalhar pela cidade — e a gente reconhece."
 ```
 
 Both tasks plug into the shared state machine defined in
-`03-onboarding-camera/02-onboarding-step-machine.md` for navigation and
-progress persistence. No state-machine task lives here — that work was
-done at step 1.
+`03-onboarding-camera/02-onboarding-step-machine.md` for navigation and progress persistence. No
+state-machine task lives here — that work was done at step 1.
 
 ## Product notes
 
 - Badge animation must convey "earnable but reachable" (not flashy / pay-to-win).
-- The level naming (Cidadão → Vigilante → Guardião) is part of the brand voice — it's heroic without being self-important.
-- The XP progress bar shows a small fill (e.g., 20%) to imply early progress is reachable; avoid showing 0% (demotivating) or 100% (no journey left).
+- The level naming (Cidadão → Vigilante → Guardião) is part of the brand voice — it's heroic without
+  being self-important.
+- The XP progress bar shows a small fill (e.g., 20%) to imply early progress is reachable; avoid
+  showing 0% (demotivating) or 100% (no journey left).

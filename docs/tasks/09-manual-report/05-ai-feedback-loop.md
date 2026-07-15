@@ -1,94 +1,102 @@
 # Manual Report · AI feedback loop
 
-> **Type:** Screen feature · ML data ingestion
-> **Screen:** SCREEN 09 · Manual Report
-> **Effort:** S (≤1 day)
-> **Dependencies:** `09-manual-report/02-category-grid.md`, `09-manual-report/03-photo-thumbnail.md`, `00-foundation/16-yolov8-inference-service.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · ML data ingestion\
+> **Screen:** SCREEN 09 · Manual Report\
+> **Effort:** S (≤1 day)\
+> **Dependencies:** `09-manual-report/02-category-grid.md`,
+> `09-manual-report/03-photo-thumbnail.md`, `00-foundation/16-yolov8-inference-service.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `backend`, `ai`, `screen`, `data`
 
 ## Context
 
-Every manual category pick is a labeled data point that can train the
-next iteration of the AI model. When the on-device or backend AI
-expressed low confidence (or didn't detect anything), the manual category
-the user picks **is the ground truth**. By capturing this as a labeled
-sample (photo + category, with the user's consent), we feed the
-retraining pipeline naturally — converting friction into improvement.
+Every manual category pick is a labeled data point that can train the next iteration of the AI
+model. When the on-device or backend AI expressed low confidence (or didn't detect anything), the
+manual category the user picks **is the ground truth**. By capturing this as a labeled sample
+(photo + category, with the user's consent), we feed the retraining pipeline naturally — converting
+friction into improvement.
 
-This task implements the **client → backend** flow: the manual report
-payload includes the AI's original detection (if any) and the user's
-manual category. The backend marks the sample as a retraining candidate
-for the model versioning service. The retraining itself lives in
+This task implements the **client → backend** flow: the manual report payload includes the AI's
+original detection (if any) and the user's manual category. The backend marks the sample as a
+retraining candidate for the model versioning service. The retraining itself lives in
 `packages/ia_research` and is out of scope here.
 
 ## User Story
 
-**As a** Product / ML team,
-**I want** every manual category pick to feed model improvement,
+**As a** Product / ML team,\
+**I want** every manual category pick to feed model improvement,\
 **In order to** make the AI smarter without a separate labeling effort.
 
-**As a** Citizen,
-**I want** clear consent about how my photo helps train the model,
+**As a** Citizen,\
+**I want** clear consent about how my photo helps train the model,\
 **In order to** decide whether to opt in.
 
 ## Acceptance Criteria
 
 ### Scenario · Default consent enabled
 
-**Given** the user is on the manual report screen
-**When** the AI feedback loop is configured
-**Then** by default, the report's photo + manual category are sent as a labeled training candidate
+**Given** the user is on the manual report screen\
+**When** the AI feedback loop is configured\
+**Then** by default, the report's photo + manual category are sent as a labeled training candidate\
 **And** the footer message ("A IA aprende com cada reporte manual") communicates this transparently
 
 ### Scenario · Opt-out switch
 
-**Given** the user wants to opt out
-**When** they tap "Mais" / "Sobre a IA" or open Settings → Privacy
-**Then** they can toggle off "Ajudar a IA a aprender com meus reportes"
-**And** subsequent manual reports do not carry the training-candidate flag
+**Given** the user wants to opt out\
+**When** they tap "Mais" / "Sobre a IA" or open Settings → Privacy\
+**Then** they can toggle off "Ajudar a IA a aprender com meus reportes"\
+**And** subsequent manual reports do not carry the training-candidate flag\
 **And** the change persists in the user profile
 
 ### Scenario · Training candidate metadata
 
-**Given** a manual report is submitted with the consent on
-**When** the backend receives it
-**Then** the report record includes: `ai_label_candidate = true`, `ai_original_detection` (the AI's low-confidence guess or null), `user_label` (the manual category), `model_version` used at capture time
-**And** the photo is the **anonymized** variant from the pipeline (`00-foundation/08`) so no PII enters the training corpus
+**Given** a manual report is submitted with the consent on\
+**When** the backend receives it\
+**Then** the report record includes: `ai_label_candidate = true`, `ai_original_detection` (the AI's
+low-confidence guess or null), `user_label` (the manual category), `model_version` used at capture
+time\
+**And** the photo is the **anonymized** variant from the pipeline (`00-foundation/08`) so no PII
+enters the training corpus
 
 ### Scenario · Curation queue
 
-**Given** training candidates accumulate
-**When** the ML team queries them
-**Then** they can filter by: model version, original detection confidence range, manual category, time window
+**Given** training candidates accumulate\
+**When** the ML team queries them\
+**Then** they can filter by: model version, original detection confidence range, manual category,
+time window\
 **And** export a labeled dataset for retraining
 
 ### Scenario · Quality safeguards
 
-**Given** a candidate has obviously implausible data (e.g., category "Buraco" but the photo is clearly a beach scene)
-**When** the curator reviews
-**Then** they can reject the candidate from the training set
-**And** the report remains valid for the prefecture's purposes — only the ML training relevance is flagged
+**Given** a candidate has obviously implausible data (e.g., category "Buraco" but the photo is
+clearly a beach scene)\
+**When** the curator reviews\
+**Then** they can reject the candidate from the training set\
+**And** the report remains valid for the prefecture's purposes — only the ML training relevance is
+flagged
 
 ### Scenario · Privacy disclosure
 
-**Given** the user reads the footer or taps the small "?" near it
-**When** the disclosure expands
-**Then** it explains: photos are anonymized first, only the manual category and the photo become a training signal, the user can opt out anytime, and the model improvement benefits everyone
+**Given** the user reads the footer or taps the small "?" near it\
+**When** the disclosure expands\
+**Then** it explains: photos are anonymized first, only the manual category and the photo become a
+training signal, the user can opt out anytime, and the model improvement benefits everyone
 
 ### Scenario · Anonymization is non-negotiable
 
-**Given** any photo enters the training pipeline
-**When** the system processes
-**Then** only anonymized versions are stored as training data
-**And** raw (pre-anonymization) photos are **never** used for training, in any case
-**And** this rule applies regardless of consent state (consent is to **opt in**; never to **bypass** anonymization)
+**Given** any photo enters the training pipeline\
+**When** the system processes\
+**Then** only anonymized versions are stored as training data\
+**And** raw (pre-anonymization) photos are **never** used for training, in any case\
+**And** this rule applies regardless of consent state (consent is to **opt in**; never to **bypass**
+anonymization)
 
 ### Scenario · Model version traceability
 
-**Given** retraining produces a new model
-**When** comparing performance against the prior model
-**Then** the training data's `model_version` field allows analyzing which sources improved (or hurt) outcomes
+**Given** retraining produces a new model\
+**When** comparing performance against the prior model\
+**Then** the training data's `model_version` field allows analyzing which sources improved (or hurt)
+outcomes
 
 ## Frontend (React Native)
 
@@ -100,15 +108,18 @@ apps/city-hero/src/screens/ManualReport/
     └── useAiFeedbackConsent.ts
 ```
 
-The hook reads the user's consent setting (default on) and exposes it. The submit logic (task 06) reads this and includes the `ai_label_candidate` flag in the payload.
+The hook reads the user's consent setting (default on) and exposes it. The submit logic (task 06)
+reads this and includes the `ai_label_candidate` flag in the payload.
 
 ### Disclosure surface
 
-The footer message links to a short "Sobre a IA" sheet explaining the loop and the opt-out. Settings (out of MVP scope, but planned) include a permanent toggle.
+The footer message links to a short "Sobre a IA" sheet explaining the loop and the opt-out. Settings
+(out of MVP scope, but planned) include a permanent toggle.
 
 ## Backend (FastAPI)
 
-The report-create endpoint (owned by `docs/tasks/10-report-confirm/`) accepts the additional fields. No new endpoint here.
+The report-create endpoint (owned by `docs/tasks/10-report-confirm/`) accepts the additional fields.
+No new endpoint here.
 
 A periodic ETL (or dbt model) materializes the labeled dataset for the ML team to consume.
 
@@ -127,14 +138,18 @@ The `reports` table gains:
 
 ## Edge Cases
 
-- **User picks "Outro"**: the secondary key is captured as the manual label; less directly useful for training but still a signal.
+- **User picks "Outro"**: the secondary key is captured as the manual label; less directly useful
+  for training but still a signal.
 - **User submits without a photo**: no training candidate; the flag is automatically false.
-- **Consent changed mid-report**: the report uses the consent state at submit time, not at screen mount.
-- **Future migration of consent default**: if defaults change, existing users keep their explicit choice; new users get the new default.
+- **Consent changed mid-report**: the report uses the consent state at submit time, not at screen
+  mount.
+- **Future migration of consent default**: if defaults change, existing users keep their explicit
+  choice; new users get the new default.
 
 ## Privacy / LGPD
 
-- The default-on behavior is acceptable under LGPD as long as the **purpose** is clearly disclosed and the **opt-out is one tap away**.
+- The default-on behavior is acceptable under LGPD as long as the **purpose** is clearly disclosed
+  and the **opt-out is one tap away**.
 - The training data is the anonymized photo + a category label — neither of which is PII.
 - Consent state is part of the user record and is auditable.
 

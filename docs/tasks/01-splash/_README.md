@@ -1,18 +1,17 @@
 # SCREEN 01 · Splash / Welcome
 
-> **Group:** 01 · Entry & Onboarding
-> **Prototype screen:** `design/index.html` (search for `title: 'Splash / Boas-vindas'`)
+> **Group:** 01 · Entry & Onboarding\
+> **Prototype screen:** `design/index.html` (search for `title: 'Splash / Boas-vindas'`)\
 > **Position in navigation:** First screen after cold start (see `design/navigation.html` § 02)
 
 ## Overview
 
-Splash is more than a screen — it's the **cold-start orchestrator**. It decides
-where the user goes (onboarding · choose city · home · forced update), runs
-parallel checks (auth, version, deep link, connectivity), and enforces a minimum
-display time to avoid visual flashing.
+Splash is more than a screen — it's the **cold-start orchestrator**. It decides where the user goes
+(onboarding · choose city · home · forced update), runs parallel checks (auth, version, deep link,
+connectivity), and enforces a minimum display time to avoid visual flashing.
 
-For that reason, it's broken into 5 distinct features — each one is an
-independent task that can be implemented by different people/sessions.
+For that reason, it's broken into 5 distinct features — each one is an independent task that can be
+implemented by different people/sessions.
 
 ## Features (5 tasks)
 
@@ -37,9 +36,9 @@ Tasks 01 (UI) and 02 (init) can run in parallel. 03–05 depend on 02 being read
 
 ## Product notes
 
-- **Minimum splash duration:** 800ms — enough for the user to register the
-  CityHero brand visually. Above 1.5s feels slow.
-- **Graceful failover:** any check failure (auth, version, etc.) must let the
-  user continue — never block on the splash.
-- **Don't request permissions here** (camera, location, push) — that's
-  onboarding's job. Splash is purely routing.
+- **Minimum splash duration:** 800ms — enough for the user to register the CityHero brand visually.
+  Above 1.5s feels slow.
+- **Graceful failover:** any check failure (auth, version, etc.) must let the user continue — never
+  block on the splash.
+- **Don't request permissions here** (camera, location, push) — that's onboarding's job. Splash is
+  purely routing.

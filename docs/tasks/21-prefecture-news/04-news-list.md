@@ -1,105 +1,106 @@
 # Prefecture News · News list
 
-> **Type:** Screen feature · UI + data
-> **Screen:** SCREEN 21 · Prefecture News
-> **Effort:** M (1-2 days)
-> **Dependencies:** `21-prefecture-news/01-render-news-ui-base.md`, `00-foundation/05-api-client.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · UI + data\
+> **Screen:** SCREEN 21 · Prefecture News\
+> **Effort:** M (1-2 days)\
+> **Dependencies:** `21-prefecture-news/01-render-news-ui-base.md`,
+> `00-foundation/05-api-client.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `backend`, `screen`
 
 ## Context
 
-The paginated list of routine prefecture announcements below the pinned
-alert. Each row is a card with a category-color icon square on the
-left (🩺 emerald for Saúde, 🚧 amber for Obras, 🎓 sky for Educação,
-🎉 rose for Eventos, 🏛️ violet for Transparência), small category
-label + relative time, the title, and a short snippet. Some
-announcements include a "Ver no mapa" CTA when relevant (e.g.,
+The paginated list of routine prefecture announcements below the pinned alert. Each row is a card
+with a category-color icon square on the left (🩺 emerald for Saúde, 🚧 amber for Obras, 🎓 sky for
+Educação, 🎉 rose for Eventos, 🏛️ violet for Transparência), small category label + relative time,
+the title, and a short snippet. Some announcements include a "Ver no mapa" CTA when relevant (e.g.,
 construction works).
 
 Tap any item to open the full detail (task 05).
 
 ## User Story
 
-**As a** Citizen,
-**I want** a scannable list of recent prefecture announcements,
+**As a** Citizen,\
+**I want** a scannable list of recent prefecture announcements,\
 **In order to** stay informed about my city.
 
 ## Acceptance Criteria
 
 ### Scenario · Default render
 
-**Given** the user is on the screen with no active filter
-**When** the list renders
-**Then** each item shows the category-color icon square + category small caps + time + bold title + snippet
+**Given** the user is on the screen with no active filter\
+**When** the list renders\
+**Then** each item shows the category-color icon square + category small caps + time + bold title +
+snippet\
 **And** items are sorted by `published_at desc` (most recent first)
 
 ### Scenario · CTAs inside cards
 
-**Given** a card has an associated link target (e.g., a construction work)
-**When** the card renders
-**Then** a small in-card CTA appears ("Ver obra no mapa →" with brand color)
+**Given** a card has an associated link target (e.g., a construction work)\
+**When** the card renders\
+**Then** a small in-card CTA appears ("Ver obra no mapa →" with brand color)\
 **And** tapping the CTA navigates to the linked screen (SCREEN 27 for works)
 
 ### Scenario · Filter applied
 
-**Given** the user picked a category filter (task 02)
-**When** the list renders
-**Then** only matching items show
+**Given** the user picked a category filter (task 02)\
+**When** the list renders\
+**Then** only matching items show\
 **And** the pinned alert (task 03) follows the filter
 
 ### Scenario · Pagination
 
-**Given** the list has many items
-**When** the user scrolls
-**Then** the next page fetches via cursor-based pagination
-**And** loading indicators appear during fetch
+**Given** the list has many items\
+**When** the user scrolls\
+**Then** the next page fetches via cursor-based pagination\
+**And** loading indicators appear during fetch\
 **And** the end marker shows ("Você chegou ao fim")
 
 ### Scenario · Pull-to-refresh
 
-**Given** the user pulls down
-**When** the gesture completes
-**Then** the list refetches from page 1
+**Given** the user pulls down\
+**When** the gesture completes\
+**Then** the list refetches from page 1\
 **And** new items merge cleanly
 
 ### Scenario · Real-time additions
 
-**Given** the prefecture publishes a new item
-**When** the WS pushes it
+**Given** the prefecture publishes a new item\
+**When** the WS pushes it\
 **Then** the item appears at the top with a small slide-down animation
 
 ### Scenario · Tap a card
 
-**Given** the user taps a card body (not the inline CTA)
-**When** the action runs
+**Given** the user taps a card body (not the inline CTA)\
+**When** the action runs\
 **Then** the detail sheet (task 05) opens with the full announcement
 
 ### Scenario · Empty state
 
-**Given** the active filter yields zero items
-**When** the empty state renders
+**Given** the active filter yields zero items\
+**When** the empty state renders\
 **Then** a friendly message appears ("Nada em {category} agora")
 
 ### Scenario · Localization
 
-**Given** the user's language is en-US
-**When** items render
-**Then** category labels are in English; titles and snippets use each announcement's locale-specific text
+**Given** the user's language is en-US\
+**When** items render\
+**Then** category labels are in English; titles and snippets use each announcement's locale-specific
+text\
 **And** time formats use the user's locale
 
 ### Scenario · Performance
 
-**Given** many items load
-**When** scrolling
-**Then** virtualization keeps performance smooth
+**Given** many items load\
+**When** scrolling\
+**Then** virtualization keeps performance smooth\
 **And** icons + emojis don't bottleneck rendering
 
 ### Scenario · Accessibility
 
-**Given** screen reader is on
-**When** items are navigated
-**Then** each is announced as a group with category, time, title, snippet
+**Given** screen reader is on\
+**When** items are navigated\
+**Then** each is announced as a group with category, time, title, snippet\
 **And** in-card CTAs are individually focusable
 
 ## Frontend (React Native)
@@ -129,11 +130,14 @@ apps/city-hero/src/screens/PrefectureNews/
 | ------ | -------------------------------------------------- | ----------------------- |
 | GET    | `/api/v1/prefecture-news?category=&cursor=&limit=` | Paginated announcements |
 
-Multi-tenant scoping. Sorted by `published_at desc`. Returns pinned items separately (or with a flag).
+Multi-tenant scoping. Sorted by `published_at desc`. Returns pinned items separately (or with a
+flag).
 
 ## Database
 
-The `prefecture_news` table has fields: id, city_id, category, title_key/body_key + body_params (i18n), snippet, link_target (json), is_pinned, severity, source, published_at, expires_at. Indexes on `(city_id, category, published_at desc)`.
+The `prefecture_news` table has fields: id, city_id, category, title_key/body_key + body_params
+(i18n), snippet, link_target (json), is_pinned, severity, source, published_at, expires_at. Indexes
+on `(city_id, category, published_at desc)`.
 
 ## Edge Cases
 

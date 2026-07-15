@@ -1,8 +1,8 @@
 # CityHero · Protótipo modular
 
-Versão modular do protótipo original (`design/index.html`, 3861 linhas monolíticas),
-reescrita seguindo **Atomic Design** (Brad Frost) + **ES modules**. Sem build step
-— roda direto no navegador abrindo `design/prototype.html`.
+Versão modular do protótipo original (`design/index.html`, 3861 linhas monolíticas), reescrita
+seguindo **Atomic Design** (Brad Frost) + **ES modules**. Sem build step — roda direto no navegador
+abrindo `design/prototype.html`.
 
 O HTML original segue intocado por duas razões:
 
@@ -61,9 +61,8 @@ design/
 | **templates** | Layout de página sem conteúdo    | organisms                       |
 | **screens**   | Tela inteira                     | tudo acima                      |
 
-Regra: um módulo **só importa coisas da sua camada ou abaixo**. Isso é o que
-garante que a base fica reutilizável sem acoplamento. Violações viram dependências
-circulares silenciosas.
+Regra: um módulo **só importa coisas da sua camada ou abaixo**. Isso é o que garante que a base fica
+reutilizável sem acoplamento. Violações viram dependências circulares silenciosas.
 
 ---
 
@@ -82,10 +81,9 @@ Cada arquivo em `screens/` exporta `default` um objeto com:
 }
 ```
 
-O `onMount` é opcional e só é chamado depois que o HTML foi injetado no DOM —
-é onde vivem efeitos colaterais (Leaflet, timers, observers). O retorno `{destroy}`
-é chamado pelo renderer quando a tela é desmontada (evita leak e erros tipo
-"Map container is already initialized" do Leaflet).
+O `onMount` é opcional e só é chamado depois que o HTML foi injetado no DOM — é onde vivem efeitos
+colaterais (Leaflet, timers, observers). O retorno `{destroy}` é chamado pelo renderer quando a tela
+é desmontada (evita leak e erros tipo "Map container is already initialized" do Leaflet).
 
 ---
 
@@ -98,8 +96,8 @@ Botões dentro de uma Screen podem carregar:
 - `data-nav="goto" data-target="Nome da Tela"` — pula direto por título
 - `data-nav="gov"` — caso especial do Gov.br no splash (equivale a `next` na sequência)
 
-Toda a lógica está em `src/lib/nav.js` via event delegation no `document`. Zero
-setup necessário dentro da tela — só marcar o botão com os atributos.
+Toda a lógica está em `src/lib/nav.js` via event delegation no `document`. Zero setup necessário
+dentro da tela — só marcar o botão com os atributos.
 
 ---
 
@@ -109,10 +107,10 @@ setup necessário dentro da tela — só marcar o botão com os atributos.
 2. Importe e adicione na ordem em `src/screens/index.js`.
 3. Pronto. O renderer pega sozinho.
 
-Se precisar reusar um componente em mais de uma tela, promova de "helper local
-dentro do arquivo" para `atoms/`, `molecules/` ou `organisms/` conforme a
-complexidade. Helpers que só existem em uma tela (ex.: `feedItem` em `07-civic-feed.js`,
-`obra` em `25-works-in-progress.js`) ficam inline até serem reusados.
+Se precisar reusar um componente em mais de uma tela, promova de "helper local dentro do arquivo"
+para `atoms/`, `molecules/` ou `organisms/` conforme a complexidade. Helpers que só existem em uma
+tela (ex.: `feedItem` em `07-civic-feed.js`, `obra` em `25-works-in-progress.js`) ficam inline até
+serem reusados.
 
 ---
 
@@ -123,24 +121,22 @@ A arquitetura foi desenhada pra suportar uma migração direta:
 1. **tokens** → viram `packages/design_system/src/tokens/`.
 2. **atoms** → cada helper de template string vira `<StatusBar theme="dark" />`,
    `<CategoryChip label color emoji />` etc.
-3. **organisms** → `<BottomNav active="home" />`, `<PhoneFrame />`, `<LeafletMap />`
-   (com `react-leaflet` no web, `react-native-maps` no mobile).
+3. **organisms** → `<BottomNav active="home" />`, `<PhoneFrame />`, `<LeafletMap />` (com
+   `react-leaflet` no web, `react-native-maps` no mobile).
 4. **screens** → compositions chamando os componentes, talvez já em
-   `apps/web/src/app/citizen-prototype/` (Next.js) ou `apps/mobile/src/screens/`
-   (React Native).
+   `apps/web/src/app/citizen-prototype/` (Next.js) ou `apps/mobile/src/screens/` (React Native).
 
-O contrato `{title, group, html, onMount}` é o análogo de `React.FC + useEffect`.
-A diferença é cosmética — o raciocínio atômico sobrevive à migração.
+O contrato `{title, group, html, onMount}` é o análogo de `React.FC + useEffect`. A diferença é
+cosmética — o raciocínio atômico sobrevive à migração.
 
 ---
 
 ## O que não foi extraído (por opção)
 
-- Caminhos de foto (`feed-photos/…`) estão hard-coded nas telas que os usam. Numa
-  versão React seriam props ou um `assets/` tipado. Aqui, o ganho não compensa
-  a indireção.
-- `onclick="…"` inline em `10-report-confirm.js` (toggle Identificada/Anônima) —
-  foi mantido como no original porque é um hack do protótipo pra mudar
-  `data-target` dinamicamente. Em React viraria estado local.
-- Gradientes e paletas específicas de uma tela ficaram inline. Só o que repete
-  (brand/civic) vive em `tokens/colors.js`.
+- Caminhos de foto (`feed-photos/…`) estão hard-coded nas telas que os usam. Numa versão React
+  seriam props ou um `assets/` tipado. Aqui, o ganho não compensa a indireção.
+- `onclick="…"` inline em `10-report-confirm.js` (toggle Identificada/Anônima) — foi mantido como no
+  original porque é um hack do protótipo pra mudar `data-target` dinamicamente. Em React viraria
+  estado local.
+- Gradientes e paletas específicas de uma tela ficaram inline. Só o que repete (brand/civic) vive em
+  `tokens/colors.js`.

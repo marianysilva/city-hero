@@ -1,43 +1,45 @@
 # Neighborhood Ranking · Render UI base
 
-> **Type:** Screen feature · UI
-> **Screen:** SCREEN 30 · Neighborhood Ranking
-> **Effort:** S (≤1 day)
-> **Dependencies:** `00-foundation/02-design-tokens.md`, `00-foundation/04-status-bar-component.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · UI\
+> **Screen:** SCREEN 30 · Neighborhood Ranking\
+> **Effort:** S (≤1 day)\
+> **Dependencies:** `00-foundation/02-design-tokens.md`, `00-foundation/04-status-bar-component.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `frontend`, `screen`, `ui`
 
 ## Context
 
-Header (back + "Ranking" title), scope toggle (task 02), period filter (task 05), top podium + leaderboard list (tasks 03/04), bottom nav. The screen is clean and celebratory — top contributors get visual emphasis.
+Header (back + "Ranking" title), scope toggle (task 02), period filter (task 05), top podium +
+leaderboard list (tasks 03/04), bottom nav. The screen is clean and celebratory — top contributors
+get visual emphasis.
 
 ## Acceptance Criteria
 
 ### Scenario · Default render
 
-**Given** the user opens the screen
-**When** it renders
-**Then** status bar `dark`
-**And** header: back + title
-**And** below: scope toggle, period filter, leaderboard slot
+**Given** the user opens the screen\
+**When** it renders\
+**Then** status bar `dark`\
+**And** header: back + title\
+**And** below: scope toggle, period filter, leaderboard slot\
 **And** bottom nav visible
 
 ### Scenario · Slot system
 
-**Given** the screen exposes slots
-**When** tasks plug in
+**Given** the screen exposes slots\
+**When** tasks plug in\
 **Then** named slots: `scope-toggle`, `period-filter`, `leaderboard`
 
 ### Scenario · Theming
 
-**Given** dark mode
-**When** rendered
+**Given** dark mode\
+**When** rendered\
 **Then** background and cards adapt
 
 ### Scenario · Accessibility
 
-**Given** SR is on
-**When** mounted
+**Given** SR is on\
+**When** mounted\
 **Then** title labeled
 
 ## Frontend
