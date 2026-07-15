@@ -1,31 +1,29 @@
 # SCREEN 13 · Detail · In Progress
 
-> **Group:** 02 · App Core
-> **Prototype screen:** `design/index.html` (search for `title: 'Detalhe · Em andamento'`)
-> **Position in navigation:** Reachable from feed pins, push notifications, share links, My Reports, and the post-submit screens (Liga / Envio Anônimo)
+> **Group:** 02 · App Core\
+> **Prototype screen:** `design/index.html` (search for `title: 'Detalhe · Em andamento'`)\
+> **Position in navigation:** Reachable from feed pins, push notifications, share links, My Reports,
+> and the post-submit screens (Liga / Envio Anônimo)
 
 ## Overview
 
-The detail view of an **open** ticket — the report has been submitted and is
-working its way through the prefecture's pipeline (triagem → chamado aberto
-→ resposta → agendado → execução → resolvido). The screen shows:
+The detail view of an **open** ticket — the report has been submitted and is working its way through
+the prefecture's pipeline (triagem → chamado aberto → resposta → agendado → execução → resolvido).
+The screen shows:
 
-- A **hero photo** (single image, no before/after — that's SCREEN 14) with
-  status chips overlay.
-- A **summary card** with title, reporter, distance, and three key stats
-  (apoios, comentários, SLA restante).
-- A detailed **timeline** ("Trajeto do ticket") of every state transition
-  with timestamps and prefecture context.
-- A **moderated comments** section using the tag system from `features.md`
-  § 1 (Moderated Comments) — taps add the user's voice without exposing
-  the chat to toxicity.
-- Persistent **CTAs** at the bottom: Apoiar (engagement) + Compartilhar
-  (external pressure).
-- An **overflow menu** (⋯) with secondary actions: Enriquecer, Reportar
-  problema, Tornar público/anônimo (when owner).
+- A **hero photo** (single image, no before/after — that's SCREEN 14) with status chips overlay.
+- A **summary card** with title, reporter, distance, and three key stats (apoios, comentários, SLA
+  restante).
+- A detailed **timeline** ("Trajeto do ticket") of every state transition with timestamps and
+  prefecture context.
+- A **moderated comments** section using the tag system from `features.md` § 1 (Moderated Comments)
+  — taps add the user's voice without exposing the chat to toxicity.
+- Persistent **CTAs** at the bottom: Apoiar (engagement) + Compartilhar (external pressure).
+- An **overflow menu** (⋯) with secondary actions: Enriquecer, Reportar problema, Tornar
+  público/anônimo (when owner).
 
-This is where citizens spend most of their time after submitting — and
-where the prefecture's responsiveness becomes visible.
+This is where citizens spend most of their time after submitting — and where the prefecture's
+responsiveness becomes visible.
 
 ## Features (7 tasks)
 
@@ -51,15 +49,14 @@ where the prefecture's responsiveness becomes visible.
 
 ## Product notes
 
-- **Timeline is the trust device**: it shows the prefecture is actually
-  doing something (not just receiving). Every transition with a timestamp
-  and context. Out-of-spec states (delays, blocks) should be visible too.
-- **Comments are tag-based, not free-text**: per `features.md` and the
-  prototype, this avoids toxicity and aligns with the engagement design.
-- **Owner vs visitor**: the menu adapts. The report's owner sees
-  "Tornar público/anônimo"; visitors don't. Both see Enriquecer.
-- **Anonymous reports show the anonymous variant**: the summary's
-  "Reportado por…" line becomes "🥷 Herói Anônimo"; the rest behaves
-  identically.
-- **Real-time updates**: status transitions arrive via WebSocket (per
-  `06-home-map/08`) and the timeline animates in the new entry.
+- **Timeline is the trust device**: it shows the prefecture is actually doing something (not just
+  receiving). Every transition with a timestamp and context. Out-of-spec states (delays, blocks)
+  should be visible too.
+- **Comments are tag-based, not free-text**: per `features.md` and the prototype, this avoids
+  toxicity and aligns with the engagement design.
+- **Owner vs visitor**: the menu adapts. The report's owner sees "Tornar público/anônimo"; visitors
+  don't. Both see Enriquecer.
+- **Anonymous reports show the anonymous variant**: the summary's "Reportado por…" line becomes "🥷
+  Herói Anônimo"; the rest behaves identically.
+- **Real-time updates**: status transitions arrive via WebSocket (per `06-home-map/08`) and the
+  timeline animates in the new entry.

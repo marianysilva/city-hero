@@ -1,8 +1,7 @@
 # Tasks · CityHero
 
-End-to-end implementation catalog for the CityHero Citizen App MVP.
-Each `.md` file represents an atomic task that can be imported as a GitHub
-Project issue and assigned to Claude Code (or a human).
+End-to-end implementation catalog for the CityHero Citizen App MVP. Each `.md` file represents an
+atomic task that can be imported as a GitHub Project issue and assigned to Claude Code (or a human).
 
 ## How to read
 
@@ -88,11 +87,10 @@ docs/tasks/
 
 ## Out-of-MVP tasks
 
-Tasks whose Acceptance Criteria hard-depend on infrastructure outside
-`apps/backend` and `apps/city-hero` (the Operational Panel `apps/web`,
-the Field Team App, or the analytics stack — Airflow, dbt, Superset)
-live in a sibling folder, not here — even when the task's own header
-labels it `backend`:
+Tasks whose Acceptance Criteria hard-depend on infrastructure outside `apps/backend` and
+`apps/city-hero` (the Operational Panel `apps/web`, the Field Team App, or the analytics stack —
+Airflow, dbt, Superset) live in a sibling folder, not here — even when the task's own header labels
+it `backend`:
 
 ```
 docs/out-of-mvp/
@@ -102,44 +100,43 @@ docs/out-of-mvp/
     └── 04-insights-card.md             ← backend endpoint requires dbt-materialized fact tables (analytics/transformations)
 ```
 
-Each moved file keeps its own Acceptance Criteria untouched; only its
-path and any now-broken cross-references were updated.
+Each moved file keeps its own Acceptance Criteria untouched; only its path and any now-broken
+cross-references were updated.
 
 ## Conventions
 
-- **Suggested labels** (in each task header): `mobile`, `backend`, `database`,
-  `foundation`, `screen`, `lgpd`, `gamification`, `offline`, `ai`, `accessibility`
+- **Suggested labels** (in each task header): `mobile`, `backend`, `database`, `foundation`,
+  `screen`, `lgpd`, `gamification`, `offline`, `ai`, `accessibility`
 - **Effort:** S (≤1 day) · M (1-3 days) · L (3-5 days) · XL (1+ week)
 - **Dependencies:** referenced by relative path (e.g., `00-foundation/03-bottom-nav-component.md`)
 - **Status in header:** `⬜ Not started` / `🟡 In progress` / `✅ Done`
 
 ## Frontend component placement (binding)
 
-Every UI component — atom, molecule, organism, template — lives in
-**`packages/design_system`** and has a **Storybook story**. Screen
-folders compose design-system pieces; they don't define generic UI
+Every UI component — atom, molecule, organism, template — lives in **`packages/design_system`** and
+has a **Storybook story**. Screen folders compose design-system pieces; they don't define generic UI
 primitives. See:
 
-- [`docs/engineering/design-system.md`](../engineering/design-system.md) — the canonical rules (atomic tiers, location, React patterns, Storybook requirement).
-- [`docs/engineering/component-inventory.md`](../engineering/component-inventory.md) — the catalog of every shared component with the screens that consume it.
+- [`docs/engineering/design-system.md`](../engineering/design-system.md) — the canonical rules
+  (atomic tiers, location, React patterns, Storybook requirement).
+- [`docs/engineering/component-inventory.md`](../engineering/component-inventory.md) — the catalog
+  of every shared component with the screens that consume it.
 
-Where a task spec's "Where it lives" section mentions a generic
-component in a screen folder (e.g., `apps/city-hero/src/screens/Foo/components/Bar.tsx`),
-that path is the task's draft starting point. If `Bar` is used by 2+
-screens (or fits an existing atom/molecule from the inventory), the
-inventory and the design-system rules win: `Bar` moves to
-`packages/design_system/` with a story and is imported by screens via
-the package's public API. Conflicts resolve in favor of
-`design-system.md`.
+Where a task spec's "Where it lives" section mentions a generic component in a screen folder (e.g.,
+`apps/city-hero/src/screens/Foo/components/Bar.tsx`), that path is the task's draft starting point.
+If `Bar` is used by 2+ screens (or fits an existing atom/molecule from the inventory), the inventory
+and the design-system rules win: `Bar` moves to `packages/design_system/` with a story and is
+imported by screens via the package's public API. Conflicts resolve in favor of `design-system.md`.
 
 ## How to use with Claude Code
 
 1. Pick a task from `docs/tasks/<folder>/`
 2. Confirm dependencies are resolved (header → Dependencies)
-3. Read the standards docs referenced in the task's `Standards & References` section, especially `design-system.md` for any UI work
+3. Read the standards docs referenced in the task's `Standards & References` section, especially
+   `design-system.md` for any UI work
 4. Paste the content into a Claude Code session with the instruction:
-   > "Implement this task end-to-end following the Acceptance Criteria.
-   > Use TDD where applicable. Pause if anything is ambiguous."
+   > "Implement this task end-to-end following the Acceptance Criteria. Use TDD where applicable.
+   > Pause if anything is ambiguous."
 
 ## How to import into GitHub Projects
 
@@ -163,12 +160,12 @@ Or via UI: New issue → paste content → add labels → assign to Project.
 | 6. Citizen ++                                | partial (anonymous, i18n, a11y)                                                                                                                                                                                                |
 | 11. Scope Expansion                          | ❌ v2                                                                                                                                                                                                                          |
 
-> **Dev-only workaround for no login flow yet:** while real auth is on
-> hold (see `docs/engineering/open-questions.md` Q2), the **profile
-> switcher** in `28-citizen-profile/07-profile-switcher.md` lets QA
-> swap between persona types (citizen, prefecture manager, field team)
-> to exercise role-specific UI in dev and staging builds.
+> **Dev-only workaround for no login flow yet:** while real auth is on hold (see
+> `docs/engineering/open-questions.md` Q2), the **profile switcher** in
+> `28-citizen-profile/07-profile-switcher.md` lets QA swap between persona types (citizen,
+> prefecture manager, field team) to exercise role-specific UI in dev and staging builds.
 
 ---
 
-_Last updated: 2026-07-15 · 32 screens (30 numeradas + 04b Pacto Cidadão + 21b Políticos eleitos) + 18 foundation tasks · 2 tasks moved to `docs/out-of-mvp/`_
+_Last updated: 2026-07-15 · 32 screens (30 numeradas + 04b Pacto Cidadão + 21b Políticos eleitos) +
+18 foundation tasks · 2 tasks moved to `docs/out-of-mvp/`_

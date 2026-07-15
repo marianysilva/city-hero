@@ -1,24 +1,29 @@
 # Observability Package Research (2025-2026)
 
-Research basis for `packages/observability/` — a shared layer across `apps/backend` (FastAPI), `apps/city-hero` (React Native + Expo), and `apps/web` (Next.js).
+Research basis for `packages/observability/` — a shared layer across `apps/backend` (FastAPI),
+`apps/city-hero` (React Native + Expo), and `apps/web` (Next.js).
 
-> **This is upgrade-path research, not the current MVP implementation.**
-> The actually-built package (`00-foundation/20-observability-package.md`)
-> is deliberately smaller than what's outlined below: Sentry + structured
-> logs + a plain `X-Trace-Id` header, no OpenTelemetry, no Grafana. See
-> `observability.md` for what's live today and why. This document stays
-> as the plan for when the project outgrows that — multiple cities, a
-> team instead of a solo developer, or a specific incident pattern that
-> justifies the operational cost of running OTel + a metrics/traces
-> backend.
+> **This is upgrade-path research, not the current MVP implementation.** The actually-built package
+> (`00-foundation/20-observability-package.md`) is deliberately smaller than what's outlined below:
+> Sentry + structured logs + a plain `X-Trace-Id` header, no OpenTelemetry, no Grafana. See
+> `observability.md` for what's live today and why. This document stays as the plan for when the
+> project outgrows that — multiple cities, a team instead of a solo developer, or a specific
+> incident pattern that justifies the operational cost of running OTel + a metrics/traces backend.
 
 ## TL;DR
 
-- **OpenTelemetry is the substrate**; Sentry is the error/replay UX. Use Sentry SDKs configured in OTel-compatible mode so spans, errors and logs share one trace ID end-to-end.
-- **Per-target adapters under one package root.** Sub-paths `python/`, `react/`, `react-native/` exporting a uniform contract (`init`, `logger`, `withSpan`, `captureException`, `setUser`, `scrub`).
-- **W3C `traceparent` + `baggage` everywhere.** Mobile/web inject on outbound `fetch`; FastAPI extracts via `opentelemetry-instrumentation-fastapi`. Sentry's `sentry-trace`/`baggage` interoperate when OTel mode is enabled.
-- **Scrub PII at two layers**: SDK `beforeSend` (client) for fast-fail, and Collector `redaction` processor (server) for centralized LGPD policy (CPF, e-mail, full name, geolocation precision).
-- **Start on Sentry SaaS + Grafana Cloud free tier**; reassess self-hosted LGTM only when traces/logs exceed Grafana's 50 GB free cap.
+- **OpenTelemetry is the substrate**; Sentry is the error/replay UX. Use Sentry SDKs configured in
+  OTel-compatible mode so spans, errors and logs share one trace ID end-to-end.
+- **Per-target adapters under one package root.** Sub-paths `python/`, `react/`, `react-native/`
+  exporting a uniform contract (`init`, `logger`, `withSpan`, `captureException`, `setUser`,
+  `scrub`).
+- **W3C `traceparent` + `baggage` everywhere.** Mobile/web inject on outbound `fetch`; FastAPI
+  extracts via `opentelemetry-instrumentation-fastapi`. Sentry's `sentry-trace`/`baggage`
+  interoperate when OTel mode is enabled.
+- **Scrub PII at two layers**: SDK `beforeSend` (client) for fast-fail, and Collector `redaction`
+  processor (server) for centralized LGPD policy (CPF, e-mail, full name, geolocation precision).
+- **Start on Sentry SaaS + Grafana Cloud free tier**; reassess self-hosted LGTM only when
+  traces/logs exceed Grafana's 50 GB free cap.
 
 ## Recommended stack
 
@@ -63,22 +68,44 @@ packages/observability/
       fetch-instrumentation.ts
 ```
 
-Responsibilities: `common/` is the single source of truth for naming and PII; `python/` and `react*/` are thin adapters that respect the same contract (`init`, `getLogger(name)`, `withSpan(name, attrs, fn)`, `captureException(err, ctx)`, `setUser({id})` — never raw PII).
+Responsibilities: `common/` is the single source of truth for naming and PII; `python/` and
+`react*/` are thin adapters that respect the same contract (`init`, `getLogger(name)`,
+`withSpan(name, attrs, fn)`, `captureException(err, ctx)`, `setUser({id})` — never raw PII).
 
 ## Usage pattern
 
-**FastAPI** — `init()` is called at app startup before any route; it installs the OTel middleware (extracts `traceparent`), and mounts a `BoundLogger` per request with `request_id`, `trace_id`, `city_id`, `user_id` (hashed) via contextvars. Unhandled exceptions become `sentry_sdk.capture_exception` automatically; the `HTTPException` handler adds `http.response.status_code` to the active span.
+**FastAPI** — `init()` is called at app startup before any route; it installs the OTel middleware
+(extracts `traceparent`), and mounts a `BoundLogger` per request with `request_id`, `trace_id`,
+`city_id`, `user_id` (hashed) via contextvars. Unhandled exceptions become
+`sentry_sdk.capture_exception` automatically; the `HTTPException` handler adds
+`http.response.status_code` to the active span.
 
-**Next.js** — `instrumentation.ts` calls `init` server-side in `register()` and exports `onRequestError` to report RSC/Server Actions errors. Client: an `<ObservabilityProvider>` in the root layout calls `init` once, mounts an `ErrorBoundary` that captures render errors with the current trace ID and renders a friendly fallback. Outbound `fetch` is wrapped to inject `traceparent` + `baggage` before calling the backend.
+**Next.js** — `instrumentation.ts` calls `init` server-side in `register()` and exports
+`onRequestError` to report RSC/Server Actions errors. Client: an `<ObservabilityProvider>` in the
+root layout calls `init` once, mounts an `ErrorBoundary` that captures render errors with the
+current trace ID and renders a friendly fallback. Outbound `fetch` is wrapped to inject
+`traceparent` + `baggage` before calling the backend.
 
-**React Native (Expo)** — `init` runs in `app/_layout.tsx` before any navigation. A global `ErrorBoundary` protects the root. Expo Router emits screen-change events → `navigation.<screen>` spans. The HTTP client injects `traceparent`; in offline mode, breadcrumbs queue locally and upload with the report sync (keeping the trace ID from the moment of capture).
+**React Native (Expo)** — `init` runs in `app/_layout.tsx` before any navigation. A global
+`ErrorBoundary` protects the root. Expo Router emits screen-change events → `navigation.<screen>`
+spans. The HTTP client injects `traceparent`; in offline mode, breadcrumbs queue locally and upload
+with the report sync (keeping the trace ID from the moment of capture).
 
 ## Key trade-offs
 
-- **Sentry + OTel vs. pure OTel (LGTM):** Sentry delivers grouping, replay, source maps, and crons out of the box; LGTM gives full MELT but requires operating Tempo/Loki/Mimir, dashboards, and alerting from scratch. For CityHero (1 city in the MVP), Sentry SaaS + Grafana Cloud free tier covers 90% at no SRE cost.
-- **Single monorepo package vs. three separate packages:** one package with sub-paths reduces naming/redaction drift, but requires publishing artifacts to two ecosystems (PyPI + npm). Acceptable: npm carries `react/` and `react-native/`; PyPI carries `python/`. `common/` is duplicated at build time (a build script) — not shared at runtime.
-- **structlog vs. loguru:** structlog wins on async/contextvars and has a more mature processor ecosystem (essential for the LGPD redaction pipeline). Loguru is more ergonomic but its global-state model gets in the way of multi-tenancy.
-- **Immature OTel on RN:** accept Sentry-only for mobile traces until `@opentelemetry/sdk-trace-react-native` stabilizes; document this as tech debt.
+- **Sentry + OTel vs. pure OTel (LGTM):** Sentry delivers grouping, replay, source maps, and crons
+  out of the box; LGTM gives full MELT but requires operating Tempo/Loki/Mimir, dashboards, and
+  alerting from scratch. For CityHero (1 city in the MVP), Sentry SaaS + Grafana Cloud free tier
+  covers 90% at no SRE cost.
+- **Single monorepo package vs. three separate packages:** one package with sub-paths reduces
+  naming/redaction drift, but requires publishing artifacts to two ecosystems (PyPI + npm).
+  Acceptable: npm carries `react/` and `react-native/`; PyPI carries `python/`. `common/` is
+  duplicated at build time (a build script) — not shared at runtime.
+- **structlog vs. loguru:** structlog wins on async/contextvars and has a more mature processor
+  ecosystem (essential for the LGPD redaction pipeline). Loguru is more ergonomic but its
+  global-state model gets in the way of multi-tenancy.
+- **Immature OTel on RN:** accept Sentry-only for mobile traces until
+  `@opentelemetry/sdk-trace-react-native` stabilizes; document this as tech debt.
 
 ## References
 

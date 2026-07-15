@@ -1,65 +1,71 @@
 # Public Works List · Empty state + map/list toggle
 
-> **Type:** Screen feature · UI + state
-> **Screen:** SCREEN 26 · Public Works List
-> **Effort:** S (≤1 day)
-> **Dependencies:** `26-public-works-list/01-render-works-ui-base.md`, `26-public-works-list/04-works-list-and-card.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · UI + state\
+> **Screen:** SCREEN 26 · Public Works List\
+> **Effort:** S (≤1 day)\
+> **Dependencies:** `26-public-works-list/01-render-works-ui-base.md`,
+> `26-public-works-list/04-works-list-and-card.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `frontend`, `screen`, `ux`
 
 ## Context
 
 Two related behaviors:
 
-- **Empty state**: when the active filters yield zero results, a friendly UI replaces the list with options to broaden the filter or check back later.
-- **View toggle**: the user can switch between list mode (default) and full-screen map mode. The toggle is in the header (per task 01). When in map mode, the user sees only the foundation map with pins; tapping a pin opens a bottom sheet with the work's summary + a CTA to open the detail.
+- **Empty state**: when the active filters yield zero results, a friendly UI replaces the list with
+  options to broaden the filter or check back later.
+- **View toggle**: the user can switch between list mode (default) and full-screen map mode. The
+  toggle is in the header (per task 01). When in map mode, the user sees only the foundation map
+  with pins; tapping a pin opens a bottom sheet with the work's summary + a CTA to open the detail.
 
 ## Acceptance Criteria
 
 ### Scenario · Empty state · first-time
 
-**Given** there are no active works in the city (rare for active cities)
-**When** the empty state renders
-**Then** a friendly message ("Nenhuma obra ativa agora.") + a CTA to check Avisos da Prefeitura for announcements
+**Given** there are no active works in the city (rare for active cities)\
+**When** the empty state renders\
+**Then** a friendly message ("Nenhuma obra ativa agora.") + a CTA to check Avisos da Prefeitura for
+announcements
 
 ### Scenario · Empty state · filtered
 
-**Given** the user filtered to a status/category with no results
-**When** the empty state renders
+**Given** the user filtered to a status/category with no results\
+**When** the empty state renders\
 **Then** a softer message ("Nada em {filter} agora.") + a "Ver todas" CTA
 
 ### Scenario · Map mode
 
-**Given** the user toggled to map mode
-**When** the view changes
-**Then** the entire screen shows the foundation map with all matching pins
-**And** the filter chips are still visible (sticky at top)
+**Given** the user toggled to map mode\
+**When** the view changes\
+**Then** the entire screen shows the foundation map with all matching pins\
+**And** the filter chips are still visible (sticky at top)\
 **And** the toggle button now reads "Lista" to switch back
 
 ### Scenario · Map pin tap (map mode)
 
-**Given** the user taps a pin
-**When** the action runs
-**Then** a bottom sheet opens with the work's summary (title, status, dates, brief description) + an "Abrir detalhes" CTA
+**Given** the user taps a pin\
+**When** the action runs\
+**Then** a bottom sheet opens with the work's summary (title, status, dates, brief description) + an
+"Abrir detalhes" CTA\
 **And** the CTA navigates to SCREEN 27
 
 ### Scenario · List mode
 
-**Given** the user toggles back to list
-**When** the view changes
-**Then** the previous scroll position is preserved
+**Given** the user toggles back to list\
+**When** the view changes\
+**Then** the previous scroll position is preserved\
 **And** the small map preview at the top of the list reappears
 
 ### Scenario · Localization
 
-**Given** en-US
-**When** rendered
+**Given** en-US\
+**When** rendered\
 **Then** copy translates
 
 ### Scenario · Accessibility
 
-**Given** SR is on
-**When** in either mode
+**Given** SR is on\
+**When** in either mode\
 **Then** the toggle and empty state are clearly announced
 
 ## Frontend

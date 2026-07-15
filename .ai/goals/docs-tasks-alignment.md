@@ -1,29 +1,25 @@
 # /goal — Alinhamento de docs/tasks e docs/engineering (apps/backend + apps/city-hero)
 
-Plano de execução em 10 rodadas de `/goal`, uma por vez, cada uma em sua
-própria sessão. Cada rodada só deve começar depois que a anterior tiver
-**commitado** — algumas rodadas dependem de `docs/engineering/` já revisado
-(`design-system.md`, `component-inventory.md`).
+Plano de execução em 10 rodadas de `/goal`, uma por vez, cada uma em sua própria sessão. Cada rodada
+só deve começar depois que a anterior tiver **commitado** — algumas rodadas dependem de
+`docs/engineering/` já revisado (`design-system.md`, `component-inventory.md`).
 
 **Ordem de execução:** Batch 0 → Batch 1 → Batch 2 → B3 → B4 → B5 → B6 → B7 → B8 → B9
 
-Combine com **auto mode** para as rodadas correrem sem parar pra aprovar
-cada tool call. Se algum lote não terminar dentro do orçamento de turnos,
-rode `/goal` sem argumento pra ver o motivo relatado pelo avaliador, ajuste
-o turno-limite ou quebre o lote em pastas menores.
+Combine com **auto mode** para as rodadas correrem sem parar pra aprovar cada tool call. Se algum
+lote não terminar dentro do orçamento de turnos, rode `/goal` sem argumento pra ver o motivo
+relatado pelo avaliador, ajuste o turno-limite ou quebre o lote em pastas menores.
 
 ## Decisões que moldaram esse plano
 
 - Tarefas rotuladas `backend` mas que dependem de infraestrutura fora de
-  `apps/backend`/`apps/city-hero` (Airflow, dbt, Superset, `apps/web`,
-  Field Team App) — como `tasks/21b-elected-officials/05-data-ingestion-pipeline.md`
-  — são movidas inteiras para `docs/out-of-mvp/`, sem split. O rótulo não
-  decide; a dependência real decide.
-- `docs/engineering/*.md` (padrões/referência, não tarefas atômicas) entram
-  no escopo de revisão, porque as tarefas herdam qualquer inconsistência
-  desses documentos.
-- Execução em lotes pequenos e correlacionados (não um único `/goal` gigante)
-  para evitar estouro de contexto e deriva de qualidade nas rodadas finais.
+  `apps/backend`/`apps/city-hero` (Airflow, dbt, Superset, `apps/web`, Field Team App) — como
+  `tasks/21b-elected-officials/05-data-ingestion-pipeline.md` — são movidas inteiras para
+  `docs/out-of-mvp/`, sem split. O rótulo não decide; a dependência real decide.
+- `docs/engineering/*.md` (padrões/referência, não tarefas atômicas) entram no escopo de revisão,
+  porque as tarefas herdam qualquer inconsistência desses documentos.
+- Execução em lotes pequenos e correlacionados (não um único `/goal` gigante) para evitar estouro de
+  contexto e deriva de qualidade nas rodadas finais.
 - Cada rodada termina com commit `docs:` próprio — sem squash automático.
 
 ## Lotes de telas — reagrupados por correlação de domínio/fluxo

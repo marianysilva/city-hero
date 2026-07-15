@@ -1,99 +1,102 @@
 # Detail · In Progress · Timeline
 
-> **Type:** Screen feature · UI + content
-> **Screen:** SCREEN 13 · Detail · In Progress
-> **Effort:** M (1-2 days)
-> **Dependencies:** `13-detail-in-progress/01-render-detail-ui-base.md`, `00-foundation/05-api-client.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · UI + content\
+> **Screen:** SCREEN 13 · Detail · In Progress\
+> **Effort:** M (1-2 days)\
+> **Dependencies:** `13-detail-in-progress/01-render-detail-ui-base.md`,
+> `00-foundation/05-api-client.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `backend`, `database`, `screen`, `trust`
 
 ## Context
 
-The "Trajeto do ticket" card — a vertical timeline of every state
-transition with timestamps and prefecture context. Each entry has a
-colored dot (matching the state), a title, a date+time, and a
-sub-context (who did what). Future steps appear muted with placeholder
-dates ("Aguardando", "Previsto até 22/04").
+The "Trajeto do ticket" card — a vertical timeline of every state transition with timestamps and
+prefecture context. Each entry has a colored dot (matching the state), a title, a date+time, and a
+sub-context (who did what). Future steps appear muted with placeholder dates ("Aguardando",
+"Previsto até 22/04").
 
-This is the **trust device** of the entire screen: it makes the
-prefecture's responsiveness visible, validates that the city is doing
-work, and gives the citizen the satisfaction of seeing their report
+This is the **trust device** of the entire screen: it makes the prefecture's responsiveness visible,
+validates that the city is doing work, and gives the citizen the satisfaction of seeing their report
 progress through a real pipeline (vs disappearing into a black box).
 
 ## User Story
 
-**As a** Citizen who reported a problem,
-**I want** to see every step the prefecture is taking,
+**As a** Citizen who reported a problem,\
+**I want** to see every step the prefecture is taking,\
 **In order to** trust that my report isn't being ignored.
 
 ## Acceptance Criteria
 
 ### Scenario · Default render
 
-**Given** the report has multiple completed timeline entries
-**When** the card renders
-**Then** the section label "TRAJETO DO TICKET" appears on the left, protocol number on the right
-**And** each completed entry shows: a colored dot, title, date/time, sub-context, connected to the next by a thin line
-**And** future entries appear muted (slate dot, slate text) with placeholder dates ("Aguardando", "Previsto até …")
+**Given** the report has multiple completed timeline entries\
+**When** the card renders\
+**Then** the section label "TRAJETO DO TICKET" appears on the left, protocol number on the right\
+**And** each completed entry shows: a colored dot, title, date/time, sub-context, connected to the
+next by a thin line\
+**And** future entries appear muted (slate dot, slate text) with placeholder dates ("Aguardando",
+"Previsto até …")
 
 ### Scenario · Active "scheduled" entry
 
-**Given** an entry is currently scheduled (e.g., "Agendado para reparo · Amanhã 14:00")
-**When** it renders
-**Then** the dot pulses gently
-**And** an "AGENDADO" pill appears next to the title
+**Given** an entry is currently scheduled (e.g., "Agendado para reparo · Amanhã 14:00")\
+**When** it renders\
+**Then** the dot pulses gently\
+**And** an "AGENDADO" pill appears next to the title\
 **And** the row uses slightly stronger emphasis than other completed entries
 
 ### Scenario · Real-time entry added
 
-**Given** the user is on the screen
-**When** the WebSocket pushes a new timeline event
-**Then** the new entry slides in at the right position
-**And** the future placeholder it replaces fades out
+**Given** the user is on the screen\
+**When** the WebSocket pushes a new timeline event\
+**Then** the new entry slides in at the right position\
+**And** the future placeholder it replaces fades out\
 **And** a brief celebratory pulse on the dot draws attention
 
 ### Scenario · Standard entries (state machine)
 
-**Given** the report's state machine
-**When** the timeline renders all expected entries
-**Then** the sequence is, in order: "Reporte enviado" → "Triagem pela IA" → "Chamado aberto na prefeitura" → "Resposta da prefeitura" → "Agendado para reparo" → "Em execução" → "Resolvido"
-**And** each entry uses its category dot color (slate for sent, sky for IA, indigo for opened, emerald for response, amber for scheduled, blue for execution, green for resolved)
+**Given** the report's state machine\
+**When** the timeline renders all expected entries\
+**Then** the sequence is, in order: "Reporte enviado" → "Triagem pela IA" → "Chamado aberto na
+prefeitura" → "Resposta da prefeitura" → "Agendado para reparo" → "Em execução" → "Resolvido"\
+**And** each entry uses its category dot color (slate for sent, sky for IA, indigo for opened,
+emerald for response, amber for scheduled, blue for execution, green for resolved)
 
 ### Scenario · Non-standard or extra entries
 
-**Given** the prefecture adds an ad-hoc note (e.g., "Equipe redirecionada por chuva")
-**When** the timeline renders
-**Then** the note appears in the correct chronological position with a neutral slate-violet dot
+**Given** the prefecture adds an ad-hoc note (e.g., "Equipe redirecionada por chuva")\
+**When** the timeline renders\
+**Then** the note appears in the correct chronological position with a neutral slate-violet dot\
 **And** the layout adapts cleanly
 
 ### Scenario · Tap for more
 
-**Given** an entry has additional context (e.g., a long internal note)
-**When** the user taps the entry
-**Then** a sheet expands with the full details
+**Given** an entry has additional context (e.g., a long internal note)\
+**When** the user taps the entry\
+**Then** a sheet expands with the full details\
 **And** dismissing returns to the screen
 
 ### Scenario · Delays and SLAs visible
 
-**Given** the SLA has been exceeded for a given step
-**When** the timeline renders
-**Then** the next-expected entry shows a small "atrasado" / "delayed" indicator
+**Given** the SLA has been exceeded for a given step\
+**When** the timeline renders\
+**Then** the next-expected entry shows a small "atrasado" / "delayed" indicator\
 **And** the SLA badge in the summary card (task 03) reflects this in rose
 
 ### Scenario · Reporter saw nothing yet
 
-**Given** only the user's own "Reporte enviado" is complete; the rest is future
-**When** the timeline renders
-**Then** the first dot is the user's submit (with the user's name or "Você")
-**And** the rest of the entries appear muted with "Aguardando…"
+**Given** only the user's own "Reporte enviado" is complete; the rest is future\
+**When** the timeline renders\
+**Then** the first dot is the user's submit (with the user's name or "Você")\
+**And** the rest of the entries appear muted with "Aguardando…"\
 **And** an explanatory line reads "A prefeitura ainda não respondeu — você será notificado"
 
 ### Scenario · Accessibility
 
-**Given** screen reader is on
-**When** the user navigates the timeline
-**Then** each entry is read as a list item with its title, date, and sub-context
-**And** the protocol number is announced
+**Given** screen reader is on\
+**When** the user navigates the timeline\
+**Then** each entry is read as a list item with its title, date, and sub-context\
+**And** the protocol number is announced\
 **And** the active scheduled entry is announced with its pill ("Scheduled for tomorrow 2pm")
 
 ## Frontend (React Native)
@@ -111,7 +114,8 @@ apps/city-hero/src/screens/DetailInProgress/
 ### Component behavior
 
 - `TimelineCard` renders the section with the title and protocol.
-- `TimelineEntry` is a presentational item with the dot, title, date, sub-context, and optional pill.
+- `TimelineEntry` is a presentational item with the dot, title, date, sub-context, and optional
+  pill.
 - `EntryDetailSheet` is the expanded view shown on tap.
 - The timeline subscribes to real-time updates via the React Query cache.
 
@@ -120,7 +124,8 @@ apps/city-hero/src/screens/DetailInProgress/
 Each entry has:
 
 - `id` — UUID for stable key
-- `state` — machine-readable key (e.g., `received`, `triaged`, `forwarded`, `responded`, `scheduled`, `executing`, `resolved`, `note`)
+- `state` — machine-readable key (e.g., `received`, `triaged`, `forwarded`, `responded`,
+  `scheduled`, `executing`, `resolved`, `note`)
 - `title` — display label (localized)
 - `occurred_at` / `scheduled_for` — timestamps
 - `actor` — short attribution (e.g., "Carlos M.", "Equipe de Iluminação Pública", "IA · Score 92")
@@ -136,11 +141,14 @@ The timeline is part of the report-detail response:
 | ------ | ------------------------------- | -------------------------------- |
 | GET    | `/api/v1/reports/{id}/timeline` | Returns the chronological events |
 
-This may be embedded in `/api/v1/reports/{id}` or fetched separately. For MVP, embedding is sufficient.
+This may be embedded in `/api/v1/reports/{id}` or fetched separately. For MVP, embedding is
+sufficient.
 
 ### State machine
 
-The backend's report service maintains the report's state and writes timeline entries on every transition. The legacy ERP webhooks (per `features.md` § 5) can also write entries when the prefecture's internal system advances the ticket.
+The backend's report service maintains the report's state and writes timeline entries on every
+transition. The legacy ERP webhooks (per `features.md` § 5) can also write entries when the
+prefecture's internal system advances the ticket.
 
 ## Database (PostgreSQL)
 
@@ -163,14 +171,17 @@ Indexes on `(report_id, occurred_at)` and `(city_id, state)`.
 
 ## Edge Cases
 
-- **Entries arrive out of order** (rare in async systems): the timeline sorts by `occurred_at` (or `scheduled_for` for future).
+- **Entries arrive out of order** (rare in async systems): the timeline sorts by `occurred_at` (or
+  `scheduled_for` for future).
 - **Same step happens twice** (e.g., re-scheduled): both entries appear chronologically.
-- **Timeline is very long** (many ad-hoc notes): the card supports vertical scrolling within itself, or expands to fill more screen height.
+- **Timeline is very long** (many ad-hoc notes): the card supports vertical scrolling within itself,
+  or expands to fill more screen height.
 - **i18n key missing**: fallback to the English title or the `state` key.
 
 ## Privacy / LGPD
 
-- Internal notes (the `extra` field) may include municipal staff info; their display follows the same anonymization rules — staff first names only, no IDs.
+- Internal notes (the `extra` field) may include municipal staff info; their display follows the
+  same anonymization rules — staff first names only, no IDs.
 - Timeline access is logged for audit when staff add notes.
 
 ## Analytics
@@ -183,7 +194,8 @@ Indexes on `(report_id, occurred_at)` and `(city_id, state)`.
 
 ## Tests
 
-- **Unit**: state dot color mapping; future placeholder rendering; scheduled pill; real-time entry insertion.
+- **Unit**: state dot color mapping; future placeholder rendering; scheduled pill; real-time entry
+  insertion.
 - **Integration**: timeline updates incrementally on WS events; tap opens sheet.
 - **A11y**: list semantics announced.
 

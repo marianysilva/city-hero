@@ -21,24 +21,29 @@ Avoid an inverted pyramid (lots of E2E, few units) — it's slow and flaky.
 - **Critical paths** (auth, payments, photo upload, anonymization): ≥95%.
 - **Foundation packages** (`packages/design_system`, `packages/api_client`): ≥90%.
 
-Coverage is a floor, not a ceiling. Numbers don't replace good test design — a 100%-covered module with bad assertions still has bugs.
+Coverage is a floor, not a ceiling. Numbers don't replace good test design — a 100%-covered module
+with bad assertions still has bugs.
 
 ## Backend (Python · pytest)
 
 ### Conventions
 
-- Test files: `test_<module>.py`. Test classes (when used): `Test<ClassName>`. Test functions: `test_<scenario>`.
-- One assertion concept per test. If a test has many `assert` lines, they should all support the same scenario.
+- Test files: `test_<module>.py`. Test classes (when used): `Test<ClassName>`. Test functions:
+  `test_<scenario>`.
+- One assertion concept per test. If a test has many `assert` lines, they should all support the
+  same scenario.
 - Use **fixtures** for setup; avoid setUp/tearDown classes.
 - Async tests use `pytest-asyncio`.
-- Database tests run against a test database (separate schema or in-memory if feasible). Reset between tests via transaction rollback.
+- Database tests run against a test database (separate schema or in-memory if feasible). Reset
+  between tests via transaction rollback.
 
 ### What to mock
 
 - External HTTP calls (`httpx` mocked with `respx` or `pytest-httpx`).
 - Time, randomness (use freezegun, `random.seed`).
 - Filesystem (use `tmp_path` fixture or `pyfakefs`).
-- AI inference (mocked with deterministic responses for unit tests; integration tests use real model).
+- AI inference (mocked with deterministic responses for unit tests; integration tests use real
+  model).
 
 ### What NOT to mock
 
@@ -50,8 +55,10 @@ Coverage is a floor, not a ceiling. Numbers don't replace good test design — a
 ### Conventions
 
 - Test files: `<Component>.test.tsx` co-located with the component.
-- Use **React Testing Library** queries: `getByRole`, `getByLabelText`, etc. Avoid `getByTestId` unless there's no semantic alternative.
-- Test user-visible behavior, not implementation details. "User clicks X, sees Y" — not "state.foo === bar".
+- Use **React Testing Library** queries: `getByRole`, `getByLabelText`, etc. Avoid `getByTestId`
+  unless there's no semantic alternative.
+- Test user-visible behavior, not implementation details. "User clicks X, sees Y" — not "state.foo
+  === bar".
 - Mock external modules with `jest.mock`. Use **MSW** (Mock Service Worker) for HTTP.
 
 ### Component tests
@@ -69,7 +76,8 @@ Test what the user sees and does:
 
 ## Mobile E2E (Detox)
 
-Used sparingly for **happy paths only** — the most-used flows. Detox is slow and flaky compared to unit/integration; reserve for high-value scenarios:
+Used sparingly for **happy paths only** — the most-used flows. Detox is slow and flaky compared to
+unit/integration; reserve for high-value scenarios:
 
 - Onboarding flow
 - Report a pothole (Camera → Confirm → Heroes League)
@@ -80,19 +88,28 @@ Do NOT use E2E for edge cases — those go to unit/integration.
 
 ## Web E2E (Playwright)
 
-Same philosophy: happy paths and a small set of high-impact flows. The web admin is for managers; expect a small but critical user base.
+Same philosophy: happy paths and a small set of high-impact flows. The web admin is for managers;
+expect a small but critical user base.
 
 ## Visual regression (Storybook, no Chromatic)
 
-Every component in `packages/design_system` has Storybook stories covering its key states. Chromatic was evaluated and explicitly dropped (see `00-foundation/02-design-tokens.md`'s Definition of Done): it's a paid external SaaS built around a second reviewer approving visual diffs, and this is a solo project with no one to review them. The local alternative is a `@storybook/test-runner` config that drives Playwright and `jest-image-snapshot` to catch unintended visual changes on PRs, without any external service.
+Every component in `packages/design_system` has Storybook stories covering its key states. Chromatic
+was evaluated and explicitly dropped (see `00-foundation/02-design-tokens.md`'s Definition of Done):
+it's a paid external SaaS built around a second reviewer approving visual diffs, and this is a solo
+project with no one to review them. The local alternative is a `@storybook/test-runner` config that
+drives Playwright and `jest-image-snapshot` to catch unintended visual changes on PRs, without any
+external service.
 
 ## Snapshot tests
 
-Use **sparingly** — they catch visual regressions but generate noisy diffs. Prefer the Storybook test-runner screenshots above for visual checks. Snapshot only for stable, structural artifacts (tokens, generated code).
+Use **sparingly** — they catch visual regressions but generate noisy diffs. Prefer the Storybook
+test-runner screenshots above for visual checks. Snapshot only for stable, structural artifacts
+(tokens, generated code).
 
 ## TDD
 
-Test-Driven Development is encouraged for **services and pure logic**. Less essential for UI (red-green-refactor with snapshots is awkward).
+Test-Driven Development is encouraged for **services and pure logic**. Less essential for UI
+(red-green-refactor with snapshots is awkward).
 
 When TDD-ing:
 
@@ -110,10 +127,17 @@ Performance tests are not run on every PR — they run on a nightly job and on r
 
 ## Test data
 
-- Backend: plain **pytest fixtures** that construct real ORM instances against the test database (see `admin_user` in `apps/backend/tests/conftest.py`) — not fixture JSON, and no `factory_boy` (not installed; a single fixture per entity is enough at this scale). Add a factory library only once enough tests need varied, randomized instances of the same model that hand-written fixtures become repetitive.
-- Frontend: prefer building test data inline in the test file; reach for a factory library (e.g., `fishery`) only if the same shape needs to vary across many test files.
+- Backend: plain **pytest fixtures** that construct real ORM instances against the test database
+  (see `admin_user` in `apps/backend/tests/conftest.py`) — not fixture JSON, and no `factory_boy`
+  (not installed; a single fixture per entity is enough at this scale). Add a factory library only
+  once enough tests need varied, randomized instances of the same model that hand-written fixtures
+  become repetitive.
+- Frontend: prefer building test data inline in the test file; reach for a factory library (e.g.,
+  `fishery`) only if the same shape needs to vary across many test files.
 - Keep fixtures/factories close to the model they create.
-- Tests should not depend on a specific seed/data state — they create what they need. Reference (seed) tables like `roles`/`permissions` are the exception: they're migration-seeded once per test session and preserved between tests (see `_clean_tables` in `conftest.py`).
+- Tests should not depend on a specific seed/data state — they create what they need. Reference
+  (seed) tables like `roles`/`permissions` are the exception: they're migration-seeded once per test
+  session and preserved between tests (see `_clean_tables` in `conftest.py`).
 
 ## CI pipeline
 
@@ -136,4 +160,5 @@ A flaky test is worse than no test — it teaches the team to ignore CI. When a 
 - React Testing Library: https://testing-library.com/docs/react-testing-library/intro/
 - Detox: https://wix.github.io/Detox/
 - Playwright: https://playwright.dev/
-- Storybook visual testing (test-runner + image snapshots): https://storybook.js.org/docs/writing-tests/visual-testing
+- Storybook visual testing (test-runner + image snapshots):
+  https://storybook.js.org/docs/writing-tests/visual-testing

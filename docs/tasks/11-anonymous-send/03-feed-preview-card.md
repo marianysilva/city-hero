@@ -1,84 +1,84 @@
 # Anonymous Send · Anonymous feed preview card
 
-> **Type:** Screen feature · UI + transparency
-> **Screen:** SCREEN 11 · Anonymous Send
-> **Effort:** S (≤1 day)
-> **Dependencies:** `11-anonymous-send/01-render-anonymous-ui-base.md`, `07-civic-feed/03-feed-item-card.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · UI + transparency\
+> **Screen:** SCREEN 11 · Anonymous Send\
+> **Effort:** S (≤1 day)\
+> **Dependencies:** `11-anonymous-send/01-render-anonymous-ui-base.md`,
+> `07-civic-feed/03-feed-item-card.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `frontend`, `screen`, `transparency`, `lgpd`
 
 ## Context
 
-A read-only preview showing exactly **how the report appears in the
-public feed** under anonymous mode. The user sees the 🥷 avatar, "Herói
-Anônimo" label, the anonymized photo, the address (truncated), and a
-small "MODERADO" badge if applicable. This transparency anchors the
-LGPD claim — "we're not just saying it's anonymous, here's exactly
-what they see".
+A read-only preview showing exactly **how the report appears in the public feed** under anonymous
+mode. The user sees the 🥷 avatar, "Herói Anônimo" label, the anonymized photo, the address
+(truncated), and a small "MODERADO" badge if applicable. This transparency anchors the LGPD claim —
+"we're not just saying it's anonymous, here's exactly what they see".
 
-The preview reuses the feed card component (`07-civic-feed/03`) so
-visual consistency with the actual feed is guaranteed.
+The preview reuses the feed card component (`07-civic-feed/03`) so visual consistency with the
+actual feed is guaranteed.
 
 ## User Story
 
-**As a** Citizen worried about exposure,
-**I want** to see exactly how my report appears to neighbors,
+**As a** Citizen worried about exposure,\
+**I want** to see exactly how my report appears to neighbors,\
 **In order to** verify my identity is hidden.
 
 ## Acceptance Criteria
 
 ### Scenario · Default render
 
-**Given** the user is on the screen
-**When** the preview card renders
-**Then** a small label appears above: "Como aparece no feed público"
-**And** the card uses the anonymous variant of the feed card (🥷 avatar, "Herói Anônimo" label)
-**And** the address shows truncated ("R. São Pedro, 320 · há 1 min")
-**And** the photo (anonymized) shows scaled down
+**Given** the user is on the screen\
+**When** the preview card renders\
+**Then** a small label appears above: "Como aparece no feed público"\
+**And** the card uses the anonymous variant of the feed card (🥷 avatar, "Herói Anônimo" label)\
+**And** the address shows truncated ("R. São Pedro, 320 · há 1 min")\
+**And** the photo (anonymized) shows scaled down\
 **And** action counters appear at 0 ("👍 0 apoios · 💬 0 · aberto")
 
 ### Scenario · Moderation badge
 
-**Given** the report was held for moderation (anti-fraud flags from `10-report-confirm/08`)
-**When** the preview renders
-**Then** a small amber "MODERADO" badge appears in the card's header
+**Given** the report was held for moderation (anti-fraud flags from `10-report-confirm/08`)\
+**When** the preview renders\
+**Then** a small amber "MODERADO" badge appears in the card's header\
 **And** a hint below explains "Em revisão · seu reporte vai aparecer pra todos quando aprovar"
 
 ### Scenario · Photo still anonymizing
 
-**Given** the anonymization pipeline hasn't completed yet
-**When** the preview renders
-**Then** the photo area shows a "Anonimizando…" state
-**And** the card otherwise behaves the same way
+**Given** the anonymization pipeline hasn't completed yet\
+**When** the preview renders\
+**Then** the photo area shows a "Anonimizando…" state\
+**And** the card otherwise behaves the same way\
 **And** the preview updates when the pipeline completes
 
 ### Scenario · No photo
 
-**Given** the report has no photo (manual report path)
-**When** the preview renders
-**Then** the photo area shows a category emoji placeholder
+**Given** the report has no photo (manual report path)\
+**When** the preview renders\
+**Then** the photo area shows a category emoji placeholder\
 **And** the rest of the card is unchanged
 
 ### Scenario · Read-only
 
-**Given** the user taps the preview card
-**When** the action is handled
-**Then** the card is non-interactive — no support, no comment, no share is triggered
+**Given** the user taps the preview card\
+**When** the action is handled\
+**Then** the card is non-interactive — no support, no comment, no share is triggered\
 **And** the entire surface is intentionally non-tappable (this is a visualization, not a real card)
 
 ### Scenario · Localization
 
-**Given** the user's language is en-US
-**When** the preview renders
-**Then** "Como aparece no feed público" is "How it appears in the public feed"
+**Given** the user's language is en-US\
+**When** the preview renders\
+**Then** "Como aparece no feed público" is "How it appears in the public feed"\
 **And** "Herói Anônimo" is "Anonymous Hero"
 
 ### Scenario · Accessibility
 
-**Given** screen reader is on
-**When** the preview is read
-**Then** the section label is announced as a heading
-**And** the card's content is read as a group ("Anonymous Hero, R. São Pedro 320, 1 minute ago, anonymized photo, 0 supports")
+**Given** screen reader is on\
+**When** the preview is read\
+**Then** the section label is announced as a heading\
+**And** the card's content is read as a group ("Anonymous Hero, R. São Pedro 320, 1 minute ago,
+anonymized photo, 0 supports")\
 **And** the preview clearly indicates it's a visualization, not a live card
 
 ## Frontend (React Native)
@@ -91,7 +91,8 @@ apps/city-hero/src/screens/AnonymousSend/
     └── AnonymousFeedPreview.tsx
 ```
 
-The component wraps the shared `FeedCard` from `07-civic-feed/03` with `isAnonymous: true`, `interactive: false`, and synthetic data assembled from the new report's metadata.
+The component wraps the shared `FeedCard` from `07-civic-feed/03` with `isAnonymous: true`,
+`interactive: false`, and synthetic data assembled from the new report's metadata.
 
 ### Behavior
 
@@ -102,13 +103,14 @@ The component wraps the shared `FeedCard` from `07-civic-feed/03` with `isAnonym
 
 ### Photo source
 
-The preview shows the **anonymized** photo (or the placeholder during anonymization). It never shows the raw photo.
+The preview shows the **anonymized** photo (or the placeholder during anonymization). It never shows
+the raw photo.
 
 ## Backend
 
-This task doesn't introduce backend endpoints. The data comes from the
-submit response or a quick fetch of the new report's lightweight
-summary (`/api/v1/reports/{id}/summary` from `08-camera-live/09`).
+This task doesn't introduce backend endpoints. The data comes from the submit response or a quick
+fetch of the new report's lightweight summary (`/api/v1/reports/{id}/summary` from
+`08-camera-live/09`).
 
 ## Database
 
@@ -118,7 +120,8 @@ No new schema.
 
 - **Address reverse-geocoding still loading**: show raw coords or a placeholder.
 - **The feed card component evolves later**: the preview automatically reflects changes — by design.
-- **Theme mismatch**: the preview always uses the feed's actual theme so the user sees an honest representation.
+- **Theme mismatch**: the preview always uses the feed's actual theme so the user sees an honest
+  representation.
 
 ## Privacy / LGPD
 

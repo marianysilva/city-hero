@@ -1,26 +1,22 @@
 # SCREEN 19 · Notifications
 
-> **Group:** 02 · App Core
-> **Prototype screen:** `design/index.html` (search for `title: 'Notificações'`)
+> **Group:** 02 · App Core\
+> **Prototype screen:** `design/index.html` (search for `title: 'Notificações'`)\
 > **Position in navigation:** Reached from the More menu or from tapping a push notification badge
 
 ## Overview
 
-The notification inbox. Notifications come from many sources: ticket
-state changes (✅ Resolved!), XP gains (⚡ +80 XP), achievement
-progress (🌙 Vigia Noturno 3/5), social interactions (🔥 5 pessoas
-apoiaram), prefecture announcements (🏛️ Nova obra perto de você), and
-enrichment events (📷 Alguém adicionou foto).
+The notification inbox. Notifications come from many sources: ticket state changes (✅ Resolved!),
+XP gains (⚡ +80 XP), achievement progress (🌙 Vigia Noturno 3/5), social interactions (🔥 5 pessoas
+apoiaram), prefecture announcements (🏛️ Nova obra perto de você), and enrichment events (📷 Alguém
+adicionou foto).
 
-Each notification has a colored icon (per category), a title, a short
-description, and a relative time. Unread notifications get a subtle
-brand-tinted background + a dot indicator on the icon. The list is
-**time-grouped** (Hoje, Ontem, Essa semana, Mais antigas) for
-scanability.
+Each notification has a colored icon (per category), a title, a short description, and a relative
+time. Unread notifications get a subtle brand-tinted background + a dot indicator on the icon. The
+list is **time-grouped** (Hoje, Ontem, Essa semana, Mais antigas) for scanability.
 
-The header has a "Marcar lidas" action that clears all unread states.
-Filter chips at the top (Tudo, Status, Conquistas, Comunidade) let
-the user narrow the view.
+The header has a "Marcar lidas" action that clears all unread states. Filter chips at the top (Tudo,
+Status, Conquistas, Comunidade) let the user narrow the view.
 
 ## Features (5 tasks)
 
@@ -42,16 +38,13 @@ the user narrow the view.
 
 ## Product notes
 
-- **Colored icons reinforce the type at a glance**: emerald for
-  resolution, yellow-gold for XP (deliberate — gold = reward), purple
-  for achievements, rose for social, sky for prefecture, slate for
-  enrichment, amber for level-up.
+- **Colored icons reinforce the type at a glance**: emerald for resolution, yellow-gold for XP
+  (deliberate — gold = reward), purple for achievements, rose for social, sky for prefecture, slate
+  for enrichment, amber for level-up.
 - **XP gain uses yellow-gold**: the color reinforces the reward loop.
-- **Tap routing differs per type**: a status notification opens the
-  ticket detail; an achievement opens the achievement detail; a
-  prefecture announcement opens the official feed (SCREEN 21); etc.
-- **"Marcar lidas" is single-shot**: tapping once clears all unread,
-  no confirmation. The user can always tap a notification to "re-read"
-  it.
-- **Pull-to-refresh fetches new notifications**: the screen is mostly
-  push-driven, so pull-to-refresh is a fallback for missed pushes.
+- **Tap routing differs per type**: a status notification opens the ticket detail; an achievement
+  opens the achievement detail; a prefecture announcement opens the official feed (SCREEN 21); etc.
+- **"Marcar lidas" is single-shot**: tapping once clears all unread, no confirmation. The user can
+  always tap a notification to "re-read" it.
+- **Pull-to-refresh fetches new notifications**: the screen is mostly push-driven, so
+  pull-to-refresh is a fallback for missed pushes.

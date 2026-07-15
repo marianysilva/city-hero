@@ -1,56 +1,58 @@
 # Public Works List · Filter chips
 
-> **Type:** Screen feature · UI + state
-> **Screen:** SCREEN 26 · Public Works List
-> **Effort:** S (≤1 day)
-> **Dependencies:** `26-public-works-list/01-render-works-ui-base.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · UI + state\
+> **Screen:** SCREEN 26 · Public Works List\
+> **Effort:** S (≤1 day)\
+> **Dependencies:** `26-public-works-list/01-render-works-ui-base.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `frontend`, `screen`, `ux`
 
 ## Context
 
-Horizontal scrollable chips for status (Todas, Em planejamento, Em execução, Concluídas parciais, Suspensas) and category (Pavimentação, Saúde, Educação, Habitação, Infraestrutura). Tapping a chip filters the map preview + the list.
+Horizontal scrollable chips for status (Todas, Em planejamento, Em execução, Concluídas parciais,
+Suspensas) and category (Pavimentação, Saúde, Educação, Habitação, Infraestrutura). Tapping a chip
+filters the map preview + the list.
 
 ## Acceptance Criteria
 
 ### Scenario · Default render
 
-**Given** the user opens the screen
-**When** chips render
-**Then** "Todas" is active
+**Given** the user opens the screen\
+**When** chips render\
+**Then** "Todas" is active\
 **And** the rest appear inactive
 
 ### Scenario · Tap a status
 
-**Given** the user taps a status chip
-**When** the action runs
-**Then** the chip becomes active
+**Given** the user taps a status chip\
+**When** the action runs\
+**Then** the chip becomes active\
 **And** the map + list refilter
 
 ### Scenario · Combined filters
 
-**Given** the user wants both a status and a category
-**When** they tap a status, then a category
-**Then** both apply (AND semantics)
+**Given** the user wants both a status and a category\
+**When** they tap a status, then a category\
+**Then** both apply (AND semantics)\
 **And** clearing one keeps the other
 
 ### Scenario · Counts
 
-**Given** chips show counts
-**When** rendered
-**Then** each status chip shows its count badge
+**Given** chips show counts\
+**When** rendered\
+**Then** each status chip shows its count badge\
 **And** counts update on real-time changes
 
 ### Scenario · Localization
 
-**Given** en-US
-**When** rendered
+**Given** en-US\
+**When** rendered\
 **Then** labels translate
 
 ### Scenario · Accessibility
 
-**Given** SR is on
-**When** chips are navigated
+**Given** SR is on\
+**When** chips are navigated\
 **Then** each labeled with state and count
 
 ## Frontend
@@ -61,20 +63,27 @@ apps/city-hero/src/screens/PublicWorks/
     └── useWorksFilters.ts
 ```
 
-Renders the shared `FilterChipRow` from `@cityhero/design-system` (twice — one row for status, one row for category). The screen owns the chip definitions and the `onChipPress` callback that filters the data; no styling lives in this screen's components. See `docs/engineering/component-inventory.md` (row `FilterChipRow`) and `docs/engineering/design-system.md`.
+Renders the shared `FilterChipRow` from `@cityhero/design-system` (twice — one row for status, one
+row for category). The screen owns the chip definitions and the `onChipPress` callback that filters
+the data; no styling lives in this screen's components. See
+`docs/engineering/component-inventory.md` (row `FilterChipRow`) and
+`docs/engineering/design-system.md`.
 
 ### Chip lists this screen passes to `FilterChipRow`
 
 Status row:
 
 - `Todas` — initial `active: true`; `count` reflects all works in scope.
-- `Em planejamento`, `Em execução`, `Concluídas parciais`, `Suspensas` — each `count` tied to the live status totals.
+- `Em planejamento`, `Em execução`, `Concluídas parciais`, `Suspensas` — each `count` tied to the
+  live status totals.
 
 Category row:
 
-- `Pavimentação`, `Saúde`, `Educação`, `Habitação`, `Infraestrutura` — multi-select; combined with the status row via AND semantics in `useWorksFilters`.
+- `Pavimentação`, `Saúde`, `Educação`, `Habitação`, `Infraestrutura` — multi-select; combined with
+  the status row via AND semantics in `useWorksFilters`.
 
-The screen's `onChipPress(id)` callback delegates to the store, which updates the active filter set and triggers the map + list refetch.
+The screen's `onChipPress(id)` callback delegates to the store, which updates the active filter set
+and triggers the map + list refetch.
 
 ## Backend
 

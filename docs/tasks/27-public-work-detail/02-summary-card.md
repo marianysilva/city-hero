@@ -1,56 +1,58 @@
 # Public Work Detail · Summary card
 
-> **Type:** Screen feature · UI + data
-> **Screen:** SCREEN 27 · Public Work Detail
-> **Effort:** S (≤1 day)
-> **Dependencies:** `27-public-work-detail/01-render-work-detail-ui-base.md`, `00-foundation/05-api-client.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · UI + data\
+> **Screen:** SCREEN 27 · Public Work Detail\
+> **Effort:** S (≤1 day)\
+> **Dependencies:** `27-public-work-detail/01-render-work-detail-ui-base.md`,
+> `00-foundation/05-api-client.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `backend`, `screen`
 
 ## Context
 
-A white card overlapping the hero with the work's primary facts: title, address, contractor, budget, dates, and a progress bar. Status pill at the top.
+A white card overlapping the hero with the work's primary facts: title, address, contractor, budget,
+dates, and a progress bar. Status pill at the top.
 
 ## Acceptance Criteria
 
 ### Scenario · Default render
 
-**Given** the work has data
-**When** the summary renders
-**Then** title + address + status pill at the top
-**And** a 4-cell KPI grid: budget, contracted amount, start date, end date
-**And** a progress bar showing % complete
+**Given** the work has data\
+**When** the summary renders\
+**Then** title + address + status pill at the top\
+**And** a 4-cell KPI grid: budget, contracted amount, start date, end date\
+**And** a progress bar showing % complete\
 **And** contractor name and bidding link below
 
 ### Scenario · Budget transparency
 
-**Given** the work is post-bidding
-**When** the card renders
-**Then** the contracted amount + winning bidder appear
+**Given** the work is post-bidding\
+**When** the card renders\
+**Then** the contracted amount + winning bidder appear\
 **And** for works in bidding, "Em licitação" is shown
 
 ### Scenario · Progress bar
 
-**Given** the work has progress reported
-**When** the bar renders
+**Given** the work has progress reported\
+**When** the bar renders\
 **Then** it shows the percentage with a color matching the status
 
 ### Scenario · Date format
 
-**Given** dates have specific formats
-**When** rendered
+**Given** dates have specific formats\
+**When** rendered\
 **Then** dd/mm/yyyy for pt-BR; mm/dd/yyyy for en-US
 
 ### Scenario · Real-time updates
 
-**Given** the work's status/progress changes
-**When** the WS pushes
+**Given** the work's status/progress changes\
+**When** the WS pushes\
 **Then** the card updates with subtle animation
 
 ### Scenario · Accessibility
 
-**Given** SR is on
-**When** the card is read
+**Given** SR is on\
+**When** the card is read\
 **Then** announced as a group with each field
 
 ## Frontend

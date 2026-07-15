@@ -1,79 +1,79 @@
 # Anonymous Send · Celebration hero
 
-> **Type:** Screen feature · UI + celebration
-> **Screen:** SCREEN 11 · Anonymous Send
-> **Effort:** S (≤1 day)
-> **Dependencies:** `11-anonymous-send/01-render-anonymous-ui-base.md`
-> **Status:** ⬜ Not started
+> **Type:** Screen feature · UI + celebration\
+> **Screen:** SCREEN 11 · Anonymous Send\
+> **Effort:** S (≤1 day)\
+> **Dependencies:** `11-anonymous-send/01-render-anonymous-ui-base.md`\
+> **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `frontend`, `screen`, `ui`, `gamification`
 
 ## Context
 
-The violet/indigo gradient hero at the top of the screen. It includes a
-🥷 emoji icon in a soft frame, the protocol number ("Protocolo #2847 ·
-envio anônimo"), a headline ("Você age como ninja. O problema foi
-exposto."), and a small pill showing the XP and any unlocked medal
-("+50 XP · 🏅 Olho Vivo desbloqueada"). Subtle decorative blobs in
-the background add depth without distracting.
+The violet/indigo gradient hero at the top of the screen. It includes a 🥷 emoji icon in a soft
+frame, the protocol number ("Protocolo #2847 · envio anônimo"), a headline ("Você age como ninja. O
+problema foi exposto."), and a small pill showing the XP and any unlocked medal ("+50 XP · 🏅 Olho
+Vivo desbloqueada"). Subtle decorative blobs in the background add depth without distracting.
 
 ## User Story
 
-**As a** Citizen who just submitted anonymously,
-**I want** a clear, calm celebration of my action,
+**As a** Citizen who just submitted anonymously,\
+**I want** a clear, calm celebration of my action,\
 **In order to** feel acknowledged without feeling exposed.
 
 ## Acceptance Criteria
 
 ### Scenario · Default render
 
-**Given** the report was submitted successfully
-**When** the hero renders
-**Then** the gradient background uses violet→indigo (per design tokens)
-**And** a 🥷 icon appears in a soft translucent frame
-**And** the protocol number is shown in small caps ("PROTOCOLO #2847 · ENVIO ANÔNIMO")
-**And** the headline reads "Você age como ninja. O problema foi exposto."
-**And** a pill with a pulsing emerald dot shows the XP and medal ("+50 XP · 🏅 Olho Vivo desbloqueada")
+**Given** the report was submitted successfully\
+**When** the hero renders\
+**Then** the gradient background uses violet→indigo (per design tokens)\
+**And** a 🥷 icon appears in a soft translucent frame\
+**And** the protocol number is shown in small caps ("PROTOCOLO #2847 · ENVIO ANÔNIMO")\
+**And** the headline reads "Você age como ninja. O problema foi exposto."\
+**And** a pill with a pulsing emerald dot shows the XP and medal ("+50 XP · 🏅 Olho Vivo
+desbloqueada")
 
 ### Scenario · No medal unlocked
 
-**Given** the submit didn't unlock a new medal
-**When** the pill renders
-**Then** it shows only the XP ("+50 XP")
+**Given** the submit didn't unlock a new medal\
+**When** the pill renders\
+**Then** it shows only the XP ("+50 XP")\
 **And** the medal segment is omitted
 
 ### Scenario · First-time anonymous submit
 
-**Given** this is the user's first ever anonymous submission
-**When** the hero renders
-**Then** a small first-time hint appears below the headline ("Bem-vindo aos Heróis Anônimos")
+**Given** this is the user's first ever anonymous submission\
+**When** the hero renders\
+**Then** a small first-time hint appears below the headline ("Bem-vindo aos Heróis Anônimos")\
 **And** the hint shows once per user (persisted server-side)
 
 ### Scenario · Protocol number
 
-**Given** the backend returned a protocol number for the report
-**When** the hero renders
-**Then** the protocol is displayed (matches what the prefecture will use as a reference)
-**And** if the protocol is not yet assigned (rare race), a friendly placeholder appears ("Protocolo · gerando…")
+**Given** the backend returned a protocol number for the report\
+**When** the hero renders\
+**Then** the protocol is displayed (matches what the prefecture will use as a reference)\
+**And** if the protocol is not yet assigned (rare race), a friendly placeholder appears ("Protocolo
+· gerando…")
 
 ### Scenario · Localization
 
-**Given** the user's language is en-US
-**When** the hero renders
+**Given** the user's language is en-US\
+**When** the hero renders\
 **Then** copy is in English ("You act like a ninja. The problem is exposed.")
 
 ### Scenario · Reduced motion
 
-**Given** the user has reduced motion enabled
-**When** the hero renders
-**Then** the decorative blobs and pulsing dot are static
+**Given** the user has reduced motion enabled\
+**When** the hero renders\
+**Then** the decorative blobs and pulsing dot are static\
 **And** the visual hierarchy remains the same
 
 ### Scenario · Accessibility
 
-**Given** screen reader is on
-**When** the hero is read
-**Then** the headline is announced as a heading
-**And** the XP/medal pill is announced ("Earned 50 XP and Olho Vivo medal")
+**Given** screen reader is on\
+**When** the hero is read\
+**Then** the headline is announced as a heading\
+**And** the XP/medal pill is announced ("Earned 50 XP and Olho Vivo medal")\
 **And** the protocol number is announced
 
 ## Frontend (React Native)
@@ -105,11 +105,13 @@ Not applicable.
 
 ## Database
 
-Not applicable directly. The protocol number is the report's slug (owned by the report-creation flow).
+Not applicable directly. The protocol number is the report's slug (owned by the report-creation
+flow).
 
 ## Edge Cases
 
-- **Very long medal name**: text truncates with ellipsis after one line; consider a smaller font size.
+- **Very long medal name**: text truncates with ellipsis after one line; consider a smaller font
+  size.
 - **Custom font not loaded**: fallback gracefully.
 - **The hint's first-time flag write fails**: the hint shows again next time; not blocking.
 
