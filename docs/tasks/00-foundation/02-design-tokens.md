@@ -4,7 +4,7 @@
 > **Screen(s):** All UI
 > **Effort:** M (1-2 days)
 > **Dependencies:** `00-foundation/01-monorepo-setup.md`
-> **Status:** ⬜ Not started
+> **Status:** 🟡 Mostly done — lint rules (color/spacing literals) and visual regression (Chromatic dropped, Playwright TBD) still open
 > **Labels:** `design-system`, `foundation`, `frontend`, `tokens`, `storybook`
 
 ## Context
@@ -221,18 +221,20 @@ Not applicable.
 
 ## Definition of Done
 
-- [ ] `packages/design_system/` scaffolded with the canonical folder structure
-- [ ] All token files (colors, typography, spacing, radius, shadows, theme)
-- [ ] `ThemeProvider` + `useTheme` hook
-- [ ] Tailwind preset exposed and consumed by `apps/web`
-- [ ] Storybook running with addons (essentials, a11y, viewport, interactions, controls, docs)
-- [ ] `.storybook/preview.tsx` wraps stories with `ThemeProvider` + theme toggle
-- [ ] Lint rules enforced (no color literals, no spacing literals, no deep imports)
-- [ ] `index.ts` re-exports the public API
-- [ ] Light + dark themes complete
-- [ ] CI step: token snapshot, Chromatic on every PR
-- [ ] Documentation in Storybook (Docs page) explaining how to add a new component
-- [ ] All existing references in task specs match the structure here
+- [x] `packages/design_system/` scaffolded with the canonical folder structure
+- [x] All token files (colors, typography, spacing, radius, shadows, theme) — colors/shadow/font ported from `design/` prototype values, typography/shadow md+lg are first-pass (not yet validated against real screen designs)
+- [x] `ThemeProvider` + `useTheme` hook (+ `useReducedMotion`)
+- [x] Tailwind preset exposed and consumed by `apps/web` — via a shared `tailwind.preset.js` loaded through Tailwind v4's `@config` compatibility directive (not a CSS-only `@theme` block: NativeWind's stable 4.x line still needs a JS preset, so one file serves both platforms)
+- [x] Storybook running with addons (a11y, docs; essentials/viewport/interactions/controls are core in Storybook v9+, no separate install needed)
+- [x] `.storybook/preview.tsx` wraps stories with `ThemeProvider` + theme toggle
+- [ ] Lint rules enforced (no color literals, no spacing literals, no deep imports) — deferred: `eslint-plugin-no-color-literals` named in this spec no longer exists on npm; needs either a different plugin or a custom rule, out of scope for this pass
+- [x] `index.ts` re-exports the public API
+- [x] Light + dark themes complete
+- [ ] CI step: token snapshot, Chromatic on every PR — **Chromatic explicitly dropped** (solo project, no second reviewer to approve visual diffs in an external SaaS); Playwright screenshot testing was chosen as the local alternative but not yet implemented — follow-up
+- [x] Documentation in Storybook (Docs page) explaining how to add a new component — see the `Tokens/Overview` story's docs description
+- [x] All existing references in task specs match the structure here
+
+**Also done, not originally listed:** NativeWind wired into `apps/city-hero` (babel/metro/tailwind config, root layout wrapped in `ThemeProvider`) so RN screens style via the same `className` API as the web app — added after scoping discussion, since the original spec assumed StyleSheet-only theming for native.
 
 ## Standards & References
 
