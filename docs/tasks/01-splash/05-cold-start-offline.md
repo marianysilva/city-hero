@@ -183,7 +183,9 @@ Not applicable directly.
 ### Library / framework references
 
 - @react-native-community/netinfo: https://github.com/react-native-netinfo/react-native-netinfo
-- AsyncStorage: https://docs.expo.dev/versions/latest/sdk/async-storage/
+- Local key-value cache — `expo-sqlite/kv-store` (SQLite-backed, sync-capable, the SDK's own drop-in
+  replacement for `@react-native-async-storage/async-storage`):
+  https://docs.expo.dev/develop/user-interface/store-data/
 
 ### Project context
 

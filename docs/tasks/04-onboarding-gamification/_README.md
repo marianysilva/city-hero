@@ -2,13 +2,14 @@
 
 > **Group:** 01 · Entry & Onboarding\
 > **Prototype screen:** `design/index.html` (search for `title: 'Onboarding · Gamificação'`)\
-> **Position in navigation:** Step 2 of 3 onboarding steps
+> **Position in navigation:** Step 3 of 5 onboarding steps (second of the three tutorial screens,
+> after AI Camera)
 
 ## Overview
 
-The second onboarding step. It introduces the gamification loop — XP, levels (Citizen → Watchman →
-Guardian), and badges — with an animated badge that shines and a progress bar that hints at the loop
-the user will live in.
+The third onboarding step (the second of the three tutorial screens). It introduces the gamification
+loop — XP, levels (Citizen → Watchman → Guardian), and badges — with an animated badge that shines
+and a progress bar that hints at the loop the user will live in.
 
 The promise: "Reportar é trabalhar pela cidade — e a gente reconhece."
 

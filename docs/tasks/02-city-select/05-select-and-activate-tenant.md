@@ -113,7 +113,9 @@ which:
 1. Updates the store (`pending_city_id`).
 2. If authenticated, calls the backend to persist; receives the new token; updates the auth store;
    sets `active_city_id`.
-3. If not authenticated, sets `active_city_id` from local state and persists to AsyncStorage.
+3. If not authenticated, sets `active_city_id` from local state and persists via
+   `expo-sqlite/kv-store` (the SDK's sync-capable, drop-in replacement for
+   `@react-native-async-storage/async-storage`).
 4. Clears any previously-cached data scoped to the previous tenant (TanStack Query cache
    invalidation by city scope).
 5. Navigates forward.
@@ -210,7 +212,8 @@ The `users.city_id` field is updated. No new tables.
 
 - TanStack Query cache invalidation:
   https://tanstack.com/query/latest/docs/react/guides/query-invalidation
-- AsyncStorage: https://docs.expo.dev/versions/latest/sdk/async-storage/
+- Local key-value cache — `expo-sqlite/kv-store`:
+  https://docs.expo.dev/develop/user-interface/store-data/
 
 ### Project context
 

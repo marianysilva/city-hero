@@ -206,7 +206,10 @@ Not applicable directly.
 
 ### Library / framework references
 
-- React Native AsyncStorage / SecureStore: https://docs.expo.dev/versions/latest/sdk/async-storage/
+- Local key-value cache — `expo-sqlite/kv-store` (SQLite-backed, sync-capable, the SDK's own drop-in
+  replacement for `@react-native-async-storage/async-storage`):
+  https://docs.expo.dev/develop/user-interface/store-data/
+- Secure token storage — `expo-secure-store`: https://docs.expo.dev/versions/latest/sdk/securestore/
 - Promise composition (Promise.allSettled):
   https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled
 

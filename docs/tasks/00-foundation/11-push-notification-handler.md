@@ -18,6 +18,16 @@ This task wires the cross-platform push pipeline: device-token registration on t
 from the backend, foreground/background/quit handling on the device, and tap routing into the right
 screen.
 
+> **Architecture note (verified against current Expo SDK 56 docs):** the title says "FCM + APNs",
+> but neither the mobile app nor the backend should integrate the Firebase Admin SDK or raw APNs
+> certificates directly. `expo-notifications` obtains an **Expo push token**
+> (`ExponentPushToken[...]`) via `getExpoPushTokenAsync()`, and the backend dispatches through
+> **Expo's push notification service**, which relays to FCM (Android) and APNs (iOS) on our behalf.
+> This is the current Expo-recommended path and is materially simpler than hand-rolling FCM device
+> registration/APNs certificate management — that direct-provider approach only becomes necessary if
+> a future requirement needs a non-Expo push pipeline (e.g., a native module Expo doesn't manage).
+> The sections below assume the Expo push service path.
+
 ## User Story
 
 **As a** Citizen,\
@@ -37,9 +47,10 @@ screen.
 ### Scenario · Token registration
 
 **Given** the user granted permission\
-**When** the app obtains a device token (FCM on Android, APNs on iOS)\
+**When** the app obtains an Expo push token via `expo-notifications`' `getExpoPushTokenAsync()`
+(which wraps the native FCM registration on Android and APNs registration on iOS)\
 **Then** the token is sent to the backend along with the user ID, platform, and language\
-**And** the backend stores it and uses it for future dispatches
+**And** the backend stores it and uses it for future dispatches through Expo's push service
 
 ### Scenario · Token rotation
 
@@ -118,16 +129,17 @@ apps/city-hero/src/services/notifications/
 
 Per-user preferences (mute categories, quiet hours, rate limits) are **not** in MVP scope. The
 product hasn't defined the notification catalog yet, and over-engineering preferences before the
-catalog exists is wasteful. When defined, preferences will live under **Mais → Configurações**
+catalog exists is wasteful. When defined, preferences will live under **More → Settings**
 (`28-citizen-profile/06-settings-and-logout.md`) and reuse a single `/notifications/preferences`
 endpoint added at that time.
 
 ### Real-time update strategy
 
-For the MVP, **Push (FCM/APNs) is the single channel** for delivering events to the device —
-including while the app is open (rendered as the foreground in-app banner above). No WebSocket, no
-polling. Trade-off documented in `architecture-patterns.md` § Real-time updates: on-screen lists may
-take 5–30s to reflect changes; acceptable for the MVP per product decision (2026-06-19).
+For the MVP, **Push (via Expo's push service, relaying to FCM/APNs) is the single channel** for
+delivering events to the device — including while the app is open (rendered as the foreground in-app
+banner above). No WebSocket, no polling. Trade-off documented in `architecture-patterns.md` §
+Real-time updates: on-screen lists may take 5–30s to reflect changes; acceptable for the MVP per
+product decision (2026-06-19).
 
 ### Permission UX
 
@@ -149,8 +161,10 @@ need it.
 ### Dispatch worker
 
 A background worker reads the events that should produce notifications (status changes, supports,
-achievements) and dispatches via the appropriate provider (FCM/APNs). It uses the user's stored
-language to pick the template.
+achievements) and dispatches via **Expo's push notification service**
+(`https://exp.host/--/api/v2/push/send`), batching Expo push tokens per Expo's guidance. Expo relays
+each message to FCM or APNs depending on the token's platform — the worker does not talk to Firebase
+or Apple directly. It uses the user's stored language to pick the template.
 
 ### Templates
 
@@ -161,16 +175,16 @@ Templates live in `apps/backend/src/templates/notifications/<category>/<lang>.js
 
 ### `device_tokens` table
 
-| Column         | Type        | Notes              |
-| -------------- | ----------- | ------------------ |
-| `id`           | UUID PK     |                    |
-| `user_id`      | UUID FK     |                    |
-| `token`        | text unique | The FCM/APNs token |
-| `platform`     | varchar(20) | `ios`, `android`   |
-| `app_version`  | varchar(20) |                    |
-| `language`     | varchar(10) |                    |
-| `last_seen_at` | timestamptz |                    |
-| `created_at`   | timestamptz |                    |
+| Column         | Type        | Notes                                                                    |
+| -------------- | ----------- | ------------------------------------------------------------------------ |
+| `id`           | UUID PK     |                                                                          |
+| `user_id`      | UUID FK     |                                                                          |
+| `token`        | text unique | The Expo push token (`ExponentPushToken[...]`), not a raw FCM/APNs token |
+| `platform`     | varchar(20) | `ios`, `android`                                                         |
+| `app_version`  | varchar(20) |                                                                          |
+| `language`     | varchar(10) |                                                                          |
+| `last_seen_at` | timestamptz |                                                                          |
+| `created_at`   | timestamptz |                                                                          |
 
 ### `notifications` table
 
@@ -219,7 +233,7 @@ Templates live in `apps/backend/src/templates/notifications/<category>/<lang>.js
 - **Unit (mobile)**: token rotation triggers backend update; foreground handler renders banner; tap
   routing converts payload to navigation.
 - **Unit (backend)**: dispatch worker selects correct locale; templates render with placeholders.
-- **Integration**: end-to-end dispatch with a mocked FCM/APNs server.
+- **Integration**: end-to-end dispatch with a mocked Expo push service endpoint.
 - **E2E**: send a real push to a test device, verify it lands and routes correctly.
 
 ## Definition of Done
@@ -246,9 +260,14 @@ Templates live in `apps/backend/src/templates/notifications/<category>/<lang>.js
 
 ### Library / framework references
 
-- Expo Notifications: https://docs.expo.dev/versions/latest/sdk/notifications/
-- Firebase Cloud Messaging: https://firebase.google.com/docs/cloud-messaging
-- Apple Push Notification service: https://developer.apple.com/documentation/usernotifications
+- Expo Notifications (verified against SDK 56 docs, 2026-07):
+  https://docs.expo.dev/versions/latest/sdk/notifications/
+- Expo push notifications overview (Expo push service, the recommended path — not raw FCM/APNs
+  integration): https://docs.expo.dev/push-notifications/overview/
+- Firebase Cloud Messaging (background only — Expo's push service is the relay, we don't call this
+  API directly): https://firebase.google.com/docs/cloud-messaging
+- Apple Push Notification service (background only, same reasoning):
+  https://developer.apple.com/documentation/usernotifications
 
 ### Project context
 

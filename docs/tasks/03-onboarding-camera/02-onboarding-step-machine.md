@@ -76,7 +76,7 @@ step at the saved progress\
 
 **Given** the user is not authenticated\
 **When** progress changes\
-**Then** the change is persisted only locally (AsyncStorage)\
+**Then** the change is persisted only locally (via `expo-sqlite/kv-store`)\
 **And** when the user later signs up, the local progress is sent in the signup payload to be merged
 
 ### Scenario · Onboarding done
@@ -198,7 +198,9 @@ The two new columns on `users` (above). A small Alembic migration adds them with
 
 ### Library / framework references
 
-- Zustand persistence middleware: https://github.com/pmndrs/zustand#persist-middleware
+- Zustand `persist` middleware (`createJSONStorage(() => storage)`, where `storage` is
+  `expo-sqlite/kv-store` rather than `@react-native-async-storage/async-storage`):
+  https://zustand.docs.pmnd.rs/integrations/persisting-store-data
 
 ### Project context
 

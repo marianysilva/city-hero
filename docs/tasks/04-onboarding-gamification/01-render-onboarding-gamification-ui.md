@@ -85,10 +85,15 @@ apps/city-hero/src/screens/Onboarding/Gamification/
 ├── GamificationScreen.styles.ts
 ├── GamificationScreen.test.tsx
 └── components/
-    ├── BadgeIllustration.tsx
-    ├── LevelPills.tsx
-    └── XpProgressBar.tsx
+    └── LevelPills.tsx
 ```
+
+`BadgeIllustration` and `XpProgressBar` are **not** screen-local components — they're shared
+organism/molecule from `@cityhero/design-system` (see `docs/engineering/component-inventory.md` ·
+Organisms row `BadgeIllustration` and Molecules row `XpProgressBar`). `BadgeIllustration` is also
+consumed by `29-achievements-badges`; `XpProgressBar` is also consumed by `10-report-confirm`,
+`12-heroes-league`, and `28-citizen-profile`. This screen imports both — it never defines its own
+copy. Only `LevelPills` is screen-local (not used elsewhere in the current catalog).
 
 ### Component behavior
 
@@ -99,7 +104,8 @@ apps/city-hero/src/screens/Onboarding/Gamification/
   shine sweep across the badge's surface.
 - `LevelPills` is a horizontal layout of three pills, each labeled and styled to suggest
   progression.
-- `XpProgressBar` is a reusable component (also used elsewhere, e.g., Profile screen).
+- `XpProgressBar` is imported from `@cityhero/design-system` and consumed with its target fill (20%)
+  and caption; it is not redefined here.
 
 ### Animation (default)
 
@@ -151,9 +157,9 @@ breakdown.)
 ## Definition of Done
 
 - [ ] Gamification screen layout matching the prototype
-- [ ] BadgeIllustration component (animated by default; reduced-motion-friendly via prop)
-- [ ] LevelPills component
-- [ ] XpProgressBar component (reusable)
+- [ ] `BadgeIllustration` (design-system organism) integrated with `reducedMotion` prop
+- [ ] LevelPills component (screen-local)
+- [ ] `XpProgressBar` (design-system molecule) integrated with target fill + caption
 - [ ] Light + dark themes
 - [ ] Accessibility verified
 - [ ] Tests passing

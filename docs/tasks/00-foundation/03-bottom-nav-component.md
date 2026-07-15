@@ -101,8 +101,13 @@ Queue"\
 
 ### Component location
 
+`BottomNav` is listed under **Organisms** in
+[`component-inventory.md`](../../engineering/component-inventory.md) ("4 tabs + center FAB + More
+sheet"), so per [`design-system.md`](../../engineering/design-system.md)'s tier rules it lives in
+`src/organisms/`, not a generic `src/components/` folder:
+
 ```
-packages/design_system/src/components/BottomNav/
+packages/design_system/src/organisms/BottomNav/
 ├── BottomNav.tsx           ← container
 ├── BottomNavTab.tsx        ← each tab (non-FAB)
 ├── BottomNavFab.tsx        ← center FAB (Camera)
@@ -125,8 +130,26 @@ packages/design_system/src/components/BottomNav/
 
 ### Navigation integration
 
-The nav plugs into the React Navigation bottom-tab navigator as a custom `tabBar` renderer. The
-Camera tab's button is intercepted to push a modal instead of switching tabs.
+`apps/city-hero` uses **Expo Router** (file-based routing), not a hand-wired React Navigation tree —
+confirmed by the actual `app/(tabs)/_layout.tsx` (see
+[`architecture-patterns.md`](../../engineering/architecture-patterns.md) § Navigation). Expo
+Router's `Tabs` is built on React Navigation's bottom-tab navigator internally, so the underlying
+mechanics are the same, but the integration point is Expo Router's own API:
+
+- `app/(tabs)/_layout.tsx` defines the tab routes. Because `BottomNav` needs a non-standard layout
+  (an elevated center FAB that opens a modal instead of switching tabs, plus a "More" tab that opens
+  a sheet instead of navigating), use Expo Router's **low-level custom tab primitives** (`Tabs`,
+  `TabSlot`, `TabList`, `TabTrigger` from `expo-router/ui`) rather than the default
+  `Tabs`/`Tabs.Screen` pair with a `tabBar` render prop — the low-level primitives give full control
+  over rendering each trigger, which the default tab bar override does not for arbitrary layouts
+  like a raised FAB.
+- The `BottomNav` organism renders inside a custom `TabList`, receiving the active route from Expo
+  Router (`usePathname()` or the segment from `useSegments()`) rather than owning navigation state
+  itself, per the Route → active tab mapping table below.
+- The Camera tab's `TabTrigger` is intercepted (`onPress` calls `router.push('/camera')` with
+  `{ presentation: 'modal' }` configured on that route) instead of behaving as a `TabTrigger` that
+  switches the active tab — it never becomes the "active" tab.
+- The "More" tab's `TabTrigger` opens `BottomNavMoreSheet` (a bottom sheet) instead of navigating.
 
 ### Route → active tab mapping
 
@@ -141,10 +164,22 @@ Camera tab's button is intercepted to push a modal instead of switching tabs.
 
 ### Accessibility
 
-- Tab role on each tab; selected state on the active one.
-- Button role on the FAB.
-- Min touch area 48×48dp.
-- Translated labels via i18n (see `00-foundation/13-i18n.md`).
+React Native accessibility props, not web ARIA attributes (`aria-*` props exist in RN too but map
+1:1 onto the platform-native props below — use the RN-native names):
+
+- Each `BottomNavTab`: `accessibilityRole="tab"` and `accessibilityState={{ selected: isActive }}`
+  (RN's `AccessibilityState` also supports `disabled`/`busy`/`expanded`/`checked`, not needed here).
+  Screen readers announce role + state from these two props together — no need to hand-build the
+  "tab 1 of 5, selected" string; that phrasing comes from combining the translated
+  `accessibilityLabel` with the native role/state, which VoiceOver/TalkBack compose automatically.
+- `BottomNavFab`: `accessibilityRole="button"` with a translated `accessibilityLabel` (e.g. "Take
+  photo").
+- Min touch area 48×48dp on every tab and the FAB (React Native's own `hitSlop` guidance recommends
+  30-40dp as a floor; 48×48dp is this project's stricter WCAG/Material target — use `hitSlop` to pad
+  smaller visual icons up to it without growing the visible tap surface).
+- Translated labels via i18n (see `00-foundation/13-i18n.md`) passed as plain strings into
+  `accessibilityLabel` — components don't call the i18n hook themselves, per
+  [`design-system.md`](../../engineering/design-system.md) hard rule 5.
 
 ### Haptics
 
@@ -214,7 +249,8 @@ Not applicable — the component holds no personal data.
 
 - [ ] BottomNav, BottomNavTab, BottomNavFab, and BottomNavMoreSheet implemented in
       `packages/design_system`
-- [ ] Custom tab bar wired into React Navigation
+- [ ] Custom tab bar wired into Expo Router's `Tabs`/`expo-router/ui` low-level tab primitives (see
+      Navigation integration)
 - [ ] Storybook with all states
 - [ ] A11y verified (TalkBack + VoiceOver, WCAG AA contrast)
 - [ ] Haptics on the three feedback points
@@ -233,9 +269,20 @@ Not applicable — the component holds no personal data.
 
 ### Library / framework references
 
-- React Navigation Bottom Tabs: https://reactnavigation.org/docs/bottom-tab-navigator
-- Bottom Sheet (`@gorhom/bottom-sheet`): https://gorhom.dev/react-native-bottom-sheet
-- Expo Haptics: https://docs.expo.dev/versions/latest/sdk/haptics/
+- Expo Router custom tabs (the actual integration point — `apps/city-hero` uses Expo Router, not a
+  hand-wired React Navigation tree): https://docs.expo.dev/router/advanced/custom-tabs/
+- Expo Router tabs (base API, `Tabs`/`Tabs.Screen`): https://docs.expo.dev/router/advanced/tabs/
+- React Navigation Bottom Tabs (background only — what Expo Router's `Tabs` wraps internally):
+  https://reactnavigation.org/docs/bottom-tab-navigator
+- Bottom Sheet (`@gorhom/bottom-sheet`, current API verified: `BottomSheetModal` +
+  `BottomSheetModalProvider` + ref-based `.present()`/`.dismiss()`):
+  https://gorhom.dev/react-native-bottom-sheet — **not yet a dependency**:
+  `apps/city-hero/package.json` has neither `@gorhom/bottom-sheet` nor its required peer
+  `react-native-gesture-handler` (it does already have `react-native-reanimated` and
+  `react-native-worklets`, the other two peers). Both need adding when this task is implemented.
+- Expo Haptics (current API verified: `Haptics.impactAsync`/`selectionAsync`/`notificationAsync`;
+  not yet a dependency — `expo-haptics` is absent from `apps/city-hero/package.json` and needs
+  adding): https://docs.expo.dev/versions/latest/sdk/haptics/
 
 ### Project context
 

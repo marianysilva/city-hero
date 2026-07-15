@@ -44,9 +44,9 @@ subtitle explaining the AI's role
 
 ### Scenario · Pagination dots
 
-**Given** this is the second onboarding step (out of four)\
+**Given** this is the second onboarding step (out of five)\
 **When** the screen renders\
-**Then** four pagination dots appear at the bottom-left\
+**Then** five pagination dots appear at the bottom-left\
 **And** the second dot is wider/colored (active)\
 **And** the others are small/neutral
 
@@ -104,7 +104,7 @@ apps/city-hero/src/screens/Onboarding/CameraAI/
   `onNext`) provided by the onboarding state machine.
 - `HeroIllustration` renders the layered scene (sky + ground + road + pothole + brackets + label +
   camera UI overlay). It accepts a `reducedMotion` prop (used by task 03) to skip animation.
-- `PaginationDots` is consumed with `total=4` and `activeIndex=1`.
+- `PaginationDots` is consumed with `total=5` and `activeIndex=1`.
 - `StepIndicator` is consumed with `{ step: 2, total: 5 }`.
 
 ### Animation (default)

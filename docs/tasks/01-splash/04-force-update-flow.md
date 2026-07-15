@@ -97,8 +97,12 @@ apps/city-hero/src/screens/ForceUpdate/
 
 ### Behavior
 
-- The screen is presented in a way that blocks navigation backwards (replace the stack) and ignores
-  the system back button on Android.
+- The screen is presented via Expo Router's `router.replace()` so it can't be navigated back out of
+  (replaces history instead of pushing), and ignores the system back button on Android. Because this
+  gate is a single boolean condition (force update required or not), it's also a good fit for a
+  `Stack.Protected` guard in the root layout wrapping every other route group — either mechanism
+  achieves the same non-bypassable result; pick whichever composes more simply with the rest of
+  `03-routing-decision.md`'s decision tree.
 - The CTA opens the platform-appropriate store URL using the OS's deep-link mechanism.
 - The screen does not auto-retry the version check; the user has to update + relaunch.
 - The screen logs telemetry on mount, on CTA tap, and on back-button suppression.
@@ -178,7 +182,10 @@ Not applicable directly. No user data is collected.
 
 ### Library / framework references
 
-- React Navigation `reset`: https://reactnavigation.org/docs/navigation-actions#reset
+- Expo Router — imperative redirects (`router.replace`):
+  https://docs.expo.dev/router/reference/redirects/
+- Expo Router — protected routes (`Stack.Protected`):
+  https://docs.expo.dev/router/advanced/protected/
 - Linking (open store URLs): https://reactnative.dev/docs/linking
 - Hardware back-button handling: https://reactnative.dev/docs/backhandler
 

@@ -36,7 +36,7 @@ relatado pelo avaliador, ajuste o turno-limite ou quebre o lote em pastas menore
 
 ---
 
-## Batch 0 — Triagem e movimentação (rode primeiro, sozinho)
+## Batch 0 — Triagem e movimentação (rode primeiro, sozinho) - DONE
 
 ```
 /goal Escopo: varrer docs/tasks/**/*.md e docs/engineering/*.md e mover para docs/out-of-mvp/ (preservando a estrutura de subpastas) qualquer arquivo cujos Critérios de Aceite dependam, como pré-requisito obrigatório, de infraestrutura fora de apps/backend e apps/city-hero — ou seja, de apps/web (Painel Operacional), Field Team App, analytics/pipelines (Airflow), analytics/transformations (dbt) ou analytics/visualizations (Superset). Isso vale mesmo que o header da tarefa esteja rotulado `backend` — o rótulo não decide, a dependência real decide. Exemplo confirmado: tasks/21b-elected-officials/05-data-ingestion-pipeline.md depende de Airflow+dbt, deve mover. Nesta rodada NÃO reescreva conteúdo de tarefa nenhuma além de: mover o arquivo, corrigir links de "Dependencies" que quebrarem por causa da mudança de caminho, e atualizar docs/tasks/README.md (árvore de pastas, tabela "Coverage by features.md section", contagem no rodapé) para refletir a nova localização.
@@ -46,7 +46,7 @@ Condição de conclusão: (0) a documentacao deve estar em ingles; (1) você rod
 
 ---
 
-## Batch 1 — `docs/engineering/*.md`
+## Batch 1 — `docs/engineering/*.md` - DONE
 
 ```
 /goal Escopo: revisar e, quando necessário, reescrever os arquivos em docs/engineering/ (architecture-patterns.md, coding-standards.md, component-inventory.md, design-hygiene.md, design-system.md, observability.md, observability-package-research.md, open-questions.md, security-baseline.md, testing-strategy.md, README.md). Esses documentos são a fonte de padrões que as tarefas em docs/tasks referenciam — se estiverem desatualizados ou inconsistentes, isso se propaga pra todas as tarefas alinhadas depois.
@@ -58,7 +58,7 @@ Condição de conclusão: (0) a documentacao deve estar em ingles; você releu t
 
 ---
 
-## Batch 2 — `docs/tasks/00-foundation/`
+## Batch 2 — `docs/tasks/00-foundation/` - DONE
 
 ```
 /goal Escopo: revisar e alinhar todos os arquivos de docs/tasks/00-foundation/ (_README.md + as 18 tarefas numeradas) ao skeleton padrão descrito em docs/tasks/README.md (Header / Context / User Story / Acceptance Criteria em Gherkin / Frontend / Backend / Database / Edge Cases & Error States / Privacy-LGPD / Analytics / Tests / Definition of Done). O objetivo final é que cada tarefa fique clara e objetiva o bastante pra ser implementada autonomamente depois via /loop, sem depender de contexto tribal.
@@ -70,7 +70,7 @@ Condição de conclusão: (0) a documentacao deve estar em ingles; você process
 
 ---
 
-## B3 — Onboarding
+## B3 — Onboarding - DONE
 
 ```
 /goal Escopo: revisar e alinhar todos os arquivos (_README.md + tarefas numeradas) das pastas de tela 01-splash, 02-city-select, 03-onboarding-camera, 04-onboarding-gamification, 04b-onboarding-community-pact, 05-onboarding-neighborhood em docs/tasks/ ao skeleton padrão descrito em docs/tasks/README.md (Header / Context / User Story / Acceptance Criteria em Gherkin / Frontend / Backend / Database / Edge Cases & Error States / Privacy-LGPD / Analytics / Tests / Definition of Done). O objetivo final é que cada tarefa fique clara e objetiva o bastante pra ser implementada autonomamente depois via /loop, sem depender de contexto tribal.

@@ -56,8 +56,8 @@ It reuses the `useReducedMotion` hook shared across onboarding screens (introduc
 
 ### Where it lives
 
-The `BadgeIllustration`, `LevelPills`, and `XpProgressBar` components from task 01 each accept a
-`reducedMotion: boolean` prop.
+The `BadgeIllustration` and `XpProgressBar` design-system components consumed in task 01, plus the
+screen-local `LevelPills`, each accept a `reducedMotion: boolean` prop.
 
 The screen calls `useReducedMotion()` and passes the value into all three.
 

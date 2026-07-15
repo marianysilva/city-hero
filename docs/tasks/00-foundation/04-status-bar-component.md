@@ -9,10 +9,10 @@
 
 ## Context
 
-A wrapper component that handles the system status bar appearance per screen — light/dark variant —
-and respects safe area insets (notch, dynamic island). It manages the system bar style during
-navigation transitions so each screen can declaratively own its preferred variant without manually
-toggling on focus/blur events.
+A shared hook (`useStatusBarVariant`, see Frontend section) that handles the system status bar
+appearance per screen — light/dark variant — and respects safe area insets (notch, dynamic island).
+It manages the system bar style during navigation focus changes so each screen can declaratively own
+its preferred variant without manually wiring focus/blur listeners itself.
 
 The prototype shows two visual states (`statusBar('light')` / `statusBar('dark')`) controlling the
 color of system text and icons.
@@ -20,7 +20,7 @@ color of system text and icons.
 ## User Story
 
 **As a** Mobile Developer,\
-**I want** a single component to control status bar appearance per screen,\
+**I want** a single hook to control status bar appearance per screen,\
 **In order to** avoid mismatch between screen background and system bar text color.
 
 ## Acceptance Criteria
@@ -53,51 +53,72 @@ color of system text and icons.
 **Then** the modal can override the status bar style independently\
 **And** when the modal closes, the underlying screen's status bar variant is restored
 
-### Scenario · Translucent status bar (Android)
+### Scenario · Edge-to-edge status bar (Android)
 
 **Given** the app runs on Android\
 **When** any screen renders\
-**Then** the status bar is translucent and the screen content can extend behind it\
-**And** content respects the device's top safe area inset
+**Then** the app draws edge-to-edge behind the status bar by default (Android's enforced
+edge-to-edge display as of Expo SDK 54+ — `expo-status-bar`'s `translucent` and `backgroundColor`
+props are deprecated no-ops on this SDK line and must not be relied on)\
+**And** content respects the device's top safe area inset via `react-native-safe-area-context`,
+which is now required rather than optional now that translucent-by-toggle is gone
 
 ## Frontend (React Native / Expo)
 
 ### Component location
 
+Per [`component-inventory.md`](../../engineering/component-inventory.md)'s Hooks table, the
+canonical deliverable is the **`useStatusBarVariant` hook** (not a rendered component in
+`atoms`/`organisms`) — it has no visual output, so it belongs with the other behavior hooks:
+
 ```
-packages/design_system/src/components/StatusBar/
-├── StatusBar.tsx
-├── StatusBar.types.ts
-└── StatusBar.test.tsx
+packages/design_system/src/hooks/
+├── useStatusBarVariant.ts
+└── useStatusBarVariant.test.ts
 ```
 
-### Component behavior
+A screen calls it directly; there is no separate `<StatusBar>` wrapper component to import (the task
+title "Status Bar Component" refers to this hook-based unit, consistent with `useReducedMotion` and
+`useTheme` living in the same folder).
 
-- Receives a variant prop with values `light`, `dark`, or `auto`. `auto` chooses based on the active
-  theme color scheme.
-- Optionally accepts a translucent flag (Android only) and a hidden flag (full-screen experiences
-  like the Camera).
-- Applies the variant when the screen receives navigation focus and reverts on blur, so navigation
-  between screens always reflects the focused screen's preference.
-- Renders nothing visually — it's a side-effect component that delegates to the platform's status
-  bar APIs.
-- Does **not** add padding for the safe area; that's the host screen's job using a safe-area inset
-  hook.
+### Hook behavior
+
+- Signature:
+  `useStatusBarVariant(variant: 'light' | 'dark' | 'auto', options?: { hidden?: boolean })`. `auto`
+  resolves from the design system's active theme via `useTheme()` (dark theme → light status bar
+  icons, and vice versa).
+- Applies the variant with `useFocusEffect` imported from **`expo-router`** (not
+  `expo-router/react-navigation`, which only re-exports a deprecated shim, and not
+  `@react-navigation/native` directly — `expo-router`'s own export is typed against the app's route
+  tree). On focus it applies the variant; the cleanup function returned from the effect callback
+  restores whatever the previously-focused screen wanted, so stacked screens don't fight over the
+  bar.
+- Internally calls `expo-status-bar`'s current imperative API: `StatusBar.setStyle(style, animated)`
+  for the `light`/`dark` color, and `StatusBar.setHidden(hidden, animation)` when `options.hidden`
+  is set (full-screen experiences like the Camera modal). These are the SDK 56 method names — older
+  Expo docs/tutorials refer to `setStatusBarStyle`/`setStatusBarHidden`, which were renamed; do not
+  use the old names against this SDK line (`apps/city-hero` pins `expo-status-bar: ~56.0.4`).
+- Does **not** add padding for the safe area; that's the host screen's job via
+  `react-native-safe-area-context`'s `useSafeAreaInsets`.
+- Does **not** set `translucent` or `backgroundColor` — both are deprecated no-ops on Android from
+  Expo SDK 54+'s enforced edge-to-edge display (see the Edge Cases and Acceptance Criteria
+  sections); there is nothing for this hook to toggle there anymore.
 
 ### Variant behavior
 
-- `light` → white text/icons.
-- `dark` → near-black text/icons.
+- `light` → white text/icons (`StatusBar.setStyle('light', animated)`).
+- `dark` → near-black text/icons (`StatusBar.setStyle('dark', animated)`).
 - `auto` → derived from the active theme's color scheme (dark mode → light status bar, and vice
   versa).
 
 ## Backend
 
-Not applicable.
+Not applicable — purely client-side presentation logic, no server interaction.
 
 ## Database
 
-Not applicable.
+Not applicable — no persisted state; the active variant is derived at render time from the focused
+screen's props and the current theme, never stored.
 
 ## Edge Cases
 
@@ -109,7 +130,8 @@ Not applicable.
 
 ## Privacy / LGPD
 
-Not applicable.
+Not applicable — the component/hook renders no UI and holds no user or citizen data; it only toggles
+system status bar chrome.
 
 ## Analytics
 
@@ -117,16 +139,29 @@ Not applicable (purely visual).
 
 ## Tests
 
-- **Unit**: renders correctly for each variant; auto resolves based on color scheme.
-- **Integration**: changing focus between screens swaps the variant.
-- **Visual**: Storybook page with both variants on contrasting backgrounds.
+- **Unit** (`renderHook` from `@testing-library/react-native`, per `testing-strategy.md`): calling
+  the hook with each variant triggers the expected `expo-status-bar` imperative call
+  (`StatusBar.setStyle`/`StatusBar.setHidden`, mocked); `auto` resolves the correct style from a
+  mocked `useTheme()` for both light and dark theme; unmounting before the focus effect fires
+  triggers no orphan call.
+- **Integration**: two screens using the hook with different variants, mounted inside an
+  `expo-router` stack — focusing each in turn applies its variant and restores the previous one on
+  blur.
+- **Manual/visual**: no Storybook story is required — this ships as a headless hook with no visual
+  output, consistent with `useTheme`/`useReducedMotion` (neither has a `.stories.tsx` sibling in
+  `packages/design_system/src/hooks/` today). Verify the two documented reference states manually:
+  Splash's dark gradient background (light status bar) and Civic Feed's white background (dark
+  status bar).
 
 ## Definition of Done
 
-- [ ] StatusBar component implemented in `packages/design_system`
-- [ ] Focus-effect-based application (auto-apply on screen focus)
-- [ ] Auto mode honors the active theme
-- [ ] Storybook page with all variants
+- [ ] `useStatusBarVariant` hook implemented in `packages/design_system/src/hooks/`
+- [ ] Focus-effect-based application via `expo-router`'s `useFocusEffect` (auto-apply on screen
+      focus, restore previous variant on blur)
+- [ ] Auto mode honors the active theme (`useTheme()`)
+- [ ] Uses the current SDK 56 `expo-status-bar` imperative API (`setStyle`/`setHidden`), not the
+      renamed pre-56 `setStatusBarStyle`/`setStatusBarHidden` names
+- [ ] No Storybook story (headless hook — see Tests section); manual QA covers the visual variants
 - [ ] Unit tests passing
 - [ ] Used by all screens in the app
 
@@ -140,9 +175,16 @@ Not applicable (purely visual).
 
 ### Library / framework references
 
-- Expo Status Bar: https://docs.expo.dev/versions/latest/sdk/status-bar/
+- Expo Status Bar (verified current for SDK 56, including the `setStyle`/`setHidden` rename and the
+  Android edge-to-edge deprecation of `translucent`/`backgroundColor`):
+  https://docs.expo.dev/versions/latest/sdk/status-bar/
+- Expo Router `useFocusEffect` (import from here, not `expo-router/react-navigation` or
+  `@react-navigation/native` directly — this is the correctly-typed export for the app's route
+  tree): https://docs.expo.dev/router/reference/hooks/
 - Safe Area Context: https://github.com/th3rdwave/react-native-safe-area-context
-- React Navigation focus effect: https://reactnavigation.org/docs/use-focus-effect
+- React Navigation focus effect (background only — the underlying mechanism `expo-router` wraps;
+  don't import from here directly in this codebase):
+  https://reactnavigation.org/docs/use-focus-effect
 
 ### Project context
 

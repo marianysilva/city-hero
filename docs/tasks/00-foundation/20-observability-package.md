@@ -1,7 +1,8 @@
 # Observability Package · Minimal Sentry + structured logs
 
 > **Type:** Foundation · Cross-cutting\
-> **Screen(s):** All applications (backend, mobile, web when it exists)\
+> **Screen(s):** All applications (`apps/backend`, `apps/city-hero`; `apps/web` code exists but the
+> Operational Panel product is paused — see `docs/tasks/README.md`)\
 > **Effort:** S (≤1 day)\
 > **Dependencies:** `00-foundation/01-monorepo-setup.md`\
 > **Status:** ⬜ Not started\
@@ -34,10 +35,12 @@ observability stack.
 
 **Given** the monorepo has `apps/backend`, `apps/city-hero`, and `apps/web`\
 **When** any of them needs to log or capture an error\
-**Then** they import from `@cityhero/observability` (the package's public API)\
+**Then** they import from `@city-hero/observability` (the package's public API — matching the
+`@city-hero/*` npm scope already used by `@city-hero/design-system`, `@city-hero/types`, and
+`@city-hero/web`)\
 **And** never call Sentry SDKs or stdlib logging directly\
-**And** the package has subpaths matching each runtime: `@cityhero/observability/python`,
-`@cityhero/observability/react`, `@cityhero/observability/react-native`
+**And** the package has subpaths matching each runtime: `@city-hero/observability/python`,
+`@city-hero/observability/react`, `@city-hero/observability/react-native`
 
 ### Scenario · Sentry captures errors
 
@@ -105,7 +108,7 @@ packages/observability/
 
 ### Behavior
 
-- `@cityhero/observability/react-native` initializes `@sentry/react-native` (Expo plugin) at app
+- `@city-hero/observability/react-native` initializes `@sentry/react-native` (Expo plugin) at app
   start.
 - The package exposes a `logger` with the same API across runtimes (`debug`, `info`, `warn`,
   `error`).
@@ -126,18 +129,31 @@ packages/observability/
 
 ## Database
 
-Not applicable.
+Not applicable — this package ships logging/tracing library code consumed by other services; logs
+and error events go to stdout/Sentry, not the application database, so it owns no schema.
 
 ## Stack summary
 
-| Layer             | Package                      | Notes                                          |
-| ----------------- | ---------------------------- | ---------------------------------------------- |
-| Mobile errors     | `@sentry/react-native` 5.16+ | Expo plugin (the legacy `sentry-expo` is dead) |
-| Web errors        | `@sentry/nextjs` 8.28+       | Auto-instrumented                              |
-| Python errors     | `sentry-sdk` 2.45+           |                                                |
-| Python logs       | `structlog`                  | Contextvars + processors for PII redaction     |
-| JS logs           | The same `logger` API        | Backed by `pino` (web) and console (RN)        |
-| Trace correlation | Custom `X-Trace-Id` header   | No OpenTelemetry, no W3C `traceparent`         |
+| Layer             | Package                     | Notes                                          |
+| ----------------- | --------------------------- | ---------------------------------------------- |
+| Mobile errors     | `@sentry/react-native` ^8.x | Expo plugin (the legacy `sentry-expo` is dead) |
+| Web errors        | `@sentry/nextjs` ^10.x      | Auto-instrumented                              |
+| Python errors     | `sentry-sdk` ^2.x (2.20+)   |                                                |
+| Python logs       | `structlog`                 | Contextvars + processors for PII redaction     |
+| JS logs           | The same `logger` API       | Backed by `pino` (web) and console (RN)        |
+| Trace correlation | Custom `X-Trace-Id` header  | No OpenTelemetry, no W3C `traceparent`         |
+
+> **Version note (checked against current Sentry docs):** the versions originally pinned here
+> (`@sentry/react-native` 5.16+, `@sentry/nextjs` 8.28+) were current when this spec was first
+> written but are now well behind — Sentry's own Expo sample app is already on
+> `@sentry/react-native` 8.18.0 (paired with Expo SDK 57 / RN 0.86), and `@sentry/nextjs` has moved
+> through major versions 9 and 10 (the `instrumentation-client.ts` + `onRouterTransitionStart`
+> pattern is the current manual-setup shape, not the older `sentry.client.config.js`). Since no code
+> exists yet for this package, don't hardcode an exact patch version in code — run
+> `npm view @sentry/react-native version` / `npm view @sentry/nextjs version` /
+> `pip index versions sentry-sdk` at implementation time and pin whatever is current then. The
+> architecture described below (init/logger/scrubber contract, Expo plugin, no OTel) is still
+> accurate; only the version floors were stale.
 
 ## Explicitly out of scope (for the MVP)
 

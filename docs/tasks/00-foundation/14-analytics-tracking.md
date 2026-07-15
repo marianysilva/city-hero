@@ -3,7 +3,8 @@
 > **Type:** Foundation · Product analytics\
 > **Screen(s):** All\
 > **Effort:** M (1-2 days)\
-> **Dependencies:** `00-foundation/01-monorepo-setup.md`, `00-foundation/06-auth-system.md`\
+> **Dependencies:** `00-foundation/01-monorepo-setup.md`, `00-foundation/06-auth-system.md`,
+> `00-foundation/20-observability-package.md`\
 > **Status:** ⬜ Not started\
 > **Labels:** `mobile`, `web`, `analytics`, `foundation`, `lgpd`
 
@@ -15,6 +16,15 @@ feed business dashboards.
 
 A single tracker abstraction hides the underlying provider (PostHog, Mixpanel, Amplitude, or
 self-hosted) so we can swap or run multiple in parallel without touching screen code.
+
+> **Scope flag:** for a 1-city MVP, a single self-hosted or PostHog-Cloud-free-tier provider is
+> almost certainly enough — PostHog alone covers events, funnels, cohorts, and session replay, so
+> there's no early need for the `multiplexer.ts` "run multiple providers in parallel" capability or
+> for wiring Mixpanel/Amplitude. This mirrors the same reasoning `docs/engineering/observability.md`
+> already applies to the observability stack (no multi-vendor tooling until there's a team and
+> multiple cities to justify it). Keep the `providers/` interface so a second provider is a drop-in
+> later, but treat building the multiplexer and any non-PostHog provider as deferred, not required
+> for this task's Definition of Done.
 
 ## User Story
 
@@ -114,7 +124,11 @@ packages/analytics/
 
 - Screen views via React Navigation listener.
 - App lifecycle events (cold start, foreground, background).
-- Errors (linked to Sentry's trace ID for cross-tool drilling).
+- Errors (`error.boundary_caught`, `error.unhandled_rejection` — defined and emitted by
+  `00-foundation/15-error-boundary.md`; this package only receives and forwards them). Each carries
+  the shared trace ID from `@city-hero/observability` (see
+  `00-foundation/20-observability-package.md`) so an event here can be cross-referenced with the
+  matching Sentry issue and backend log lines.
 
 ### Event taxonomy
 
@@ -143,8 +157,12 @@ to the authenticated profile.
 ## Backend (FastAPI)
 
 The backend can also emit events for things only it knows about (cron-driven aggregations, AI
-inference outcomes, etc.). It uses a server-side analytics SDK with the same event taxonomy. User
-context is attached to each event via the user UUID.
+inference outcomes, etc.). It uses the PostHog Python SDK (`posthog-python`) with the same event
+taxonomy as the client package (kept in sync manually, since Python can't import a TS package — see
+"Schema drift" under Edge Cases). Every server-emitted event carries the user UUID (when known) and
+the `city_id` from the request's tenant scope, per this repo's multi-tenant rule that all data is
+scoped by city — never emit a business event without a `city_id` unless it's explicitly
+platform-wide (e.g. a cron health-check event).
 
 ## Database
 
@@ -161,9 +179,12 @@ there, not here.
 - **User reinstalls the app**: device ID resets; identity is re-established on next login.
 - **Multiple devices per user**: each has its own device ID; identify call links them to the same
   user UUID.
-- **Schema drift between client and server**: the typed event taxonomy lives in
-  `packages/analytics`; both client and backend depend on the package, so drift is impossible by
-  construction.
+- **Schema drift between client and server**: the canonical event taxonomy is authored once in
+  `packages/analytics/src/eventTypes.ts` (TypeScript, consumed directly by mobile and web). The
+  Python backend cannot import a TS package, so it keeps a hand-maintained mirror in
+  `apps/backend/.../analytics/event_types.py`; a CI check diffs the two lists (event names +
+  required property keys) and fails the build if they've drifted. This is a real risk to actively
+  guard against, not something eliminated "by construction."
 
 ## Privacy / LGPD
 
@@ -213,11 +234,21 @@ there, not here.
 
 ### Library / framework references
 
-- PostHog: https://posthog.com/docs
-- Mixpanel: https://docs.mixpanel.com/docs/quickstart
-- Amplitude: https://www.docs.developers.amplitude.com/
+- PostHog (primary provider — client + server SDKs confirmed current, cover `identify`/`reset` with
+  durable offline queueing suited to this task's "queue while offline, flush online" and "identity
+  stitching" requirements): https://posthog.com/docs, React Native SDK:
+  https://posthog.com/docs/libraries/react-native, Python SDK:
+  https://posthog.com/docs/libraries/python
+- Mixpanel (alternative, not selected for MVP — see "Scope flag" above):
+  https://docs.mixpanel.com/docs/quickstart
+- Amplitude (alternative, not selected for MVP — see "Scope flag" above):
+  https://www.docs.developers.amplitude.com/
 
 ### Project context
 
 - Each task lists its own events; the canonical list lives in `packages/analytics/src/eventTypes.ts`
+- Error events (`error.*`) are defined and emitted by `00-foundation/15-error-boundary.md`; this
+  package only receives them
+- Shared trace ID used to cross-link analytics events with Sentry issues and backend logs:
+  `00-foundation/20-observability-package.md`
 - `CLAUDE.md`
