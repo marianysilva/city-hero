@@ -118,8 +118,9 @@ for setup. Key principles:
 ## Synthetic monitoring
 
 - Uptime checks every 60s on key endpoints from external probes (Better Uptime).
-- Smoke E2E flow runs against production every 15 minutes from a CI cron (Detox or Playwright
-  headless).
+- Smoke E2E flow runs against production every 15 minutes from a CI cron — Playwright headless for
+  `apps/web`, Maestro for `apps/city-hero` (see `docs/engineering/testing-strategy.md` § E2E for why
+  Maestro, not Detox, is the mobile choice here).
 
 ## Mobile-specific observability
 

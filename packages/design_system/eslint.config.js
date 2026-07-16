@@ -1,8 +1,11 @@
 const { defineConfig } = require("eslint/config");
 const reactHooks = require("eslint-plugin-react-hooks");
+const reactNative = require("eslint-plugin-react-native");
 const tseslint = require("typescript-eslint");
 
 const sharedConfig = require("../../eslint.config.base.js");
+
+const noSpacingLiterals = require("./eslint-rules/no-spacing-literals.js");
 
 module.exports = defineConfig([
   ...sharedConfig(),
@@ -19,6 +22,20 @@ module.exports = defineConfig([
     files: ["*.config.js", "*.config.mjs", "tailwind.preset.js"],
     rules: {
       "@typescript-eslint/no-require-imports": "off",
+    },
+  },
+  {
+    // Tokens are the only place a color/spacing value is allowed to be a
+    // literal — every atom/molecule/organism must reference a token instead.
+    files: ["src/**/*.{ts,tsx}"],
+    ignores: ["src/tokens/**", "**/*.stories.tsx", "**/*.test.{ts,tsx}"],
+    plugins: {
+      "react-native": reactNative,
+      local: { rules: { "no-spacing-literals": noSpacingLiterals } },
+    },
+    rules: {
+      "react-native/no-color-literals": "error",
+      "local/no-spacing-literals": "error",
     },
   },
 ]);

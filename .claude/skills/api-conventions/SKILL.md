@@ -1,6 +1,6 @@
 ---
 name: api-conventions
-description: Open311-compliant REST API design conventions for CityHero
+description: Open311-compliant REST API design conventions for CityHero — URL structure, request/response shape, multi-tenancy scoping, auth/RBAC, and the photo-anonymization requirement. Use this whenever designing, reviewing, or implementing any backend API endpoint in apps/backend, even if the user doesn't say "Open311" or "API conventions" explicitly — e.g. "add an endpoint for X", "what should the response shape be", "create a new route", or any citizen-report-related endpoint work.
 ---
 
 # API Conventions

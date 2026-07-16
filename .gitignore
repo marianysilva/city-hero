@@ -16,5 +16,9 @@ CLAUDE.local.md
 node_modules/
 .turbo/
 
+# Playwright (apps/web's test:e2e run output — traces, HTML report, diffs)
+test-results/
+playwright-report/
+
 # Dev Temporary files
 .tmp/

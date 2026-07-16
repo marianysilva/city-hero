@@ -242,8 +242,8 @@ Not applicable — the component holds no personal data.
 - **E2E**: after login, the nav appears on all 5 root screens; tap on Camera opens the camera modal;
   tap on More opens the sheet with the correct item list; Home scroll state is preserved when
   returning from another tab.
-- **Visual regression**: snapshots per state (each tab active, with/without badges, with/without
-  sheet open).
+- **Snapshot**: light + dark, per state (each tab active, with/without badges, with/without sheet
+  open).
 
 ## Definition of Done
 

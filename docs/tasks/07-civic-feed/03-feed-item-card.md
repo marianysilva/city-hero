@@ -199,9 +199,9 @@ Not applicable directly.
 
 - **Unit**: identified vs anonymous variants render correctly; status badge respects the value;
   truncation works.
-- **Snapshot**: light + dark; identified + anonymous; with/without status badge; photo placeholder.
+- **Snapshot**: light + dark; identified + anonymous; with/without status badge; photo placeholder —
+  structural (Storybook + Vitest), not a pixel diff.
 - **A11y**: card group announced; action buttons individually labeled.
-- **Visual regression** (Chromatic): all variants captured.
 
 ## Definition of Done
 

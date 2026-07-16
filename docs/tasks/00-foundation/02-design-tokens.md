@@ -4,8 +4,8 @@
 > **Screen(s):** All UI\
 > **Effort:** M (1-2 days)\
 > **Dependencies:** `00-foundation/01-monorepo-setup.md`\
-> **Status:** 🟡 Mostly done — lint rules (color/spacing literals) and visual regression (Playwright
-> TBD) still open\
+> **Status:** ✅ Done — except visual regression, deliberately descoped for now (see Tests /
+> Definition of Done)\
 > **Labels:** `design-system`, `foundation`, `frontend`, `tokens`, `storybook`
 
 ## Context
@@ -99,13 +99,25 @@ xl, full); shadows (soft, md, lg)\
 **And** never an internal path
 (`import { Button } from '@city-hero/design-system/src/atoms/Button/Button'` is blocked by ESLint)
 
-### Scenario · Playwright visual regression
+### Scenario · Visual regression — descoped for now
 
-**Given** the CI pipeline is set up\
-**When** a PR touches design-system files\
-**Then** a Playwright Test spec takes `expect(page).toHaveScreenshot()` snapshots of all stories via
-their built Storybook `iframe.html?id=...` URLs\
-**And** unintended visual diffs are flagged for review
+**Given** the design system currently has only two atoms (`Button`, `Badge`) and the tokens
+themselves are still first-pass (not yet validated against real screen designs — see Definition of
+Done)\
+**When** weighing pixel-level screenshot testing (Playwright's `toHaveScreenshot()`) against its
+cost\
+**Then** it's deliberately not built for this pass: baselines would need regenerating again as soon
+as real designs are validated, and Playwright's own snapshot filenames are platform-suffixed
+(`process.platform`), so they can only be generated correctly on the same OS CI runs on
+(`ubuntu-latest`) — not on a contributor's Windows/macOS machine\
+**And** the Vitest unit tests (token snapshots, `ThemeProvider` rendering, cross-app consumption,
+Tailwind-preset/token parity — see Tests) already cover "the right values reach the right
+components," which is most of what matters at this stage; pixel-level rendering regressions are the
+one thing they can't catch, and that gap is accepted for now, not solved\
+**And** revisit once (a) tokens are validated against real designs and (b) there are enough shared
+components (organisms, molecules) for pixel regression to be worth the upkeep — Playwright's actual
+sanctioned role in this repo is `apps/web`'s `test:e2e` (browser E2E), which existed before this
+task and is unrelated to component visual diffing
 
 ### Scenario · Storybook entry on Definition of Done
 
@@ -184,11 +196,27 @@ flip between light/dark themes.
 
 ### Lint rules
 
-ESLint plugin `eslint-plugin-no-color-literals` plus a custom rule for spacing literals. The rule
-allowlist exempts `src/tokens/`.
+`eslint-plugin-no-color-literals` (named in the original spec) no longer exists on npm. What's
+actually wired up, in `packages/design_system/eslint.config.js`:
 
-A separate rule blocks deep imports into the package ( `@city-hero/design-system/src/...` is
-disallowed; only the root re-export is allowed).
+- **Color literals**: `eslint-plugin-react-native`'s `react-native/no-color-literals` — flags hex
+  literal colors assigned inside a `StyleSheet.create()` call or directly inline in a JSX `style={}`
+  attribute. It doesn't trace through intermediate lookup objects (e.g. a `VARIANT_COLORS` record
+  built in a function body, then referenced by identifier inside `style=`) — that's a real, accepted
+  gap given the rule's shallow AST analysis, not a config mistake; it still catches the common
+  mistake the AC describes (`style={{ color: '#fff' }}` written directly in a screen file).
+- **Spacing literals**: no published plugin covers this, so it's a small local rule —
+  `packages/design_system/eslint-rules/no-spacing-literals.js` — flagging numeric literals assigned
+  to `padding*`/`margin*`/`gap`/`rowGap`/`columnGap` properties.
+- Both rules are scoped to `src/**/*.{ts,tsx}`, excluding `src/tokens/**`, `**/*.stories.tsx`, and
+  `**/*.test.{ts,tsx}` (tokens _are_ the literals; stories/tests legitimately need concrete values).
+
+### Deep-import blocking
+
+Lives in the **shared** `eslint.config.base.js` (not the design-system package's own config) since
+it has to apply wherever the package is _consumed_ — `apps/city-hero` and `apps/web` both extend
+this file. `no-restricted-imports` blocks the `@city-hero/design-system/src/*` pattern; only the
+root re-export is allowed.
 
 ## Backend
 
@@ -198,15 +226,18 @@ has no server-side surface.
 ## Database
 
 Not applicable — no persisted data; theme preference (light/dark override) is stored client-side in
-`AsyncStorage`, not in PostgreSQL.
+`expo-sqlite/kv-store` (the SDK 56-recommended, sync-capable drop-in replacement for
+`@react-native-async-storage/async-storage`), not in PostgreSQL.
 
 ## Edge Cases
 
 - **System theme changes mid-session**: `useColorScheme()` triggers a re-render of themed
   components.
-- **User overrides system theme**: persisted in `AsyncStorage`.
+- **User overrides system theme**: persisted in `expo-sqlite/kv-store`.
 - **Plus Jakarta Sans not loaded**: fallback to system sans-serif while loading.
-- **Web + mobile token drift**: a CI step ensures both consume the same token version.
+- **Web + mobile token drift**: enforced by `apps/web/__tests__/tailwind-preset.test.ts`, which
+  imports both `tailwind.preset.js` and the TS token modules and asserts they resolve to identical
+  color values — a real assertion, not just a documented intention.
 
 ## Privacy / LGPD
 
@@ -221,14 +252,28 @@ Not applicable — tokens, theming, and Storybook carry no user or citizen data.
 
 ## Tests
 
-- **Unit**: token snapshots for stability (any token change → visible diff).
-- **Lint**: ESLint catches color and spacing literals; lint blocks deep imports.
-- **Visual regression**: plain Playwright Test — a spec navigates to each story's
-  `iframe.html?id=...` URL in the built Storybook and asserts with `expect(page).toHaveScreenshot()`
-  (Playwright's built-in snapshot comparison) for the token preview page and a sample of every atom
-  (see Definition of Done and [`design-system.md`](../../engineering/design-system.md) § Storybook
-  setup); this Playwright suite is itself still unimplemented (tracked as a follow-up below).
-- **Theme provider**: components render correctly under both light and dark.
+- **Unit** (`packages/design_system/src/tokens/tokens.test.ts`, Vitest): snapshot tests for colors,
+  typography, spacing, radius, shadows, and both resolved themes; an explicit assertion that `brand`
+  colors are identical across light/dark (per the "brand identity is constant" rule in
+  `design-system.md`).
+- **Theme provider** (`packages/design_system/src/theme/ThemeProvider.test.tsx`, Vitest + Testing
+  Library, `react-native` aliased to `react-native-web` for jsdom): resolves the correct theme for
+  explicit `light`/`dark` preferences, both themes expose the same token shape, and `useTheme()`
+  throws a clear error outside a provider.
+- **Cross-app consumption** (`apps/web/__tests__/design-system.test.tsx`, Vitest): renders a real
+  `Button` from `@city-hero/design-system` inside `ThemeProvider` in the Next.js app — proves the
+  package actually works for both consumers, not just `apps/city-hero`.
+- **Preset/token parity** (`apps/web/__tests__/tailwind-preset.test.ts`, Vitest): asserts
+  `tailwind.preset.js`'s color values equal the TS token modules' — the "Web + mobile token drift"
+  edge case above, as a real check instead of a documented intention.
+- **Lint**: `react-native/no-color-literals` + the local `no-spacing-literals` rule catch literal
+  colors/spacing outside `src/tokens/`; `no-restricted-imports` (shared config) blocks deep imports
+  into the package from both consuming apps.
+- **Visual regression**: not built — see the "Visual regression — descoped for now" scenario above
+  for the reasoning (low current value given 2 atoms + unvalidated tokens, plus a real cost:
+  Playwright's `toHaveScreenshot()` baselines are platform-suffixed, so they'd need generating on
+  `ubuntu-latest` to match CI, not on a contributor's Windows/macOS machine). Revisit once tokens
+  are design-validated and there are enough shared components to justify it.
 
 ## Definition of Done
 
@@ -250,22 +295,41 @@ Not applicable — tokens, theming, and Storybook carry no user or citizen data.
 - [x] Storybook running with addons (a11y, docs; essentials/viewport/interactions/controls are core
       in Storybook v9+, no separate install needed)
 - [x] `.storybook/preview.tsx` wraps stories with `ThemeProvider` + theme toggle
-- [ ] Lint rules enforced (no color literals, no spacing literals, no deep imports) — deferred:
-      `eslint-plugin-no-color-literals` named in this spec no longer exists on npm; needs either a
-      different plugin or a custom rule, out of scope for this pass
+- [x] Lint rules enforced (no color literals, no spacing literals, no deep imports) — the originally
+      named `eslint-plugin-no-color-literals` doesn't exist on npm; replaced with
+      `eslint-plugin-react-native`'s `react-native/no-color-literals` plus a small local rule for
+      spacing literals (see Frontend § Lint rules) and `no-restricted-imports` for deep imports
 - [x] `index.ts` re-exports the public API
 - [x] Light + dark themes complete
-- [ ] CI step: token snapshot + visual regression on every PR — plain Playwright Test
-      (`expect(page).toHaveScreenshot()` against each story's `iframe.html` URL) is the chosen
-      approach but not yet implemented — follow-up
+- [x] CI step: token snapshot on every PR — `design-system-test` job in `ci.yml` runs the Vitest
+      suite (token/theme-provider unit tests)
+- [ ] Visual regression on every PR — deliberately not built this pass; see the "Visual regression —
+      descoped for now" scenario and the Tests section above for the reasoning and the revisit
+      criteria
 - [x] Documentation in Storybook (Docs page) explaining how to add a new component — see the
       `Tokens/Overview` story's docs description
 - [x] All existing references in task specs match the structure here
 
-**Also done, not originally listed:** NativeWind wired into `apps/city-hero` (babel/metro/tailwind
-config, root layout wrapped in `ThemeProvider`) so RN screens style via the same `className` API as
-the web app — added after scoping discussion, since the original spec assumed StyleSheet-only
-theming for native.
+**Also done, not originally listed:**
+
+- NativeWind wired into `apps/city-hero` (babel/metro/tailwind config, root layout wrapped in
+  `ThemeProvider`) so RN screens style via the same `className` API as the web app — added after
+  scoping discussion, since the original spec assumed StyleSheet-only theming for native.
+- **Cross-app consistency** (both consuming apps, not just `apps/city-hero`):
+  - `apps/web` got its own Vitest setup (`vitest.config.mts`, following Next.js's own current
+    guide), plus two real tests — one rendering an actual `@city-hero/design-system` component
+    inside `ThemeProvider`, one asserting the Tailwind preset and TS tokens stay numerically
+    identical. `apps/web` previously had no unit-test runner at all (only `test:e2e` via
+    Playwright).
+  - `apps/city-hero` was missing two files its own `tsconfig.json` already listed in `include` —
+    `nativewind-env.d.ts` and `expo-env.d.ts` — which meant `npx tsc --noEmit` failed on the
+    `import "../global.css"` side-effect import (`TS2882`) before this task. Both are standard,
+    framework-generated files (per NativeWind's and Expo's own docs) and are now committed; the app
+    typechecks, lints, and tests (`jest`) cleanly.
+  - Jest stays the test runner for `apps/city-hero` (RN-native, via `jest-expo` — no mature Vitest
+    equivalent exists for native RN); Vitest is used for `packages/design_system` and `apps/web`
+    since both render through `react-native-web` / plain web, which Vitest supports natively. This
+    is a deliberate two-runner split by _platform_, not accidental tooling sprawl.
 
 ## Standards & References
 
@@ -283,8 +347,18 @@ theming for native.
 - Tailwind presets: https://tailwindcss.com/docs/presets
 - Storybook: https://storybook.js.org/
 - Storybook + React Native Web: https://storybook.js.org/blog/storybook-for-react-native-web/
-- Playwright Test visual comparisons (the chosen approach):
+- Playwright Test visual comparisons (not built this pass — see Tests § Visual regression):
   https://playwright.dev/docs/test-snapshots
+- `eslint-plugin-react-native` (`no-color-literals`):
+  https://github.com/intellicode/eslint-plugin-react-native
+- Vitest (unit tests in `packages/design_system` and `apps/web`): https://vitest.dev/
+- Next.js + Vitest setup (the guide `apps/web/vitest.config.mts` follows):
+  https://nextjs.org/docs/app/guides/testing/vitest
+- NativeWind TypeScript setup (`nativewind-env.d.ts`):
+  https://nativewind.dev/v5/getting-started/typescript
+- Expo TypeScript setup (`expo-env.d.ts`): https://docs.expo.dev/guides/typescript/
+- Local key-value cache — `expo-sqlite/kv-store`:
+  https://docs.expo.dev/develop/user-interface/store-data/
 
 ### Project context
 
