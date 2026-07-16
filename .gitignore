@@ -16,8 +16,7 @@ CLAUDE.local.md
 node_modules/
 .turbo/
 
-# Playwright (test-only run output, not the committed baseline snapshots
-# under */*.spec.ts-snapshots/)
+# Playwright (apps/web's test:e2e run output — traces, HTML report, diffs)
 test-results/
 playwright-report/
 

@@ -4,7 +4,8 @@
 > **Screen(s):** All UI\
 > **Effort:** M (1-2 days)\
 > **Dependencies:** `00-foundation/01-monorepo-setup.md`\
-> **Status:** ✅ Done\
+> **Status:** ✅ Done — except visual regression, deliberately descoped for now (see Tests /
+> Definition of Done)\
 > **Labels:** `design-system`, `foundation`, `frontend`, `tokens`, `storybook`
 
 ## Context
@@ -98,13 +99,25 @@ xl, full); shadows (soft, md, lg)\
 **And** never an internal path
 (`import { Button } from '@city-hero/design-system/src/atoms/Button/Button'` is blocked by ESLint)
 
-### Scenario · Playwright visual regression
+### Scenario · Visual regression — descoped for now
 
-**Given** the CI pipeline is set up\
-**When** a PR touches design-system files\
-**Then** a Playwright Test spec takes `expect(page).toHaveScreenshot()` snapshots of all stories via
-their built Storybook `iframe.html?id=...` URLs\
-**And** unintended visual diffs are flagged for review
+**Given** the design system currently has only two atoms (`Button`, `Badge`) and the tokens
+themselves are still first-pass (not yet validated against real screen designs — see Definition of
+Done)\
+**When** weighing pixel-level screenshot testing (Playwright's `toHaveScreenshot()`) against its
+cost\
+**Then** it's deliberately not built for this pass: baselines would need regenerating again as soon
+as real designs are validated, and Playwright's own snapshot filenames are platform-suffixed
+(`process.platform`), so they can only be generated correctly on the same OS CI runs on
+(`ubuntu-latest`) — not on a contributor's Windows/macOS machine\
+**And** the Vitest unit tests (token snapshots, `ThemeProvider` rendering, cross-app consumption,
+Tailwind-preset/token parity — see Tests) already cover "the right values reach the right
+components," which is most of what matters at this stage; pixel-level rendering regressions are the
+one thing they can't catch, and that gap is accepted for now, not solved\
+**And** revisit once (a) tokens are validated against real designs and (b) there are enough shared
+components (organisms, molecules) for pixel regression to be worth the upkeep — Playwright's actual
+sanctioned role in this repo is `apps/web`'s `test:e2e` (browser E2E), which existed before this
+task and is unrelated to component visual diffing
 
 ### Scenario · Storybook entry on Definition of Done
 
@@ -256,12 +269,11 @@ Not applicable — tokens, theming, and Storybook carry no user or citizen data.
 - **Lint**: `react-native/no-color-literals` + the local `no-spacing-literals` rule catch literal
   colors/spacing outside `src/tokens/`; `no-restricted-imports` (shared config) blocks deep imports
   into the package from both consuming apps.
-- **Visual regression** (`packages/design_system/tests/visual/stories.visual.spec.ts`, Playwright):
-  reads the built Storybook's `storybook-static/index.json`, generates one test per story, navigates
-  to each `iframe.html?id=...` URL, and asserts `expect(page).toHaveScreenshot()`. Baseline PNGs are
-  committed under `tests/visual/stories.visual.spec.ts-snapshots/`; run `npm run build-storybook`
-  before `npm run test:visual` (the Playwright config serves `storybook-static/` via `http-server`
-  automatically). New stories are covered automatically — nothing to hand-maintain.
+- **Visual regression**: not built — see the "Visual regression — descoped for now" scenario above
+  for the reasoning (low current value given 2 atoms + unvalidated tokens, plus a real cost:
+  Playwright's `toHaveScreenshot()` baselines are platform-suffixed, so they'd need generating on
+  `ubuntu-latest` to match CI, not on a contributor's Windows/macOS machine). Revisit once tokens
+  are design-validated and there are enough shared components to justify it.
 
 ## Definition of Done
 
@@ -289,9 +301,11 @@ Not applicable — tokens, theming, and Storybook carry no user or citizen data.
       spacing literals (see Frontend § Lint rules) and `no-restricted-imports` for deep imports
 - [x] `index.ts` re-exports the public API
 - [x] Light + dark themes complete
-- [x] CI step: token snapshot + visual regression on every PR — Vitest for token/theme-provider unit
-      tests, Playwright Test (`expect(page).toHaveScreenshot()`) for visual regression with 18
-      committed baseline snapshots (see Tests)
+- [x] CI step: token snapshot on every PR — `design-system-test` job in `ci.yml` runs the Vitest
+      suite (token/theme-provider unit tests)
+- [ ] Visual regression on every PR — deliberately not built this pass; see the "Visual regression —
+      descoped for now" scenario and the Tests section above for the reasoning and the revisit
+      criteria
 - [x] Documentation in Storybook (Docs page) explaining how to add a new component — see the
       `Tokens/Overview` story's docs description
 - [x] All existing references in task specs match the structure here
@@ -333,7 +347,7 @@ Not applicable — tokens, theming, and Storybook carry no user or citizen data.
 - Tailwind presets: https://tailwindcss.com/docs/presets
 - Storybook: https://storybook.js.org/
 - Storybook + React Native Web: https://storybook.js.org/blog/storybook-for-react-native-web/
-- Playwright Test visual comparisons (the chosen approach):
+- Playwright Test visual comparisons (not built this pass — see Tests § Visual regression):
   https://playwright.dev/docs/test-snapshots
 - `eslint-plugin-react-native` (`no-color-literals`):
   https://github.com/intellicode/eslint-plugin-react-native
