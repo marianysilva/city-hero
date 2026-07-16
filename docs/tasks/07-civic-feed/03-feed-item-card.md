@@ -202,9 +202,6 @@ Not applicable directly.
 - **Snapshot**: light + dark; identified + anonymous; with/without status badge; photo placeholder —
   structural (Storybook + Vitest), not a pixel diff.
 - **A11y**: card group announced; action buttons individually labeled.
-- **Visual regression**: deliberately not built (Chromatic was the originally-named tool here) — see
-  `docs/engineering/testing-strategy.md` § Visual regression and
-  `docs/tasks/00-foundation/02-design-tokens.md` for the reasoning and revisit criteria.
 
 ## Definition of Done
 

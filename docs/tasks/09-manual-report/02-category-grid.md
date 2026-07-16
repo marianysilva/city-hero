@@ -176,9 +176,6 @@ Not applicable.
 - **Unit**: tiles render; selection toggles correctly; "Outro" secondary picker flow; pre-selection
   from AI hint.
 - **A11y**: tiles labeled and announced.
-- **Visual regression**: deliberately not built — see `docs/engineering/testing-strategy.md` §
-  Visual regression and `docs/tasks/00-foundation/02-design-tokens.md` for the reasoning and revisit
-  criteria.
 
 ## Definition of Done
 

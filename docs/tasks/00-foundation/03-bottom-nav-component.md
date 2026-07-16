@@ -243,10 +243,7 @@ Not applicable — the component holds no personal data.
   tap on More opens the sheet with the correct item list; Home scroll state is preserved when
   returning from another tab.
 - **Snapshot**: light + dark, per state (each tab active, with/without badges, with/without sheet
-  open) — structural (Storybook + Vitest), not a pixel diff.
-- **Visual regression**: deliberately not built — see `docs/engineering/testing-strategy.md` §
-  Visual regression and `docs/tasks/00-foundation/02-design-tokens.md` for the reasoning and revisit
-  criteria.
+  open).
 
 ## Definition of Done
 
