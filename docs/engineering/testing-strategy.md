@@ -6,11 +6,11 @@ Test pyramid, coverage targets, and conventions across CityHero.
 
 Test fast and broad at the bottom, slow and narrow at the top.
 
-| Layer       | Volume     | Speed      | Examples                                                                                                   |
-| ----------- | ---------- | ---------- | ---------------------------------------------------------------------------------------------------------- |
-| Unit        | Most tests | ms each    | pure functions, hooks, components, services                                                                |
-| Integration | Fewer      | tens of ms | API + DB, multi-component flows                                                                            |
-| E2E         | Few        | seconds    | full user journeys — Playwright (browser: web app + mobile's web build), Detox/Maestro (native-only flows) |
+| Layer       | Volume     | Speed      | Examples                                                                           |
+| ----------- | ---------- | ---------- | ---------------------------------------------------------------------------------- |
+| Unit        | Most tests | ms each    | pure functions, hooks, components, services                                        |
+| Integration | Fewer      | tens of ms | API + DB, multi-component flows                                                    |
+| E2E         | Few        | seconds    | full user journeys — Playwright (`apps/web`), Maestro (`apps/city-hero`, real app) |
 
 Avoid an inverted pyramid (lots of E2E, few units) — it's slow and flaky.
 
@@ -89,36 +89,40 @@ Test what the user sees and does:
 
 `@testing-library/react-hooks` (or built-in `renderHook` from RTL v13+).
 
-## E2E: what Playwright is actually for here
+## E2E: one tool per real platform, not a hybrid
 
 **Playwright is a browser-automation / end-to-end tool — clicking, filling forms, navigating,
 asserting on page state and network calls. It is not, in this project, a screenshot-diffing tool.**
 `expect(page).toHaveScreenshot()` exists and was tried for design-system component snapshots (see
-"Visual regression" below), but that's a narrow secondary feature, not what Playwright is for — the
-primary use across this codebase is real user-flow automation, on both consuming apps:
+"Visual regression" below), but that's a narrow secondary feature, not what Playwright is for.
 
-- **`apps/web`** (Next.js Operational Panel): the full app is a real browser target. Playwright
-  drives it directly — this is the standard case, already wired as `test:e2e`.
-- **`apps/city-hero`** (Expo/React Native): Playwright **cannot** drive a native iOS/Android
-  simulator — it only automates browsers. What it _can_ do is drive the app's web build
-  (`expo start --web` / `expo export -p web`, which renders through `react-native-web` to real DOM),
-  and it should — for every flow that's platform-agnostic (navigation, forms, most business logic,
-  state), the same Playwright suite runs against both `apps/web` and `apps/city-hero`'s web build,
-  maximizing coverage without native tooling.
-  - **What Playwright can't cover on mobile**: anything that needs a real native module or sensor —
-    the AI camera capture, GPS-based anti-fraud validation, haptics, native permission dialogs,
-    biometric unlock. These either don't exist on web, or behave too differently from the real
-    device to trust a web-mode test asserting on them.
-  - **Those go to Detox or Maestro instead** — real simulator/device automation. Maestro in
-    particular works directly against Expo Go with no native build step
-    (`openLink: exp://127.0.0.1:19000`), which is a lower-friction starting point than Detox for an
-    Expo-managed app; Detox remains the fallback if Maestro's coverage proves insufficient. Reserve
-    either for the small set of flows that genuinely need native behavior:
-    - Report a pothole (Camera → Confirm → Heroes League) — the camera/GPS-critical path
-    - Onboarding's location-permission step
-    - Anything else gated on a native permission or sensor
-- Used sparingly for **happy paths only**, on both platforms — E2E (of any kind) is slow and flaky
-  compared to unit/integration; it is not where edge cases get tested.
+- **`apps/web`** (Next.js Operational Panel): a real browser app. Playwright drives it directly —
+  already wired as `test:e2e`.
+- **`apps/city-hero`** (Expo/React Native): **Maestro**, not Playwright, and not a Playwright +
+  native hybrid. Playwright can't drive a native iOS/Android simulator at all — it only automates
+  browsers — so an earlier version of this plan proposed splitting mobile E2E between Playwright
+  (against the app's `expo start --web` build, for platform-agnostic flows) and a native tool (for
+  camera/GPS-only flows). That split turned out to be unnecessary: Maestro drives the **real** app
+  (Expo Go, a dev build, or a built binary) through the accessibility layer, so one Maestro suite
+  already covers navigation, forms, and business logic _and_ camera/GPS/permissions in a single run
+  — there's no subset of flows only a browser-based tool can reach that's worth a second toolchain
+  for.
+  - **Maestro over Detox**: Detox is the longer-established, more broadly-adopted E2E framework
+    across the wider React Native ecosystem (bare/non-Expo apps included), with deep native
+    synchronization as its signature feature — but it requires `detox build` (a real Xcode/Gradle
+    native build), which is friction for an Expo-managed app. Maestro is what Expo's **own** tooling
+    has standardized on instead: EAS Workflows ships a first-class, pre-packaged `type: maestro` job
+    (no equivalent for Detox), and Expo Router's own team uses "Playwright and Maestro for native
+    navigation" to test Expo Router itself (`expo-router/AGENTS.md`). It also works directly against
+    Expo Go (`openLink: exp://127.0.0.1:19000`) with no native build step at all.
+  - Reserve Maestro flows for **happy paths only** — the highest-value journeys, not edge cases:
+    - Onboarding flow
+    - Report a pothole (Camera → Confirm → Heroes League)
+    - Login + view My Reports
+    - NPS feedback after resolution
+
+E2E (either tool) is slow and flaky compared to unit/integration on both platforms — it's not where
+edge cases get tested, on `apps/web` either.
 
 ## Visual regression
 
@@ -199,9 +203,13 @@ A flaky test is worse than no test — it teaches the team to ignore CI. When a 
 - pytest: https://docs.pytest.org/
 - React Testing Library: https://testing-library.com/docs/react-testing-library/intro/
 - Vitest: https://vitest.dev/
-- Playwright (E2E, not just visual comparisons — see "E2E: what Playwright is actually for here"):
-  https://playwright.dev/
-- Detox: https://wix.github.io/Detox/
-- Maestro (Expo Go support, no native build needed): https://docs.maestro.dev/
+- Playwright (`apps/web` E2E, not visual comparisons — see "E2E: one tool per real platform, not a
+  hybrid"): https://playwright.dev/
+- Maestro (`apps/city-hero` E2E — Expo Go support, no native build needed, first-class EAS Workflows
+  job): https://docs.maestro.dev/
+- EAS Workflows Maestro job reference: https://docs.expo.dev/eas/workflows/syntax/
+- Expo Router's own E2E approach (Playwright + Maestro): `expo-router/AGENTS.md` in the Expo repo
+- Detox (the established RN-wide alternative, not chosen here — requires a native `detox build`
+  rather than running against Expo Go): https://wix.github.io/Detox/
 - Playwright visual comparisons (evaluated, not currently used — see "Visual regression" above):
   https://playwright.dev/docs/test-snapshots
