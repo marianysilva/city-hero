@@ -176,7 +176,6 @@ Not applicable.
 - **Unit**: tiles render; selection toggles correctly; "Outro" secondary picker flow; pre-selection
   from AI hint.
 - **A11y**: tiles labeled and announced.
-- **Visual regression**: each tile color/active variant.
 
 ## Definition of Done
 

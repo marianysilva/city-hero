@@ -113,6 +113,19 @@ jobs:
       - run: npm ci
       - run: npm run build --workspace=apps/web
 
+  web-test:
+    name: Web · Tests (vitest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run
+        working-directory: apps/web
+
   # ── Mobile (Expo / React Native) ──────────────────────────────────────────
   mobile-typecheck:
     name: Mobile · Type Check
@@ -168,6 +181,19 @@ jobs:
         working-directory: packages/design_system
       - name: Lint
         run: npm run lint
+        working-directory: packages/design_system
+
+  design-system-test:
+    name: Design System · Tests (vitest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run test
         working-directory: packages/design_system
 
   # ── Container build ────────────────────────────────────────────────────────

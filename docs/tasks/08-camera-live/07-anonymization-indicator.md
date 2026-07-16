@@ -113,7 +113,7 @@ section, row "Anonymization active"): a pulsing pill with a dot + label, rendere
 - The `<Badge>`'s `pulse` prop is suppressed when the OS reports reduced-motion preferences.
 - `onPress` opens `AnonymizationExplainerModal`, a small bottom sheet with the explainer content and
   a single "Entendi" CTA. It's lazy-loaded.
-- The first-session emphasis is governed by a per-install flag (AsyncStorage).
+- The first-session emphasis is governed by a per-install flag (`expo-sqlite/kv-store`).
 
 ### Copy (pt-BR / en-US)
 

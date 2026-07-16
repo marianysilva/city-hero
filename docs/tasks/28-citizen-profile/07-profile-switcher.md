@@ -76,7 +76,7 @@ under the new identity\
 
 **Given** the user wants to wipe local state for the active persona\
 **When** they tap "Resetar dados do perfil" inside the picker\
-**Then** all local storage (cache, queue, AsyncStorage keys) for this persona is cleared\
+**Then** all local storage (cache, queue, `expo-sqlite/kv-store` keys) for this persona is cleared\
 **And** the app reloads
 
 ### Scenario · Persona persists across cold starts
@@ -110,7 +110,7 @@ apps/city-hero/src/dev/
 ### Component behavior
 
 - `ProfileSwitcherRow` reads the build flag and renders nothing in production.
-- `useDevPersona` exposes `{active, set, reset}` backed by AsyncStorage.
+- `useDevPersona` exposes `{active, set, reset}` backed by `expo-sqlite/kv-store`.
 - Setting a new persona triggers a full app reload (Expo `DevSettings.reload()` in dev; navigation
   reset in staging).
 - The set of personas + their mock identities is a single source of truth in `personas.ts` — never

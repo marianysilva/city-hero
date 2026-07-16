@@ -111,11 +111,17 @@ Stories live next to the component. Each story file should include:
   browser.
 - **Accessibility checks** via the `@storybook/addon-a11y` panel.
 
-Visual regression: **plain Playwright Test**. A spec navigates to each story in the built Storybook
-(via its `iframe.html?id=...` URL) and asserts with `expect(page).toHaveScreenshot()` — Playwright's
-own built-in snapshot comparison, so there's no separate visual-diffing dependency to maintain.
-Baseline screenshots are committed and diffed on every run, locally and in CI, without an external
-service.
+**Visual regression is deliberately not built yet.** The plan considered was plain Playwright Test
+(a spec navigating to each story's built Storybook `iframe.html?id=...` URL, asserting with
+`expect(page).toHaveScreenshot()`) — evaluated and set aside for now: with only two atoms and tokens
+still "first-pass, not yet validated against real screen designs," pixel baselines would need
+regenerating almost immediately, and Playwright's snapshot filenames are platform-suffixed (only a
+CI-generated `ubuntu-latest` baseline would ever match — not one taken on a contributor's machine).
+See `docs/engineering/testing-strategy.md` § Visual regression and
+`docs/tasks/00-foundation/02-design-tokens.md` for the full reasoning. Revisit once tokens are
+design-validated and there are enough shared components to justify the upkeep — Storybook stories
+remain the source of truth for each component's states in the meantime, just not automatically
+diffed.
 
 ## Known limitations
 
@@ -204,6 +210,7 @@ components by tier and their consumers.
 - React composition patterns: https://react.dev/learn/passing-data-deeply-with-context
 - Headless UI principles: https://headlessui.com/
 - Storybook: https://storybook.js.org/
-- Playwright Test visual comparisons: https://playwright.dev/docs/test-snapshots
+- Playwright Test visual comparisons (evaluated, not currently built — see Storybook setup above):
+  https://playwright.dev/docs/test-snapshots
 - Storybook's own testing docs (for story discovery / `iframe.html` URLs):
   https://storybook.js.org/docs/writing-tests

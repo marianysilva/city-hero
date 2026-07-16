@@ -7,10 +7,13 @@ node_modules/
 .expo/
 dist/
 web-build/
-expo-env.d.ts
+# expo-env.d.ts is NOT ignored — Expo's own docs say to commit it (it's what
+# makes `import "../global.css"` etc. typecheck without needing the Expo CLI
+# to have run first). See docs/tasks/00-foundation/02-design-tokens.md.
 
 # NativeWind
-nativewind-env.d.ts
+# nativewind-env.d.ts is NOT ignored — same reasoning, per NativeWind's own
+# TypeScript setup docs ("should be committed with your source code").
 
 # Native
 .kotlin/

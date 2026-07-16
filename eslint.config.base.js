@@ -18,6 +18,21 @@ module.exports = ({ withImportPlugin = true } = {}) => {
         alphabetize: { order: "asc", caseInsensitive: true },
       },
     ],
+    // Design-system consumers must import from the package root, never an
+    // internal path — see docs/engineering/design-system.md "Imports from
+    // screens".
+    "no-restricted-imports": [
+      "error",
+      {
+        patterns: [
+          {
+            group: ["@city-hero/design-system/src/*", "@city-hero/design-system/src"],
+            message:
+              "Import from '@city-hero/design-system' (the package root), not an internal path.",
+          },
+        ],
+      },
+    ],
   };
 
   if (!withImportPlugin) {

@@ -27,11 +27,11 @@ This is also a competitive differentiator — most civic-report apps fail silent
 > use that protocol at all — it reuses the plain online REST endpoints plus an `Idempotency-Key`
 > header, i.e. WatermelonDB is used here only as a local reactive SQLite wrapper, not for its sync
 > engine. For a single-writer FIFO retry queue like this one, a lighter local store (`expo-sqlite`
-> directly, or even an AsyncStorage-backed FIFO list given the queue size is small) would avoid the
-> WatermelonDB schema/migration ceremony (`schema.ts`, `Model` subclasses, `Database`/adapter setup)
-> for no functional gain. This is flagged as an open design decision, not changed here — if the team
-> wants WatermelonDB's reactive queries and observability for the Sync Queue screen (18) badly
-> enough, keep it; otherwise revisit before implementation.
+> directly, or even an `expo-sqlite/kv-store`-backed FIFO list given the queue size is small) would
+> avoid the WatermelonDB schema/migration ceremony (`schema.ts`, `Model` subclasses,
+> `Database`/adapter setup) for no functional gain. This is flagged as an open design decision, not
+> changed here — if the team wants WatermelonDB's reactive queries and observability for the Sync
+> Queue screen (18) badly enough, keep it; otherwise revisit before implementation.
 
 ## User Story
 
