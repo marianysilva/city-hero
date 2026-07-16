@@ -6,14 +6,17 @@ Test pyramid, coverage targets, and conventions across CityHero.
 
 Test fast and broad at the bottom, slow and narrow at the top.
 
-| Layer       | Volume       | Speed        | Examples                                                        |
-| ----------- | ------------ | ------------ | --------------------------------------------------------------- |
-| Unit        | Most tests   | ms each      | pure functions, hooks, components, services                     |
-| Integration | Fewer        | tens of ms   | API + DB, multi-component flows                                 |
-| E2E         | Few          | seconds      | full user journeys (Detox, Playwright)                          |
-| Visual      | Per UI piece | per snapshot | Storybook + local screenshot testing (test-runner + Playwright) |
+| Layer       | Volume     | Speed      | Examples                                                                                                   |
+| ----------- | ---------- | ---------- | ---------------------------------------------------------------------------------------------------------- |
+| Unit        | Most tests | ms each    | pure functions, hooks, components, services                                                                |
+| Integration | Fewer      | tens of ms | API + DB, multi-component flows                                                                            |
+| E2E         | Few        | seconds    | full user journeys — Playwright (browser: web app + mobile's web build), Detox/Maestro (native-only flows) |
 
 Avoid an inverted pyramid (lots of E2E, few units) — it's slow and flaky.
+
+**Visual regression is not currently part of the pyramid.** It was evaluated and deliberately
+deferred — see the "Visual regression" section below for what it would look like and why it isn't
+built yet.
 
 ## Coverage targets
 
@@ -50,7 +53,18 @@ with bad assertions still has bugs.
 - The database in service-layer tests (use the test DB; mocks hide real query bugs).
 - Internal services in integration tests.
 
-## Frontend (TypeScript · Jest + RTL)
+## Frontend (TypeScript · Jest or Vitest + RTL)
+
+The runner is picked per package by what it actually renders through, not by preference — see
+`docs/tasks/00-foundation/02-design-tokens.md` for the reasoning this was worked out against:
+
+- **`apps/city-hero`**: Jest via `jest-expo`. This is the only test runner with real React Native
+  native-module mocking (camera, location, gestures, fonts/assets); there's no mature Vitest
+  equivalent for native RN.
+- **`packages/design_system`** and **`apps/web`**: Vitest. Both render through `react-native-web` or
+  plain web (never native RN), which is exactly what Vitest/jsdom supports — and both already share
+  Vite tooling (Storybook's builder for the former, Next.js's own current Vitest guide for the
+  latter).
 
 ### Conventions
 
@@ -59,7 +73,8 @@ with bad assertions still has bugs.
   unless there's no semantic alternative.
 - Test user-visible behavior, not implementation details. "User clicks X, sees Y" — not "state.foo
   === bar".
-- Mock external modules with `jest.mock`. Use **MSW** (Mock Service Worker) for HTTP.
+- Mock external modules with `jest.mock` (Jest) or `vi.mock` (Vitest). Use **MSW** (Mock Service
+  Worker) for HTTP, either runner.
 
 ### Component tests
 
@@ -74,35 +89,62 @@ Test what the user sees and does:
 
 `@testing-library/react-hooks` (or built-in `renderHook` from RTL v13+).
 
-## Mobile E2E (Detox)
+## E2E: what Playwright is actually for here
 
-Used sparingly for **happy paths only** — the most-used flows. Detox is slow and flaky compared to
-unit/integration; reserve for high-value scenarios:
+**Playwright is a browser-automation / end-to-end tool — clicking, filling forms, navigating,
+asserting on page state and network calls. It is not, in this project, a screenshot-diffing tool.**
+`expect(page).toHaveScreenshot()` exists and was tried for design-system component snapshots (see
+"Visual regression" below), but that's a narrow secondary feature, not what Playwright is for — the
+primary use across this codebase is real user-flow automation, on both consuming apps:
 
-- Onboarding flow
-- Report a pothole (Camera → Confirm → Heroes League)
-- Login + view My Reports
-- NPS feedback after resolution
+- **`apps/web`** (Next.js Operational Panel): the full app is a real browser target. Playwright
+  drives it directly — this is the standard case, already wired as `test:e2e`.
+- **`apps/city-hero`** (Expo/React Native): Playwright **cannot** drive a native iOS/Android
+  simulator — it only automates browsers. What it _can_ do is drive the app's web build
+  (`expo start --web` / `expo export -p web`, which renders through `react-native-web` to real DOM),
+  and it should — for every flow that's platform-agnostic (navigation, forms, most business logic,
+  state), the same Playwright suite runs against both `apps/web` and `apps/city-hero`'s web build,
+  maximizing coverage without native tooling.
+  - **What Playwright can't cover on mobile**: anything that needs a real native module or sensor —
+    the AI camera capture, GPS-based anti-fraud validation, haptics, native permission dialogs,
+    biometric unlock. These either don't exist on web, or behave too differently from the real
+    device to trust a web-mode test asserting on them.
+  - **Those go to Detox or Maestro instead** — real simulator/device automation. Maestro in
+    particular works directly against Expo Go with no native build step
+    (`openLink: exp://127.0.0.1:19000`), which is a lower-friction starting point than Detox for an
+    Expo-managed app; Detox remains the fallback if Maestro's coverage proves insufficient. Reserve
+    either for the small set of flows that genuinely need native behavior:
+    - Report a pothole (Camera → Confirm → Heroes League) — the camera/GPS-critical path
+    - Onboarding's location-permission step
+    - Anything else gated on a native permission or sensor
+- Used sparingly for **happy paths only**, on both platforms — E2E (of any kind) is slow and flaky
+  compared to unit/integration; it is not where edge cases get tested.
 
-Do NOT use E2E for edge cases — those go to unit/integration.
+## Visual regression
 
-## Web E2E (Playwright)
+**Evaluated for `packages/design_system` and deliberately not built.** The plan was a Playwright
+spec asserting `expect(page).toHaveScreenshot()` against each Storybook story's built
+`iframe.html?id=...` URL. Two things made it not worth it right now (see
+`docs/tasks/00-foundation/02-design-tokens.md` for the full reasoning):
 
-Same philosophy: happy paths and a small set of high-impact flows. The web admin is for managers;
-expect a small but critical user base.
+- Playwright's snapshot filenames are suffixed with `process.platform` — a baseline captured on a
+  contributor's Windows/macOS machine never matches CI's `ubuntu-latest`, so correct baselines can
+  only come from a dedicated CI job, not local development.
+- The design system currently has two atoms, and its own tokens are still "first-pass, not yet
+  validated against real screen designs" — baselines would need regenerating again almost
+  immediately, for low near-term protection.
 
-## Visual regression (Storybook + Playwright)
-
-Every component in `packages/design_system` has Storybook stories covering its key states. A
-Playwright Test spec navigates to each story's built Storybook `iframe.html?id=...` URL and asserts
-with `expect(page).toHaveScreenshot()` to catch unintended visual changes on PRs, without any
-external service.
+Vitest unit tests already cover "the right values reach the right components" (token snapshots,
+`ThemeProvider` rendering, cross-app consumption, Tailwind-preset/token parity); pixel-level
+rendering is the one gap that leaves open. Revisit once tokens are design-validated and there are
+enough shared components to justify the upkeep.
 
 ## Snapshot tests
 
-Use **sparingly** — they catch visual regressions but generate noisy diffs. Prefer the Storybook
-test-runner screenshots above for visual checks. Snapshot only for stable, structural artifacts
-(tokens, generated code).
+Use **sparingly** — they catch changes but generate noisy diffs if used for anything that changes
+often. Snapshot only stable, structural artifacts (tokens, generated code) — see
+`packages/design_system/src/tokens/tokens.test.ts` for the pattern. Not a substitute for pixel-level
+visual regression (see above); it snapshots plain JS/TS values, not rendered pixels.
 
 ## TDD
 
@@ -156,7 +198,10 @@ A flaky test is worse than no test — it teaches the team to ignore CI. When a 
 - Test pyramid: https://martinfowler.com/articles/practical-test-pyramid.html
 - pytest: https://docs.pytest.org/
 - React Testing Library: https://testing-library.com/docs/react-testing-library/intro/
+- Vitest: https://vitest.dev/
+- Playwright (E2E, not just visual comparisons — see "E2E: what Playwright is actually for here"):
+  https://playwright.dev/
 - Detox: https://wix.github.io/Detox/
-- Playwright: https://playwright.dev/
-- Storybook visual testing (test-runner + image snapshots):
-  https://storybook.js.org/docs/writing-tests/visual-testing
+- Maestro (Expo Go support, no native build needed): https://docs.maestro.dev/
+- Playwright visual comparisons (evaluated, not currently used — see "Visual regression" above):
+  https://playwright.dev/docs/test-snapshots
