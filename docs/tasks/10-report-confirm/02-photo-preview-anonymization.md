@@ -200,7 +200,9 @@ This task is **the** UX-visible LGPD signal. Specific guarantees:
 - **Unit**: status hook handles each state; badge variants render correctly.
 - **Integration**: in-progress → done transitions enable the CTA; failed state offers retry.
 - **A11y**: badge announces state changes; details sheet content is read in order.
-- **Visual regression**: each state captured.
+- **Visual regression**: deliberately not built — see `docs/engineering/testing-strategy.md` §
+  Visual regression and `docs/tasks/00-foundation/02-design-tokens.md` for the reasoning and revisit
+  criteria.
 
 ## Definition of Done
 

@@ -42,7 +42,7 @@ revoked and refreshed)\
 **Given** the user is not logged in (first install)\
 **When** they pick an active city\
 **Then** the choice is held in local state (volatile, in-memory) plus persistent storage
-(AsyncStorage)\
+(`expo-sqlite/kv-store`)\
 **And** the user proceeds to the next onboarding step\
 **And** when the user later signs up, the chosen city is included in the signup payload
 
