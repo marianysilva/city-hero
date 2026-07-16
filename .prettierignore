@@ -7,6 +7,11 @@ coverage
 package-lock.json
 *.svg
 
+# Build/test-run output — never committed, not project-authored
+storybook-static
+test-results
+playwright-report
+
 # Python virtualenvs (not project-authored, vendored third-party packages)
 .venv/
 
