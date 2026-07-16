@@ -8,5 +8,5 @@ pydantic-settings>=2.14.2
 pydantic[email]>=2.13.4
 bcrypt>=5.0.0
 pyjwt[crypto]>=2.13.0
+strawberry-graphql[fastapi]>=0.321.0
 alembic>=1.18.5
-strawberry-graphql[fastapi]>=0.320.3
