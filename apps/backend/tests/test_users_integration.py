@@ -214,6 +214,16 @@ async def test_create_user_weak_password_returns_422(client: AsyncClient, admin_
     assert resp.status_code == 422
 
 
+async def test_create_user_weak_password_not_leaked_in_error(client: AsyncClient, admin_user):
+    resp = await client.post(
+        "/users",
+        json={**_NEW_CITIZEN, "password": "alllower"},
+        headers=_auth(admin_user),
+    )
+    assert "alllower" not in resp.text
+    assert '"input"' not in resp.text
+
+
 async def test_create_user_invalid_role_returns_422(client: AsyncClient, admin_user):
     resp = await client.post(
         "/users",
@@ -465,6 +475,18 @@ async def test_reset_password_weak_password_returns_422(client: AsyncClient, adm
         headers=_auth(admin_user),
     )
     assert resp.status_code == 422
+
+
+async def test_reset_password_weak_password_not_leaked_in_error(
+    client: AsyncClient, admin_user, target_citizen
+):
+    resp = await client.post(
+        f"/users/{target_citizen.id}/reset-password",
+        json={"new_password": "weak"},
+        headers=_auth(admin_user),
+    )
+    assert "weak" not in resp.text
+    assert '"input"' not in resp.text
 
 
 # ── GET /users/me ─────────────────────────────────────────────────────────────

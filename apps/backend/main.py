@@ -1,7 +1,10 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIASGIMiddleware
@@ -40,6 +43,19 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
     allow_headers=["Content-Type", "Authorization"],
 )
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    # FastAPI's default handler echoes the raw rejected value back in every
+    # error's `input` field — for password fields (register, admin
+    # user-create, reset-password) that means a 422 response leaks the
+    # plaintext password the client just submitted. Strip it from every
+    # error, not just password ones: no endpoint should echo submitted
+    # values back to the client.
+    errors = [{k: v for k, v in error.items() if k != "input"} for error in exc.errors()]
+    return JSONResponse(status_code=422, content=jsonable_encoder({"detail": errors}))
+
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(users.router, prefix="/users", tags=["users"])
