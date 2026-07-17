@@ -29,16 +29,15 @@
 > `06-auth-system.md` ships is then a one-line config change in each app's client factory, not new
 > client code.\
 > \
-> **Consumption**: `apps/web`'s `GET /api/users/me` BFF route handler now calls this package
-> server-side (the actual FastAPI-calling boundary in this app's architecture), and `useCurrentUser`
-> runs on TanStack Query — that's the "used by a screen end-to-end" smoke test, exercised on every
-> dashboard page load. The other 6 `apps/web` BFF routes (`login`, `users` list/create, `users/:id`,
-> `reset-password`, `restore`) still use the old ad-hoc `lib/api-proxy.ts` helper — migrating them
-> is a natural follow-up, not required for this smoke test. The dead, already-unused
-> `app/lib/api.ts` (one of the three ad-hoc clients this task replaces) was deleted.
-> `apps/city-hero` has `QueryClientProvider` + a client factory wired into its root layout, but no
-> mobile screen calls it yet — `06-auth-system.md` hasn't shipped a token to read, exactly as this
-> task doc anticipated.\
+> **Consumption**: all 7 `apps/web` BFF routes (`users/me`, `login`, `users` list/create,
+> `users/:id`, `reset-password`, `restore`) now call this package server-side (the actual
+> FastAPI-calling boundary in this app's architecture), and `useCurrentUser` runs on TanStack Query
+> — that's the "used by a screen end-to-end" smoke test, exercised on every dashboard page load. The
+> old ad-hoc `lib/api-proxy.ts` helper has been removed now that nothing imports it. The dead,
+> already-unused `app/lib/api.ts` (one of the three ad-hoc clients this task replaces) was also
+> deleted. `apps/city-hero` has `QueryClientProvider` + a client factory wired into its root layout,
+> but no mobile screen calls it yet — `06-auth-system.md` hasn't shipped a token to read, exactly as
+> this task doc anticipated.\
 > \
 > **A real discrepancy from this task's original framing**: the Acceptance Criteria assume web talks
 > to FastAPI directly via this client with Bearer-header injection. In reality `apps/web` is a BFF —
