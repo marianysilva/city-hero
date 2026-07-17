@@ -664,7 +664,7 @@ Create `apps/web/app/api/users/route.test.ts`:
 // @vitest-environment node
 import { HttpResponse, http } from "msw";
 import { NextRequest } from "next/server";
-import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { server } from "../__test-utils__/server";
 import { GET, POST } from "./route";
@@ -675,10 +675,8 @@ vi.mock("next/headers", () => ({ cookies: mockCookies }));
 const BACKEND_URL = "http://localhost:8000";
 
 beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
-afterEach(() => {
-  server.resetHandlers();
-  mockCookies.mockResolvedValue({ get: () => ({ value: "valid-token" }) });
-});
+beforeEach(() => mockCookies.mockResolvedValue({ get: () => ({ value: "valid-token" }) }));
+afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 function listRequest(query: string) {
@@ -898,7 +896,7 @@ Create `apps/web/app/api/users/[id]/route.test.ts`:
 // @vitest-environment node
 import { HttpResponse, http } from "msw";
 import { NextRequest } from "next/server";
-import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { server } from "../../__test-utils__/server";
 import { DELETE, GET, PATCH } from "./route";
@@ -909,10 +907,8 @@ vi.mock("next/headers", () => ({ cookies: mockCookies }));
 const BACKEND_URL = "http://localhost:8000";
 
 beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
-afterEach(() => {
-  server.resetHandlers();
-  mockCookies.mockResolvedValue({ get: () => ({ value: "valid-token" }) });
-});
+beforeEach(() => mockCookies.mockResolvedValue({ get: () => ({ value: "valid-token" }) }));
+afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 function paramsFor(id: string) {
@@ -1147,7 +1143,7 @@ Create `apps/web/app/api/users/[id]/reset-password/route.test.ts`:
 // @vitest-environment node
 import { HttpResponse, http } from "msw";
 import { NextRequest } from "next/server";
-import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { server } from "../../../__test-utils__/server";
 import { POST } from "./route";
@@ -1158,10 +1154,8 @@ vi.mock("next/headers", () => ({ cookies: mockCookies }));
 const BACKEND_URL = "http://localhost:8000";
 
 beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
-afterEach(() => {
-  server.resetHandlers();
-  mockCookies.mockResolvedValue({ get: () => ({ value: "valid-token" }) });
-});
+beforeEach(() => mockCookies.mockResolvedValue({ get: () => ({ value: "valid-token" }) }));
+afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 function paramsFor(id: string) {
@@ -1296,7 +1290,7 @@ Create `apps/web/app/api/users/[id]/restore/route.test.ts`:
 // @vitest-environment node
 import { HttpResponse, http } from "msw";
 import { NextRequest } from "next/server";
-import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { server } from "../../../__test-utils__/server";
 import { POST } from "./route";
@@ -1307,10 +1301,8 @@ vi.mock("next/headers", () => ({ cookies: mockCookies }));
 const BACKEND_URL = "http://localhost:8000";
 
 beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
-afterEach(() => {
-  server.resetHandlers();
-  mockCookies.mockResolvedValue({ get: () => ({ value: "valid-token" }) });
-});
+beforeEach(() => mockCookies.mockResolvedValue({ get: () => ({ value: "valid-token" }) }));
+afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 function paramsFor(id: string) {
