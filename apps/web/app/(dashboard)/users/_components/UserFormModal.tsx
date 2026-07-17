@@ -53,7 +53,7 @@ export function UserFormModal({
     setLoading(true);
     try {
       if (isEdit && editUser) {
-        const payload: Record<string, unknown> = { name, is_active: isActive };
+        const payload: Record<string, unknown> = { name, isActive };
         if (canChangeRole) payload.role = role;
         await apiFetch(`/api/users/${editUser.id}`, {
           method: "PATCH",

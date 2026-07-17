@@ -35,7 +35,7 @@ export function ResetPasswordModal({ user, onClose, onSaved }: ResetPasswordModa
       await apiFetch<void>(`/api/users/${user.id}/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ new_password: password }),
+        body: JSON.stringify({ newPassword: password }),
       });
       onSaved();
     } catch (err) {
