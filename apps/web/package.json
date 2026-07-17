@@ -15,8 +15,10 @@
   "dependencies": {
     "@apollo/client": "^4.2.3",
     "@apollo/client-integration-nextjs": "^0.14.5",
+    "@city-hero/api-client": "*",
     "@city-hero/design-system": "*",
     "@heroicons/react": "^2.2.0",
+    "@tanstack/react-query": "^5.90.3",
     "graphql": "^16.14.2",
     "next": "16.2.9",
     "react": "19.2.4",

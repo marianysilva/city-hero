@@ -4,6 +4,8 @@ import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
+
+import { ReactQueryProvider } from "../lib/ReactQueryProvider";
 import "../global.css";
 
 export {
@@ -44,9 +46,11 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <DesignSystemThemeProvider>
-      <NavigationThemeBridge />
-    </DesignSystemThemeProvider>
+    <ReactQueryProvider>
+      <DesignSystemThemeProvider>
+        <NavigationThemeBridge />
+      </DesignSystemThemeProvider>
+    </ReactQueryProvider>
   );
 }
 

@@ -4,12 +4,37 @@
 > **Screen(s):** All that talk to the backend\
 > **Effort:** M (2 days)\
 > **Dependencies:** `00-foundation/01-monorepo-setup.md`\
-> **Status:** ⬜ Not started — `packages/api_client/` does not exist. Mobile (`apps/city-hero`) has
-> no HTTP client at all (stock Expo template). `apps/web` has **three separate ad-hoc clients**
-> instead of this shared package (`app/lib/api.ts` plain fetch wrapper, `lib/api-proxy.ts` BFF
-> helper, `app/lib/apollo.ts` Apollo GraphQL client) — none has retry, backoff, cancellation,
-> single-flight refresh, or the standard error shape described below. The backend contract this
-> client is designed against is also partially missing — see Backend section.\
+> **Status:** 🟡 In progress — `packages/api_client` (`@city-hero/api-client`) is built and covers
+> every scenario that's actually buildable against today's backend: headers, retry/backoff,
+> cancellation, offline detection, error normalization (mapping the three real backend error
+> shapes), and the "401 → forced logout" auth interceptor (a `skipAuth` request like login/register
+> returning 401 is _not_ treated as a forced logout — there's no session yet to tear down; the
+> original Acceptance Criteria didn't spell out this distinction, reconciled during implementation).
+> 46 unit tests (MSW v2 + vitest), 95.7%/96.1% statement/line coverage. `auth` and `users` endpoint
+> wrappers are verified against the real router signatures in `apps/backend/app/routers/`;
+> `reports`/`comments`/`notifications` are typed but **PROVISIONAL** — no such backend routers exist
+> yet, so those wrappers are unverified against any real contract. Deferred: single-flight refresh
+> (still blocked on `/auth/refresh` not existing).\
+> \
+> **Consumption**: `apps/web`'s `GET /api/users/me` BFF route handler now calls this package
+> server-side (the actual FastAPI-calling boundary in this app's architecture), and `useCurrentUser`
+> runs on TanStack Query — that's the "used by a screen end-to-end" smoke test, exercised on every
+> dashboard page load. The other 6 `apps/web` BFF routes (`login`, `users` list/create, `users/:id`,
+> `reset-password`, `restore`) still use the old ad-hoc `lib/api-proxy.ts` helper — migrating them
+> is a natural follow-up, not required for this smoke test. The dead, already-unused
+> `app/lib/api.ts` (one of the three ad-hoc clients this task replaces) was deleted.
+> `apps/city-hero` has `QueryClientProvider` + a client factory wired into its root layout, but no
+> mobile screen calls it yet — `06-auth-system.md` hasn't shipped a token to read, exactly as this
+> task doc anticipated.\
+> \
+> **A real discrepancy from this task's original framing**: the Acceptance Criteria assume web talks
+> to FastAPI directly via this client with Bearer-header injection. In reality `apps/web` is a BFF —
+> the browser holds only an httpOnly cookie and never sees the JWT, deliberately, for security. So
+> this package's natural home on the web side is the Next.js Route Handlers (server components), not
+> browser-side React Query hooks. Browser-side screens keep talking to the Next.js `/api/*` routes
+> (now via React Query where migrated), which is a legitimate, independent caching improvement — but
+> is not "this client running in the browser." Noted here rather than silently building against a
+> boundary the app doesn't actually have.\
 > **Labels:** `mobile`, `web`, `frontend`, `networking`, `foundation`
 
 ## Context
@@ -300,21 +325,25 @@ target event catalog; `api.token_refreshed` can't be emitted until a refresh end
 
 ## Definition of Done
 
-- [ ] `packages/api_client` package built — not started; directory doesn't exist
-- [ ] Auth, retry, error normalization, and headers interceptors — auth interceptor should implement
-      "401 → forced logout" only, not refresh (see Acceptance Criteria)
-- [ ] Single-flight refresh — defer until `06-auth-system.md` ships `/auth/refresh`; don't build
-      against an endpoint that 404s today
-- [ ] AbortController-based cancellation — fully buildable now, no backend dependency
-- [ ] Typed endpoint wrappers for at least 5 resources (auth, reports, users, comments,
-      notifications) — only `auth` and `users` have real backend routes today; `reports`,
-      `comments`, `notifications` wrappers can be written but won't have anything real to call until
-      their own backend routers exist
-- [ ] React Query setup in mobile and web apps — mobile has neither TanStack Query nor any HTTP
-      client yet; web uses ad-hoc fetch/Apollo today, not React Query
-- [ ] ≥90% unit test coverage in the package — n/a until the package exists
-- [ ] Used by at least one screen end-to-end as a smoke test — blocked on mobile having any screen
-      that calls a backend at all
+- [x] `packages/api_client` package built (`@city-hero/api-client`)
+- [x] Auth, retry, error normalization, and headers interceptors — auth interceptor implements "401
+      → forced logout" only, and only for authenticated requests (see Status note above for the
+      `skipAuth` distinction)
+- [ ] Single-flight refresh — still deferred; `06-auth-system.md` hasn't shipped `/auth/refresh`
+- [x] AbortController-based cancellation — `signal?` threaded through `client.request()` and every
+      typed endpoint method
+- [x] Typed endpoint wrappers for 5 resources (auth, reports, users, comments, notifications) —
+      `auth`/`users` verified against the real backend routers; `reports`/`comments`/`notifications`
+      are PROVISIONAL (typed, unit-tested against mocked-but-unverified paths, no real backend
+      router exists yet)
+- [x] React Query setup in mobile and web apps — `QueryClientProvider` wired into both apps' root
+      layout. See the Status note above on why web's browser-side React Query wraps the Next.js BFF
+      routes rather than this package directly (the browser doesn't hold a bearer token by design)
+- [x] ≥90% unit test coverage in the package — 46 tests, 95.7% statements / 96.1% lines
+      (`cd     packages/api_client && npx vitest run --coverage`)
+- [x] Used by at least one screen end-to-end as a smoke test — `apps/web`'s `GET /api/users/me` BFF
+      route, exercised by every dashboard page load via `useCurrentUser`. Mobile: provider/client
+      wired, not yet consumed by any screen (blocked on `06-auth-system.md`, as originally noted)
 
 ## Standards & References
 

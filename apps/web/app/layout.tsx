@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { ApolloWrapper } from "./ApolloWrapper";
+import { ReactQueryProvider } from "./ReactQueryProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -29,7 +30,9 @@ export default function RootLayout({
     <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <ThemeProvider>
-          <ApolloWrapper>{children}</ApolloWrapper>
+          <ReactQueryProvider>
+            <ApolloWrapper>{children}</ApolloWrapper>
+          </ReactQueryProvider>
         </ThemeProvider>
       </body>
     </html>

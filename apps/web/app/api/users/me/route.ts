@@ -1,7 +1,8 @@
+import { ApiClientError } from "@city-hero/api-client";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { BACKEND_URL, backendFetch } from "@/lib/api-proxy";
+import { createServerApiClient } from "@/lib/api-client";
 
 export async function GET() {
   const store = await cookies();
@@ -11,15 +12,13 @@ export async function GET() {
     return NextResponse.json({ detail: "Unauthorized" }, { status: 401 });
   }
 
-  const res = await backendFetch(`${BACKEND_URL}/users/me`, {
-    headers: { Authorization: `Bearer ${token}` },
-    cache: "no-store",
-  });
-  if (!res) return NextResponse.json({ error: "Backend unavailable" }, { status: 503 });
-
-  const data = await res.text();
-  return new NextResponse(data, {
-    status: res.status,
-    headers: { "Content-Type": "application/json" },
-  });
+  try {
+    const me = await createServerApiClient().users.me();
+    return NextResponse.json(me);
+  } catch (error) {
+    if (error instanceof ApiClientError && error.status > 0) {
+      return NextResponse.json({ detail: error.message }, { status: error.status });
+    }
+    return NextResponse.json({ error: "Backend unavailable" }, { status: 503 });
+  }
 }
