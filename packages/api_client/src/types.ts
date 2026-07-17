@@ -5,7 +5,7 @@ export type Platform = "ios" | "android" | "web" | "server";
 export interface RequestOptions {
   method?: HttpMethod;
   body?: unknown;
-  query?: Record<string, string | number | boolean | undefined>;
+  query?: Record<string, string | number | boolean | undefined | (string | number | boolean)[]>;
   signal?: AbortSignal;
   /** Skip Authorization header injection (register/login calls). */
   skipAuth?: boolean;

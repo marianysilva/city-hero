@@ -217,3 +217,23 @@ describe("createApiClient — cancellation", () => {
     await expect(promise).rejects.toMatchObject({ name: "AbortError" });
   });
 });
+
+describe("createApiClient — query serialization", () => {
+  it("appends one query entry per array value instead of overwriting", async () => {
+    const fetchImpl = vi
+      .fn()
+      .mockResolvedValue(new Response(JSON.stringify({ ok: true }), { status: 200 }));
+    const client = createApiClient({
+      baseUrl: BASE_URL,
+      getToken: vi.fn().mockResolvedValue(null),
+      onAuthFailure: vi.fn(),
+      fetchImpl,
+    });
+
+    await client.request("/users", { query: { sort: ["name:asc", "email:desc"], page: 1 } });
+
+    const calledUrl = new URL(fetchImpl.mock.calls[0][0] as string);
+    expect(calledUrl.searchParams.getAll("sort")).toEqual(["name:asc", "email:desc"]);
+    expect(calledUrl.searchParams.get("page")).toBe("1");
+  });
+});
