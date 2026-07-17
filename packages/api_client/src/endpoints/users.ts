@@ -58,6 +58,7 @@ export interface ListUsersParams {
   pageSize?: number;
   q?: string;
   status?: "active" | "inactive" | "deleted";
+  sort?: string[];
 }
 
 export interface UsersEndpoints {
@@ -84,6 +85,7 @@ export function createUsersEndpoints(client: ApiClient): UsersEndpoints {
           page_size: params.pageSize,
           q: params.q,
           status: params.status,
+          sort: params.sort,
         },
         signal,
       }),

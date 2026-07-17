@@ -35,6 +35,18 @@ describe("users endpoints", () => {
     expect(res.page).toBe(2);
   });
 
+  it("lists users with repeated sort query params", async () => {
+    server.use(
+      http.get(`${BASE_URL}/users`, ({ request }) => {
+        const url = new URL(request.url);
+        expect(url.searchParams.getAll("sort")).toEqual(["name:asc", "email:desc"]);
+        return HttpResponse.json({ users: [], total: 0, page: 1, pageSize: 20 });
+      }),
+    );
+
+    await makeClient().users.list({ sort: ["name:asc", "email:desc"] });
+  });
+
   it("creates a user via POST /users", async () => {
     server.use(
       http.post(`${BASE_URL}/users`, async ({ request }) => {
