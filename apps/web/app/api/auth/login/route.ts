@@ -1,6 +1,7 @@
+import { ApiClientError } from "@city-hero/api-client";
 import { NextRequest, NextResponse } from "next/server";
 
-import { BACKEND_URL } from "@/lib/api-proxy";
+import { createServerApiClient } from "@/lib/api-client";
 
 export async function POST(request: NextRequest) {
   let email: unknown, password: unknown;
@@ -12,43 +13,30 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
 
-  const clientIp = request.headers.get("x-forwarded-for") ?? request.headers.get("x-real-ip") ?? "";
-
-  let res: Response;
   try {
-    res = await fetch(`${BACKEND_URL}/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Forwarded-For": clientIp,
-      },
-      body: JSON.stringify({ email, password }),
+    const result = await createServerApiClient().auth.login({
+      email: email as string,
+      password: password as string,
     });
-  } catch {
+
+    if (typeof result.accessToken !== "string") {
+      return NextResponse.json({ error: "Invalid auth response from backend" }, { status: 502 });
+    }
+
+    const response = NextResponse.json({ user: result.user });
+    response.cookies.set("access_token", result.accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60,
+      path: "/",
+    });
+    return response;
+  } catch (error) {
+    if (error instanceof ApiClientError && error.status > 0) {
+      const message = error.code === "validation_error" ? error.details : error.message;
+      return NextResponse.json({ error: message }, { status: error.status });
+    }
     return NextResponse.json({ error: "Backend unavailable" }, { status: 503 });
   }
-
-  const data = (await res.json()) as { accessToken?: string; user?: unknown };
-
-  if (!res.ok) {
-    return NextResponse.json(
-      { error: (data as { detail?: string }).detail ?? "Login failed" },
-      { status: res.status },
-    );
-  }
-
-  if (typeof data.accessToken !== "string") {
-    return NextResponse.json({ error: "Invalid auth response from backend" }, { status: 502 });
-  }
-
-  const response = NextResponse.json({ user: data.user });
-  response.cookies.set("access_token", data.accessToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    maxAge: 60 * 60,
-    path: "/",
-  });
-
-  return response;
 }
