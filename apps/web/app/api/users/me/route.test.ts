@@ -84,4 +84,24 @@ describe("GET /api/users/me", () => {
     const data = await response.json();
     expect(data.error).toBe("Backend unavailable");
   });
+
+  it("returns the validation array as detail on a 422, not the generic message", async () => {
+    mockToken("valid-token");
+    server.use(
+      http.get(`${BACKEND_URL}/users/me`, () =>
+        HttpResponse.json(
+          { detail: [{ loc: ["body", "email"], msg: "field required", type: "missing" }] },
+          { status: 422 },
+        ),
+      ),
+    );
+
+    const response = await GET();
+
+    expect(response.status).toBe(422);
+    const data = await response.json();
+    expect(data.detail).toEqual([
+      { loc: ["body", "email"], msg: "field required", type: "missing" },
+    ]);
+  });
 });
