@@ -9,7 +9,7 @@ import type { ReportsEndpoints } from "./endpoints/reports";
 import { createUsersEndpoints } from "./endpoints/users";
 import type { UsersEndpoints } from "./endpoints/users";
 import { networkError, offlineError } from "./errors";
-import { handleUnauthorized } from "./interceptors/auth";
+import { createRefreshCoordinator, handleUnauthorized } from "./interceptors/auth";
 import { errorNormalize } from "./interceptors/errorNormalize";
 import { buildHeaders } from "./interceptors/headers";
 import { fetchWithRetry } from "./interceptors/retry";
@@ -52,8 +52,13 @@ function buildUrl(baseUrl: string, path: string, query?: RequestOptions["query"]
 export function createApiClient(config: ApiClientConfig): FullApiClient {
   const fetchImpl = config.fetchImpl ?? fetch;
   const isOnline = config.isOnline ?? defaultIsOnline;
+  const refreshOnce = createRefreshCoordinator(config);
 
-  async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
+  async function request<T>(
+    path: string,
+    options: RequestOptions = {},
+    isRetryAfterRefresh = false,
+  ): Promise<T> {
     const method: HttpMethod = options.method ?? "GET";
 
     if (!(await isOnline())) {
@@ -82,6 +87,14 @@ export function createApiClient(config: ApiClientConfig): FullApiClient {
     // credentials" — there's no session to force-logout yet. Only an
     // authenticated request's 401 means "this token is no longer valid."
     if (response.status === 401 && !options.skipAuth) {
+      // Try a refresh-and-retry-once before giving up — refreshOnce()
+      // resolves null immediately when no refreshAccessToken is configured
+      // (today, in both real apps), so this is a no-op fallthrough to
+      // handleUnauthorized in that case, same as before this existed.
+      if (!isRetryAfterRefresh) {
+        const newToken = await refreshOnce();
+        if (newToken) return request<T>(path, options, true);
+      }
       throw await handleUnauthorized(config, response);
     }
 

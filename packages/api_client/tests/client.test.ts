@@ -52,7 +52,7 @@ describe("createApiClient — 401 handling", () => {
     expect(onAuthFailure).toHaveBeenCalledTimes(1);
   });
 
-  it("dispatches its own logout independently for two parallel 401s (no single-flight refresh yet)", async () => {
+  it("dispatches its own logout independently for two parallel 401s when no refreshAccessToken is configured", async () => {
     server.use(
       http.get(`${BASE_URL}/users/me`, () =>
         HttpResponse.json({ detail: "Could not validate credentials" }, { status: 401 }),
@@ -65,6 +65,104 @@ describe("createApiClient — 401 handling", () => {
 
     expect(results.every((r) => r.status === "rejected")).toBe(true);
     expect(onAuthFailure).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe("createApiClient — single-flight refresh", () => {
+  function makeClientWithRefresh() {
+    let currentToken = "expired-token";
+    const refreshAccessToken = vi.fn().mockImplementation(async () => {
+      currentToken = "fresh-token";
+      return { accessToken: currentToken };
+    });
+    const onAuthFailure = vi.fn();
+    const client = createApiClient({
+      baseUrl: BASE_URL,
+      getToken: () => currentToken,
+      onAuthFailure,
+      refreshAccessToken,
+    });
+    return { client, refreshAccessToken, onAuthFailure };
+  }
+
+  function mockMeRespondingByToken() {
+    server.use(
+      http.get(`${BASE_URL}/users/me`, ({ request }) => {
+        const auth = request.headers.get("Authorization");
+        if (auth === "Bearer fresh-token") {
+          return HttpResponse.json({
+            id: "u1",
+            email: "citizen@example.com",
+            name: "Citizen One",
+            role: "citizen",
+            authProvider: "password",
+            isActive: true,
+            avatarUrl: null,
+            createdAt: "2026-01-01T00:00:00Z",
+            deletedAt: null,
+            roleInfo: { name: "citizen", rank: 0, isSuperuser: false },
+            capabilities: { permissions: [], assignableRoles: [], manageableRoles: [] },
+          });
+        }
+        return HttpResponse.json({ detail: "Could not validate credentials" }, { status: 401 });
+      }),
+    );
+  }
+
+  it("refreshes once and retries the original request with the new token", async () => {
+    mockMeRespondingByToken();
+    const { client, refreshAccessToken, onAuthFailure } = makeClientWithRefresh();
+
+    const me = await client.users.me();
+
+    expect(me.email).toBe("citizen@example.com");
+    expect(refreshAccessToken).toHaveBeenCalledTimes(1);
+    expect(onAuthFailure).not.toHaveBeenCalled();
+  });
+
+  it("shares one in-flight refresh across two parallel 401s, retrying both", async () => {
+    mockMeRespondingByToken();
+    const { client, refreshAccessToken, onAuthFailure } = makeClientWithRefresh();
+
+    const [a, b] = await Promise.all([client.users.me(), client.users.me()]);
+
+    expect(a.email).toBe("citizen@example.com");
+    expect(b.email).toBe("citizen@example.com");
+    expect(refreshAccessToken).toHaveBeenCalledTimes(1);
+    expect(onAuthFailure).not.toHaveBeenCalled();
+  });
+
+  it("falls back to forced logout when refreshAccessToken fails", async () => {
+    server.use(
+      http.get(`${BASE_URL}/users/me`, () =>
+        HttpResponse.json({ detail: "Could not validate credentials" }, { status: 401 }),
+      ),
+    );
+    const onAuthFailure = vi.fn();
+    const refreshAccessToken = vi.fn().mockRejectedValue(new Error("refresh endpoint down"));
+    const client = createApiClient({
+      baseUrl: BASE_URL,
+      getToken: () => "expired-token",
+      onAuthFailure,
+      refreshAccessToken,
+    });
+
+    await expect(client.users.me()).rejects.toMatchObject({ code: "unauthorized" });
+    expect(refreshAccessToken).toHaveBeenCalledTimes(1);
+    expect(onAuthFailure).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not attempt a second refresh if the retried request is also 401", async () => {
+    server.use(
+      http.get(`${BASE_URL}/users/me`, () =>
+        HttpResponse.json({ detail: "Could not validate credentials" }, { status: 401 }),
+      ),
+    );
+    const { client, refreshAccessToken, onAuthFailure } = makeClientWithRefresh();
+
+    await expect(client.users.me()).rejects.toMatchObject({ code: "unauthorized" });
+    expect(refreshAccessToken).toHaveBeenCalledTimes(1);
+    expect(onAuthFailure).toHaveBeenCalledTimes(1);
   });
 });
 
