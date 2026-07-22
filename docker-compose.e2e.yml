@@ -55,7 +55,9 @@ services:
       DATABASE_URL: postgresql+asyncpg://cityhero:cityhero_e2e@db-e2e:5432/cityhero_e2e
       SECRET_KEY: e2e-only-secret-key-do-not-use-in-production-0000
       ACCESS_TOKEN_EXPIRE_MINUTES: "60"
-      ALLOWED_ORIGINS: http://localhost:3100
+      # Kept in sync with scripts/test-e2e.sh's E2E_WEB_URL so an overridden
+      # web port doesn't get silently CORS-rejected.
+      ALLOWED_ORIGINS: ${E2E_WEB_URL:-http://localhost:3100}
       APP_ADMIN: admin@cityhero.com
       APP_ADMIN_PASSWORD: e2e-admin-pass-123
       APP_USERS_PASSWORD: e2e-users-pass-123

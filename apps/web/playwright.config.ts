@@ -18,14 +18,16 @@ if (!process.env.TEST_ADMIN_PASSWORD && process.env.APP_ADMIN_PASSWORD) {
 }
 
 // scripts/test-e2e.sh sets these to run this suite's own apps/web dev server
-// on its own port, pointed at the isolated e2e backend — never the
+// on its own origin, pointed at the isolated e2e backend — never the
 // developer's own :3000/BACKEND_URL from .env.local (see
 // docs/tasks/00-foundation/21-e2e-test-database.md). Falls back to the
 // original :3000/:8000 pair for anyone invoking `playwright test` directly
-// against an already-running dev stack.
-const IS_ISOLATED_RUN = !!process.env.E2E_WEB_PORT;
-const WEB_PORT = process.env.E2E_WEB_PORT ?? "3000";
-const BASE_URL = `http://localhost:${WEB_PORT}`;
+// against an already-running dev stack. E2E_WEB_URL is the single source of
+// truth for the isolated origin — the numeric port `next dev`'s PORT env var
+// needs is parsed back out of it rather than tracked as a second variable.
+const IS_ISOLATED_RUN = !!process.env.E2E_WEB_URL;
+const BASE_URL = process.env.E2E_WEB_URL ?? "http://localhost:3000";
+const WEB_PORT = new URL(BASE_URL).port || "3000";
 const BACKEND_URL = process.env.E2E_BACKEND_URL ?? "http://localhost:8000";
 
 export default defineConfig({
@@ -43,7 +45,12 @@ export default defineConfig({
   webServer: {
     command: "npm run dev",
     url: BASE_URL,
-    reuseExistingServer: !process.env.CI,
+    // Isolated runs never reuse an existing process on this port: a leftover
+    // server from a hard-killed prior run would still be wired to that run's
+    // (now-torn-down) backend-e2e container, and silently reusing it would
+    // surface as confusing connection failures instead of a clear port
+    // conflict. Non-isolated (:3000) runs keep the original reuse behavior.
+    reuseExistingServer: IS_ISOLATED_RUN ? false : !process.env.CI,
     timeout: 120000,
     env: {
       PORT: WEB_PORT,

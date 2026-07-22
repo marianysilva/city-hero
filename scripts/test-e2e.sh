@@ -30,7 +30,11 @@ CYAN='\033[36m'
 RED='\033[31m'
 
 E2E_COMPOSE=(docker-compose -f docker-compose.e2e.yml)
-E2E_WEB_PORT="${E2E_WEB_PORT:-3100}"
+# Single source of truth for the isolated web server's origin — exported so
+# docker-compose.e2e.yml's ALLOWED_ORIGINS substitution sees the same value
+# playwright.config.ts targets, whether or not the caller overrides the
+# default.
+export E2E_WEB_URL="${E2E_WEB_URL:-http://localhost:3100}"
 E2E_BACKEND_URL="http://localhost:8001"
 # Must match docker-compose.e2e.yml's migrate-e2e/backend-e2e seed vars.
 E2E_ADMIN_EMAIL="admin@cityhero.com"
@@ -71,10 +75,10 @@ echo -e "${CYAN}${BOLD}==> Starting isolated e2e stack (db-e2e, migrate-e2e, bac
 "${E2E_COMPOSE[@]}" up -d --build backend-e2e
 wait_for_url "${E2E_BACKEND_URL}/docs" "e2e backend" 60
 
-echo -e "${CYAN}${BOLD}==> Running Playwright against http://localhost:${E2E_WEB_PORT} (backend: ${E2E_BACKEND_URL})${RESET}"
+echo -e "${CYAN}${BOLD}==> Running Playwright against ${E2E_WEB_URL} (backend: ${E2E_BACKEND_URL})${RESET}"
 (
   cd "$ROOT/apps/web"
-  E2E_WEB_PORT="$E2E_WEB_PORT" \
+  E2E_WEB_URL="$E2E_WEB_URL" \
   E2E_BACKEND_URL="$E2E_BACKEND_URL" \
   TEST_ADMIN_EMAIL="$E2E_ADMIN_EMAIL" \
   TEST_ADMIN_PASSWORD="$E2E_ADMIN_PASSWORD" \
