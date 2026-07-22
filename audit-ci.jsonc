@@ -1,0 +1,29 @@
+{
+  "$schema": "https://github.com/IBM/audit-ci/raw/main/docs/schema.json",
+  // Same threshold the old `npm audit --audit-level=high` used — fail on
+  // high/critical, ignore moderate/low noise (tune here if that changes).
+  // Note: a moderate-severity postcss finding (GHSA-qx2v-qp2m-jg93, inside
+  // next@16.2.9's own vendored deps) was investigated 2026-07-22 and judged
+  // low-risk — build-time only, never processes user-supplied CSS — but
+  // isn't allowlisted here since it's moderate, not high, so this "high"
+  // threshold doesn't gate on it in the first place (audit-ci flags
+  // allowlisting anything the threshold wouldn't otherwise catch).
+  "high": true,
+  "allowlist": [
+    {
+      // sharp <0.35.0 — inherited libvips CVEs (CVE-2026-33327, -33328,
+      // -35590, -35591). Optional dependency of next@16.2.9's built-in
+      // next/image optimizer. Confirmed 2026-07-22: apps/web has zero
+      // `next/image` imports, so sharp is installed but never invoked —
+      // no live attack surface today. No fix available; the only upgrade
+      // path npm offers is downgrading next to 9.3.3 (7 major versions
+      // back), which is not viable. Re-check whenever next/image usage is
+      // added, or when Vercel ships a next.js release with a patched sharp.
+      "GHSA-f88m-g3jw-g9cj": {
+        "active": true,
+        "notes": "Unused (no next/image usage in apps/web) — no fix available upstream from next@16.2.9",
+        "expiry": "22 October 2026"
+      }
+    }
+  ]
+}

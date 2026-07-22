@@ -33,8 +33,12 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      # Fail only on high/critical advisories to keep noise manageable; tune as needed.
-      - run: npm audit --audit-level=high
+      # Same high/critical-only threshold as before (see audit-ci.jsonc),
+      # plus a dated, reasoned allowlist for advisories confirmed
+      # unexploitable in this app but with no upstream fix yet (both are
+      # inside next@16.2.9's own vendored/optional deps). Fails on any
+      # advisory not explicitly allowlisted, same as plain `npm audit` did.
+      - run: npx audit-ci --config ./audit-ci.jsonc
 
   # ── Static analysis (SAST) ─────────────────────────────────────────────────
   bandit:
