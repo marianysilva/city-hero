@@ -17,7 +17,12 @@ from starlette.responses import JSONResponse
 # `limits` — the same underlying package slowapi itself uses — since slowapi
 # has no public "check an arbitrary request" entry point outside the
 # decorator/route flow.
-_RATE = parse("30/minute")
+#
+# Overridable via .env (GRAPHQL_RATE_LIMIT, e.g. "30/10 second") so local/e2e
+# dev doesn't have to wait out the full production window between test runs —
+# see docker-compose.override.yml and app/core/limiter.py's LOGIN_RATE_LIMIT
+# for the same pattern. Default matches production.
+_RATE = parse(os.getenv("GRAPHQL_RATE_LIMIT", "30/minute"))
 _strategy = FixedWindowRateLimiter(MemoryStorage())
 
 

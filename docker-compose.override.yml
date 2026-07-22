@@ -21,3 +21,11 @@ services:
       - ./apps/backend:/app
     environment:
       WATCHFILES_FORCE_POLLING: "true"
+      # Same rate limits as production, just compressed onto a 10-second
+      # window instead of a minute — so manual clicking and the Playwright
+      # e2e rate-limit tests (apps/web/e2e/auth.spec.ts) don't force you to
+      # wait up to a full minute between attempts/runs. See
+      # apps/backend/app/core/limiter.py / graphql_rate_limit.py.
+      LOGIN_RATE_LIMIT: "5/10 second"
+      REGISTER_RATE_LIMIT: "3/10 second"
+      GRAPHQL_RATE_LIMIT: "30/10 second"
