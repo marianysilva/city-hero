@@ -48,6 +48,39 @@ describe("apiFetch — error message extraction", () => {
     expect((error as ApiError).message).not.toContain("123qweasd");
   });
 
+  it("translates a known backend `type` code to pt-BR instead of showing the English msg", async () => {
+    mockFetchResponse(422, {
+      detail: [
+        {
+          type: "password_missing_uppercase",
+          loc: ["body", "newPassword"],
+          msg: "Password must contain at least one uppercase letter",
+        },
+      ],
+    });
+
+    await expect(apiFetch("/api/users/x/reset-password")).rejects.toMatchObject({
+      message: "A senha deve conter pelo menos uma letra maiúscula",
+    });
+  });
+
+  it("interpolates ctx params into the translated pt-BR message", async () => {
+    mockFetchResponse(422, {
+      detail: [
+        {
+          type: "password_too_short",
+          loc: ["body", "newPassword"],
+          msg: "Password must be at least 8 characters",
+          ctx: { min_length: 8 },
+        },
+      ],
+    });
+
+    await expect(apiFetch("/api/users/x/reset-password")).rejects.toMatchObject({
+      message: "A senha deve ter pelo menos 8 caracteres",
+    });
+  });
+
   it("joins multiple validation errors with a separator", async () => {
     mockFetchResponse(422, {
       detail: [

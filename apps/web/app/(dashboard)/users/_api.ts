@@ -1,4 +1,5 @@
 import type { SortEntry } from "@/components/organisms/DataTable";
+import { translateValidationErrors } from "@/lib/validation-messages";
 
 export class ApiError extends Error {
   constructor(
@@ -12,23 +13,15 @@ export class ApiError extends Error {
 
 // `detail` is either a plain string (FastAPI's default {"detail": "..."})
 // or, on a 422, an array of Pydantic validation-error objects
-// ({loc, msg, type}). Only `msg` is ever read — never the array's `input`
-// field, which the backend already strips (see apps/backend/main.py's
-// RequestValidationError handler), but this is also the display layer's
-// own line of defense against echoing back whatever a caller submitted.
+// ({loc, msg, type, ctx}) — translateValidationErrors reads `type` to look
+// up a pt-BR message and falls back to `msg` for codes it doesn't know.
+// Never reads the array's `input` field, which the backend already strips
+// (see apps/backend/main.py's RequestValidationError handler), but this is
+// also the display layer's own line of defense against echoing back
+// whatever a caller submitted.
 function errorMessage(detail: unknown, status: number): string {
   if (typeof detail === "string") return detail;
-  if (Array.isArray(detail)) {
-    const messages = detail
-      .map((entry) =>
-        entry && typeof entry === "object" && typeof (entry as { msg?: unknown }).msg === "string"
-          ? (entry as { msg: string }).msg
-          : null,
-      )
-      .filter((msg): msg is string => msg !== null);
-    if (messages.length > 0) return messages.join("; ");
-  }
-  return `Erro ${status}`;
+  return translateValidationErrors(detail) ?? `Erro ${status}`;
 }
 
 export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T | undefined> {

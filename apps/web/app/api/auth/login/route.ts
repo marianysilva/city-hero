@@ -2,22 +2,19 @@ import { ApiClientError } from "@city-hero/api-client";
 import { NextRequest, NextResponse } from "next/server";
 
 import { createServerApiClient } from "@/lib/api-client";
+import { translateValidationErrors } from "@/lib/validation-messages";
 
 // login/page.tsx renders `data.error` directly as text — a 422's
 // `error.details` is an array of Pydantic validation-error objects, not a
 // string, and reached the client verbatim once (email format validation
 // failure), crashing the page with "Objects are not valid as a React
-// child". Always resolve to a string before it leaves this route.
+// child". Always resolve to a string before it leaves this route, and
+// translate known validation codes to pt-BR the same way the dashboard's
+// apiFetch does (see apps/web/lib/validation-messages.ts).
 function errorMessage(error: ApiClientError): string {
-  if (error.code === "validation_error" && Array.isArray(error.details)) {
-    const messages = error.details
-      .map((entry) =>
-        entry && typeof entry === "object" && typeof (entry as { msg?: unknown }).msg === "string"
-          ? (entry as { msg: string }).msg
-          : null,
-      )
-      .filter((msg): msg is string => msg !== null);
-    if (messages.length > 0) return messages.join("; ");
+  if (error.code === "validation_error") {
+    const translated = translateValidationErrors(error.details);
+    if (translated) return translated;
   }
   return error.message;
 }

@@ -86,6 +86,32 @@ describe("POST /api/auth/login", () => {
     );
   });
 
+  it("translates a known validation type code to pt-BR", async () => {
+    server.use(
+      http.post(`${BACKEND_URL}/auth/login`, () =>
+        HttpResponse.json(
+          {
+            detail: [
+              {
+                type: "password_missing_uppercase",
+                loc: ["body", "password"],
+                msg: "Password must contain at least one uppercase letter",
+              },
+            ],
+          },
+          { status: 422 },
+        ),
+      ),
+    );
+
+    const response = await POST(
+      loginRequest({ email: "admin@cityhero.app", password: "alllower1!" }),
+    );
+
+    const data = await response.json();
+    expect(data.error).toBe("A senha deve conter pelo menos uma letra maiúscula");
+  });
+
   it("returns 503 when the backend is unreachable", async () => {
     server.use(http.post(`${BACKEND_URL}/auth/login`, () => HttpResponse.error()));
 
