@@ -17,6 +17,8 @@ _SECURITY_HEADERS = {
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
+        """Attach the defense-in-depth headers in `_SECURITY_HEADERS` to
+        every response, regardless of status code or content type."""
         response = await call_next(request)
         for name, value in _SECURITY_HEADERS.items():
             response.headers[name] = value

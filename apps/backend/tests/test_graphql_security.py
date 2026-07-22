@@ -83,6 +83,37 @@ async def test_graphql_rate_limit_returns_429_after_the_configured_max(client, m
     assert statuses == [200, 200, 200, 429]
 
 
+def test_graphql_path_matcher_does_not_match_an_unrelated_path_with_the_same_prefix():
+    """A prefix startswith("/graphql") check would also match a hypothetical
+    future "/graphqlv2" route; the matcher must require an exact path or a
+    "/graphql/"-rooted one."""
+    assert graphql_rate_limit._is_graphql_path("/graphql") is True
+    assert graphql_rate_limit._is_graphql_path("/graphql/") is True
+    assert graphql_rate_limit._is_graphql_path("/graphqlv2") is False
+    assert graphql_rate_limit._is_graphql_path("/graphql-playground") is False
+
+
+async def test_graphql_rate_limit_message_reflects_the_configured_window(client, monkeypatch):
+    """The 429 body's message must describe the actual configured rate, not a
+    hardcoded "per 1 minute" that silently goes stale if _RATE's window ever
+    changes (e.g. to an hourly limit)."""
+    from limits import parse
+    from limits.storage import MemoryStorage
+    from limits.strategies import FixedWindowRateLimiter
+
+    monkeypatch.setattr(graphql_rate_limit.GraphQLRateLimitMiddleware, "enabled", True)
+    monkeypatch.setattr(graphql_rate_limit, "_strategy", FixedWindowRateLimiter(MemoryStorage()))
+    monkeypatch.setattr(graphql_rate_limit, "_RATE", parse("1/hour"))
+
+    query = {"query": "{ health }"}
+    await client.post("/graphql", json=query)
+    resp = await client.post("/graphql", json=query)
+
+    assert resp.status_code == 429
+    assert "hour" in resp.json()["error"]
+    assert "1 minute" not in resp.json()["error"]
+
+
 async def test_graphql_rate_limit_response_matches_slowapi_shape(client, monkeypatch):
     """The `apps/web` BFF's errorNormalize.ts already knows how to read
     slowapi's `{"error": "..."}` 429 shape (see packages/api_client) — this

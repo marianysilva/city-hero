@@ -55,13 +55,19 @@ app.add_middleware(
 
 
 @app.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
-    # FastAPI's default handler echoes the raw rejected value back in every
-    # error's `input` field — for password fields (register, admin
-    # user-create, reset-password) that means a 422 response leaks the
-    # plaintext password the client just submitted. Strip it from every
-    # error, not just password ones: no endpoint should echo submitted
-    # values back to the client.
+async def validation_exception_handler(
+    request: Request, exc: RequestValidationError
+) -> JSONResponse:
+    """Return FastAPI's standard 422 shape, with the raw submitted value
+    stripped from every error.
+
+    FastAPI's default handler echoes the raw rejected value back in every
+    error's `input` field — for password fields (register, admin
+    user-create, reset-password) that means a 422 response leaks the
+    plaintext password the client just submitted. Strip it from every
+    error, not just password ones: no endpoint should echo submitted
+    values back to the client.
+    """
     errors = [{k: v for k, v in error.items() if k != "input"} for error in exc.errors()]
     return JSONResponse(status_code=422, content=jsonable_encoder({"detail": errors}))
 
