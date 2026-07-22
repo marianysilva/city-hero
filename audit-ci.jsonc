@@ -22,8 +22,8 @@
       "GHSA-f88m-g3jw-g9cj": {
         "active": true,
         "notes": "Unused (no next/image usage in apps/web) — no fix available upstream from next@16.2.9",
-        "expiry": "22 October 2026"
-      }
-    }
-  ]
+        "expiry": "22 October 2026",
+      },
+    },
+  ],
 }
