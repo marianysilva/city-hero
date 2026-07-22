@@ -57,6 +57,35 @@ describe("POST /api/auth/login", () => {
     expect(data.error).toBe("Incorrect email or password");
   });
 
+  it("returns the validation array's msg as a plain string on a 422, not the raw array", async () => {
+    server.use(
+      http.post(`${BACKEND_URL}/auth/login`, () =>
+        HttpResponse.json(
+          {
+            detail: [
+              {
+                type: "value_error",
+                loc: ["body", "email"],
+                msg: "value is not a valid email address: The part after the @-sign is not valid. It should have a period.",
+                ctx: { reason: "The part after the @-sign is not valid. It should have a period." },
+              },
+            ],
+          },
+          { status: 422 },
+        ),
+      ),
+    );
+
+    const response = await POST(loginRequest({ email: "dadwad@dawdda", password: "x" }));
+
+    expect(response.status).toBe(422);
+    const data = await response.json();
+    expect(typeof data.error).toBe("string");
+    expect(data.error).toBe(
+      "value is not a valid email address: The part after the @-sign is not valid. It should have a period.",
+    );
+  });
+
   it("returns 503 when the backend is unreachable", async () => {
     server.use(http.post(`${BACKEND_URL}/auth/login`, () => HttpResponse.error()));
 

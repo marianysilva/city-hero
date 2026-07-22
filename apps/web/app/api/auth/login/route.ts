@@ -3,6 +3,25 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { createServerApiClient } from "@/lib/api-client";
 
+// login/page.tsx renders `data.error` directly as text — a 422's
+// `error.details` is an array of Pydantic validation-error objects, not a
+// string, and reached the client verbatim once (email format validation
+// failure), crashing the page with "Objects are not valid as a React
+// child". Always resolve to a string before it leaves this route.
+function errorMessage(error: ApiClientError): string {
+  if (error.code === "validation_error" && Array.isArray(error.details)) {
+    const messages = error.details
+      .map((entry) =>
+        entry && typeof entry === "object" && typeof (entry as { msg?: unknown }).msg === "string"
+          ? (entry as { msg: string }).msg
+          : null,
+      )
+      .filter((msg): msg is string => msg !== null);
+    if (messages.length > 0) return messages.join("; ");
+  }
+  return error.message;
+}
+
 export async function POST(request: NextRequest) {
   let email: unknown, password: unknown;
   try {
@@ -34,8 +53,7 @@ export async function POST(request: NextRequest) {
     return response;
   } catch (error) {
     if (error instanceof ApiClientError && error.status > 0) {
-      const message = error.code === "validation_error" ? error.details : error.message;
-      return NextResponse.json({ error: message }, { status: error.status });
+      return NextResponse.json({ error: errorMessage(error) }, { status: error.status });
     }
     return NextResponse.json({ error: "Backend unavailable" }, { status: 503 });
   }
