@@ -224,6 +224,22 @@ async def test_create_user_weak_password_not_leaked_in_error(client: AsyncClient
     assert '"input"' not in resp.text
 
 
+async def test_create_user_weak_password_has_a_stable_type_code_for_i18n(
+    client: AsyncClient, admin_user
+):
+    """The frontend keys its translated validation messages off `type` (see
+    apps/web/app/(dashboard)/users/_api.ts) — a plain ValueError would have
+    collapsed this under Pydantic's generic "value_error" type instead."""
+    resp = await client.post(
+        "/users",
+        json={**_NEW_CITIZEN, "password": "alllower"},
+        headers=_auth(admin_user),
+    )
+    assert resp.status_code == 422
+    detail = resp.json()["detail"]
+    assert detail[0]["type"] == "password_missing_uppercase"
+
+
 async def test_create_user_invalid_role_returns_422(client: AsyncClient, admin_user):
     resp = await client.post(
         "/users",
@@ -231,6 +247,8 @@ async def test_create_user_invalid_role_returns_422(client: AsyncClient, admin_u
         headers=_auth(admin_user),
     )
     assert resp.status_code == 422
+    detail = resp.json()["detail"]
+    assert detail[0]["type"] == "role_unknown"
 
 
 async def test_create_user_password_not_in_response(client: AsyncClient, admin_user):
