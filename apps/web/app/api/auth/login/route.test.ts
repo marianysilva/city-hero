@@ -112,6 +112,21 @@ describe("POST /api/auth/login", () => {
     expect(data.error).toBe("A senha deve conter pelo menos uma letra maiúscula");
   });
 
+  it("does not leak the internal fallback code on an unmapped 500 from the backend", async () => {
+    server.use(
+      http.post(
+        `${BACKEND_URL}/auth/login`,
+        () => new Response("Internal Server Error", { status: 500 }),
+      ),
+    );
+
+    const response = await POST(loginRequest({ email: "admin@cityhero.app", password: "x" }));
+
+    expect(response.status).toBe(500);
+    const data = await response.json();
+    expect(data.error).not.toContain("unknown_error");
+  });
+
   it("returns 503 when the backend is unreachable", async () => {
     server.use(http.post(`${BACKEND_URL}/auth/login`, () => HttpResponse.error()));
 

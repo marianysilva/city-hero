@@ -2,6 +2,7 @@ import { ApiClientError } from "@city-hero/api-client";
 import { NextRequest, NextResponse } from "next/server";
 
 import { createServerApiClient } from "@/lib/api-client";
+import { safeErrorMessage } from "@/lib/api-error-response";
 import { translateValidationErrors } from "@/lib/validation-messages";
 
 // login/page.tsx renders `data.error` directly as text — a 422's
@@ -10,13 +11,15 @@ import { translateValidationErrors } from "@/lib/validation-messages";
 // failure), crashing the page with "Objects are not valid as a React
 // child". Always resolve to a string before it leaves this route, and
 // translate known validation codes to pt-BR the same way the dashboard's
-// apiFetch does (see apps/web/lib/validation-messages.ts).
+// apiFetch does (see apps/web/lib/validation-messages.ts). safeErrorMessage
+// additionally guards against errorNormalize.ts's internal placeholder
+// message (e.g. `unknown_error_500`) reaching the login screen verbatim.
 function errorMessage(error: ApiClientError): string {
   if (error.code === "validation_error") {
     const translated = translateValidationErrors(error.details);
     if (translated) return translated;
   }
-  return error.message;
+  return safeErrorMessage(error);
 }
 
 export async function POST(request: NextRequest) {
