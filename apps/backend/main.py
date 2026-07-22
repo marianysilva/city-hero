@@ -11,7 +11,9 @@ from slowapi.middleware import SlowAPIASGIMiddleware
 
 import app.models  # noqa: F401 — registers all SQLAlchemy models with Base.metadata
 from app.core.config import settings
+from app.core.graphql_rate_limit import GraphQLRateLimitMiddleware
 from app.core.limiter import limiter
+from app.core.security_headers import SecurityHeadersMiddleware
 from app.graphql.schema import graphql_router
 from app.routers import auth, users
 
@@ -36,6 +38,13 @@ app = FastAPI(
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.add_middleware(SlowAPIASGIMiddleware)
+app.add_middleware(GraphQLRateLimitMiddleware)
+app.add_middleware(SecurityHeadersMiddleware)
+# CORSMiddleware must be the last add_middleware() call so it's the
+# outermost layer — Starlette wraps middleware in reverse registration
+# order, and every response (including 429s from the two middlewares
+# above) needs CORS headers or the browser hides the real status/body
+# from JS behind an opaque CORS failure.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.allowed_origins_list,
@@ -59,9 +68,11 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(users.router, prefix="/users", tags=["users"])
-# Rate limiting for /graphql must be configured at the infrastructure level
-# (nginx limit_req / Cloudflare WAF) — slowapi decorators don't reach Strawberry's
-# internal ASGI handler. Introspection and GraphiQL are disabled via schema.py.
+# Rate limiting is handled by GraphQLRateLimitMiddleware above — slowapi's
+# own @limiter.limit() decorator can't reach Strawberry's internal ASGI
+# handler, so this route can't be decorated directly like auth/users can.
+# Introspection, query depth limiting, and GraphiQL are configured in
+# app/graphql/schema.py.
 app.include_router(graphql_router, prefix="/graphql", tags=["graphql"])
 
 
