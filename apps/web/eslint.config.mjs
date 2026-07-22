@@ -15,6 +15,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // scripts/test-e2e.sh's isolated Playwright run builds here (see
+    // next.config.ts's NEXT_DIST_DIR) — same reason .next/** is ignored above.
+    ".next-e2e/**",
   ]),
 ]);
 

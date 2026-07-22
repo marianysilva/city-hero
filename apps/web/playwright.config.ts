@@ -17,6 +17,17 @@ if (!process.env.TEST_ADMIN_PASSWORD && process.env.APP_ADMIN_PASSWORD) {
   process.env.TEST_ADMIN_PASSWORD = process.env.APP_ADMIN_PASSWORD;
 }
 
+// scripts/test-e2e.sh sets these to run this suite's own apps/web dev server
+// on its own port, pointed at the isolated e2e backend — never the
+// developer's own :3000/BACKEND_URL from .env.local (see
+// docs/tasks/00-foundation/21-e2e-test-database.md). Falls back to the
+// original :3000/:8000 pair for anyone invoking `playwright test` directly
+// against an already-running dev stack.
+const IS_ISOLATED_RUN = !!process.env.E2E_WEB_PORT;
+const WEB_PORT = process.env.E2E_WEB_PORT ?? "3000";
+const BASE_URL = `http://localhost:${WEB_PORT}`;
+const BACKEND_URL = process.env.E2E_BACKEND_URL ?? "http://localhost:8000";
+
 export default defineConfig({
   testDir: "./e2e",
   timeout: 30000,
@@ -24,15 +35,23 @@ export default defineConfig({
   workers: 1,
   reporter: [["list"]],
   use: {
-    baseURL: "http://localhost:3000",
+    baseURL: BASE_URL,
     browserName: "chromium",
     headless: true,
   },
   globalSetup: "./e2e/global-setup.ts",
   webServer: {
     command: "npm run dev",
-    url: "http://localhost:3000",
+    url: BASE_URL,
     reuseExistingServer: !process.env.CI,
     timeout: 120000,
+    env: {
+      PORT: WEB_PORT,
+      BACKEND_URL,
+      // Distinct build-output dir so this instance's lockfile doesn't
+      // collide with a `next dev` the developer already has running on
+      // :3000 for the same project directory (see next.config.ts).
+      ...(IS_ISOLATED_RUN ? { NEXT_DIST_DIR: ".next-e2e" } : {}),
+    },
   },
 });

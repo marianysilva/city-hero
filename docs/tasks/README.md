@@ -44,7 +44,8 @@ docs/tasks/
 │   ├── 15-error-boundary.md
 │   ├── 16-yolov8-inference-service.md
 │   ├── 17-docker-dev-environment.md
-│   └── 20-observability-package.md
+│   ├── 20-observability-package.md
+│   └── 21-e2e-test-database.md
 ├── 01-splash/                       ← SCREEN 01 · Splash / Welcome
 │   ├── _README.md
 │   ├── 01-render-splash-ui.md
@@ -167,5 +168,5 @@ Or via UI: New issue → paste content → add labels → assign to Project.
 
 ---
 
-_Last updated: 2026-07-15 · 32 screens (30 numeradas + 04b Pacto Cidadão + 21b Políticos eleitos) +
-18 foundation tasks · 2 tasks moved to `docs/out-of-mvp/`_
+_Last updated: 2026-07-22 · 32 screens (30 numeradas + 04b Pacto Cidadão + 21b Políticos eleitos) +
+19 foundation tasks · 2 tasks moved to `docs/out-of-mvp/`_
