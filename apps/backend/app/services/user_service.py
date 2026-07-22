@@ -234,8 +234,12 @@ async def delete_user(db: AsyncSession, user_id: UUID, current_user: User) -> No
     if not can_manage(current_user.role, user.role):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Insufficient permissions")
 
+    # deleted_at alone is what excludes a user from login (auth_service.login's
+    # deleted_at filter) and from active/inactive listings (list_users' same
+    # filter) — is_active is intentionally left untouched so a later restore
+    # can bring the user back to whatever status they actually had, instead of
+    # always reactivating them.
     user.deleted_at = datetime.now(timezone.utc)
-    user.is_active = False
     await db.commit()
 
 
@@ -248,8 +252,12 @@ async def restore_user(db: AsyncSession, user_id: UUID, current_user: User) -> U
     if not can_manage(current_user.role, user.role):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Insufficient permissions")
 
+    # is_active is deliberately left as-is: delete_user() no longer touches
+    # it, so it already holds the status the user had before being deleted.
+    # Forcing it True here would silently re-enable an account that had been
+    # disabled on purpose (offboarded, compromised, policy violation) before
+    # it was deleted.
     user.deleted_at = None
-    user.is_active = True
     await db.commit()
     await db.refresh(user)
     return user_to_out(user)

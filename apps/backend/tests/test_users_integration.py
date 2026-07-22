@@ -327,9 +327,13 @@ async def test_delete_user_admin_gets_204(client: AsyncClient, admin_user, targe
     assert resp.status_code == 204
 
 
-async def test_delete_user_sets_deleted_at_and_is_active_false(
+async def test_delete_user_sets_deleted_at_and_preserves_is_active(
     client: AsyncClient, admin_user, target_citizen, conftest_session_factory
 ):
+    """Deleting is soft (deleted_at is what excludes a user from login/listing —
+    see login()'s and list_users()'s deleted_at filters), so it must not also
+    clobber is_active: doing so would destroy the pre-delete value that
+    restore needs to bring the user back to the right status."""
     await client.delete(f"/users/{target_citizen.id}", headers=_auth(admin_user))
 
     from uuid import UUID
@@ -343,6 +347,27 @@ async def test_delete_user_sets_deleted_at_and_is_active_false(
         )
         user = result.scalar_one()
     assert user.deleted_at is not None
+    assert user.is_active is True  # target_citizen fixture is active before delete
+
+
+async def test_delete_user_preserves_is_active_false_for_an_already_inactive_user(
+    client: AsyncClient, admin_user, target_citizen, conftest_session_factory
+):
+    await client.patch(
+        f"/users/{target_citizen.id}", json={"is_active": False}, headers=_auth(admin_user)
+    )
+    await client.delete(f"/users/{target_citizen.id}", headers=_auth(admin_user))
+
+    from uuid import UUID
+
+    from sqlalchemy import select
+
+    from app.models.user import User
+    async with conftest_session_factory() as session:
+        result = await session.execute(
+            select(User).where(User.id == UUID(str(target_citizen.id)))
+        )
+        user = result.scalar_one()
     assert user.is_active is False
 
 
@@ -383,7 +408,7 @@ async def test_restore_user_admin_gets_200(client: AsyncClient, admin_user, targ
     assert data["isActive"] is True
 
 
-async def test_restore_user_sets_is_active_true(
+async def test_restore_user_preserves_is_active_true_for_a_previously_active_user(
     client: AsyncClient, admin_user, target_citizen, conftest_session_factory
 ):
     await client.delete(f"/users/{target_citizen.id}", headers=_auth(admin_user))
@@ -401,6 +426,36 @@ async def test_restore_user_sets_is_active_true(
         user = result.scalar_one()
     assert user.deleted_at is None
     assert user.is_active is True
+
+
+async def test_restore_user_preserves_is_active_false_for_a_previously_inactive_user(
+    client: AsyncClient, admin_user, target_citizen, conftest_session_factory
+):
+    """Regression test: restore must bring back the status the user actually
+    had before being deleted, not unconditionally force it active. A user
+    disabled on purpose (e.g. offboarded, compromised, policy violation) and
+    later deleted must not be silently re-enabled by a restore."""
+    await client.patch(
+        f"/users/{target_citizen.id}", json={"is_active": False}, headers=_auth(admin_user)
+    )
+    await client.delete(f"/users/{target_citizen.id}", headers=_auth(admin_user))
+    resp = await client.post(f"/users/{target_citizen.id}/restore", headers=_auth(admin_user))
+
+    assert resp.status_code == 200
+    assert resp.json()["isActive"] is False
+
+    from uuid import UUID
+
+    from sqlalchemy import select
+
+    from app.models.user import User
+    async with conftest_session_factory() as session:
+        result = await session.execute(
+            select(User).where(User.id == UUID(str(target_citizen.id)))
+        )
+        user = result.scalar_one()
+    assert user.deleted_at is None
+    assert user.is_active is False
 
 
 async def test_restore_non_deleted_user_returns_404(client: AsyncClient, admin_user, target_citizen):
