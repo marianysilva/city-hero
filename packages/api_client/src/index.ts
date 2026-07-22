@@ -19,12 +19,3 @@ export type {
   UsersListResponse,
   UserUpdateRequest,
 } from "./endpoints/users";
-export type {
-  CreateReportRequest,
-  ListReportsParams,
-  ReportOut,
-  ReportsEndpoints,
-  ReportsListResponse,
-} from "./endpoints/reports";
-export type { CommentOut, CommentsEndpoints, CreateCommentRequest } from "./endpoints/comments";
-export type { NotificationOut, NotificationsEndpoints } from "./endpoints/notifications";

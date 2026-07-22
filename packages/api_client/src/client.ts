@@ -1,11 +1,5 @@
 import { createAuthEndpoints } from "./endpoints/auth";
 import type { AuthEndpoints } from "./endpoints/auth";
-import { createCommentsEndpoints } from "./endpoints/comments";
-import type { CommentsEndpoints } from "./endpoints/comments";
-import { createNotificationsEndpoints } from "./endpoints/notifications";
-import type { NotificationsEndpoints } from "./endpoints/notifications";
-import { createReportsEndpoints } from "./endpoints/reports";
-import type { ReportsEndpoints } from "./endpoints/reports";
 import { createUsersEndpoints } from "./endpoints/users";
 import type { UsersEndpoints } from "./endpoints/users";
 import { networkError, offlineError } from "./errors";
@@ -15,12 +9,12 @@ import { buildHeaders } from "./interceptors/headers";
 import { fetchWithRetry } from "./interceptors/retry";
 import type { ApiClient, ApiClientConfig, HttpMethod, RequestOptions } from "./types";
 
+// reports/comments/notifications wrappers were removed: apps/backend/app/routers/
+// only has auth.py and users.py today, and this client must never call a route
+// the backend doesn't implement. Add them back once their backend routers ship.
 export interface FullApiClient extends ApiClient {
   auth: AuthEndpoints;
   users: UsersEndpoints;
-  reports: ReportsEndpoints;
-  comments: CommentsEndpoints;
-  notifications: NotificationsEndpoints;
 }
 
 // Accessed via globalThis, not the `navigator` global, because this package
@@ -75,13 +69,16 @@ export function createApiClient(config: ApiClientConfig): FullApiClient {
 
     let response: Response;
     try {
-      response = await fetchWithRetry(method, () =>
-        fetchImpl(url, {
-          method,
-          headers,
-          body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
-          signal: options.signal,
-        }),
+      response = await fetchWithRetry(
+        method,
+        () =>
+          fetchImpl(url, {
+            method,
+            headers,
+            body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
+            signal: options.signal,
+          }),
+        options.signal,
       );
     } catch (err) {
       if (isAbortError(err)) throw err;
@@ -118,8 +115,5 @@ export function createApiClient(config: ApiClientConfig): FullApiClient {
     request,
     auth: createAuthEndpoints(client),
     users: createUsersEndpoints(client),
-    reports: createReportsEndpoints(client),
-    comments: createCommentsEndpoints(client),
-    notifications: createNotificationsEndpoints(client),
   };
 }
