@@ -13,10 +13,14 @@
 > Single-flight refresh is also built: an optional `refreshAccessToken` config callback — when a
 > host app provides one, concurrent 401s share one in-flight call to it and each original request
 > retries once with the refreshed token; a failed/unconfigured refresh falls back to the
-> forced-logout path unchanged. 50 unit tests (MSW v2 + vitest), 96.1%/95.8% statement/line
-> coverage. `auth` and `users` endpoint wrappers are verified against the real router signatures in
-> `apps/backend/app/routers/`; `reports`/`comments`/`notifications` are typed but **PROVISIONAL** —
-> no such backend routers exist yet, so those wrappers are unverified against any real contract.\
+> forced-logout path unchanged. 48 unit tests (MSW v2 + vitest), 96.25%/95.86% statement/line
+> coverage, covering the two real resources plus retry jitter and abort-during-backoff (both added
+> in the 2026-07-22 review pass, see below). `auth` and `users` endpoint wrappers are verified
+> against the real router signatures in `apps/backend/app/routers/`.
+> **`reports`/`comments`/`notifications` were removed** (2026-07-22 review pass) — they were typed
+> and unit-tested against a guessed, unverified shape with no real backend router to wrap; the
+> client must never call a route the backend doesn't implement. Add them back, verified against a
+> real router, when those tasks ship one.\
 > \
 > **Neither real app configures `refreshAccessToken` today** — `apps/backend` still has no
 > `/auth/refresh` endpoint (see `06-auth-system.md`), so both `apps/web/lib/api-client.ts` and
@@ -147,8 +151,13 @@ any specific backend behavior.
 
 **Given** a request returns 502/503/504 or fails with a network error\
 **When** the client receives the response\
-**Then** it retries with exponential backoff (e.g., 500ms, 1s, 2s; max 3 attempts)\
+**Then** it retries with exponential backoff and full jitter (base steps 500ms, 1s, 2s, each
+actually waited as `random() * base`; max 3 attempts) — added 2026-07-22, the original build waited
+the exact base every time, which would retry every concurrent client in lockstep after a shared
+transient failure\
 **And** retries only idempotent methods (GET, HEAD, OPTIONS)\
+**And** the backoff wait itself observes `AbortSignal` (added 2026-07-22 — previously only the fetch
+call did, so an abort during the wait went unnoticed for up to the full backoff step)\
 **And** if all retries fail, throws a normalized network error
 
 ### Scenario · Request cancellation
@@ -238,15 +247,16 @@ packages/api_client/
 
 The client is created via a factory that receives the integration points: how to read/write tokens,
 how to read the current city ID, what to do on auth failure, and platform/version info. The factory
-returns an instance with typed methods per resource (auth, reports, users, notifications, etc.).
+returns an instance with typed methods per resource actually backed by a real router (today: auth,
+users).
 
 **Resources with a real backend today to wrap**: `auth` (`POST /auth/register`, `POST /auth/login` —
 see `06-auth-system.md` for exact request/response shapes) and `users` (`GET/POST /users`,
 `GET/PATCH/DELETE /users/{id}`, `POST /users/{id}/reset-password`, `POST /users/{id}/restore`,
-`GET /users/me`). `reports`, `comments`, and `notifications` endpoint wrappers named in the
-Definition of Done below have **no backend routes to wrap yet** — `apps/backend/app/routers/` only
-contains `auth.py` and `users.py` today. Build those wrappers' shape from this spec, but they'll be
-untestable against a real backend until those routers exist.
+`GET /users/me`). `reports`, `comments`, and `notifications` endpoint wrappers were deliberately
+**not built** — `apps/backend/app/routers/` only contains `auth.py` and `users.py` today, and a
+frontend client must not call a route the backend doesn't implement. Build each wrapper only once
+its task ships a real backend router to verify it against.
 
 ### Caching
 
@@ -349,14 +359,14 @@ target event catalog; `api.token_refreshed` can't be emitted until a refresh end
       above for why that's the correct scope, not a gap)
 - [x] AbortController-based cancellation — `signal?` threaded through `client.request()` and every
       typed endpoint method
-- [x] Typed endpoint wrappers for 5 resources (auth, reports, users, comments, notifications) —
-      `auth`/`users` verified against the real backend routers; `reports`/`comments`/`notifications`
-      are PROVISIONAL (typed, unit-tested against mocked-but-unverified paths, no real backend
-      router exists yet)
+- [x] Typed endpoint wrappers for the 2 resources with a real backend router (auth, users), verified
+      against `apps/backend/app/routers/`. `reports`/`comments`/`notifications` are intentionally
+      **not built** — no backend router exists for them yet, and this client must not call a route
+      the backend doesn't implement; add each one, verified, when its task ships a real router
 - [x] React Query setup in mobile and web apps — `QueryClientProvider` wired into both apps' root
       layout. See the Status note above on why web's browser-side React Query wraps the Next.js BFF
       routes rather than this package directly (the browser doesn't hold a bearer token by design)
-- [x] ≥90% unit test coverage in the package — 50 tests, 96.1% statements / 95.8% lines
+- [x] ≥90% unit test coverage in the package — 48 tests, 96.25% statements / 95.86% lines
       (`cd     packages/api_client && npx vitest run --coverage`)
 - [x] Used by at least one screen end-to-end as a smoke test — `apps/web`'s `GET /api/users/me` BFF
       route, exercised by every dashboard page load via `useCurrentUser`. Mobile: provider/client
