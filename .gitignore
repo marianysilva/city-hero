@@ -20,5 +20,8 @@ node_modules/
 test-results/
 playwright-report/
 
+# Playwright MCP (debug console logs / page snapshots from the claude-in-chrome/playwright MCP tools)
+.playwright-mcp/
+
 # Dev Temporary files
 .tmp/

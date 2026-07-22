@@ -1,5 +1,5 @@
 import strawberry
-from strawberry.extensions import DisableIntrospection
+from strawberry.extensions import DisableIntrospection, QueryDepthLimiter
 from strawberry.fastapi import GraphQLRouter
 from strawberry.types import Info
 
@@ -52,9 +52,19 @@ class Mutation:
 schema = strawberry.Schema(
     query=Query,
     mutation=Mutation,
-    # Disable introspection outside debug mode — prevents attackers from
-    # enumerating the full API surface without authentication.
-    extensions=[] if settings.DEBUG else [DisableIntrospection],
+    extensions=[
+        # Caps nested-selection depth so a query can't force the resolver
+        # graph into exponential blowup — cheap to enforce now, before any
+        # resolver actually has nested list fields to abuse. 10 is generous
+        # for today's flat `me`/`health` schema; tighten as real nested
+        # types (reports -> comments -> author, etc.) get added.
+        # A factory callable, not a bare instance — Strawberry deprecated
+        # passing shared instances so a fresh one is built per request.
+        lambda: QueryDepthLimiter(max_depth=10),
+        # Disable introspection outside debug mode — prevents attackers from
+        # enumerating the full API surface without authentication.
+        *([] if settings.DEBUG else [DisableIntrospection]),
+    ],
 )
 
 graphql_router = GraphQLRouter(

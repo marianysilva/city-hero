@@ -3,7 +3,9 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "dependencies": {
+    "@city-hero/api-client": "*",
     "@city-hero/design-system": "*",
+    "@tanstack/react-query": "^5.90.3",
     "expo": "~56.0.12",
     "expo-constants": "~56.0.18",
     "expo-font": "~56.0.7",

@@ -117,8 +117,11 @@ test.describe("Users page", () => {
 
     expect(response.status()).not.toBe(200);
 
-    // UserFormModal surfaces errors via AlertMessage with role="alert"
-    const errorAlert = page.getByRole("alert");
+    // UserFormModal surfaces errors via AlertMessage with role="alert". Filtered
+    // to non-empty text because this Next.js version also renders its own
+    // empty route-announcer div with role="alert" (id="__next-route-announcer__"),
+    // which otherwise makes this locator ambiguous (strict-mode violation).
+    const errorAlert = page.getByRole("alert").filter({ hasText: /\S/ });
     await expect(errorAlert).toBeVisible();
     const text = await errorAlert.textContent();
     expect(text?.trim()).toBeTruthy();

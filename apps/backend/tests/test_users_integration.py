@@ -214,6 +214,32 @@ async def test_create_user_weak_password_returns_422(client: AsyncClient, admin_
     assert resp.status_code == 422
 
 
+async def test_create_user_weak_password_not_leaked_in_error(client: AsyncClient, admin_user):
+    resp = await client.post(
+        "/users",
+        json={**_NEW_CITIZEN, "password": "alllower"},
+        headers=_auth(admin_user),
+    )
+    assert "alllower" not in resp.text
+    assert '"input"' not in resp.text
+
+
+async def test_create_user_weak_password_has_a_stable_type_code_for_i18n(
+    client: AsyncClient, admin_user
+):
+    """The frontend keys its translated validation messages off `type` (see
+    apps/web/app/(dashboard)/users/_api.ts) — a plain ValueError would have
+    collapsed this under Pydantic's generic "value_error" type instead."""
+    resp = await client.post(
+        "/users",
+        json={**_NEW_CITIZEN, "password": "alllower"},
+        headers=_auth(admin_user),
+    )
+    assert resp.status_code == 422
+    detail = resp.json()["detail"]
+    assert detail[0]["type"] == "password_missing_uppercase"
+
+
 async def test_create_user_invalid_role_returns_422(client: AsyncClient, admin_user):
     resp = await client.post(
         "/users",
@@ -221,6 +247,8 @@ async def test_create_user_invalid_role_returns_422(client: AsyncClient, admin_u
         headers=_auth(admin_user),
     )
     assert resp.status_code == 422
+    detail = resp.json()["detail"]
+    assert detail[0]["type"] == "role_unknown"
 
 
 async def test_create_user_password_not_in_response(client: AsyncClient, admin_user):
@@ -299,9 +327,13 @@ async def test_delete_user_admin_gets_204(client: AsyncClient, admin_user, targe
     assert resp.status_code == 204
 
 
-async def test_delete_user_sets_deleted_at_and_is_active_false(
+async def test_delete_user_sets_deleted_at_and_preserves_is_active(
     client: AsyncClient, admin_user, target_citizen, conftest_session_factory
 ):
+    """Deleting is soft (deleted_at is what excludes a user from login/listing —
+    see login()'s and list_users()'s deleted_at filters), so it must not also
+    clobber is_active: doing so would destroy the pre-delete value that
+    restore needs to bring the user back to the right status."""
     await client.delete(f"/users/{target_citizen.id}", headers=_auth(admin_user))
 
     from uuid import UUID
@@ -315,6 +347,27 @@ async def test_delete_user_sets_deleted_at_and_is_active_false(
         )
         user = result.scalar_one()
     assert user.deleted_at is not None
+    assert user.is_active is True  # target_citizen fixture is active before delete
+
+
+async def test_delete_user_preserves_is_active_false_for_an_already_inactive_user(
+    client: AsyncClient, admin_user, target_citizen, conftest_session_factory
+):
+    await client.patch(
+        f"/users/{target_citizen.id}", json={"is_active": False}, headers=_auth(admin_user)
+    )
+    await client.delete(f"/users/{target_citizen.id}", headers=_auth(admin_user))
+
+    from uuid import UUID
+
+    from sqlalchemy import select
+
+    from app.models.user import User
+    async with conftest_session_factory() as session:
+        result = await session.execute(
+            select(User).where(User.id == UUID(str(target_citizen.id)))
+        )
+        user = result.scalar_one()
     assert user.is_active is False
 
 
@@ -355,7 +408,7 @@ async def test_restore_user_admin_gets_200(client: AsyncClient, admin_user, targ
     assert data["isActive"] is True
 
 
-async def test_restore_user_sets_is_active_true(
+async def test_restore_user_preserves_is_active_true_for_a_previously_active_user(
     client: AsyncClient, admin_user, target_citizen, conftest_session_factory
 ):
     await client.delete(f"/users/{target_citizen.id}", headers=_auth(admin_user))
@@ -373,6 +426,36 @@ async def test_restore_user_sets_is_active_true(
         user = result.scalar_one()
     assert user.deleted_at is None
     assert user.is_active is True
+
+
+async def test_restore_user_preserves_is_active_false_for_a_previously_inactive_user(
+    client: AsyncClient, admin_user, target_citizen, conftest_session_factory
+):
+    """Regression test: restore must bring back the status the user actually
+    had before being deleted, not unconditionally force it active. A user
+    disabled on purpose (e.g. offboarded, compromised, policy violation) and
+    later deleted must not be silently re-enabled by a restore."""
+    await client.patch(
+        f"/users/{target_citizen.id}", json={"is_active": False}, headers=_auth(admin_user)
+    )
+    await client.delete(f"/users/{target_citizen.id}", headers=_auth(admin_user))
+    resp = await client.post(f"/users/{target_citizen.id}/restore", headers=_auth(admin_user))
+
+    assert resp.status_code == 200
+    assert resp.json()["isActive"] is False
+
+    from uuid import UUID
+
+    from sqlalchemy import select
+
+    from app.models.user import User
+    async with conftest_session_factory() as session:
+        result = await session.execute(
+            select(User).where(User.id == UUID(str(target_citizen.id)))
+        )
+        user = result.scalar_one()
+    assert user.deleted_at is None
+    assert user.is_active is False
 
 
 async def test_restore_non_deleted_user_returns_404(client: AsyncClient, admin_user, target_citizen):
@@ -465,6 +548,18 @@ async def test_reset_password_weak_password_returns_422(client: AsyncClient, adm
         headers=_auth(admin_user),
     )
     assert resp.status_code == 422
+
+
+async def test_reset_password_weak_password_not_leaked_in_error(
+    client: AsyncClient, admin_user, target_citizen
+):
+    resp = await client.post(
+        f"/users/{target_citizen.id}/reset-password",
+        json={"new_password": "weak"},
+        headers=_auth(admin_user),
+    )
+    assert "weak" not in resp.text
+    assert '"input"' not in resp.text
 
 
 # ── GET /users/me ─────────────────────────────────────────────────────────────

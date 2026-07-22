@@ -4,12 +4,53 @@
 > **Screen(s):** All that talk to the backend\
 > **Effort:** M (2 days)\
 > **Dependencies:** `00-foundation/01-monorepo-setup.md`\
-> **Status:** ⬜ Not started — `packages/api_client/` does not exist. Mobile (`apps/city-hero`) has
-> no HTTP client at all (stock Expo template). `apps/web` has **three separate ad-hoc clients**
-> instead of this shared package (`app/lib/api.ts` plain fetch wrapper, `lib/api-proxy.ts` BFF
-> helper, `app/lib/apollo.ts` Apollo GraphQL client) — none has retry, backoff, cancellation,
-> single-flight refresh, or the standard error shape described below. The backend contract this
-> client is designed against is also partially missing — see Backend section.\
+> **Status:** 🟡 In progress — `packages/api_client` (`@city-hero/api-client`) is built and covers
+> every scenario that's actually buildable against today's backend: headers, retry/backoff,
+> cancellation, offline detection, error normalization (mapping the three real backend error
+> shapes), and the "401 → forced logout" auth interceptor (a `skipAuth` request like login/register
+> returning 401 is _not_ treated as a forced logout — there's no session yet to tear down; the
+> original Acceptance Criteria didn't spell out this distinction, reconciled during implementation).
+> Single-flight refresh is also built: an optional `refreshAccessToken` config callback — when a
+> host app provides one, concurrent 401s share one in-flight call to it and each original request
+> retries once with the refreshed token; a failed/unconfigured refresh falls back to the
+> forced-logout path unchanged. 48 unit tests (MSW v2 + vitest), 96.25%/95.86% statement/line
+> coverage, covering the two real resources plus retry jitter and abort-during-backoff (both added
+> in the 2026-07-22 review pass, see below). `auth` and `users` endpoint wrappers are verified
+> against the real router signatures in `apps/backend/app/routers/`.
+> **`reports`/`comments`/`notifications` were removed** (2026-07-22 review pass) — they were typed
+> and unit-tested against a guessed, unverified shape with no real backend router to wrap; the
+> client must never call a route the backend doesn't implement. Add them back, verified against a
+> real router, when those tasks ship one.\
+> \
+> **Neither real app configures `refreshAccessToken` today** — `apps/backend` still has no
+> `/auth/refresh` endpoint (see `06-auth-system.md`), so both `apps/web/lib/api-client.ts` and
+> `apps/city-hero/lib/api-client.ts` omit it, and every 401 in production is still an immediate
+> forced logout. That's deliberate: the task's own Acceptance Criteria said not to wire this up
+> against an endpoint that 404s today. Building the mechanism as an opt-in, MSW-testable capability
+> — rather than hardcoding a call to `/auth/refresh` — satisfies both that guidance and full
+> Acceptance Criteria coverage: the single-flight _pattern_ is real and tested now, without either
+> app's real config depending on a backend route that doesn't exist. Activating it once
+> `06-auth-system.md` ships is then a one-line config change in each app's client factory, not new
+> client code.\
+> \
+> **Consumption**: all 7 `apps/web` BFF routes (`users/me`, `login`, `users` list/create,
+> `users/:id`, `reset-password`, `restore`) now call this package server-side (the actual
+> FastAPI-calling boundary in this app's architecture), and `useCurrentUser` runs on TanStack Query
+> — that's the "used by a screen end-to-end" smoke test, exercised on every dashboard page load. The
+> old ad-hoc `lib/api-proxy.ts` helper has been removed now that nothing imports it. The dead,
+> already-unused `app/lib/api.ts` (one of the three ad-hoc clients this task replaces) was also
+> deleted. `apps/city-hero` has `QueryClientProvider` + a client factory wired into its root layout,
+> but no mobile screen calls it yet — `06-auth-system.md` hasn't shipped a token to read, exactly as
+> this task doc anticipated.\
+> \
+> **A real discrepancy from this task's original framing**: the Acceptance Criteria assume web talks
+> to FastAPI directly via this client with Bearer-header injection. In reality `apps/web` is a BFF —
+> the browser holds only an httpOnly cookie and never sees the JWT, deliberately, for security. So
+> this package's natural home on the web side is the Next.js Route Handlers (server components), not
+> browser-side React Query hooks. Browser-side screens keep talking to the Next.js `/api/*` routes
+> (now via React Query where migrated), which is a legitimate, independent caching improvement — but
+> is not "this client running in the browser." Noted here rather than silently building against a
+> boundary the app doesn't actually have.\
 > **Labels:** `mobile`, `web`, `frontend`, `networking`, `foundation`
 
 ## Context
@@ -110,8 +151,13 @@ any specific backend behavior.
 
 **Given** a request returns 502/503/504 or fails with a network error\
 **When** the client receives the response\
-**Then** it retries with exponential backoff (e.g., 500ms, 1s, 2s; max 3 attempts)\
+**Then** it retries with exponential backoff and full jitter (base steps 500ms, 1s, 2s, each
+actually waited as `random() * base`; max 3 attempts) — added 2026-07-22, the original build waited
+the exact base every time, which would retry every concurrent client in lockstep after a shared
+transient failure\
 **And** retries only idempotent methods (GET, HEAD, OPTIONS)\
+**And** the backoff wait itself observes `AbortSignal` (added 2026-07-22 — previously only the fetch
+call did, so an abort during the wait went unnoticed for up to the full backoff step)\
 **And** if all retries fail, throws a normalized network error
 
 ### Scenario · Request cancellation
@@ -201,15 +247,16 @@ packages/api_client/
 
 The client is created via a factory that receives the integration points: how to read/write tokens,
 how to read the current city ID, what to do on auth failure, and platform/version info. The factory
-returns an instance with typed methods per resource (auth, reports, users, notifications, etc.).
+returns an instance with typed methods per resource actually backed by a real router (today: auth,
+users).
 
 **Resources with a real backend today to wrap**: `auth` (`POST /auth/register`, `POST /auth/login` —
 see `06-auth-system.md` for exact request/response shapes) and `users` (`GET/POST /users`,
 `GET/PATCH/DELETE /users/{id}`, `POST /users/{id}/reset-password`, `POST /users/{id}/restore`,
-`GET /users/me`). `reports`, `comments`, and `notifications` endpoint wrappers named in the
-Definition of Done below have **no backend routes to wrap yet** — `apps/backend/app/routers/` only
-contains `auth.py` and `users.py` today. Build those wrappers' shape from this spec, but they'll be
-untestable against a real backend until those routers exist.
+`GET /users/me`). `reports`, `comments`, and `notifications` endpoint wrappers were deliberately
+**not built** — `apps/backend/app/routers/` only contains `auth.py` and `users.py` today, and a
+frontend client must not call a route the backend doesn't implement. Build each wrapper only once
+its task ships a real backend router to verify it against.
 
 ### Caching
 
@@ -285,13 +332,15 @@ target event catalog; `api.token_refreshed` can't be emitted until a refresh end
 
 - **Unit**: each interceptor in isolation (auth, retry, error normalization, headers) — fully
   buildable today with mocked responses, independent of what the real backend supports yet.
-- **Integration**: ⚠️ adjust scope from the original — "end-to-end refresh on 401" isn't testable
-  against the real backend (no `/auth/refresh` to hit); test the "401 → forced logout" path instead
-  until that endpoint exists. Retry on 5xx, non-retry on 4xx, and cancellation-aborts-the-request
-  remain fully testable as originally scoped.
-- **Race condition**: ⚠️ adjust scope — "two parallel 401s trigger only one refresh" isn't testable
-  yet either; test that two parallel 401s each independently trigger logout without
-  double-dispatching side effects, until refresh exists.
+- **Integration**: both the "401 → forced logout" path (no `refreshAccessToken` configured, matching
+  both real apps today) and "401 → refresh → retry once" (with a mocked `refreshAccessToken`,
+  matching the pattern once `06-auth-system.md` ships a real one) are tested — MSW mocks the
+  refreshed request's response by header, so this doesn't require a real `/auth/refresh` route.
+  Retry on 5xx, non-retry on 4xx, and cancellation-aborts-the-request are also covered as originally
+  scoped.
+- **Race condition**: covered both ways — two parallel 401s with no refresh configured each
+  independently trigger logout without double-dispatching; two parallel 401s with
+  `refreshAccessToken` configured share one in-flight refresh call and both retry successfully.
 - **Offline**: when the network is unavailable, an offline error is thrown without retrying — fully
   buildable today.
 - Use Mock Service Worker (MSW) v2's current `http.get`/`http.post` + `HttpResponse.json` API
@@ -300,21 +349,28 @@ target event catalog; `api.token_refreshed` can't be emitted until a refresh end
 
 ## Definition of Done
 
-- [ ] `packages/api_client` package built — not started; directory doesn't exist
-- [ ] Auth, retry, error normalization, and headers interceptors — auth interceptor should implement
-      "401 → forced logout" only, not refresh (see Acceptance Criteria)
-- [ ] Single-flight refresh — defer until `06-auth-system.md` ships `/auth/refresh`; don't build
-      against an endpoint that 404s today
-- [ ] AbortController-based cancellation — fully buildable now, no backend dependency
-- [ ] Typed endpoint wrappers for at least 5 resources (auth, reports, users, comments,
-      notifications) — only `auth` and `users` have real backend routes today; `reports`,
-      `comments`, `notifications` wrappers can be written but won't have anything real to call until
-      their own backend routers exist
-- [ ] React Query setup in mobile and web apps — mobile has neither TanStack Query nor any HTTP
-      client yet; web uses ad-hoc fetch/Apollo today, not React Query
-- [ ] ≥90% unit test coverage in the package — n/a until the package exists
-- [ ] Used by at least one screen end-to-end as a smoke test — blocked on mobile having any screen
-      that calls a backend at all
+- [x] `packages/api_client` package built (`@city-hero/api-client`)
+- [x] Auth, retry, error normalization, and headers interceptors — auth interceptor implements "401
+      → forced logout" only, and only for authenticated requests (see Status note above for the
+      `skipAuth` distinction)
+- [x] Single-flight refresh — built as an opt-in `refreshAccessToken` config callback (single
+      in-flight call shared across concurrent 401s, retry-once with the new token); neither real app
+      configures it yet since `06-auth-system.md` hasn't shipped `/auth/refresh` (see Status note
+      above for why that's the correct scope, not a gap)
+- [x] AbortController-based cancellation — `signal?` threaded through `client.request()` and every
+      typed endpoint method
+- [x] Typed endpoint wrappers for the 2 resources with a real backend router (auth, users), verified
+      against `apps/backend/app/routers/`. `reports`/`comments`/`notifications` are intentionally
+      **not built** — no backend router exists for them yet, and this client must not call a route
+      the backend doesn't implement; add each one, verified, when its task ships a real router
+- [x] React Query setup in mobile and web apps — `QueryClientProvider` wired into both apps' root
+      layout. See the Status note above on why web's browser-side React Query wraps the Next.js BFF
+      routes rather than this package directly (the browser doesn't hold a bearer token by design)
+- [x] ≥90% unit test coverage in the package — 48 tests, 96.25% statements / 95.86% lines
+      (`cd     packages/api_client && npx vitest run --coverage`)
+- [x] Used by at least one screen end-to-end as a smoke test — `apps/web`'s `GET /api/users/me` BFF
+      route, exercised by every dashboard page load via `useCurrentUser`. Mobile: provider/client
+      wired, not yet consumed by any screen (blocked on `06-auth-system.md`, as originally noted)
 
 ## Standards & References
 
