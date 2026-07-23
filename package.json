@@ -28,7 +28,7 @@
     "typescript": "^5.8.0"
   },
   "optionalDependencies": {
-    "lightningcss-win32-x64-msvc": "^1.32.0"
+    "lightningcss-win32-x64-msvc": "^1.33.0"
   },
   "engines": {
     "node": ">=20"
