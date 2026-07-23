@@ -100,6 +100,7 @@ def get_me(current_user: User) -> MeResponse:
         auth_provider=current_user.auth_provider,
         is_active=current_user.is_active,
         avatar_url=current_user.avatar_url,
+        language=current_user.language,
         created_at=current_user.created_at.isoformat(),
         deleted_at=current_user.deleted_at.isoformat() if current_user.deleted_at else None,
         role_info=RoleInfo(

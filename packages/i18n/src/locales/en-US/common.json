@@ -1,0 +1,9 @@
+{
+  "appName": "CityHero",
+  "loading": "Loading…",
+  "retry": "Retry",
+  "cancel": "Cancel",
+  "save": "Save",
+  "close": "Close",
+  "genericError": "Something went wrong."
+}

@@ -1,10 +1,16 @@
 import { Badge } from "@city-hero/design-system";
+import { useTranslation } from "@city-hero/i18n";
 import { StyleSheet } from "react-native";
 
 import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 
 export default function TabOneScreen() {
+  // i18n usage example — proves the LocaleProvider wired in app/_layout.tsx
+  // reaches real screens, ahead of 06-home-map/01-render-home-ui-base.md
+  // building the actual Home screen this key belongs to.
+  const { t } = useTranslation();
+
   return (
     <View style={styles.container}>
       {/* Design-system usage example: shared Badge atom, same component the
@@ -12,7 +18,7 @@ export default function TabOneScreen() {
       <View style={styles.badgeCorner}>
         <Badge color="warning">EM DESENVOLVIMENTO</Badge>
       </View>
-      <Text style={styles.title}>Tab One</Text>
+      <Text style={styles.title}>{t("home.title")}</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <EditScreenInfo path="app/(tabs)/index.tsx" />
     </View>

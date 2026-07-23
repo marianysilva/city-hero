@@ -30,6 +30,7 @@ async def register(db: AsyncSession, body: RegisterRequest) -> AuthResponse:
         hashed_password=hashed,
         role="citizen",
         role_id=resolve_role_id("citizen"),
+        **({"language": body.language} if body.language is not None else {}),
     )
     db.add(user)
     try:

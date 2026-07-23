@@ -1,0 +1,6 @@
+{
+  "permissionTitle": "Camera access needed",
+  "permissionMessage": "CityHero needs camera access to identify problems in your photos.",
+  "permissionDenied": "Camera access was denied. You can still report manually.",
+  "openSettings": "Open Settings"
+}

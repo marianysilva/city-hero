@@ -36,6 +36,22 @@ async def test_register_returns_citizen_role_by_default(client: AsyncClient):
     assert resp.json()["user"]["role"] == "citizen"
 
 
+async def test_register_defaults_language_to_en_us(client: AsyncClient):
+    resp = await client.post("/auth/register", json=_VALID_USER)
+    assert resp.json()["user"]["language"] == "en-US"
+
+
+async def test_register_accepts_an_explicit_supported_language(client: AsyncClient):
+    resp = await client.post("/auth/register", json={**_VALID_USER, "language": "pt-BR"})
+    assert resp.status_code == 201
+    assert resp.json()["user"]["language"] == "pt-BR"
+
+
+async def test_register_unsupported_language_returns_422(client: AsyncClient):
+    resp = await client.post("/auth/register", json={**_VALID_USER, "language": "fr-FR"})
+    assert resp.status_code == 422
+
+
 async def test_register_duplicate_email_returns_409(client: AsyncClient):
     await client.post("/auth/register", json=_VALID_USER)
     resp = await client.post("/auth/register", json=_VALID_USER)
@@ -202,6 +218,13 @@ async def test_get_me_with_valid_token(client: AsyncClient):
     resp = await client.get("/users/me", headers={"Authorization": f"Bearer {token}"})
     assert resp.status_code == 200
     assert resp.json()["email"] == _VALID_USER["email"]
+
+
+async def test_get_me_returns_language(client: AsyncClient):
+    reg = await client.post("/auth/register", json={**_VALID_USER, "language": "pt-BR"})
+    token = reg.json()["accessToken"]
+    resp = await client.get("/users/me", headers={"Authorization": f"Bearer {token}"})
+    assert resp.json()["language"] == "pt-BR"
 
 
 async def test_get_me_without_token_returns_401(client: AsyncClient):

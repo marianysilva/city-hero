@@ -27,6 +27,10 @@ class User(Base):
     role: Mapped[str] = mapped_column(String(50), default="citizen", nullable=False)
     # "email" | "govbr" — determines which login flow is valid for this user.
     auth_provider: Mapped[str] = mapped_column(String(50), default="email", nullable=False)
+    # "pt-BR" | "en-US" — see packages/i18n's SUPPORTED_LOCALES. Defaults to
+    # en-US (00-foundation/13-i18n.md); the mobile client may pass a detected
+    # or user-chosen value at registration instead.
+    language: Mapped[str] = mapped_column(String(5), default="en-US", nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
     )

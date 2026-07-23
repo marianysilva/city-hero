@@ -64,3 +64,19 @@ def validate_role_slug(v: str | None) -> str | None:
     if role_data is None:
         raise PydanticCustomError("role_unknown", "Unknown role: {role}", {"role": v})
     return v
+
+
+# Kept in sync with packages/i18n's SUPPORTED_LOCALES (00-foundation/13-i18n.md).
+_SUPPORTED_LANGUAGES = {"pt-BR", "en-US"}
+
+
+def validate_language_code(v: str | None) -> str | None:
+    if v is None:
+        return v
+    if v not in _SUPPORTED_LANGUAGES:
+        raise PydanticCustomError(
+            "language_unsupported",
+            "Unsupported language: {language}",
+            {"language": v},
+        )
+    return v

@@ -10,7 +10,7 @@ parsing the English `msg` sentence. See app/schemas/_validators.py.
 import pytest
 from pydantic_core import PydanticCustomError
 
-from app.schemas._validators import validate_name, validate_password_strength
+from app.schemas._validators import validate_language_code, validate_name, validate_password_strength
 
 
 class TestPasswordStrength:
@@ -66,3 +66,20 @@ class TestName:
         with pytest.raises(PydanticCustomError) as exc_info:
             validate_name("   ")
         assert exc_info.value.type == "name_empty"
+
+
+class TestLanguageCode:
+    def test_accepts_pt_br(self):
+        assert validate_language_code("pt-BR") == "pt-BR"
+
+    def test_accepts_en_us(self):
+        assert validate_language_code("en-US") == "en-US"
+
+    def test_none_is_allowed_and_passed_through(self):
+        assert validate_language_code(None) is None
+
+    def test_unsupported_language_has_a_stable_type_code(self):
+        with pytest.raises(PydanticCustomError) as exc_info:
+            validate_language_code("fr-FR")
+        assert exc_info.value.type == "language_unsupported"
+        assert exc_info.value.context == {"language": "fr-FR"}

@@ -25,6 +25,7 @@ def _to_user_type(user: User) -> UserType:
         auth_provider=user.auth_provider,
         avatar_url=user.avatar_url,
         is_active=user.is_active,
+        language=user.language,
         created_at=user.created_at,
     )
 

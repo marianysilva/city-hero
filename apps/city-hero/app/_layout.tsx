@@ -1,10 +1,13 @@
 import { ThemeProvider as DesignSystemThemeProvider, useTheme } from "@city-hero/design-system";
+import type { Locale } from "@city-hero/i18n";
+import { LocaleProvider } from "@city-hero/i18n";
 import { useFonts } from "expo-font";
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "react-native-reanimated";
 
+import { getDeviceDefaultLocale, loadPersistedLocale, persistLocale } from "../lib/i18n";
 import { ReactQueryProvider } from "../lib/ReactQueryProvider";
 import "../global.css";
 
@@ -25,6 +28,10 @@ export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
+  // null while the persisted choice (or device default) is still loading —
+  // same async-gate shape as `useFonts`' `loaded`, so the splash screen
+  // doesn't hide until both are ready.
+  const [initialLocale, setInitialLocale] = useState<Locale | null>(null);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -32,24 +39,40 @@ export default function RootLayout() {
   }, [error]);
 
   useEffect(() => {
-    if (loaded) {
+    let cancelled = false;
+    loadPersistedLocale().then((persisted) => {
+      if (!cancelled) {
+        setInitialLocale(persisted ?? getDeviceDefaultLocale());
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const ready = loaded && initialLocale !== null;
+
+  useEffect(() => {
+    if (ready) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [ready]);
 
-  if (!loaded) {
+  if (!ready) {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return <RootLayoutNav initialLocale={initialLocale} />;
 }
 
-function RootLayoutNav() {
+function RootLayoutNav({ initialLocale }: { initialLocale: Locale }) {
   return (
     <ReactQueryProvider>
-      <DesignSystemThemeProvider>
-        <NavigationThemeBridge />
-      </DesignSystemThemeProvider>
+      <LocaleProvider initialLocale={initialLocale} onLocaleChange={persistLocale}>
+        <DesignSystemThemeProvider>
+          <NavigationThemeBridge />
+        </DesignSystemThemeProvider>
+      </LocaleProvider>
     </ReactQueryProvider>
   );
 }

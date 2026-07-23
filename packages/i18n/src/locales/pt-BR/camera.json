@@ -1,0 +1,6 @@
+{
+  "permissionTitle": "Acesso à câmera necessário",
+  "permissionMessage": "O CityHero precisa acessar a câmera para identificar problemas nas suas fotos.",
+  "permissionDenied": "O acesso à câmera foi negado. Você ainda pode reportar manualmente.",
+  "openSettings": "Abrir Configurações"
+}

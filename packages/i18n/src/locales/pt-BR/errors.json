@@ -1,0 +1,6 @@
+{
+  "network": "Sem conexão. Verifique sua internet e tente novamente.",
+  "unauthorized": "Sua sessão expirou. Faça login novamente.",
+  "notFound": "Não encontramos o que você procura.",
+  "generic": "Ocorreu um erro inesperado."
+}

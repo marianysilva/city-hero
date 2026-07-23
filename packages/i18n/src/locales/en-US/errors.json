@@ -1,0 +1,6 @@
+{
+  "network": "No connection. Check your internet and try again.",
+  "unauthorized": "Your session has expired. Please log in again.",
+  "notFound": "We couldn't find what you're looking for.",
+  "generic": "An unexpected error occurred."
+}

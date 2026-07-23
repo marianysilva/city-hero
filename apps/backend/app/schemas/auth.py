@@ -5,7 +5,7 @@ from uuid import UUID
 
 from pydantic import EmailStr, field_validator
 
-from app.schemas._validators import validate_name, validate_password_strength
+from app.schemas._validators import validate_language_code, validate_name, validate_password_strength
 from app.schemas.base import CamelBase
 
 if TYPE_CHECKING:
@@ -16,6 +16,9 @@ class RegisterRequest(CamelBase):
     email: EmailStr
     name: str
     password: str
+    # Optional: the client's detected/chosen locale (packages/i18n's
+    # `resolveDefaultLocale()`). Omitted -> the User model's "en-US" default.
+    language: str | None = None
 
     @field_validator("password")
     @classmethod
@@ -26,6 +29,11 @@ class RegisterRequest(CamelBase):
     @classmethod
     def name_not_empty(cls, v: str) -> str:
         return validate_name(v)
+
+    @field_validator("language")
+    @classmethod
+    def language_supported(cls, v: str | None) -> str | None:
+        return validate_language_code(v)
 
 
 class LoginRequest(CamelBase):
@@ -42,6 +50,7 @@ class UserOut(CamelBase):
     auth_provider: str
     is_active: bool
     avatar_url: str | None = None
+    language: str
     created_at: str
     deleted_at: str | None = None
 
@@ -56,6 +65,7 @@ def user_to_out(user: _UserModel) -> UserOut:
         auth_provider=user.auth_provider,
         is_active=user.is_active,
         avatar_url=user.avatar_url,
+        language=user.language,
         created_at=user.created_at.isoformat(),
         deleted_at=user.deleted_at.isoformat() if user.deleted_at else None,
     )
