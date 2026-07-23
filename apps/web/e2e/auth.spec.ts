@@ -8,7 +8,10 @@ import { AUTH_FILE } from "./global-setup";
 // suite fails loudly rather than silently when the env is not configured.
 const ADMIN_EMAIL = process.env.TEST_ADMIN_EMAIL ?? "admin@cityhero.app";
 const ADMIN_PASSWORD = process.env.TEST_ADMIN_PASSWORD ?? "";
-const BASE_URL = "http://localhost:3000";
+// Matches playwright.config.ts's own BASE_URL derivation — scripts/test-e2e.sh
+// (docs/tasks/00-foundation/21-e2e-test-database.md) runs this suite's web
+// server on its own origin, not :3000.
+const BASE_URL = process.env.E2E_WEB_URL ?? "http://localhost:3000";
 const PROBE_PASSWORD = "E2eTest123!";
 
 // apps/backend/app/routers/auth.py rate-limits /auth/login to 5 requests per

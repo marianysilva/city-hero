@@ -24,6 +24,12 @@ const cspHeader = `
   .trim();
 
 const nextConfig: NextConfig = {
+  // scripts/test-e2e.sh's isolated Playwright run sets NEXT_DIST_DIR so its
+  // own `next dev` instance doesn't contend with the developer's regular dev
+  // server: Next.js refuses to run two `next dev` processes that share one
+  // distDir's lock file (node_modules/next/dist/build/lockfile.js), even on
+  // different ports. Falls back to Next's own default (".next") otherwise.
+  ...(process.env.NEXT_DIST_DIR ? { distDir: process.env.NEXT_DIST_DIR } : {}),
   // Stop advertising the framework to every response.
   poweredByHeader: false,
   async headers() {

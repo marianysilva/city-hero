@@ -193,6 +193,17 @@ System `:6006`, Prototype `:5173`).
 > `migrate` then `backend` for this reason. Web and mobile run as local Node processes (not
 > containers), with PIDs tracked in `.pids/` and logs in `.logs/`.
 
+### Running `apps/web`'s e2e tests
+
+```bash
+./scripts/test-e2e.sh
+```
+
+Runs `apps/web`'s Playwright suite against its own isolated, disposable Postgres + backend pair
+(`docker-compose.e2e.yml`) — never the dev database above. Safe to run while `make start` /
+`./scripts/dev.sh start` is already up; see
+[`docs/tasks/00-foundation/21-e2e-test-database.md`](docs/tasks/00-foundation/21-e2e-test-database.md).
+
 ---
 
 ## 3. Ecosystem Architecture

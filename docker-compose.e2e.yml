@@ -1,0 +1,76 @@
+# Isolated, disposable stack for `npm run test:e2e` (apps/web/e2e/*.spec.ts).
+# Brought up and torn down by scripts/test-e2e.sh — never shares a database,
+# port, or container name with the dev stack in docker-compose.yml /
+# docker-compose.override.yml, so both can run at the same time.
+#
+# See docs/tasks/00-foundation/21-e2e-test-database.md for why this exists:
+# the e2e suite used to run against the developer's own dev database
+# (`cityhero`), polluting it with throwaway test data and racing with any
+# manual testing happening in parallel.
+#
+# The credentials below are not secrets — they only ever unlock a tmpfs-backed,
+# localhost-only Postgres container that holds nothing but synthetic seed and
+# test data, and is destroyed at the end of every run.
+name: cityhero-e2e
+
+services:
+  db-e2e:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: cityhero
+      POSTGRES_PASSWORD: cityhero_e2e
+      POSTGRES_DB: cityhero_e2e
+    ports:
+      - "5433:5432"
+    # No named volume: data lives in memory and disappears with the
+    # container, so there's nothing to explicitly drop between runs.
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cityhero"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+
+  migrate-e2e:
+    build:
+      context: ./apps/backend
+      target: migrate
+    environment:
+      DATABASE_URL: postgresql+asyncpg://cityhero:cityhero_e2e@db-e2e:5432/cityhero_e2e
+      SECRET_KEY: e2e-only-secret-key-do-not-use-in-production-0000
+      APP_ADMIN: admin@cityhero.com
+      APP_ADMIN_PASSWORD: e2e-admin-pass-123
+      APP_USERS_PASSWORD: e2e-users-pass-123
+    depends_on:
+      db-e2e:
+        condition: service_healthy
+
+  backend-e2e:
+    build:
+      context: ./apps/backend
+      target: app
+    environment:
+      APP_NAME: CityHero API (e2e)
+      DATABASE_URL: postgresql+asyncpg://cityhero:cityhero_e2e@db-e2e:5432/cityhero_e2e
+      SECRET_KEY: e2e-only-secret-key-do-not-use-in-production-0000
+      ACCESS_TOKEN_EXPIRE_MINUTES: "60"
+      # Kept in sync with scripts/test-e2e.sh's E2E_WEB_URL so an overridden
+      # web port doesn't get silently CORS-rejected.
+      ALLOWED_ORIGINS: ${E2E_WEB_URL:-http://localhost:3100}
+      APP_ADMIN: admin@cityhero.com
+      APP_ADMIN_PASSWORD: e2e-admin-pass-123
+      APP_USERS_PASSWORD: e2e-users-pass-123
+      # Same fast rate-limit windows as docker-compose.override.yml's dev
+      # stack (see app/core/limiter.py / graphql_rate_limit.py) — the e2e
+      # suite's own rate-limit tests need this to not wait a full minute.
+      LOGIN_RATE_LIMIT: "5/10 second"
+      REGISTER_RATE_LIMIT: "3/10 second"
+      GRAPHQL_RATE_LIMIT: "30/10 second"
+    ports:
+      - "8001:8000"
+    depends_on:
+      db-e2e:
+        condition: service_healthy
+      migrate-e2e:
+        condition: service_completed_successfully

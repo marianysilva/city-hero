@@ -17,6 +17,19 @@ if (!process.env.TEST_ADMIN_PASSWORD && process.env.APP_ADMIN_PASSWORD) {
   process.env.TEST_ADMIN_PASSWORD = process.env.APP_ADMIN_PASSWORD;
 }
 
+// scripts/test-e2e.sh sets these to run this suite's own apps/web dev server
+// on its own origin, pointed at the isolated e2e backend — never the
+// developer's own :3000/BACKEND_URL from .env.local (see
+// docs/tasks/00-foundation/21-e2e-test-database.md). Falls back to the
+// original :3000/:8000 pair for anyone invoking `playwright test` directly
+// against an already-running dev stack. E2E_WEB_URL is the single source of
+// truth for the isolated origin — the numeric port `next dev`'s PORT env var
+// needs is parsed back out of it rather than tracked as a second variable.
+const IS_ISOLATED_RUN = !!process.env.E2E_WEB_URL;
+const BASE_URL = process.env.E2E_WEB_URL ?? "http://localhost:3000";
+const WEB_PORT = new URL(BASE_URL).port || "3000";
+const BACKEND_URL = process.env.E2E_BACKEND_URL ?? "http://localhost:8000";
+
 export default defineConfig({
   testDir: "./e2e",
   timeout: 30000,
@@ -24,15 +37,28 @@ export default defineConfig({
   workers: 1,
   reporter: [["list"]],
   use: {
-    baseURL: "http://localhost:3000",
+    baseURL: BASE_URL,
     browserName: "chromium",
     headless: true,
   },
   globalSetup: "./e2e/global-setup.ts",
   webServer: {
     command: "npm run dev",
-    url: "http://localhost:3000",
-    reuseExistingServer: !process.env.CI,
+    url: BASE_URL,
+    // Isolated runs never reuse an existing process on this port: a leftover
+    // server from a hard-killed prior run would still be wired to that run's
+    // (now-torn-down) backend-e2e container, and silently reusing it would
+    // surface as confusing connection failures instead of a clear port
+    // conflict. Non-isolated (:3000) runs keep the original reuse behavior.
+    reuseExistingServer: IS_ISOLATED_RUN ? false : !process.env.CI,
     timeout: 120000,
+    env: {
+      PORT: WEB_PORT,
+      BACKEND_URL,
+      // Distinct build-output dir so this instance's lockfile doesn't
+      // collide with a `next dev` the developer already has running on
+      // :3000 for the same project directory (see next.config.ts).
+      ...(IS_ISOLATED_RUN ? { NEXT_DIST_DIR: ".next-e2e" } : {}),
+    },
   },
 });

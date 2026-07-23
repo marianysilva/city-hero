@@ -3,7 +3,7 @@
 Tasks that must be in place **before** screen tasks — without them, the screen work either repeats
 itself or breaks on integration.
 
-## Tasks (18)
+## Tasks (19)
 
 | #   | Task                                                                                           | Effort | Blocks                        |
 | --- | ---------------------------------------------------------------------------------------------- | ------ | ----------------------------- |
@@ -25,6 +25,7 @@ itself or breaks on integration.
 | 16  | [YOLOv8 inference service (FastAPI + S3 + queue)](./16-yolov8-inference-service.md)            | XL     | screens 08, 09, anonymization |
 | 17  | [Docker dev environment (PostGIS, Redis, MinIO, AI service)](./17-docker-dev-environment.md)   | M      | backend, AI tasks             |
 | 20  | [Observability package (Sentry + structured logs + trace IDs)](./20-observability-package.md)  | S      | everything (cross-cutting)    |
+| 21  | [E2E test database (isolated stack, seed → run → drop)](./21-e2e-test-database.md)             | M      | e2e testing (cross-cutting)   |
 
 ## Suggested implementation order
 
@@ -35,6 +36,7 @@ itself or breaks on integration.
 04-status-bar-component
 20-observability-package ← before error boundary so its Sentry/logger contract is settled
 05-api-client           ← most of it is buildable without auth; see its Context note on 06
+21-e2e-test-database    ← the api-client PR added apps/web's first e2e suite; isolate it before more accumulate
 13-i18n
 15-error-boundary
 06-auth-system          ← unblocks profile and auth screens; must land before 14 (needs its user id)

@@ -55,8 +55,24 @@ npm run dev        # dev server with hot reload
 npm run build       # production build
 npm run start        # serve the production build
 npm run lint          # ESLint
-npm run test:e2e       # Playwright end-to-end tests (see e2e/)
+npm run test:e2e       # Playwright end-to-end tests (see e2e/) — needs a backend reachable at
+                       # BACKEND_URL and a compatible database already up; see below for the
+                       # recommended, isolated way to run this
 ```
+
+**Recommended: run e2e tests against an isolated, disposable stack** (never your own dev database) —
+from the repo root:
+
+```bash
+./scripts/test-e2e.sh
+```
+
+This brings up its own Postgres + backend pair (`docker-compose.e2e.yml`, seeded via the same
+Alembic migrations as the dev stack), runs `apps/web`'s own dev server on a separate port pointed at
+it, runs Playwright, then tears the whole thing down — your own `npm run dev` / dev database are
+never touched, so both can run at the same time. See
+`docs/tasks/00-foundation/21-e2e-test-database.md`. Extra arguments pass through to
+`playwright test` (e.g. `./scripts/test-e2e.sh --headed auth.spec.ts`).
 
 ## Environment Variables
 
