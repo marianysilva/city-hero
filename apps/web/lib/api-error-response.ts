@@ -1,7 +1,7 @@
 import { ApiClientError } from "@city-hero/api-client";
+import { LOCALE_DICTS, translate } from "@city-hero/i18n";
+import type { Locale } from "@city-hero/i18n";
 import { NextResponse } from "next/server";
-
-const GENERIC_SERVER_ERROR_MESSAGE = "Erro interno do servidor. Tente novamente em instantes.";
 
 // errors.ts's own contract: `message` is a debugging string, not something
 // meant for direct display. For most codes the backend's real HTTPException
@@ -10,9 +10,9 @@ const GENERIC_SERVER_ERROR_MESSAGE = "Erro interno do servidor. Tente novamente 
 // response it couldn't parse (e.g. an unhandled 500 with no JSON body) — its
 // `message` is an internal placeholder like `unknown_error_500`, never meant
 // to reach a screen.
-export function safeErrorMessage(error: ApiClientError): string {
+export function safeErrorMessage(error: ApiClientError, locale: Locale): string {
   return error.code === "server_error" || error.code === "unknown_error"
-    ? GENERIC_SERVER_ERROR_MESSAGE
+    ? translate(LOCALE_DICTS, locale, "errors.generic")
     : error.message;
 }
 
@@ -21,10 +21,18 @@ export function safeErrorMessage(error: ApiClientError): string {
 // apps/web/app/api/auth/login/route.ts is the one exception — its frontend
 // reads `body.error` instead, so it builds its own response inline (reusing
 // safeErrorMessage for the same leak-prevention).
-export function apiErrorResponse(error: unknown): NextResponse {
+//
+// `locale` is required, not defaulted to `getCurrentLocale()`: every caller
+// is a Route Handler, which (unlike a client component) can't read that
+// shared, client-only ref — see `lib/locale.ts`'s `resolveLocaleFromRequest`.
+export function apiErrorResponse(error: unknown, locale: Locale): NextResponse {
   if (error instanceof ApiClientError && error.status > 0) {
-    const detail = error.code === "validation_error" ? error.details : safeErrorMessage(error);
+    const detail =
+      error.code === "validation_error" ? error.details : safeErrorMessage(error, locale);
     return NextResponse.json({ detail }, { status: error.status });
   }
-  return NextResponse.json({ error: "Backend unavailable" }, { status: 503 });
+  return NextResponse.json(
+    { error: translate(LOCALE_DICTS, locale, "errors.backendUnavailable") },
+    { status: 503 },
+  );
 }

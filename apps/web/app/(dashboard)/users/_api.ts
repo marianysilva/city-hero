@@ -1,4 +1,7 @@
+import { LOCALE_DICTS, translate } from "@city-hero/i18n";
+
 import type { SortEntry } from "@/components/organisms/DataTable";
+import { getCurrentLocale } from "@/lib/locale";
 import { translateValidationErrors } from "@/lib/validation-messages";
 
 export class ApiError extends Error {
@@ -21,7 +24,10 @@ export class ApiError extends Error {
 // whatever a caller submitted.
 function errorMessage(detail: unknown, status: number): string {
   if (typeof detail === "string") return detail;
-  return translateValidationErrors(detail) ?? `Erro ${status}`;
+  return (
+    translateValidationErrors(detail) ??
+    translate(LOCALE_DICTS, getCurrentLocale(), "errors.statusCode", { status })
+  );
 }
 
 export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T | undefined> {

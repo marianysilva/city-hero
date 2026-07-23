@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslation } from "@city-hero/i18n";
 import { useState } from "react";
 
 import { Button } from "@/components/atoms/Button";
@@ -11,7 +12,7 @@ import { FormField } from "@/components/molecules/FormField";
 import { Modal } from "@/components/organisms/Modal";
 
 import { apiFetch } from "../_api";
-import { ROLES, type ModalState, type Role } from "../_types";
+import { getRoleOptions, type ModalState, type Role } from "../_types";
 
 interface UserFormModalProps {
   modal: NonNullable<ModalState>;
@@ -28,6 +29,7 @@ export function UserFormModal({
   onClose,
   onSaved,
 }: UserFormModalProps) {
+  const { t } = useTranslation();
   const isEdit = modal.mode === "edit";
   const editUser = isEdit ? modal.user : null;
 
@@ -43,9 +45,10 @@ export function UserFormModal({
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const allRoles = getRoleOptions(t);
   const roleOptions = isEdit
-    ? ROLES // show all roles in edit mode (field is read-only for non-admins)
-    : ROLES.filter((r) => assignableRoles.includes(r.value));
+    ? allRoles // show all roles in edit mode (field is read-only for non-admins)
+    : allRoles.filter((r) => assignableRoles.includes(r.value));
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -69,16 +72,16 @@ export function UserFormModal({
       }
       onSaved();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro desconhecido");
+      setError(err instanceof Error ? err.message : t("errors.unknown"));
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <Modal title={isEdit ? "Editar usuário" : "Novo usuário"} onClose={onClose}>
+    <Modal title={isEdit ? t("users.editUserTitle") : t("users.newUser")} onClose={onClose}>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <FormField label="Nome" htmlFor="u-name" required>
+        <FormField label={t("users.colName")} htmlFor="u-name" required>
           <Input
             id="u-name"
             type="text"
@@ -88,7 +91,7 @@ export function UserFormModal({
           />
         </FormField>
 
-        <FormField label="E-mail" htmlFor="u-email" required={!isEdit}>
+        <FormField label={t("users.colEmail")} htmlFor="u-email" required={!isEdit}>
           <Input
             id="u-email"
             type="email"
@@ -100,7 +103,7 @@ export function UserFormModal({
         </FormField>
 
         {!isEdit && (
-          <FormField label="Senha" htmlFor="u-password" required>
+          <FormField label={t("users.fieldPassword")} htmlFor="u-password" required>
             <Input
               id="u-password"
               type="password"
@@ -112,7 +115,7 @@ export function UserFormModal({
           </FormField>
         )}
 
-        <FormField label="Role" htmlFor="u-role">
+        <FormField label={t("users.colRole")} htmlFor="u-role">
           <Select
             id="u-role"
             value={role}
@@ -130,7 +133,7 @@ export function UserFormModal({
         {isEdit && (
           <Checkbox
             id="u-active"
-            label="Usuário ativo"
+            label={t("users.fieldActiveUser")}
             checked={isActive}
             onChange={(e) => setIsActive(e.target.checked)}
           />
@@ -140,10 +143,10 @@ export function UserFormModal({
 
         <div className="flex justify-end gap-2 pt-1">
           <Button type="button" variant="ghost" onClick={onClose}>
-            Cancelar
+            {t("common.cancel")}
           </Button>
           <Button type="submit" variant="primary" loading={loading}>
-            {isEdit ? "Salvar" : "Criar"}
+            {isEdit ? t("common.save") : t("users.actionCreate")}
           </Button>
         </div>
       </form>

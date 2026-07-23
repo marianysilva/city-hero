@@ -1,9 +1,24 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 
+import { setCurrentLocale } from "./locale";
 import { translateValidationError, translateValidationErrors } from "./validation-messages";
 
 describe("translateValidationError", () => {
-  it("translates a known code with no ctx placeholders", () => {
+  afterEach(() => {
+    setCurrentLocale("en-US"); // restore FALLBACK_LOCALE default between tests
+  });
+
+  it("translates a known code with no ctx placeholders (en-US default)", () => {
+    expect(
+      translateValidationError({
+        type: "password_missing_digit",
+        msg: "Password must contain at least one digit",
+      }),
+    ).toBe("Password must contain at least one digit");
+  });
+
+  it("translates a known code with no ctx placeholders (pt-BR)", () => {
+    setCurrentLocale("pt-BR");
     expect(
       translateValidationError({
         type: "password_missing_digit",
@@ -13,6 +28,7 @@ describe("translateValidationError", () => {
   });
 
   it("interpolates ctx params by name into the template", () => {
+    setCurrentLocale("pt-BR");
     expect(
       translateValidationError({
         type: "password_too_long",
@@ -22,7 +38,7 @@ describe("translateValidationError", () => {
     ).toBe("A senha deve ter no máximo 128 caracteres");
   });
 
-  it("falls back to msg for a code with no pt-BR translation (e.g. Pydantic's own built-in types)", () => {
+  it("falls back to msg for a code with no translation (e.g. Pydantic's own built-in types)", () => {
     expect(
       translateValidationError({
         type: "value_error",
@@ -39,6 +55,10 @@ describe("translateValidationError", () => {
 });
 
 describe("translateValidationErrors", () => {
+  afterEach(() => {
+    setCurrentLocale("en-US");
+  });
+
   it("returns null for a non-array input", () => {
     expect(translateValidationErrors("Could not validate credentials")).toBeNull();
     expect(translateValidationErrors(undefined)).toBeNull();
@@ -54,7 +74,7 @@ describe("translateValidationErrors", () => {
       { type: "password_missing_digit", msg: "..." },
     ]);
     expect(result).toBe(
-      "A senha deve conter pelo menos uma letra maiúscula; A senha deve conter pelo menos um número",
+      "Password must contain at least one uppercase letter; Password must contain at least one digit",
     );
   });
 });

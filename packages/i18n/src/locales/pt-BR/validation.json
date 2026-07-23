@@ -1,0 +1,10 @@
+{
+  "passwordTooShort": "A senha deve ter pelo menos {{min_length}} caracteres",
+  "passwordTooLong": "A senha deve ter no máximo {{max_length}} caracteres",
+  "passwordMissingUppercase": "A senha deve conter pelo menos uma letra maiúscula",
+  "passwordMissingLowercase": "A senha deve conter pelo menos uma letra minúscula",
+  "passwordMissingDigit": "A senha deve conter pelo menos um número",
+  "passwordMissingSpecialChar": "A senha deve conter pelo menos um caractere especial",
+  "nameEmpty": "O nome não pode estar vazio",
+  "roleUnknown": "Função desconhecida: {{role}}"
+}

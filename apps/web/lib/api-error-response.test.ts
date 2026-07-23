@@ -7,7 +7,7 @@ describe("apiErrorResponse", () => {
   it("passes through a real HTTPException detail message", async () => {
     const error = new ApiClientError({ status: 404, code: "not_found", message: "User not found" });
 
-    const response = apiErrorResponse(error);
+    const response = apiErrorResponse(error, "en-US");
 
     expect(response.status).toBe(404);
     expect((await response.json()).detail).toBe("User not found");
@@ -22,7 +22,7 @@ describe("apiErrorResponse", () => {
       details,
     });
 
-    const response = apiErrorResponse(error);
+    const response = apiErrorResponse(error, "en-US");
 
     expect((await response.json()).detail).toEqual(details);
   });
@@ -34,7 +34,7 @@ describe("apiErrorResponse", () => {
       message: "unknown_error_500",
     });
 
-    const response = apiErrorResponse(error);
+    const response = apiErrorResponse(error, "en-US");
 
     expect(response.status).toBe(500);
     const body = await response.json();
@@ -49,16 +49,29 @@ describe("apiErrorResponse", () => {
       message: "unknown_error_418",
     });
 
-    const response = apiErrorResponse(error);
+    const response = apiErrorResponse(error, "en-US");
 
     const body = await response.json();
     expect(body.detail).not.toContain("unknown_error");
   });
 
   it("returns 503 when the error isn't an ApiClientError (backend unreachable)", async () => {
-    const response = apiErrorResponse(new Error("fetch failed"));
+    const response = apiErrorResponse(new Error("fetch failed"), "en-US");
 
     expect(response.status).toBe(503);
     expect((await response.json()).error).toBe("Backend unavailable");
+  });
+
+  it("translates the generic fallback into the requested locale", async () => {
+    const error = new ApiClientError({
+      status: 500,
+      code: "server_error",
+      message: "unknown_error_500",
+    });
+
+    const response = apiErrorResponse(error, "pt-BR");
+
+    const body = await response.json();
+    expect(body.detail).toBe("Ocorreu um erro inesperado.");
   });
 });

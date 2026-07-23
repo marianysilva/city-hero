@@ -22,7 +22,16 @@ export type TranslationValue = string | PluralForms;
 
 export type NamespaceDict = Record<string, TranslationValue>;
 
-export type Namespace = "common" | "home" | "camera" | "report" | "auth" | "errors";
+export type Namespace =
+  | "common"
+  | "home"
+  | "camera"
+  | "report"
+  | "auth"
+  | "errors"
+  | "dashboard"
+  | "users"
+  | "validation";
 
 export type LocaleDict = Record<Namespace, NamespaceDict>;
 
@@ -36,3 +45,16 @@ export type MissingKeyInfo = {
   key: TranslationKey;
   locale: Locale;
 };
+
+/**
+ * The shape of `useTranslation()`'s `t` — exported standalone so a `t`
+ * received from a hook can be threaded as a plain parameter into
+ * non-component helpers (e.g. building a translated options list, or a
+ * fetch-layer error formatter) without those modules importing React.
+ */
+export type TFunction = (key: TranslationKey, values?: TranslationValuesInput) => string;
+
+// Kept structurally identical to translate.ts's InterpolationValues without
+// importing it here, to avoid a circular import (translate.ts imports from
+// this file).
+export type TranslationValuesInput = Record<string, string | number> & { count?: number };

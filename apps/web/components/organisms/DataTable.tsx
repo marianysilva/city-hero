@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslation } from "@city-hero/i18n";
 import { ChevronUpIcon, ChevronDownIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { ReactNode } from "react";
 
@@ -59,15 +60,17 @@ export function DataTable<T>({
   keyFn,
   loading = false,
   error,
-  emptyMessage = "Nenhum resultado encontrado.",
+  emptyMessage,
   sort = [],
   onSort,
 }: DataTableProps<T>) {
+  const { t } = useTranslation();
+
   if (loading || error || rows.length === 0) {
     return (
       <div className="bg-white rounded-2xl border border-zinc-200 flex items-center justify-center h-48">
         <span className={`text-sm ${error ? "text-red-500" : "text-zinc-400"}`}>
-          {loading ? "Carregando..." : (error ?? emptyMessage)}
+          {loading ? t("common.loading") : (error ?? emptyMessage ?? t("common.noResultsFound"))}
         </span>
       </div>
     );
@@ -138,9 +141,7 @@ export function DataTable<T>({
         </table>
       </div>
       <div className="pt-2 ml-1">
-        <span className="text-xs text-zinc-400">
-          Shift+clique nos cabeçalhos para ordenar por múltiplas colunas
-        </span>
+        <span className="text-xs text-zinc-400">{t("common.multiSortHint")}</span>
       </div>
     </div>
   );

@@ -17,6 +17,7 @@
     "@apollo/client-integration-nextjs": "^0.14.5",
     "@city-hero/api-client": "*",
     "@city-hero/design-system": "*",
+    "@city-hero/i18n": "*",
     "@heroicons/react": "^2.2.0",
     "@tanstack/react-query": "^5.90.3",
     "graphql": "^16.14.2",

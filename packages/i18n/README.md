@@ -9,13 +9,21 @@ and Status.
 Per the task's own "Architecture note": at 2-locale scale, `expo-localization` (device detection) +
 a small typed key-value dictionary + `Intl` (`PluralRules`, `NumberFormat`, `DateTimeFormat`,
 `RelativeTimeFormat`) satisfies every Acceptance Criteria scenario with no i18next backend/namespace
-machinery. This package stays framework-agnostic — no `expo-localization` import here, only plain
-string params — so it's usable from `apps/city-hero` and unit-testable with plain Vitest.
+machinery. This package stays framework-agnostic — no `expo-localization` (or any RN/Next-specific)
+import here, only plain string params and React — so it's usable from both `apps/city-hero` (React
+Native) and `apps/web` (Next.js), and unit-testable with plain Vitest.
 
 Persistence and analytics are the host app's job, not this package's — same pattern as
-`@city-hero/design-system`'s `ThemeProvider` (`initialPreference`/`onPreferenceChange`). See
-`apps/city-hero/lib/i18n.ts` for the host wiring (`expo-sqlite/kv-store` for persistence,
-`expo-localization` for device detection).
+`@city-hero/design-system`'s `ThemeProvider` (`initialPreference`/`onPreferenceChange`). See:
+
+- `apps/city-hero/lib/i18n.ts` — `expo-sqlite/kv-store` for persistence, `expo-localization` for
+  device detection.
+- `apps/web/lib/locale.ts` + `apps/web/app/lib/i18n.ts` — a plain cookie for persistence (readable
+  both client- and server-side) and the `Accept-Language` header for device detection. Next.js Route
+  Handlers serve every user's request in one Node process, so they can't read the client-only
+  `getCurrentLocale()` module ref — non-component call sites there (`_api.ts`'s error formatting,
+  `lib/validation-messages.ts`, `lib/api-error-response.ts`) take an explicit `locale` param
+  instead, resolved per-request via `resolveLocaleFromRequest`/`resolveLocaleFrom`.
 
 ## Usage
 
@@ -36,8 +44,9 @@ function Screen() {
 }
 ```
 
-- Keys are `"namespace.key"` (`common`, `home`, `camera`, `report`, `auth`, `errors` — one JSON file
-  per namespace under `src/locales/<locale>/`).
+- Keys are `"namespace.key"` (`common`, `home`, `camera`, `report`, `auth`, `errors`, `dashboard`,
+  `users`, `validation` — one JSON file per namespace under `src/locales/<locale>/`. `dashboard`,
+  `users`, and `validation` are `apps/web`-specific; the rest are shared or mobile-specific).
 - Plurals: a value can be `{ zero?, one, other }` instead of a string; resolved via
   `Intl.PluralRules`, with an exact-value override for `count === 0` (pt-BR's CLDR "one" category
   covers both 0 and 1, but the product wants distinct copy for zero).

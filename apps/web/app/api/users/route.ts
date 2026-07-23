@@ -1,8 +1,10 @@
 import type { ListUsersParams } from "@city-hero/api-client";
+import { LOCALE_DICTS, translate } from "@city-hero/i18n";
 import { NextRequest, NextResponse } from "next/server";
 
 import { createServerApiClient } from "@/lib/api-client";
 import { apiErrorResponse } from "@/lib/api-error-response";
+import { resolveLocaleFromRequest } from "@/lib/locale";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -22,17 +24,21 @@ export async function GET(request: NextRequest) {
     });
     return NextResponse.json(result);
   } catch (error) {
-    return apiErrorResponse(error);
+    return apiErrorResponse(error, resolveLocaleFromRequest(request));
   }
 }
 
 export async function POST(request: NextRequest) {
+  const locale = resolveLocaleFromRequest(request);
   let email: unknown, name: unknown, password: unknown, role: unknown;
   try {
     const body = await request.json();
     ({ email, name, password, role } = body);
   } catch {
-    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+    return NextResponse.json(
+      { error: translate(LOCALE_DICTS, locale, "errors.invalidRequestBody") },
+      { status: 400 },
+    );
   }
 
   try {
@@ -44,6 +50,6 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json(result, { status: 201 });
   } catch (error) {
-    return apiErrorResponse(error);
+    return apiErrorResponse(error, locale);
   }
 }

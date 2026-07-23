@@ -1,5 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import { setCurrentLocale } from "@/lib/locale";
+
 import { apiFetch, ApiError, buildSortParams } from "./_api";
 
 function mockFetchResponse(status: number, body: unknown) {
@@ -15,6 +17,7 @@ function mockFetchResponse(status: number, body: unknown) {
 
 afterEach(() => {
   vi.unstubAllGlobals();
+  setCurrentLocale("en-US"); // restore FALLBACK_LOCALE default between tests
 });
 
 describe("apiFetch — error message extraction", () => {
@@ -48,7 +51,24 @@ describe("apiFetch — error message extraction", () => {
     expect((error as ApiError).message).not.toContain("123qweasd");
   });
 
-  it("translates a known backend `type` code to pt-BR instead of showing the English msg", async () => {
+  it("translates a known backend `type` code via the active locale's message catalog (en-US default) instead of showing the raw msg", async () => {
+    mockFetchResponse(422, {
+      detail: [
+        {
+          type: "password_missing_uppercase",
+          loc: ["body", "newPassword"],
+          msg: "Password must contain at least one uppercase letter",
+        },
+      ],
+    });
+
+    await expect(apiFetch("/api/users/x/reset-password")).rejects.toMatchObject({
+      message: "Password must contain at least one uppercase letter",
+    });
+  });
+
+  it("translates the same known backend `type` code to pt-BR when that's the active locale", async () => {
+    setCurrentLocale("pt-BR");
     mockFetchResponse(422, {
       detail: [
         {
@@ -64,7 +84,7 @@ describe("apiFetch — error message extraction", () => {
     });
   });
 
-  it("interpolates ctx params into the translated pt-BR message", async () => {
+  it("interpolates ctx params into the translated message", async () => {
     mockFetchResponse(422, {
       detail: [
         {
@@ -77,7 +97,7 @@ describe("apiFetch — error message extraction", () => {
     });
 
     await expect(apiFetch("/api/users/x/reset-password")).rejects.toMatchObject({
-      message: "A senha deve ter pelo menos 8 caracteres",
+      message: "Password must be at least 8 characters",
     });
   });
 
@@ -100,7 +120,7 @@ describe("apiFetch — error message extraction", () => {
 
     await expect(apiFetch("/api/users")).rejects.toMatchObject({
       status: 500,
-      message: "Erro 500",
+      message: "Error 500",
     });
   });
 });

@@ -19,6 +19,7 @@ export type {
   Namespace,
   NamespaceDict,
   PluralForms,
+  TFunction,
   TranslationKey,
   TranslationValue,
 } from "./types";

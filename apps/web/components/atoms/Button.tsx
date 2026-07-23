@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslation } from "@city-hero/i18n";
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
 export type ButtonVariant = "primary" | "secondary" | "danger" | "ghost";
@@ -31,6 +34,8 @@ export function Button({
   className = "",
   ...props
 }: ButtonProps) {
+  const { t } = useTranslation();
+
   return (
     <button
       disabled={loading || disabled}
@@ -41,7 +46,7 @@ export function Button({
       `}
       {...props}
     >
-      {loading ? "Carregando..." : children}
+      {loading ? t("common.loading") : children}
     </button>
   );
 }

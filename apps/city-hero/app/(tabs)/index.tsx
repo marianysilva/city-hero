@@ -16,7 +16,7 @@ export default function TabOneScreen() {
       {/* Design-system usage example: shared Badge atom, same component the
           web dashboard renders (apps/web/app/(dashboard)/page.tsx). */}
       <View style={styles.badgeCorner}>
-        <Badge color="warning">EM DESENVOLVIMENTO</Badge>
+        <Badge color="warning">{t("common.inDevelopment")}</Badge>
       </View>
       <Text style={styles.title}>{t("home.title")}</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />

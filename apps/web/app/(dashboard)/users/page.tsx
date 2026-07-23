@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocaleContext } from "@city-hero/i18n";
 import {
   PencilIcon,
   PlusIcon,
@@ -35,13 +36,14 @@ import {
   type UserStatus,
 } from "./_types";
 
-const TAB_LABELS: Record<UserStatus, string> = {
-  active: "Ativos",
-  inactive: "Inativos",
-  deleted: "Deletados",
-};
-
 export default function UsersPage() {
+  const { t, formatDateTime } = useLocaleContext();
+  const TAB_LABELS: Record<UserStatus, string> = {
+    active: t("users.tabActive"),
+    inactive: t("users.tabInactive"),
+    deleted: t("users.tabDeleted"),
+  };
+
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -160,28 +162,30 @@ export default function UsersPage() {
   const baseColumns: Column<UserRow>[] = [
     {
       key: "name",
-      header: "Nome",
+      header: t("users.colName"),
       sortKey: "name",
       render: (u) => <span className="font-medium text-zinc-900">{u.name}</span>,
     },
     {
       key: "email",
-      header: "E-mail",
+      header: t("users.colEmail"),
       sortKey: "email",
       render: (u) => <span className="text-zinc-600">{u.email}</span>,
     },
     {
       key: "role",
-      header: "Role",
+      header: t("users.colRole"),
       sortKey: "role",
       render: (u) => <RoleBadge role={u.role} />,
     },
     {
       key: "created_at",
-      header: "Criado em",
+      header: t("users.colCreatedAt"),
       sortKey: "created_at",
       render: (u) => (
-        <span className="text-zinc-400">{new Date(u.createdAt).toLocaleDateString("pt-BR")}</span>
+        <span className="text-zinc-400">
+          {formatDateTime(new Date(u.createdAt), { dateStyle: "short" })}
+        </span>
       ),
     },
   ];
@@ -190,13 +194,13 @@ export default function UsersPage() {
     ...baseColumns,
     {
       key: "status",
-      header: "Status",
+      header: t("users.colStatus"),
       sortKey: "status",
       render: (u) => <StatusBadge active={u.isActive} />,
     },
     {
       key: "provider",
-      header: "Provider",
+      header: t("users.colProvider"),
       render: (u) => <span className="text-zinc-500 capitalize">{u.authProvider}</span>,
     },
     {
@@ -206,9 +210,9 @@ export default function UsersPage() {
       render: (u) => (
         <div className="flex items-center gap-1 justify-end">
           {!permissionsLoading && canEdit && canManageUser(u.role) && (
-            <Tooltip label="Editar">
+            <Tooltip label={t("users.actionEdit")}>
               <button
-                aria-label="Editar usuário"
+                aria-label={t("users.ariaEditUser")}
                 onClick={() => setModal({ mode: "edit", user: u })}
                 className="p-1.5 text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 rounded-lg transition-colors"
               >
@@ -217,9 +221,9 @@ export default function UsersPage() {
             </Tooltip>
           )}
           {!permissionsLoading && isAdmin && (
-            <Tooltip label="Redefinir senha">
+            <Tooltip label={t("users.actionResetPassword")}>
               <button
-                aria-label="Redefinir senha"
+                aria-label={t("users.actionResetPassword")}
                 onClick={() => setResetPasswordUser(u)}
                 className="p-1.5 text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 rounded-lg transition-colors"
               >
@@ -228,9 +232,9 @@ export default function UsersPage() {
             </Tooltip>
           )}
           {!permissionsLoading && canEdit && canManageUser(u.role) && (
-            <Tooltip label="Excluir">
+            <Tooltip label={t("users.actionDelete")}>
               <button
-                aria-label="Excluir usuário"
+                aria-label={t("users.ariaDeleteUser")}
                 onClick={() => {
                   setDeleteError(null);
                   setConfirmDelete(u);
@@ -250,11 +254,11 @@ export default function UsersPage() {
     ...baseColumns,
     {
       key: "deleted_at",
-      header: "Deletado em",
+      header: t("users.colDeletedAt"),
       sortKey: "deleted_at",
       render: (u) => (
         <span className="text-red-400">
-          {u.deletedAt ? new Date(u.deletedAt).toLocaleDateString("pt-BR") : "—"}
+          {u.deletedAt ? formatDateTime(new Date(u.deletedAt), { dateStyle: "short" }) : "—"}
         </span>
       ),
     },
@@ -265,9 +269,9 @@ export default function UsersPage() {
       render: (u) => (
         <div className="flex items-center gap-1 justify-end">
           {!permissionsLoading && canEdit && canManageUser(u.role) && (
-            <Tooltip label="Restaurar">
+            <Tooltip label={t("users.actionRestore")}>
               <button
-                aria-label="Restaurar usuário"
+                aria-label={t("users.ariaRestoreUser")}
                 onClick={() => handleRestore(u)}
                 disabled={restoreLoading}
                 className="p-1.5 text-zinc-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors disabled:opacity-50"
@@ -293,16 +297,18 @@ export default function UsersPage() {
     <div className="p-8">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-semibold text-zinc-900">Usuários</h1>
+          <h1 className="text-2xl font-semibold text-zinc-900">{t("users.title")}</h1>
           <p className="text-sm text-zinc-500 mt-0.5">
-            {total} {total === 1 ? "usuário" : "usuários"}
-            {urlQ && <span className="text-zinc-400"> · resultados para &quot;{urlQ}&quot;</span>}
+            {t("users.userCount", { count: total })}
+            {urlQ && (
+              <span className="text-zinc-400"> {t("users.searchResultsFor", { query: urlQ })}</span>
+            )}
           </p>
         </div>
         {!permissionsLoading && canCreate && urlTab !== "deleted" && (
           <Button variant="primary" onClick={() => setModal({ mode: "create" })}>
             <PlusIcon className="w-4 h-4" />
-            Novo usuário
+            {t("users.newUser")}
           </Button>
         )}
       </div>
@@ -339,7 +345,7 @@ export default function UsersPage() {
         loading={loading}
         error={fetchError}
         emptyMessage={
-          urlQ ? `Nenhum usuário encontrado para "${urlQ}".` : "Nenhum usuário encontrado."
+          urlQ ? t("users.emptySearchResult", { query: urlQ }) : t("users.emptyNoUsers")
         }
         sort={sort}
         onSort={handleSort}
@@ -374,14 +380,14 @@ export default function UsersPage() {
 
       {confirmDelete && (
         <ConfirmDialog
-          title="Excluir usuário?"
+          title={t("users.deleteConfirmTitle")}
           description={
             <>
-              <strong>{confirmDelete.name}</strong> ({confirmDelete.email}) será movido para a lista
-              de deletados e poderá ser restaurado posteriormente.
+              <strong>{confirmDelete.name}</strong> ({confirmDelete.email}){" "}
+              {t("users.deleteConfirmDescription")}
             </>
           }
-          confirmLabel="Excluir"
+          confirmLabel={t("users.actionDelete")}
           confirmVariant="danger"
           loading={deleteLoading}
           error={deleteError}

@@ -1,8 +1,11 @@
 import { ThemeProvider } from "@city-hero/design-system";
+import { LOCALE_DICTS, translate } from "@city-hero/i18n";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { ApolloWrapper } from "./ApolloWrapper";
+import { resolveServerLocale } from "./lib/i18n";
+import { LocaleClientProvider } from "./LocaleClientProvider";
 import { ReactQueryProvider } from "./ReactQueryProvider";
 import "./globals.css";
 
@@ -16,24 +19,34 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "CityHero — Manager Panel",
-  description: "Urban maintenance operations dashboard",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await resolveServerLocale();
+  return {
+    title: translate(LOCALE_DICTS, locale, "dashboard.metaTitle"),
+    description: translate(LOCALE_DICTS, locale, "dashboard.metaDescription"),
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await resolveServerLocale();
+
   return (
-    <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html
+      lang={locale}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider>
-          <ReactQueryProvider>
-            <ApolloWrapper>{children}</ApolloWrapper>
-          </ReactQueryProvider>
-        </ThemeProvider>
+        <LocaleClientProvider initialLocale={locale}>
+          <ThemeProvider>
+            <ReactQueryProvider>
+              <ApolloWrapper>{children}</ApolloWrapper>
+            </ReactQueryProvider>
+          </ThemeProvider>
+        </LocaleClientProvider>
       </body>
     </html>
   );

@@ -13,10 +13,10 @@ beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-function loginRequest(body: unknown) {
+function loginRequest(body: unknown, headers?: Record<string, string>) {
   return new NextRequest("http://localhost/api/auth/login", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...headers },
     body: JSON.stringify(body),
   });
 }
@@ -86,7 +86,7 @@ describe("POST /api/auth/login", () => {
     );
   });
 
-  it("translates a known validation type code to pt-BR", async () => {
+  it("translates a known validation type code to en-US by default (no locale cookie, no Accept-Language)", async () => {
     server.use(
       http.post(`${BACKEND_URL}/auth/login`, () =>
         HttpResponse.json(
@@ -106,6 +106,35 @@ describe("POST /api/auth/login", () => {
 
     const response = await POST(
       loginRequest({ email: "admin@cityhero.app", password: "alllower1!" }),
+    );
+
+    const data = await response.json();
+    expect(data.error).toBe("Password must contain at least one uppercase letter");
+  });
+
+  it("translates the same validation type code to pt-BR when the request carries that locale cookie", async () => {
+    server.use(
+      http.post(`${BACKEND_URL}/auth/login`, () =>
+        HttpResponse.json(
+          {
+            detail: [
+              {
+                type: "password_missing_uppercase",
+                loc: ["body", "password"],
+                msg: "Password must contain at least one uppercase letter",
+              },
+            ],
+          },
+          { status: 422 },
+        ),
+      ),
+    );
+
+    const response = await POST(
+      loginRequest(
+        { email: "admin@cityhero.app", password: "alllower1!" },
+        { Cookie: "cityhero_language=pt-BR" },
+      ),
     );
 
     const data = await response.json();

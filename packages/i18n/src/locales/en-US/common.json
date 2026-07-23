@@ -5,5 +5,20 @@
   "cancel": "Cancel",
   "save": "Save",
   "close": "Close",
-  "genericError": "Something went wrong."
+  "genericError": "Something went wrong.",
+  "inDevelopment": "IN DEVELOPMENT",
+  "noResultsFound": "No results found.",
+  "multiSortHint": "Shift+click column headers to sort by multiple columns",
+  "pageOfTotal": "Page {{page}} of {{totalPages}}",
+  "previous": "Previous",
+  "next": "Next",
+  "tabOneTitle": "Tab One",
+  "tabTwoTitle": "Tab Two",
+  "modalTitle": "Modal",
+  "notFoundTitle": "Oops!",
+  "notFoundMessage": "This screen doesn't exist.",
+  "goToHomeScreen": "Go to home screen!",
+  "editScreenInstructionsOpen": "Open up the code for this screen:",
+  "editScreenInstructionsChange": "Change any of the text, save the file, and your app will automatically update.",
+  "editScreenHelp": "Tap here if your app doesn't automatically update after making changes"
 }

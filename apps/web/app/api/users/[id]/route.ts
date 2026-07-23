@@ -1,27 +1,33 @@
+import { LOCALE_DICTS, translate } from "@city-hero/i18n";
 import { NextRequest, NextResponse } from "next/server";
 
 import { createServerApiClient } from "@/lib/api-client";
 import { apiErrorResponse } from "@/lib/api-error-response";
+import { resolveLocaleFromRequest } from "@/lib/locale";
 
-export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   try {
     const result = await createServerApiClient().users.get(id);
     return NextResponse.json(result);
   } catch (error) {
-    return apiErrorResponse(error);
+    return apiErrorResponse(error, resolveLocaleFromRequest(request));
   }
 }
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const locale = resolveLocaleFromRequest(request);
   let name: unknown, isActive: unknown, role: unknown;
   try {
     const body = await request.json();
     ({ name, isActive, role } = body);
   } catch {
-    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+    return NextResponse.json(
+      { error: translate(LOCALE_DICTS, locale, "errors.invalidRequestBody") },
+      { status: 400 },
+    );
   }
 
   try {
@@ -32,12 +38,12 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     });
     return NextResponse.json(result);
   } catch (error) {
-    return apiErrorResponse(error);
+    return apiErrorResponse(error, locale);
   }
 }
 
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
@@ -46,6 +52,6 @@ export async function DELETE(
     await createServerApiClient().users.remove(id);
     return new NextResponse(null, { status: 204 });
   } catch (error) {
-    return apiErrorResponse(error);
+    return apiErrorResponse(error, resolveLocaleFromRequest(request));
   }
 }

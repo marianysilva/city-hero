@@ -1,0 +1,23 @@
+{
+  "metaTitle": "CityHero — Manager Panel",
+  "metaDescription": "Urban maintenance operations dashboard",
+  "panelTitle": "Management Panel",
+  "managerPanelSubtitle": "Municipal Management Panel",
+  "navWarRoom": "War Room",
+  "navKanban": "Kanban",
+  "navRouting": "Smart Routing",
+  "navAnalytics": "Analytics",
+  "navUsers": "Users",
+  "warRoomTitle": "War Room",
+  "warRoomDescription": "Real-time heatmap of critical issues.",
+  "mapComingSoon": "Map — coming soon",
+  "kanbanTitle": "Kanban",
+  "kanbanDescription": "Demands by status: To Do · In Progress · Blocked · Done.",
+  "boardComingSoon": "Board — coming soon",
+  "analyticsTitle": "Analytics",
+  "analyticsDescription": "Executive dashboards via Apache Superset.",
+  "supersetComingSoon": "Superset Embedded — coming soon",
+  "routingTitle": "Smart Routing",
+  "routingDescription": "Grouping nearby tickets and optimized routes for field teams.",
+  "smartRoutingComingSoon": "Smart Routing — coming soon"
+}

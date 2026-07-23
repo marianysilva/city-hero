@@ -5,5 +5,20 @@
   "cancel": "Cancelar",
   "save": "Salvar",
   "close": "Fechar",
-  "genericError": "Algo deu errado."
+  "genericError": "Algo deu errado.",
+  "inDevelopment": "EM DESENVOLVIMENTO",
+  "noResultsFound": "Nenhum resultado encontrado.",
+  "multiSortHint": "Shift+clique nos cabeçalhos para ordenar por múltiplas colunas",
+  "pageOfTotal": "Página {{page}} de {{totalPages}}",
+  "previous": "Anterior",
+  "next": "Próxima",
+  "tabOneTitle": "Tab One",
+  "tabTwoTitle": "Tab Two",
+  "modalTitle": "Modal",
+  "notFoundTitle": "Oops!",
+  "notFoundMessage": "Esta tela não existe.",
+  "goToHomeScreen": "Ir para a tela inicial!",
+  "editScreenInstructionsOpen": "Abra o código desta tela:",
+  "editScreenInstructionsChange": "Altere qualquer texto, salve o arquivo e o app vai atualizar automaticamente.",
+  "editScreenHelp": "Toque aqui se o app não atualizar automaticamente após as mudanças"
 }
