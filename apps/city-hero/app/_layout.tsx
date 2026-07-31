@@ -7,7 +7,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import "react-native-reanimated";
 
-import { getDeviceDefaultLocale, loadPersistedLocale, persistLocale } from "../lib/i18n";
+import { persistLocale, resolveInitialLocale } from "../lib/i18n";
 import { ReactQueryProvider } from "../lib/ReactQueryProvider";
 import "../global.css";
 
@@ -40,9 +40,9 @@ export default function RootLayout() {
 
   useEffect(() => {
     let cancelled = false;
-    loadPersistedLocale().then((persisted) => {
+    resolveInitialLocale().then((locale) => {
       if (!cancelled) {
-        setInitialLocale(persisted ?? getDeviceDefaultLocale());
+        setInitialLocale(locale);
       }
     });
     return () => {

@@ -1,7 +1,12 @@
 import { getLocales } from "expo-localization";
 import Storage from "expo-sqlite/kv-store";
 
-import { getDeviceDefaultLocale, loadPersistedLocale, persistLocale } from "../lib/i18n";
+import {
+  getDeviceDefaultLocale,
+  loadPersistedLocale,
+  persistLocale,
+  resolveInitialLocale,
+} from "../lib/i18n";
 
 jest.mock("expo-localization", () => ({
   getLocales: jest.fn(),
@@ -55,8 +60,49 @@ describe("loadPersistedLocale / persistLocale", () => {
     await expect(loadPersistedLocale()).resolves.toBeNull();
   });
 
+  it("returns null (instead of rejecting) when the storage read throws", async () => {
+    mockStorage.getItem.mockRejectedValue(new Error("disk error"));
+    await expect(loadPersistedLocale()).resolves.toBeNull();
+  });
+
+  it("returns null instead of hanging forever when the storage read never settles", async () => {
+    jest.useFakeTimers();
+    mockStorage.getItem.mockReturnValue(new Promise(() => {})); // never resolves
+
+    const pending = loadPersistedLocale();
+    await jest.advanceTimersByTimeAsync(2000);
+
+    await expect(pending).resolves.toBeNull();
+    jest.useRealTimers();
+  });
+
   it("persists the chosen locale under the expected key", async () => {
     await persistLocale("pt-BR");
     expect(mockStorage.setItem).toHaveBeenCalledWith("cityhero.language", "pt-BR");
+  });
+});
+
+describe("resolveInitialLocale", () => {
+  afterEach(() => {
+    mockStorage.getItem.mockReset();
+    mockGetLocales.mockReset();
+  });
+
+  it("prefers the persisted locale over the device default", async () => {
+    mockStorage.getItem.mockResolvedValue("pt-BR");
+    mockGetLocales.mockReturnValue([{ languageTag: "en-US" }]);
+    await expect(resolveInitialLocale()).resolves.toBe("pt-BR");
+  });
+
+  it("falls back to the device default when nothing is persisted", async () => {
+    mockStorage.getItem.mockResolvedValue(null);
+    mockGetLocales.mockReturnValue([{ languageTag: "pt-BR" }]);
+    await expect(resolveInitialLocale()).resolves.toBe("pt-BR");
+  });
+
+  it("falls back to the device default when the storage read rejects", async () => {
+    mockStorage.getItem.mockRejectedValue(new Error("disk error"));
+    mockGetLocales.mockReturnValue([{ languageTag: "pt-BR" }]);
+    await expect(resolveInitialLocale()).resolves.toBe("pt-BR");
   });
 });
