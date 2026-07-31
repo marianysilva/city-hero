@@ -141,6 +141,45 @@ describe("POST /api/auth/login", () => {
     expect(data.error).toBe("A senha deve conter pelo menos uma letra maiúscula");
   });
 
+  it("resolves each concurrent request's own locale independently — no cross-request leakage", async () => {
+    // Route Handlers serve every request in one shared Node process; locale
+    // must be threaded per-request (see resolveLocaleFromRequest), never
+    // read off a shared module-level ref. Firing both requests concurrently
+    // (rather than sequentially) is the only way to catch a regression to
+    // that shared-ref pattern — a sequential test can't distinguish the two.
+    server.use(
+      http.post(`${BACKEND_URL}/auth/login`, () =>
+        HttpResponse.json(
+          {
+            detail: [
+              {
+                type: "password_missing_uppercase",
+                loc: ["body", "password"],
+                msg: "Password must contain at least one uppercase letter",
+              },
+            ],
+          },
+          { status: 422 },
+        ),
+      ),
+    );
+
+    const [enResponse, ptResponse] = await Promise.all([
+      POST(loginRequest({ email: "en@cityhero.app", password: "alllower1!" })),
+      POST(
+        loginRequest(
+          { email: "pt@cityhero.app", password: "alllower1!" },
+          { Cookie: "cityhero_language=pt-BR" },
+        ),
+      ),
+    ]);
+
+    const [enData, ptData] = await Promise.all([enResponse.json(), ptResponse.json()]);
+
+    expect(enData.error).toBe("Password must contain at least one uppercase letter");
+    expect(ptData.error).toBe("A senha deve conter pelo menos uma letra maiúscula");
+  });
+
   it("does not leak the internal fallback code on an unmapped 500 from the backend", async () => {
     server.use(
       http.post(

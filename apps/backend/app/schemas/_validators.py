@@ -50,12 +50,14 @@ def validate_password_strength(v: str) -> str:
 
 
 def validate_name(v: str) -> str:
+    """Reject a name that's empty or all whitespace; return it trimmed."""
     if not v.strip():
         raise PydanticCustomError("name_empty", "Name cannot be empty")
     return v.strip()
 
 
 def validate_role_slug(v: str | None) -> str | None:
+    """Reject a role slug that isn't a known RBAC role; `None` passes through."""
     if v is None:
         return v
     from app.core.rbac_cache import get_role_data
@@ -71,6 +73,7 @@ _SUPPORTED_LANGUAGES = {"pt-BR", "en-US"}
 
 
 def validate_language_code(v: str | None) -> str | None:
+    """Reject a language code outside `_SUPPORTED_LANGUAGES`; `None` passes through."""
     if v is None:
         return v
     if v not in _SUPPORTED_LANGUAGES:

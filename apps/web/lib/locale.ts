@@ -34,11 +34,22 @@ export function persistLocale(locale: Locale): void {
   document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=31536000; samesite=lax`;
 }
 
+/** Splits an `Accept-Language` header into tags ordered by descending `q`
+ * weight (defaulting to `q=1` when absent) — a client is allowed to send
+ * weights out of header order (e.g. `en;q=0.3,pt-BR;q=0.9`), so tag order
+ * alone isn't a reliable preference signal. */
 function parseAcceptLanguage(header: string): string[] {
   return header
     .split(",")
-    .map((part) => part.split(";")[0]?.trim())
-    .filter((tag): tag is string => !!tag);
+    .map((part) => {
+      const [tag, ...params] = part.split(";").map((segment) => segment.trim());
+      const qParam = params.find((param) => param.startsWith("q="));
+      const q = qParam ? Number.parseFloat(qParam.slice(2)) : 1;
+      return { tag, q: Number.isNaN(q) ? 1 : q };
+    })
+    .filter((entry): entry is { tag: string; q: number } => !!entry.tag)
+    .sort((a, b) => b.q - a.q)
+    .map((entry) => entry.tag);
 }
 
 /**

@@ -38,6 +38,17 @@ describe("translateValidationError", () => {
     ).toBe("A senha deve ter no máximo 128 caracteres");
   });
 
+  it("translates language_unsupported with the offending language interpolated (pt-BR)", () => {
+    setCurrentLocale("pt-BR");
+    expect(
+      translateValidationError({
+        type: "language_unsupported",
+        msg: "Unsupported language: fr-FR",
+        ctx: { language: "fr-FR" },
+      }),
+    ).toBe("Idioma não suportado: fr-FR");
+  });
+
   it("falls back to msg for a code with no translation (e.g. Pydantic's own built-in types)", () => {
     expect(
       translateValidationError({

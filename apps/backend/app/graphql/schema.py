@@ -17,6 +17,7 @@ def _require_auth(info: Info) -> User:
 
 
 def _to_user_type(user: User) -> UserType:
+    """Map the SQLAlchemy `User` model to its GraphQL `UserType` representation."""
     return UserType(
         id=user.id,
         email=user.email,

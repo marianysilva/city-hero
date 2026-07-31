@@ -32,10 +32,12 @@ function resolvePluralForm(forms: PluralForms, count: number, locale: Locale): s
   // literal value before consulting the CLDR category.
   if (count === 0 && forms.zero !== undefined) return forms.zero;
 
+  // Generic over every CLDR category (zero/one/two/few/many/other), not just
+  // the ones pt-BR/en-US happen to use — a locale that supplies `few`/`many`
+  // (e.g. Polish, Arabic) is picked up automatically; one that doesn't falls
+  // through to `other`, same as today.
   const rule = new Intl.PluralRules(locale).select(count);
-  if (rule === "zero" && forms.zero !== undefined) return forms.zero;
-  if (rule === "one") return forms.one;
-  return forms.other;
+  return forms[rule] ?? forms.other;
 }
 
 function lookup(
@@ -77,6 +79,14 @@ export function translate(
     return key;
   }
 
-  const resolved = isPluralForms(raw) ? resolvePluralForm(raw, values?.count ?? 0, locale) : raw;
+  let resolved: string;
+  if (isPluralForms(raw)) {
+    if (values?.count === undefined && isDev()) {
+      console.warn(`[i18n] Plural key "${key}" used without a "count" value (locale: ${locale})`);
+    }
+    resolved = resolvePluralForm(raw, values?.count ?? 0, locale);
+  } else {
+    resolved = raw;
+  }
   return interpolate(resolved, values);
 }

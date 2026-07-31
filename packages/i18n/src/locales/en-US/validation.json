@@ -6,5 +6,6 @@
   "passwordMissingDigit": "Password must contain at least one digit",
   "passwordMissingSpecialChar": "Password must contain at least one special character",
   "nameEmpty": "Name cannot be empty",
-  "roleUnknown": "Unknown role: {{role}}"
+  "roleUnknown": "Unknown role: {{role}}",
+  "languageUnsupported": "Unsupported language: {{language}}"
 }

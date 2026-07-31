@@ -145,7 +145,12 @@ export function UserFormModal({
           <Button type="button" variant="ghost" onClick={onClose}>
             {t("common.cancel")}
           </Button>
-          <Button type="submit" variant="primary" loading={loading}>
+          <Button
+            type="submit"
+            variant="primary"
+            loading={loading}
+            loadingText={t("common.loading")}
+          >
             {isEdit ? t("common.save") : t("users.actionCreate")}
           </Button>
         </div>

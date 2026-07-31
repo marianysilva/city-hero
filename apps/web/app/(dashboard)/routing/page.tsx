@@ -1,9 +1,7 @@
-"use client";
+import { getServerT } from "@/app/lib/i18n";
 
-import { useTranslation } from "@city-hero/i18n";
-
-export default function RoutingPage() {
-  const { t } = useTranslation();
+export default async function RoutingPage() {
+  const { t } = await getServerT();
 
   return (
     <div className="p-8">

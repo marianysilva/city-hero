@@ -1,25 +1,6 @@
-export { LocaleProvider, useLocale, useLocaleContext, useTranslation } from "./LocaleProvider";
-export type { LocaleProviderProps } from "./LocaleProvider";
-
-export { resolveDefaultLocale } from "./resolveDefaultLocale";
-export type { ResolveDefaultLocaleParams } from "./resolveDefaultLocale";
-
-export { formatDateTime, formatRelativeTime } from "./formatDate";
-export { formatNumber } from "./formatNumber";
-export { translate } from "./translate";
-export type { InterpolationValues } from "./translate";
-
-export { LOCALE_DICTS } from "./locales";
-
-export { FALLBACK_LOCALE, isSupportedLocale, SUPPORTED_LOCALES } from "./types";
-export type {
-  Locale,
-  LocaleDict,
-  MissingKeyInfo,
-  Namespace,
-  NamespaceDict,
-  PluralForms,
-  TFunction,
-  TranslationKey,
-  TranslationValue,
-} from "./types";
+// The package root re-exports everything for backward compatibility with
+// existing call sites. New server-only code should prefer importing from
+// "@city-hero/i18n/core" directly (no React in its module graph) instead of
+// this barrel — see ./core.ts and ./react.ts for the underlying split.
+export * from "./core";
+export * from "./react";

@@ -86,6 +86,7 @@ async def _get_active_user_or_404(db: AsyncSession, user_id: UUID) -> User:
 
 
 def get_me(current_user: User) -> MeResponse:
+    """Build the /me response for the authenticated user, including their resolved role data."""
     role_data = get_role_data(current_user.role)
     if role_data is None:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Role configuration error")

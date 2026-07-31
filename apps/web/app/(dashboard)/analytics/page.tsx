@@ -1,9 +1,7 @@
-"use client";
+import { getServerT } from "@/app/lib/i18n";
 
-import { useTranslation } from "@city-hero/i18n";
-
-export default function AnalyticsPage() {
-  const { t } = useTranslation();
+export default async function AnalyticsPage() {
+  const { t } = await getServerT();
 
   return (
     <div className="p-8">

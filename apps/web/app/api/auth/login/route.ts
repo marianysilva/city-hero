@@ -1,6 +1,6 @@
 import { ApiClientError } from "@city-hero/api-client";
 import { LOCALE_DICTS, translate } from "@city-hero/i18n";
-import type { Locale } from "@city-hero/i18n";
+import type { Locale, TranslationKey } from "@city-hero/i18n";
 import { NextRequest, NextResponse } from "next/server";
 
 import { createServerApiClient } from "@/lib/api-client";
@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
   // `getCurrentLocale()` ref — it resolves this request's own locale
   // from its own cookie/header instead.
   const locale = resolveLocaleFromRequest(request);
+  const t = (key: TranslationKey) => translate(LOCALE_DICTS, locale, key);
 
   let email: unknown, password: unknown;
   try {
@@ -39,10 +40,7 @@ export async function POST(request: NextRequest) {
     email = body.email;
     password = body.password;
   } catch {
-    return NextResponse.json(
-      { error: translate(LOCALE_DICTS, locale, "errors.invalidRequestBody") },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: t("errors.invalidRequestBody") }, { status: 400 });
   }
 
   try {
@@ -52,10 +50,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (typeof result.accessToken !== "string") {
-      return NextResponse.json(
-        { error: translate(LOCALE_DICTS, locale, "errors.invalidAuthResponse") },
-        { status: 502 },
-      );
+      return NextResponse.json({ error: t("errors.invalidAuthResponse") }, { status: 502 });
     }
 
     const response = NextResponse.json({ user: result.user });
@@ -71,9 +66,6 @@ export async function POST(request: NextRequest) {
     if (error instanceof ApiClientError && error.status > 0) {
       return NextResponse.json({ error: errorMessage(error, locale) }, { status: error.status });
     }
-    return NextResponse.json(
-      { error: translate(LOCALE_DICTS, locale, "errors.backendUnavailable") },
-      { status: 503 },
-    );
+    return NextResponse.json({ error: t("errors.backendUnavailable") }, { status: 503 });
   }
 }

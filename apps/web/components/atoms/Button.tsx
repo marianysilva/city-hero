@@ -1,6 +1,3 @@
-"use client";
-
-import { useTranslation } from "@city-hero/i18n";
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
 export type ButtonVariant = "primary" | "secondary" | "danger" | "ghost";
@@ -10,6 +7,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   loading?: boolean;
+  /** Shown in place of `children` while `loading` is true. Callers own the
+   * translated copy (e.g. `t("common.loading")`) — this base atom has no
+   * i18n dependency of its own, so it stays usable from a Server Component. */
+  loadingText?: ReactNode;
   children: ReactNode;
 }
 
@@ -29,13 +30,12 @@ export function Button({
   variant = "primary",
   size = "md",
   loading = false,
+  loadingText,
   disabled,
   children,
   className = "",
   ...props
 }: ButtonProps) {
-  const { t } = useTranslation();
-
   return (
     <button
       disabled={loading || disabled}
@@ -46,7 +46,7 @@ export function Button({
       `}
       {...props}
     >
-      {loading ? t("common.loading") : children}
+      {loading ? (loadingText ?? children) : children}
     </button>
   );
 }

@@ -78,7 +78,12 @@ export function ResetPasswordModal({ user, onClose, onSaved }: ResetPasswordModa
           <Button type="button" variant="ghost" onClick={onClose}>
             {t("common.cancel")}
           </Button>
-          <Button type="submit" variant="primary" loading={loading}>
+          <Button
+            type="submit"
+            variant="primary"
+            loading={loading}
+            loadingText={t("common.loading")}
+          >
             {t("users.actionResetPassword")}
           </Button>
         </div>

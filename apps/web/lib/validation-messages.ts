@@ -16,6 +16,15 @@ import { getCurrentLocale } from "./locale";
  * Unmapped codes — Pydantic's own built-in types (e.g. EmailStr format
  * errors), or any backend code not added here yet — fall back to the
  * backend's English `msg` rather than showing nothing.
+ *
+ * `packages/i18n/src/locales/*\/validation.json`'s placeholders are
+ * intentionally snake_case (`{{max_length}}`, `{{role}}`, `{{language}}`),
+ * unlike every other namespace's camelCase — they're filled directly from
+ * `ctx` below, which mirrors `_validators.py`'s Python-side kwarg names
+ * verbatim. Keep it that way rather than adding a remapping layer here: the
+ * placeholder name IS the wire contract with the backend, so matching it
+ * exactly (not "prettifying" it to camelCase) is what keeps the two sides
+ * from silently drifting apart.
  */
 const MESSAGE_KEYS: Record<string, TranslationKey> = {
   password_too_short: "validation.passwordTooShort",
@@ -26,6 +35,7 @@ const MESSAGE_KEYS: Record<string, TranslationKey> = {
   password_missing_special_char: "validation.passwordMissingSpecialChar",
   name_empty: "validation.nameEmpty",
   role_unknown: "validation.roleUnknown",
+  language_unsupported: "validation.languageUnsupported",
 };
 
 interface ValidationErrorEntry {

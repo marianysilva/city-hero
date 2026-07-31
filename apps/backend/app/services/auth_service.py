@@ -10,6 +10,7 @@ from app.schemas.auth import AuthResponse, LoginRequest, RegisterRequest, user_t
 
 
 async def register(db: AsyncSession, body: RegisterRequest) -> AuthResponse:
+    """Create a new user and return an access token, or raise 409 if the email is taken."""
     # Hash first so response time is constant whether the email exists or not.
     # Without this, a 409 returns in ~1 ms while a 201 takes ~250 ms (bcrypt),
     # leaking whether a given email is registered via timing measurement.

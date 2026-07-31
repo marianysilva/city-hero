@@ -1,3 +1,4 @@
+import { getCachedFormatter } from "./formatterCache";
 import type { Locale } from "./types";
 
 export function formatDateTime(
@@ -5,10 +6,14 @@ export function formatDateTime(
   locale: Locale,
   options?: Intl.DateTimeFormatOptions,
 ): string {
-  return new Intl.DateTimeFormat(
+  const resolvedOptions = options ?? { dateStyle: "short", timeStyle: "short" };
+  const formatter = getCachedFormatter(
+    "dateTime",
     locale,
-    options ?? { dateStyle: "short", timeStyle: "short" },
-  ).format(date);
+    resolvedOptions,
+    () => new Intl.DateTimeFormat(locale, resolvedOptions),
+  );
+  return formatter.format(date);
 }
 
 const RELATIVE_UNITS: { unit: Intl.RelativeTimeFormatUnit; seconds: number }[] = [
@@ -25,7 +30,12 @@ export function formatRelativeTime(date: Date, locale: Locale, now: Date = new D
   const diffSeconds = Math.round((date.getTime() - now.getTime()) / 1000);
   const absSeconds = Math.abs(diffSeconds);
 
-  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
+  const rtf = getCachedFormatter(
+    "relativeTime",
+    locale,
+    { numeric: "auto" },
+    () => new Intl.RelativeTimeFormat(locale, { numeric: "auto" }),
+  );
 
   for (const { unit, seconds } of RELATIVE_UNITS) {
     if (absSeconds >= seconds) {

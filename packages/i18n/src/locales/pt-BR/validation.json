@@ -6,5 +6,6 @@
   "passwordMissingDigit": "A senha deve conter pelo menos um número",
   "passwordMissingSpecialChar": "A senha deve conter pelo menos um caractere especial",
   "nameEmpty": "O nome não pode estar vazio",
-  "roleUnknown": "Função desconhecida: {{role}}"
+  "roleUnknown": "Função desconhecida: {{role}}",
+  "languageUnsupported": "Idioma não suportado: {{language}}"
 }

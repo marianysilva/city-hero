@@ -1,6 +1,3 @@
-"use client";
-
-import { useTranslation } from "@city-hero/i18n";
 import {
   MapIcon,
   ViewColumnsIcon,
@@ -11,10 +8,12 @@ import {
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { getServerT } from "@/app/lib/i18n";
+
 import SidebarUserFooter from "./_components/SidebarUserFooter";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { t } = useTranslation();
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const { t } = await getServerT();
 
   const NAV = [
     { href: "/", label: t("dashboard.navWarRoom"), icon: MapIcon },

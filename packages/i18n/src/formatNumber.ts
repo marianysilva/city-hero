@@ -1,3 +1,4 @@
+import { getCachedFormatter } from "./formatterCache";
 import type { Locale } from "./types";
 
 export function formatNumber(
@@ -5,5 +6,11 @@ export function formatNumber(
   locale: Locale,
   options?: Intl.NumberFormatOptions,
 ): string {
-  return new Intl.NumberFormat(locale, options).format(value);
+  const formatter = getCachedFormatter(
+    "number",
+    locale,
+    options,
+    () => new Intl.NumberFormat(locale, options),
+  );
+  return formatter.format(value);
 }

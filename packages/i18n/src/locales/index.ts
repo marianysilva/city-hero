@@ -1,4 +1,4 @@
-import type { LocaleDict } from "../types";
+import type { Locale, LocaleDict } from "../types";
 
 import enUSAuth from "./en-US/auth.json";
 import enUSCamera from "./en-US/camera.json";
@@ -19,7 +19,7 @@ import ptBRReport from "./pt-BR/report.json";
 import ptBRUsers from "./pt-BR/users.json";
 import ptBRValidation from "./pt-BR/validation.json";
 
-export const LOCALE_DICTS: Record<"pt-BR" | "en-US", LocaleDict> = {
+export const LOCALE_DICTS: Record<Locale, LocaleDict> = {
   "pt-BR": {
     common: ptBRCommon,
     home: ptBRHome,

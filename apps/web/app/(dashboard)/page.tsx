@@ -1,10 +1,9 @@
-"use client";
-
 import { Badge } from "@city-hero/design-system";
-import { useTranslation } from "@city-hero/i18n";
 
-export default function WarRoomPage() {
-  const { t } = useTranslation();
+import { getServerT } from "@/app/lib/i18n";
+
+export default async function WarRoomPage() {
+  const { t } = await getServerT();
 
   return (
     <div className="p-8 relative">

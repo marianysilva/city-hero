@@ -50,6 +50,7 @@ async def test_register_accepts_an_explicit_supported_language(client: AsyncClie
 async def test_register_unsupported_language_returns_422(client: AsyncClient):
     resp = await client.post("/auth/register", json={**_VALID_USER, "language": "fr-FR"})
     assert resp.status_code == 422
+    assert resp.json()["detail"][0]["type"] == "language_unsupported"
 
 
 async def test_register_duplicate_email_returns_409(client: AsyncClient):

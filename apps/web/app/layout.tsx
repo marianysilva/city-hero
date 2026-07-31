@@ -1,10 +1,9 @@
 import { ThemeProvider } from "@city-hero/design-system";
-import { LOCALE_DICTS, translate } from "@city-hero/i18n";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { ApolloWrapper } from "./ApolloWrapper";
-import { resolveServerLocale } from "./lib/i18n";
+import { getServerT } from "./lib/i18n";
 import { LocaleClientProvider } from "./LocaleClientProvider";
 import { ReactQueryProvider } from "./ReactQueryProvider";
 import "./globals.css";
@@ -20,10 +19,10 @@ const geistMono = Geist_Mono({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const locale = await resolveServerLocale();
+  const { t } = await getServerT();
   return {
-    title: translate(LOCALE_DICTS, locale, "dashboard.metaTitle"),
-    description: translate(LOCALE_DICTS, locale, "dashboard.metaDescription"),
+    title: t("dashboard.metaTitle"),
+    description: t("dashboard.metaDescription"),
   };
 }
 
@@ -32,7 +31,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = await resolveServerLocale();
+  // Reading cookies/headers here (via getServerT -> resolveServerLocale)
+  // forces dynamic rendering for every route under this root layout, not
+  // just the ones that actually need per-request locale data — there's no
+  // static/ISR path left anywhere in the app. Acceptable today since this is
+  // an authenticated dashboard with no public/marketing routes; revisit if
+  // one is ever added under a layout that doesn't need this.
+  const { locale } = await getServerT();
 
   return (
     <html

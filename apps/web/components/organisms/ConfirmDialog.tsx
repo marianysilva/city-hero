@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslation } from "@city-hero/i18n";
 import type { ReactNode } from "react";
 
 import { Button } from "@/components/atoms/Button";
@@ -26,6 +29,8 @@ export function ConfirmDialog({
   onClose,
   onConfirm,
 }: ConfirmDialogProps) {
+  const { t } = useTranslation();
+
   return (
     <Modal title={title} onClose={onClose}>
       <div className="space-y-4">
@@ -33,9 +38,15 @@ export function ConfirmDialog({
         {error && <AlertMessage variant="error">{error}</AlertMessage>}
         <div className="flex justify-end gap-2 pt-1">
           <Button type="button" variant="ghost" onClick={onClose}>
-            Cancelar
+            {t("common.cancel")}
           </Button>
-          <Button type="button" variant={confirmVariant} loading={loading} onClick={onConfirm}>
+          <Button
+            type="button"
+            variant={confirmVariant}
+            loading={loading}
+            loadingText={t("common.loading")}
+            onClick={onConfirm}
+          >
             {confirmLabel}
           </Button>
         </div>

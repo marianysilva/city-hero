@@ -67,7 +67,12 @@ export default function LoginPage() {
 
           {error && <AlertMessage variant="error">{error}</AlertMessage>}
 
-          <Button type="submit" loading={loading} className="w-full">
+          <Button
+            type="submit"
+            loading={loading}
+            loadingText={t("common.loading")}
+            className="w-full"
+          >
             {t("auth.signIn")}
           </Button>
         </form>
