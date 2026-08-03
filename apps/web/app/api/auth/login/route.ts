@@ -1,11 +1,11 @@
 import { ApiClientError } from "@city-hero/api-client";
-import { isSupportedLocale, LOCALE_DICTS, translate } from "@city-hero/i18n";
+import { LOCALE_DICTS, translate } from "@city-hero/i18n";
 import type { Locale, TranslationKey } from "@city-hero/i18n";
 import { NextRequest, NextResponse } from "next/server";
 
 import { createServerApiClient } from "@/lib/api-client";
 import { safeErrorMessage } from "@/lib/api-error-response";
-import { LOCALE_COOKIE, resolveLocaleFromRequest } from "@/lib/locale";
+import { resolveLocaleFromRequest, syncLocaleCookie } from "@/lib/locale";
 import { translateValidationErrors } from "@/lib/validation-messages";
 
 // login/page.tsx renders `data.error` directly as text — a 422's
@@ -65,17 +65,9 @@ export async function POST(request: NextRequest) {
     // cookie so the very next server render (the login page's own
     // `router.refresh()`) resolves via `resolveServerLocale()` to *this*
     // user's language instead of whatever the previous session/browser
-    // Accept-Language left behind. Same cookie settings as the client-side
-    // `persistLocale` in lib/locale.ts, minus httpOnly since that one also
-    // needs to read/write it from the client on manual locale switches.
-    if (isSupportedLocale(result.user.language)) {
-      response.cookies.set(LOCALE_COOKIE, result.user.language, {
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 365,
-        path: "/",
-      });
-    }
+    // Accept-Language left behind. Explicitly clears a stale cookie if the
+    // stored value is missing/unsupported — see syncLocaleCookie's own doc.
+    syncLocaleCookie(response, result.user.language);
     return response;
   } catch (error) {
     if (error instanceof ApiClientError && error.status > 0) {

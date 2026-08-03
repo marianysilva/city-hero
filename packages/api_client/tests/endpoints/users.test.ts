@@ -77,6 +77,39 @@ describe("users endpoints", () => {
     expect(user.role).toBe("field_team");
   });
 
+  it("sends language to the backend via POST /users", async () => {
+    server.use(
+      http.post(`${BASE_URL}/users`, async ({ request }) => {
+        const body = (await request.json()) as { email: string; role: string; language?: string };
+        expect(body.language).toBe("pt-BR");
+        return HttpResponse.json(
+          {
+            id: "new-id",
+            email: body.email,
+            name: "Someone",
+            role: body.role,
+            authProvider: "password",
+            isActive: true,
+            avatarUrl: null,
+            language: body.language,
+            createdAt: "2026-01-01T00:00:00Z",
+            deletedAt: null,
+          },
+          { status: 201 },
+        );
+      }),
+    );
+
+    const user = await makeClient().users.create({
+      email: "someone@example.com",
+      name: "Someone",
+      password: "Sup3rSecret!",
+      role: "field_team",
+      language: "pt-BR",
+    });
+    expect(user.language).toBe("pt-BR");
+  });
+
   it("updates a user via PATCH /users/:id", async () => {
     server.use(
       http.patch(`${BASE_URL}/users/u1`, async ({ request }) => {
@@ -97,6 +130,30 @@ describe("users endpoints", () => {
 
     const user = await makeClient().users.update("u1", { isActive: false });
     expect(user.isActive).toBe(false);
+  });
+
+  it("sends language to the backend via PATCH /users/:id", async () => {
+    server.use(
+      http.patch(`${BASE_URL}/users/u1`, async ({ request }) => {
+        const body = (await request.json()) as { language?: string };
+        expect(body.language).toBe("pt-BR");
+        return HttpResponse.json({
+          id: "u1",
+          email: "citizen@example.com",
+          name: "Citizen One",
+          role: "citizen",
+          authProvider: "password",
+          isActive: true,
+          avatarUrl: null,
+          language: body.language,
+          createdAt: "2026-01-01T00:00:00Z",
+          deletedAt: null,
+        });
+      }),
+    );
+
+    const user = await makeClient().users.update("u1", { language: "pt-BR" });
+    expect(user.language).toBe("pt-BR");
   });
 
   it("restores a soft-deleted user via POST /users/:id/restore", async () => {

@@ -7,6 +7,7 @@ from app.core.rbac_cache import resolve_role_id
 from app.core.security import DUMMY_PASSWORD_HASH, create_access_token, hash_password, verify_password
 from app.models.user import User
 from app.schemas.auth import AuthResponse, LoginRequest, RegisterRequest, user_to_out
+from app.services._helpers import optional_kwarg
 
 
 async def register(db: AsyncSession, body: RegisterRequest) -> AuthResponse:
@@ -31,7 +32,7 @@ async def register(db: AsyncSession, body: RegisterRequest) -> AuthResponse:
         hashed_password=hashed,
         role="citizen",
         role_id=resolve_role_id("citizen"),
-        **({"language": body.language} if body.language is not None else {}),
+        **optional_kwarg("language", body.language),
     )
     db.add(user)
     try:

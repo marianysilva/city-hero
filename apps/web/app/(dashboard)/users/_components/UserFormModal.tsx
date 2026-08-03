@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslation } from "@city-hero/i18n";
+import { FALLBACK_LOCALE, useTranslation } from "@city-hero/i18n";
 import type { Locale } from "@city-hero/i18n";
 import { useState } from "react";
 
@@ -42,7 +42,7 @@ export function UserFormModal({
   const [email, setEmail] = useState(editUser?.email ?? "");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<Role>(defaultRole);
-  const [language, setLanguage] = useState<Locale>(editUser?.language ?? "en-US");
+  const [language, setLanguage] = useState<Locale>(editUser?.language ?? FALLBACK_LOCALE);
   const [isActive, setIsActive] = useState(editUser?.isActive ?? true);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);

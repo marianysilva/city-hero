@@ -59,16 +59,27 @@ export function getRoleOptions(t: TFunction): { value: Role; label: string }[] {
   ];
 }
 
-// Full labels (the language <select> dropdown) — same pattern as
-// getRoleOptions above.
+const LANGUAGE_LABEL_KEYS: Record<Locale, "languageEnUS" | "languagePtBR"> = {
+  "en-US": "languageEnUS",
+  "pt-BR": "languagePtBR",
+};
+
+/** Translated label for a single locale — used by both the read-only
+ * Language column (page.tsx) and getLanguageOptions below, so the table
+ * cell and the <select> options can never show different text for the
+ * same value. */
+export function getLanguageLabel(t: TFunction, locale: Locale): string {
+  return t(`users.${LANGUAGE_LABEL_KEYS[locale]}`);
+}
+
+// Options for the language <select> dropdown (create + edit forms). Unlike
+// getRoleOptions above, this list is derived from SUPPORTED_LOCALES rather
+// than a hand-written literal array — there are only two locales today, but
+// a third would only need a new LANGUAGE_LABEL_KEYS entry, not a change here.
 export function getLanguageOptions(t: TFunction): { value: Locale; label: string }[] {
-  const LABEL_KEYS: Record<Locale, "languageEnUS" | "languagePtBR"> = {
-    "en-US": "languageEnUS",
-    "pt-BR": "languagePtBR",
-  };
   return SUPPORTED_LOCALES.map((locale) => ({
     value: locale,
-    label: t(`users.${LABEL_KEYS[locale]}`),
+    label: getLanguageLabel(t, locale),
   }));
 }
 

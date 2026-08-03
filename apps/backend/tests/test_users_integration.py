@@ -350,6 +350,73 @@ async def test_update_user_unsupported_language_returns_422(
     assert resp.json()["detail"][0]["type"] == "language_unsupported"
 
 
+async def test_update_user_language_secretary_can_change_another_users_language(
+    client: AsyncClient, secretary, target_citizen
+):
+    """Unlike `role`, `language` has no admin-only gate in update_user — a
+    secretary managing a citizen can change it, same as `name`/`is_active`."""
+    resp = await client.patch(
+        f"/users/{target_citizen.id}",
+        json={"language": "pt-BR"},
+        headers=_auth(secretary),
+    )
+    assert resp.status_code == 200
+    assert resp.json()["language"] == "pt-BR"
+
+
+async def test_update_user_own_language_succeeds(client: AsyncClient, admin_user):
+    """Self-deactivation is blocked (test_update_user_self_deactivation_returns_400)
+    but self-language-change is not — it's a personal preference, not a
+    privilege escalation."""
+    resp = await client.patch(
+        f"/users/{admin_user.id}",
+        json={"language": "pt-BR"},
+        headers=_auth(admin_user),
+    )
+    assert resp.status_code == 200
+    assert resp.json()["language"] == "pt-BR"
+
+
+async def test_update_user_language_persists_across_get(
+    client: AsyncClient, admin_user, target_citizen
+):
+    patch_resp = await client.patch(
+        f"/users/{target_citizen.id}",
+        json={"language": "pt-BR"},
+        headers=_auth(admin_user),
+    )
+    assert patch_resp.status_code == 200
+
+    get_resp = await client.get(f"/users/{target_citizen.id}", headers=_auth(admin_user))
+    assert get_resp.status_code == 200
+    assert get_resp.json()["language"] == "pt-BR"
+
+    list_resp = await client.get(
+        f"/users?q={target_citizen.email}", headers=_auth(admin_user)
+    )
+    assert list_resp.status_code == 200
+    [listed] = [u for u in list_resp.json()["users"] if u["id"] == str(target_citizen.id)]
+    assert listed["language"] == "pt-BR"
+
+
+async def test_update_user_mixed_role_and_language_is_rejected_atomically(
+    client: AsyncClient, secretary, target_citizen
+):
+    """A secretary can change language alone (see above) but not role — a
+    mixed body must be rejected wholesale (403, before any assignment), not
+    partially applied (language silently changed while role is refused)."""
+    resp = await client.patch(
+        f"/users/{target_citizen.id}",
+        json={"role": "dispatcher", "language": "pt-BR"},
+        headers=_auth(secretary),
+    )
+    assert resp.status_code == 403
+
+    get_resp = await client.get(f"/users/{target_citizen.id}", headers=_auth(secretary))
+    assert get_resp.json()["language"] == "en-US"
+    assert get_resp.json()["role"] == "citizen"
+
+
 async def test_update_user_self_deactivation_returns_400(client: AsyncClient, admin_user):
     resp = await client.patch(
         f"/users/{admin_user.id}",

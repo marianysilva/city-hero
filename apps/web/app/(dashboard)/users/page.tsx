@@ -30,6 +30,7 @@ import { useUsers } from "./_hooks/useUsers";
 import {
   DEFAULT_SORT,
   DEFAULT_SORT_DELETED,
+  getLanguageLabel,
   PAGE_SIZE,
   type ModalState,
   type UserRow,
@@ -206,7 +207,7 @@ export default function UsersPage() {
     {
       key: "language",
       header: t("users.colLanguage"),
-      render: (u) => <span className="text-zinc-500">{u.language}</span>,
+      render: (u) => <span className="text-zinc-500">{getLanguageLabel(t, u.language)}</span>,
     },
     {
       key: "actions",

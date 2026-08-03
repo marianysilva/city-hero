@@ -68,20 +68,41 @@ describe("POST /api/auth/login", () => {
     expect(localeCookie?.httpOnly).toBeFalsy();
   });
 
-  it("does not set a locale cookie when the backend response has no (or an unsupported) language", async () => {
+  it("clears any stale locale cookie when the backend response's language is unsupported", async () => {
+    // Case-mismatched is the realistic failure mode here — UserOut.language
+    // is a required, non-optional string, so it can't actually be absent in
+    // a real response; a malformed/wrong-case value reaching this guard is
+    // what isSupportedLocale's case-sensitive check is actually for.
     server.use(
       http.post(`${BACKEND_URL}/auth/login`, () =>
         HttpResponse.json({
           accessToken: "fresh-token",
           tokenType: "bearer",
-          user: { id: "u1", email: "admin@cityhero.app", name: "Admin", role: "admin" },
+          user: {
+            id: "u1",
+            email: "admin@cityhero.app",
+            name: "Admin",
+            role: "admin",
+            language: "pt-br",
+          },
         }),
       ),
     );
 
-    const response = await POST(loginRequest({ email: "admin@cityhero.app", password: "correct" }));
+    const response = await POST(
+      loginRequest(
+        { email: "admin@cityhero.app", password: "correct" },
+        { Cookie: "cityhero_language=pt-BR" },
+      ),
+    );
 
-    expect(response.cookies.get("cityhero_language")).toBeUndefined();
+    // syncLocaleCookie explicitly clears a stale cookie on guard failure
+    // rather than leaving whatever the request already carried in place —
+    // NextResponse represents that as an expired, empty-value cookie, not
+    // an absent one.
+    const localeCookie = response.cookies.get("cityhero_language");
+    expect(localeCookie?.value).toBe("");
+    expect(localeCookie?.expires && localeCookie.expires < new Date()).toBe(true);
   });
 
   it("returns a 401 with the backend's error message under the `error` key on wrong credentials", async () => {
