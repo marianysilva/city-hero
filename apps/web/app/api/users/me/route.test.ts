@@ -7,7 +7,8 @@ import { server } from "../../__test-utils__/server";
 import { GET } from "./route";
 
 const mockCookies = vi.hoisted(() => vi.fn());
-vi.mock("next/headers", () => ({ cookies: mockCookies }));
+const mockHeaders = vi.hoisted(() => vi.fn().mockResolvedValue({ get: () => null }));
+vi.mock("next/headers", () => ({ cookies: mockCookies, headers: mockHeaders }));
 
 const BACKEND_URL = "http://localhost:8000";
 
@@ -29,7 +30,7 @@ describe("GET /api/users/me", () => {
 
     expect(response.status).toBe(401);
     const data = await response.json();
-    expect(data.detail).toBe("Unauthorized");
+    expect(data.detail).toBe("Your session has expired. Please log in again.");
   });
 
   it("returns the current user on success", async () => {

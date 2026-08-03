@@ -1,0 +1,11 @@
+{
+  "passwordTooShort": "Password must be at least {{min_length}} characters",
+  "passwordTooLong": "Password must be at most {{max_length}} characters",
+  "passwordMissingUppercase": "Password must contain at least one uppercase letter",
+  "passwordMissingLowercase": "Password must contain at least one lowercase letter",
+  "passwordMissingDigit": "Password must contain at least one digit",
+  "passwordMissingSpecialChar": "Password must contain at least one special character",
+  "nameEmpty": "Name cannot be empty",
+  "roleUnknown": "Unknown role: {{role}}",
+  "languageUnsupported": "Unsupported language: {{language}}"
+}

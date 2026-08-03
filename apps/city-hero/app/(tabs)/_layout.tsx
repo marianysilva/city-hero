@@ -1,3 +1,4 @@
+import { useTranslation } from "@city-hero/i18n";
 import { Link, Tabs } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { Pressable } from "react-native";
@@ -8,6 +9,7 @@ import Colors from "@/constants/Colors";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const { t } = useTranslation();
 
   return (
     <Tabs
@@ -21,7 +23,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Tab One",
+          title: t("common.tabOneTitle"),
           tabBarIcon: ({ color }) => (
             <SymbolView
               name={{
@@ -52,7 +54,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="two"
         options={{
-          title: "Tab Two",
+          title: t("common.tabTwoTitle"),
           tabBarIcon: ({ color }) => (
             <SymbolView
               name={{

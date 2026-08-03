@@ -1,0 +1,10 @@
+{
+  "supportsCount": {
+    "zero": "sem apoios",
+    "one": "1 apoio",
+    "other": "{{count}} apoios"
+  },
+  "statusOpen": "Aberto",
+  "statusInProgress": "Em andamento",
+  "statusResolved": "Resolvido"
+}

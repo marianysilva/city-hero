@@ -1,3 +1,5 @@
+import type { TFunction } from "@city-hero/i18n";
+
 import type { BadgeVariant } from "@/components/atoms/Badge";
 import type { SortEntry } from "@/components/organisms/DataTable";
 
@@ -42,14 +44,18 @@ export interface UsersListResponse {
 
 export type ModalState = { mode: "create" } | { mode: "edit"; user: UserRow } | null;
 
-export const ROLES: { value: Role; label: string }[] = [
-  { value: "citizen", label: "Cidadão" },
-  { value: "field_team", label: "Equipe de Campo" },
-  { value: "dispatcher", label: "Despachante" },
-  { value: "secretary", label: "Secretário" },
-  { value: "mayor", label: "Prefeito" },
-  { value: "admin", label: "Admin" },
-];
+// Full labels (e.g. the role <select> dropdown) — takes `t` as a param
+// instead of a hook since this module has no React component of its own.
+export function getRoleOptions(t: TFunction): { value: Role; label: string }[] {
+  return [
+    { value: "citizen", label: t("users.roleFullCitizen") },
+    { value: "field_team", label: t("users.roleFullFieldTeam") },
+    { value: "dispatcher", label: t("users.roleFullDispatcher") },
+    { value: "secretary", label: t("users.roleFullSecretary") },
+    { value: "mayor", label: t("users.roleFullMayor") },
+    { value: "admin", label: t("users.roleFullAdmin") },
+  ];
+}
 
 export const ROLE_BADGE_VARIANT: Record<Role, BadgeVariant> = {
   admin: "red",
@@ -60,14 +66,27 @@ export const ROLE_BADGE_VARIANT: Record<Role, BadgeVariant> = {
   citizen: "gray",
 };
 
-export const ROLE_LABEL: Record<Role, string> = {
-  admin: "Admin",
-  mayor: "Prefeito",
-  secretary: "Secretário",
-  dispatcher: "Despachante",
-  field_team: "Campo",
-  citizen: "Cidadão",
-};
+// Short labels (role badges, sidebar footer) — only differs from the full
+// label for field_team ("Field"/"Campo" vs "Field Team"/"Equipe de Campo").
+export function getRoleLabelShort(t: TFunction, role: Role): string {
+  const SHORT_KEYS: Record<
+    Role,
+    | "roleShortCitizen"
+    | "roleShortFieldTeam"
+    | "roleShortDispatcher"
+    | "roleShortSecretary"
+    | "roleShortMayor"
+    | "roleShortAdmin"
+  > = {
+    citizen: "roleShortCitizen",
+    field_team: "roleShortFieldTeam",
+    dispatcher: "roleShortDispatcher",
+    secretary: "roleShortSecretary",
+    mayor: "roleShortMayor",
+    admin: "roleShortAdmin",
+  };
+  return t(`users.${SHORT_KEYS[role]}`);
+}
 
 export const DEFAULT_SORT: SortEntry[] = [
   { field: "role", dir: "asc" },

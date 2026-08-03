@@ -49,9 +49,10 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // @city-hero/design-system ships raw TS/JSX (no build step) — Next.js
-  // only transpiles node_modules/workspace packages it's explicitly told to.
-  transpilePackages: ["@city-hero/design-system"],
+  // @city-hero/design-system and @city-hero/i18n ship raw TS/JSX (no build
+  // step) — Next.js only transpiles node_modules/workspace packages it's
+  // explicitly told to.
+  transpilePackages: ["@city-hero/design-system", "@city-hero/i18n"],
   // The design system's main entry (ThemeProvider, hooks) imports from
   // "react-native" (for useColorScheme/AccessibilityInfo). Code that only
   // needs tokens can import "@city-hero/design-system/tokens" instead — that

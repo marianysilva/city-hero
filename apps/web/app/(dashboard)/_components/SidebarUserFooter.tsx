@@ -1,14 +1,16 @@
 "use client";
 
+import { useTranslation } from "@city-hero/i18n";
 import { UserCircleIcon, ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { useCurrentUser } from "@/app/(dashboard)/users/_hooks/useCurrentUser";
-import { ROLE_LABEL } from "@/app/(dashboard)/users/_types";
+import { getRoleLabelShort } from "@/app/(dashboard)/users/_types";
 
 export default function SidebarUserFooter() {
   const { currentUser } = useCurrentUser();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -30,7 +32,7 @@ export default function SidebarUserFooter() {
                 {currentUser.name}
               </p>
               <p className="text-xs text-zinc-400 truncate leading-tight">
-                {ROLE_LABEL[currentUser.role]}
+                {getRoleLabelShort(t, currentUser.role)}
               </p>
             </>
           ) : (
@@ -44,7 +46,7 @@ export default function SidebarUserFooter() {
         <button
           onClick={handleLogout}
           disabled={loading}
-          title="Sair"
+          title={t("auth.logout")}
           className="flex-shrink-0 p-1.5 text-zinc-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
         >
           <ArrowRightStartOnRectangleIcon className="w-5 h-5" />

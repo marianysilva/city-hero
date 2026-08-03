@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslation } from "@city-hero/i18n";
 import { useRouter } from "next/navigation";
 import { useState, FormEvent } from "react";
 
@@ -10,6 +11,7 @@ import { FormField } from "@/components/molecules/FormField";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -32,7 +34,7 @@ export default function LoginPage() {
 
     if (!res.ok) {
       const data = await res.json();
-      setError(data.error ?? "Credenciais inválidas");
+      setError(data.error ?? t("auth.invalidCredentials"));
       return;
     }
 
@@ -45,15 +47,15 @@ export default function LoginPage() {
       <div className="w-full max-w-sm bg-white rounded-2xl shadow p-8 space-y-6">
         <div>
           <h1 className="text-2xl font-semibold text-zinc-900">CityHero</h1>
-          <p className="text-sm text-zinc-500 mt-1">Painel de Gestão Municipal</p>
+          <p className="text-sm text-zinc-500 mt-1">{t("dashboard.managerPanelSubtitle")}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <FormField label="E-mail" htmlFor="email" required>
+          <FormField label={t("auth.emailLabel")} htmlFor="email" required>
             <Input id="email" name="email" type="email" required autoComplete="email" />
           </FormField>
 
-          <FormField label="Senha" htmlFor="password" required>
+          <FormField label={t("auth.passwordLabel")} htmlFor="password" required>
             <Input
               id="password"
               name="password"
@@ -65,8 +67,13 @@ export default function LoginPage() {
 
           {error && <AlertMessage variant="error">{error}</AlertMessage>}
 
-          <Button type="submit" loading={loading} className="w-full">
-            Entrar
+          <Button
+            type="submit"
+            loading={loading}
+            loadingText={t("common.loading")}
+            className="w-full"
+          >
+            {t("auth.signIn")}
           </Button>
         </form>
       </div>

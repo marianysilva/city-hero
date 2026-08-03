@@ -13,4 +13,5 @@ class UserType:
     auth_provider: str
     avatar_url: str | None
     is_active: bool
+    language: str
     created_at: datetime

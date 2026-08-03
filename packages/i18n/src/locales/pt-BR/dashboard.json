@@ -1,0 +1,23 @@
+{
+  "metaTitle": "CityHero — Painel de Gestão",
+  "metaDescription": "Painel de operações de manutenção urbana",
+  "panelTitle": "Painel de Gestão",
+  "managerPanelSubtitle": "Painel de Gestão Municipal",
+  "navWarRoom": "War Room",
+  "navKanban": "Kanban",
+  "navRouting": "Rotas Inteligentes",
+  "navAnalytics": "Analytics",
+  "navUsers": "Usuários",
+  "warRoomTitle": "War Room",
+  "warRoomDescription": "Mapa de calor em tempo real dos problemas críticos.",
+  "mapComingSoon": "Mapa — em breve",
+  "kanbanTitle": "Kanban",
+  "kanbanDescription": "Demandas por status: A Fazer · Em Andamento · Bloqueado · Concluído.",
+  "boardComingSoon": "Board — em breve",
+  "analyticsTitle": "Analytics",
+  "analyticsDescription": "Dashboards executivos via Apache Superset.",
+  "supersetComingSoon": "Superset Embedded — em breve",
+  "routingTitle": "Rotas Inteligentes",
+  "routingDescription": "Agrupamento de chamados próximos e rota otimizada para equipes de campo.",
+  "smartRoutingComingSoon": "Smart Routing — em breve"
+}

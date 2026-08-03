@@ -1,0 +1,14 @@
+{
+  "network": "Sem conexão. Verifique sua internet e tente novamente.",
+  "unauthorized": "Sua sessão expirou. Faça login novamente.",
+  "notFound": "Não encontramos o que você procura.",
+  "generic": "Ocorreu um erro inesperado.",
+  "unknown": "Erro desconhecido",
+  "statusCode": "Erro {{status}}",
+  "loadUsersFailed": "Erro ao carregar usuários",
+  "restoreUserFailed": "Erro ao restaurar usuário",
+  "loadCurrentUserFailed": "Falha ao carregar usuário",
+  "invalidRequestBody": "Corpo da requisição inválido",
+  "invalidAuthResponse": "Resposta de autenticação inválida do backend",
+  "backendUnavailable": "Backend indisponível"
+}

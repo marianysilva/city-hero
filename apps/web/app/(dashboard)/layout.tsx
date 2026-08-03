@@ -8,23 +8,27 @@ import {
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { getServerT } from "@/app/lib/i18n";
+
 import SidebarUserFooter from "./_components/SidebarUserFooter";
 
-const NAV = [
-  { href: "/", label: "War Room", icon: MapIcon },
-  { href: "/kanban", label: "Kanban", icon: ViewColumnsIcon },
-  { href: "/routing", label: "Rotas Inteligentes", icon: MapPinIcon },
-  { href: "/analytics", label: "Analytics", icon: ChartBarIcon },
-  { href: "/users", label: "Usuários", icon: UsersIcon },
-];
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const { t } = await getServerT();
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const NAV = [
+    { href: "/", label: t("dashboard.navWarRoom"), icon: MapIcon },
+    { href: "/kanban", label: t("dashboard.navKanban"), icon: ViewColumnsIcon },
+    { href: "/routing", label: t("dashboard.navRouting"), icon: MapPinIcon },
+    { href: "/analytics", label: t("dashboard.navAnalytics"), icon: ChartBarIcon },
+    { href: "/users", label: t("dashboard.navUsers"), icon: UsersIcon },
+  ];
+
   return (
     <div className="flex h-screen bg-zinc-50">
       <aside className="w-60 flex-shrink-0 bg-white border-r border-zinc-200 flex flex-col">
         <div className="px-5 py-5 border-b border-zinc-100">
           <span className="text-lg font-semibold text-zinc-900">CityHero</span>
-          <span className="block text-xs text-zinc-400 mt-0.5">Painel de Gestão</span>
+          <span className="block text-xs text-zinc-400 mt-0.5">{t("dashboard.panelTitle")}</span>
         </div>
 
         <nav className="flex-1 px-3 py-4 space-y-1">
@@ -44,7 +48,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       <main className="flex-1 overflow-auto">
-        <Suspense fallback={<div className="p-8 text-zinc-400">Carregando...</div>}>
+        <Suspense fallback={<div className="p-8 text-zinc-400">{t("common.loading")}</div>}>
           {children}
         </Suspense>
       </main>

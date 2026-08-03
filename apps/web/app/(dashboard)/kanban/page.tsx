@@ -1,12 +1,14 @@
-export default function KanbanPage() {
+import { getServerT } from "@/app/lib/i18n";
+
+export default async function KanbanPage() {
+  const { t } = await getServerT();
+
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-semibold text-zinc-900">Kanban</h1>
-      <p className="text-zinc-500 mt-1">
-        Demandas por status: A Fazer · Em Andamento · Bloqueado · Concluído.
-      </p>
+      <h1 className="text-2xl font-semibold text-zinc-900">{t("dashboard.kanbanTitle")}</h1>
+      <p className="text-zinc-500 mt-1">{t("dashboard.kanbanDescription")}</p>
       <div className="mt-8 rounded-2xl bg-white border border-zinc-200 h-[600px] flex items-center justify-center text-zinc-400 text-sm">
-        Board — em breve
+        {t("dashboard.boardComingSoon")}
       </div>
     </div>
   );

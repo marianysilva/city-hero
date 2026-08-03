@@ -7,6 +7,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   loading?: boolean;
+  /** Shown in place of `children` while `loading` is true. Callers own the
+   * translated copy (e.g. `t("common.loading")`) — this base atom has no
+   * i18n dependency of its own, so it stays usable from a Server Component. */
+  loadingText?: ReactNode;
   children: ReactNode;
 }
 
@@ -26,6 +30,7 @@ export function Button({
   variant = "primary",
   size = "md",
   loading = false,
+  loadingText,
   disabled,
   children,
   className = "",
@@ -41,7 +46,7 @@ export function Button({
       `}
       {...props}
     >
-      {loading ? "Carregando..." : children}
+      {loading ? (loadingText ?? children) : children}
     </button>
   );
 }

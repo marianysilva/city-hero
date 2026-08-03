@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslation } from "@city-hero/i18n";
 import { useState } from "react";
 
 import { Button } from "@/components/atoms/Button";
@@ -18,6 +19,7 @@ interface ResetPasswordModalProps {
 }
 
 export function ResetPasswordModal({ user, onClose, onSaved }: ResetPasswordModalProps) {
+  const { t } = useTranslation();
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -26,7 +28,7 @@ export function ResetPasswordModal({ user, onClose, onSaved }: ResetPasswordModa
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (password !== confirm) {
-      setError("As senhas não coincidem");
+      setError(t("users.passwordMismatch"));
       return;
     }
     setError(null);
@@ -39,16 +41,16 @@ export function ResetPasswordModal({ user, onClose, onSaved }: ResetPasswordModa
       });
       onSaved();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro desconhecido");
+      setError(err instanceof Error ? err.message : t("errors.unknown"));
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <Modal title={`Redefinir senha — ${user.name}`} onClose={onClose}>
+    <Modal title={t("users.resetPasswordTitle", { name: user.name })} onClose={onClose}>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <FormField label="Nova senha" htmlFor="rp-password" required>
+        <FormField label={t("users.fieldNewPassword")} htmlFor="rp-password" required>
           <Input
             id="rp-password"
             type="password"
@@ -59,7 +61,7 @@ export function ResetPasswordModal({ user, onClose, onSaved }: ResetPasswordModa
           />
         </FormField>
 
-        <FormField label="Confirmar senha" htmlFor="rp-confirm" required>
+        <FormField label={t("users.fieldConfirmPassword")} htmlFor="rp-confirm" required>
           <Input
             id="rp-confirm"
             type="password"
@@ -74,10 +76,15 @@ export function ResetPasswordModal({ user, onClose, onSaved }: ResetPasswordModa
 
         <div className="flex justify-end gap-2 pt-1">
           <Button type="button" variant="ghost" onClick={onClose}>
-            Cancelar
+            {t("common.cancel")}
           </Button>
-          <Button type="submit" variant="primary" loading={loading}>
-            Redefinir senha
+          <Button
+            type="submit"
+            variant="primary"
+            loading={loading}
+            loadingText={t("common.loading")}
+          >
+            {t("users.actionResetPassword")}
           </Button>
         </div>
       </form>

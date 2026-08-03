@@ -1,3 +1,4 @@
+import { useTranslation } from "@city-hero/i18n";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -9,6 +10,7 @@ import { PAGE_SIZE } from "../_types";
 
 export function useUsers() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [users, setUsers] = useState<UserRow[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -49,13 +51,13 @@ export function useUsers() {
         if (err instanceof ApiError && err.status === 401) {
           router.push("/login");
         } else {
-          setFetchError(err instanceof Error ? err.message : "Erro ao carregar usuários");
+          setFetchError(err instanceof Error ? err.message : t("errors.loadUsersFailed"));
         }
       } finally {
         setLoading(false);
       }
     },
-    [router],
+    [router, t],
   );
 
   async function deleteUser(userId: string): Promise<void> {
@@ -68,7 +70,7 @@ export function useUsers() {
         router.push("/login");
         return;
       }
-      const message = err instanceof Error ? err.message : "Erro desconhecido";
+      const message = err instanceof Error ? err.message : t("errors.unknown");
       setDeleteError(message);
       throw err;
     } finally {
@@ -86,7 +88,7 @@ export function useUsers() {
         router.push("/login");
         return;
       }
-      const message = err instanceof Error ? err.message : "Erro ao restaurar usuário";
+      const message = err instanceof Error ? err.message : t("errors.restoreUserFailed");
       setRestoreError(message);
       throw err;
     } finally {

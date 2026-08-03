@@ -1,3 +1,4 @@
+import { useTranslation } from "@city-hero/i18n";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -7,10 +8,11 @@ import type { CurrentUser, Role } from "../_types";
 
 export function useCurrentUser() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   // retry: false — a 401 shouldn't be retried (it's handled below by
   // redirecting), and the default 3x backoff would otherwise delay that
-  // redirect and the "Falha ao carregar usuário" message alike.
+  // redirect and the "failed to load user" message alike.
   const { data, isLoading, error } = useQuery({
     queryKey: ["current-user"],
     queryFn: () => apiFetch<CurrentUser>("/api/users/me"),
@@ -26,7 +28,7 @@ export function useCurrentUser() {
   const currentUser = data ?? null;
   const isUnauthorized = error instanceof ApiError && error.status === 401;
   const errorMessage =
-    error && !isUnauthorized ? (error.message ?? "Falha ao carregar usuário") : null;
+    error && !isUnauthorized ? (error.message ?? t("errors.loadCurrentUserFailed")) : null;
 
   const caps = currentUser?.capabilities ?? null;
 
