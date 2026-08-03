@@ -257,6 +257,32 @@ async def test_create_user_password_not_in_response(client: AsyncClient, admin_u
     assert "hashed_password" not in resp.text
 
 
+async def test_create_user_defaults_language_to_en_us(client: AsyncClient, admin_user):
+    resp = await client.post("/users", json=_NEW_CITIZEN, headers=_auth(admin_user))
+    assert resp.status_code == 201
+    assert resp.json()["language"] == "en-US"
+
+
+async def test_create_user_accepts_an_explicit_supported_language(client: AsyncClient, admin_user):
+    resp = await client.post(
+        "/users",
+        json={**_NEW_CITIZEN, "language": "pt-BR"},
+        headers=_auth(admin_user),
+    )
+    assert resp.status_code == 201
+    assert resp.json()["language"] == "pt-BR"
+
+
+async def test_create_user_unsupported_language_returns_422(client: AsyncClient, admin_user):
+    resp = await client.post(
+        "/users",
+        json={**_NEW_CITIZEN, "language": "fr-FR"},
+        headers=_auth(admin_user),
+    )
+    assert resp.status_code == 422
+    assert resp.json()["detail"][0]["type"] == "language_unsupported"
+
+
 # ── PATCH /users/{id} ────────────────────────────────────────────────────────
 
 async def test_update_user_name_admin_gets_200(client: AsyncClient, admin_user, target_citizen):
@@ -300,6 +326,28 @@ async def test_update_user_non_admin_cannot_change_role(client: AsyncClient, sec
         headers=_auth(secretary),
     )
     assert resp.status_code == 403
+
+
+async def test_update_user_language_admin_gets_200(client: AsyncClient, admin_user, target_citizen):
+    resp = await client.patch(
+        f"/users/{target_citizen.id}",
+        json={"language": "pt-BR"},
+        headers=_auth(admin_user),
+    )
+    assert resp.status_code == 200
+    assert resp.json()["language"] == "pt-BR"
+
+
+async def test_update_user_unsupported_language_returns_422(
+    client: AsyncClient, admin_user, target_citizen
+):
+    resp = await client.patch(
+        f"/users/{target_citizen.id}",
+        json={"language": "fr-FR"},
+        headers=_auth(admin_user),
+    )
+    assert resp.status_code == 422
+    assert resp.json()["detail"][0]["type"] == "language_unsupported"
 
 
 async def test_update_user_self_deactivation_returns_400(client: AsyncClient, admin_user):

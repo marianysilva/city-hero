@@ -183,6 +183,7 @@ async def create_user(db: AsyncSession, body: AdminUserCreateRequest, current_us
         role_id=resolve_role_id(body.role),
         auth_provider="email",
         is_active=True,
+        **({"language": body.language} if body.language is not None else {}),
     )
     db.add(user)
     try:
@@ -219,6 +220,8 @@ async def update_user(db: AsyncSession, user_id: UUID, body: UserUpdateRequest, 
         user.role_id = resolve_role_id(body.role)
     if body.is_active is not None:
         user.is_active = body.is_active
+    if body.language is not None:
+        user.language = body.language
 
     await db.commit()
     await db.refresh(user)

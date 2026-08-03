@@ -8,6 +8,7 @@ export interface UserOut {
   authProvider: string;
   isActive: boolean;
   avatarUrl: string | null;
+  language: string;
   createdAt: string;
   deletedAt: string | null;
 }
@@ -41,12 +42,14 @@ export interface AdminUserCreateRequest {
   name: string;
   password: string;
   role?: string;
+  language?: string;
 }
 
 export interface UserUpdateRequest {
   name?: string;
   role?: string;
   isActive?: boolean;
+  language?: string;
 }
 
 export interface ResetPasswordRequest {

@@ -1,4 +1,5 @@
-import type { TFunction } from "@city-hero/i18n";
+import type { Locale, TFunction } from "@city-hero/i18n";
+import { SUPPORTED_LOCALES } from "@city-hero/i18n";
 
 import type { BadgeVariant } from "@/components/atoms/Badge";
 import type { SortEntry } from "@/components/organisms/DataTable";
@@ -31,6 +32,7 @@ export interface UserRow {
   authProvider: string;
   isActive: boolean;
   avatarUrl: string | null;
+  language: Locale;
   createdAt: string;
   deletedAt: string | null;
 }
@@ -55,6 +57,19 @@ export function getRoleOptions(t: TFunction): { value: Role; label: string }[] {
     { value: "mayor", label: t("users.roleFullMayor") },
     { value: "admin", label: t("users.roleFullAdmin") },
   ];
+}
+
+// Full labels (the language <select> dropdown) — same pattern as
+// getRoleOptions above.
+export function getLanguageOptions(t: TFunction): { value: Locale; label: string }[] {
+  const LABEL_KEYS: Record<Locale, "languageEnUS" | "languagePtBR"> = {
+    "en-US": "languageEnUS",
+    "pt-BR": "languagePtBR",
+  };
+  return SUPPORTED_LOCALES.map((locale) => ({
+    value: locale,
+    label: t(`users.${LABEL_KEYS[locale]}`),
+  }));
 }
 
 export const ROLE_BADGE_VARIANT: Record<Role, BadgeVariant> = {

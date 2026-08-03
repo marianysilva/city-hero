@@ -204,6 +204,11 @@ export default function UsersPage() {
       render: (u) => <span className="text-zinc-500 capitalize">{u.authProvider}</span>,
     },
     {
+      key: "language",
+      header: t("users.colLanguage"),
+      render: (u) => <span className="text-zinc-500">{u.language}</span>,
+    },
+    {
       key: "actions",
       header: "",
       className: "w-24",

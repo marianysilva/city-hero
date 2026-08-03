@@ -19,10 +19,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const locale = resolveLocaleFromRequest(request);
-  let name: unknown, isActive: unknown, role: unknown;
+  let name: unknown, isActive: unknown, role: unknown, language: unknown;
   try {
     const body = await request.json();
-    ({ name, isActive, role } = body);
+    ({ name, isActive, role, language } = body);
   } catch {
     return NextResponse.json(
       { error: translate(LOCALE_DICTS, locale, "errors.invalidRequestBody") },
@@ -35,6 +35,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       name: name as string | undefined,
       isActive: isActive as boolean | undefined,
       role: role as string | undefined,
+      language: language as string | undefined,
     });
     return NextResponse.json(result);
   } catch (error) {

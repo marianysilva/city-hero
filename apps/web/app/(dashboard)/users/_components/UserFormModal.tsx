@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslation } from "@city-hero/i18n";
+import type { Locale } from "@city-hero/i18n";
 import { useState } from "react";
 
 import { Button } from "@/components/atoms/Button";
@@ -12,7 +13,7 @@ import { FormField } from "@/components/molecules/FormField";
 import { Modal } from "@/components/organisms/Modal";
 
 import { apiFetch } from "../_api";
-import { getRoleOptions, type ModalState, type Role } from "../_types";
+import { getLanguageOptions, getRoleOptions, type ModalState, type Role } from "../_types";
 
 interface UserFormModalProps {
   modal: NonNullable<ModalState>;
@@ -41,6 +42,7 @@ export function UserFormModal({
   const [email, setEmail] = useState(editUser?.email ?? "");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<Role>(defaultRole);
+  const [language, setLanguage] = useState<Locale>(editUser?.language ?? "en-US");
   const [isActive, setIsActive] = useState(editUser?.isActive ?? true);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -49,6 +51,7 @@ export function UserFormModal({
   const roleOptions = isEdit
     ? allRoles // show all roles in edit mode (field is read-only for non-admins)
     : allRoles.filter((r) => assignableRoles.includes(r.value));
+  const languageOptions = getLanguageOptions(t);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -56,7 +59,7 @@ export function UserFormModal({
     setLoading(true);
     try {
       if (isEdit && editUser) {
-        const payload: Record<string, unknown> = { name, isActive };
+        const payload: Record<string, unknown> = { name, isActive, language };
         if (canChangeRole) payload.role = role;
         await apiFetch(`/api/users/${editUser.id}`, {
           method: "PATCH",
@@ -67,7 +70,7 @@ export function UserFormModal({
         await apiFetch("/api/users", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, name, password, role }),
+          body: JSON.stringify({ email, name, password, role, language }),
         });
       }
       onSaved();
@@ -125,6 +128,20 @@ export function UserFormModal({
             {roleOptions.map((r) => (
               <option key={r.value} value={r.value}>
                 {r.label}
+              </option>
+            ))}
+          </Select>
+        </FormField>
+
+        <FormField label={t("users.colLanguage")} htmlFor="u-language">
+          <Select
+            id="u-language"
+            value={language}
+            onChange={(e) => setLanguage(e.target.value as Locale)}
+          >
+            {languageOptions.map((l) => (
+              <option key={l.value} value={l.value}>
+                {l.label}
               </option>
             ))}
           </Select>
