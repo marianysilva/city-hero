@@ -4,7 +4,7 @@
   "tabDeleted": "Deletados",
   "colName": "Nome",
   "colEmail": "E-mail",
-  "colRole": "Role",
+  "colRole": "Tipo de usuário",
   "colCreatedAt": "Criado em",
   "colStatus": "Status",
   "colProvider": "Provider",
