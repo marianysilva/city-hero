@@ -73,6 +73,7 @@ export default function UsersPage() {
   const [confirmDelete, setConfirmDelete] = useState<UserRow | null>(null);
 
   const {
+    currentUser,
     isAdmin,
     canCreate,
     canEdit,
@@ -80,6 +81,7 @@ export default function UsersPage() {
     error: permissionsError,
     assignableRoles,
     canManageUser,
+    refetch: refetchCurrentUser,
   } = useCurrentUser();
 
   const {
@@ -369,9 +371,21 @@ export default function UsersPage() {
           canChangeRole={isAdmin}
           assignableRoles={assignableRoles}
           onClose={() => setModal(null)}
-          onSaved={() => {
+          onSaved={async () => {
+            const isSelfEdit = modal.mode === "edit" && modal.user.id === currentUser?.id;
             setModal(null);
             fetchUsers(urlPage, sort, urlQ, urlTab);
+            if (isSelfEdit) {
+              // A self-edit may have changed `language`. GET /api/users/me
+              // (unlike the PATCH we just sent) is what syncs the locale
+              // cookie — refetch it first, then refresh so the server
+              // components actually re-render with that new cookie. Without
+              // this, the change wouldn't take effect until the *next*
+              // full navigation after this one, since router.refresh()
+              // alone would just re-render with the still-stale cookie.
+              await refetchCurrentUser();
+              router.refresh();
+            }
           }}
         />
       )}
