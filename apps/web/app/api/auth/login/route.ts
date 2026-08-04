@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { createServerApiClient } from "@/lib/api-client";
 import { safeErrorMessage } from "@/lib/api-error-response";
-import { resolveLocaleFromRequest } from "@/lib/locale";
+import { resolveLocaleFromRequest, syncLocaleCookie } from "@/lib/locale";
 import { translateValidationErrors } from "@/lib/validation-messages";
 
 // login/page.tsx renders `data.error` directly as text — a 422's
@@ -61,6 +61,13 @@ export async function POST(request: NextRequest) {
       maxAge: 60 * 60,
       path: "/",
     });
+    // Sync the logged-in user's stored language preference into the locale
+    // cookie so the very next server render (the login page's own
+    // `router.refresh()`) resolves via `resolveServerLocale()` to *this*
+    // user's language instead of whatever the previous session/browser
+    // Accept-Language left behind. Explicitly clears a stale cookie if the
+    // stored value is missing/unsupported — see syncLocaleCookie's own doc.
+    syncLocaleCookie(response, result.user.language);
     return response;
   } catch (error) {
     if (error instanceof ApiClientError && error.status > 0) {

@@ -39,6 +39,9 @@ E2E_BACKEND_URL="http://localhost:8001"
 # Must match docker-compose.e2e.yml's migrate-e2e/backend-e2e seed vars.
 E2E_ADMIN_EMAIL="admin@cityhero.com"
 E2E_ADMIN_PASSWORD="e2e-admin-pass-123"
+# Shared password for every non-admin seed user (mayor, secretary, dispatcher,
+# field_team, citizen) — see migrate-e2e's APP_USERS_PASSWORD.
+E2E_USERS_PASSWORD="e2e-users-pass-123"
 
 wait_for_url() {
   local url="$1" label="$2" timeout="${3:-60}"
@@ -82,5 +85,6 @@ echo -e "${CYAN}${BOLD}==> Running Playwright against ${E2E_WEB_URL} (backend: $
   E2E_BACKEND_URL="$E2E_BACKEND_URL" \
   TEST_ADMIN_EMAIL="$E2E_ADMIN_EMAIL" \
   TEST_ADMIN_PASSWORD="$E2E_ADMIN_PASSWORD" \
+  TEST_USERS_PASSWORD="$E2E_USERS_PASSWORD" \
     npx playwright test "$@"
 )

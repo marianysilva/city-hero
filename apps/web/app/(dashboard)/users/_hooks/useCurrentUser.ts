@@ -13,7 +13,7 @@ export function useCurrentUser() {
   // retry: false — a 401 shouldn't be retried (it's handled below by
   // redirecting), and the default 3x backoff would otherwise delay that
   // redirect and the "failed to load user" message alike.
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["current-user"],
     queryFn: () => apiFetch<CurrentUser>("/api/users/me"),
     retry: false,
@@ -51,5 +51,11 @@ export function useCurrentUser() {
     assignableRoles: caps?.assignableRoles ?? [],
     canManageUser,
     hasPermission,
+    // Exposed for callers that just changed *this* user's own record (e.g.
+    // a self-edit of `language` via the Users screen) and need the fresh
+    // /api/users/me response — which syncs the locale cookie — before a
+    // router.refresh() will actually pick up the change. See page.tsx's
+    // UserFormModal onSaved handler.
+    refetch,
   };
 }

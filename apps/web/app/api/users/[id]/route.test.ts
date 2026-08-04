@@ -102,6 +102,33 @@ describe("PATCH /api/users/:id", () => {
     expect(data.isActive).toBe(false);
   });
 
+  it("forwards language to the backend", async () => {
+    server.use(
+      http.patch(`${BACKEND_URL}/users/u1`, async ({ request }) => {
+        const body = (await request.json()) as { language?: string };
+        expect(body).toEqual({ language: "pt-BR" });
+        return HttpResponse.json({
+          id: "u1",
+          email: "citizen@example.com",
+          name: "Citizen One",
+          role: "citizen",
+          authProvider: "password",
+          isActive: true,
+          avatarUrl: null,
+          language: "pt-BR",
+          createdAt: "2026-01-01T00:00:00Z",
+          deletedAt: null,
+        });
+      }),
+    );
+
+    const response = await PATCH(patchRequest({ language: "pt-BR" }), paramsFor("u1"));
+
+    expect(response.status).toBe(200);
+    const data = await response.json();
+    expect(data.language).toBe("pt-BR");
+  });
+
   it("returns 400 on invalid JSON body", async () => {
     const request = new NextRequest("http://localhost/api/users/u1", {
       method: "PATCH",

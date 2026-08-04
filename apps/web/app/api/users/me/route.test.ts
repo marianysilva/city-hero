@@ -60,6 +60,34 @@ describe("GET /api/users/me", () => {
     expect(data.email).toBe("admin@cityhero.app");
   });
 
+  it("syncs the locale cookie to the current user's stored language — closes the self-edit gap where changing your own language mid-session never updated the session's locale", async () => {
+    mockToken("valid-token");
+    server.use(
+      http.get(`${BACKEND_URL}/users/me`, () =>
+        HttpResponse.json({
+          id: "u2",
+          email: "mayor@cityhero.app",
+          name: "Mayor",
+          role: "mayor",
+          authProvider: "password",
+          isActive: true,
+          avatarUrl: null,
+          language: "pt-BR",
+          createdAt: "2026-01-01T00:00:00Z",
+          deletedAt: null,
+          roleInfo: { name: "mayor", rank: 5, isSuperuser: false },
+          capabilities: { permissions: [], assignableRoles: [], manageableRoles: [] },
+        }),
+      ),
+    );
+
+    const response = await GET();
+
+    expect(response.status).toBe(200);
+    const localeCookie = response.cookies.get("cityhero_language");
+    expect(localeCookie?.value).toBe("pt-BR");
+  });
+
   it("returns 401 with the normalized detail when the backend rejects the token", async () => {
     mockToken("expired-token");
     server.use(

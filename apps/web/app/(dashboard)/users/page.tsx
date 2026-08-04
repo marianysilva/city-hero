@@ -30,6 +30,7 @@ import { useUsers } from "./_hooks/useUsers";
 import {
   DEFAULT_SORT,
   DEFAULT_SORT_DELETED,
+  getLanguageLabel,
   PAGE_SIZE,
   type ModalState,
   type UserRow,
@@ -37,7 +38,7 @@ import {
 } from "./_types";
 
 export default function UsersPage() {
-  const { t, formatDateTime } = useLocaleContext();
+  const { t, formatDateTime, setLocale } = useLocaleContext();
   const TAB_LABELS: Record<UserStatus, string> = {
     active: t("users.tabActive"),
     inactive: t("users.tabInactive"),
@@ -72,6 +73,7 @@ export default function UsersPage() {
   const [confirmDelete, setConfirmDelete] = useState<UserRow | null>(null);
 
   const {
+    currentUser,
     isAdmin,
     canCreate,
     canEdit,
@@ -79,6 +81,7 @@ export default function UsersPage() {
     error: permissionsError,
     assignableRoles,
     canManageUser,
+    refetch: refetchCurrentUser,
   } = useCurrentUser();
 
   const {
@@ -202,6 +205,11 @@ export default function UsersPage() {
       key: "provider",
       header: t("users.colProvider"),
       render: (u) => <span className="text-zinc-500 capitalize">{u.authProvider}</span>,
+    },
+    {
+      key: "language",
+      header: t("users.colLanguage"),
+      render: (u) => <span className="text-zinc-500">{getLanguageLabel(t, u.language)}</span>,
     },
     {
       key: "actions",
@@ -363,9 +371,30 @@ export default function UsersPage() {
           canChangeRole={isAdmin}
           assignableRoles={assignableRoles}
           onClose={() => setModal(null)}
-          onSaved={() => {
+          onSaved={(saved) => {
+            const isSelfEdit = modal.mode === "edit" && modal.user.id === currentUser?.id;
             setModal(null);
             fetchUsers(urlPage, sort, urlQ, urlTab);
+            if (isSelfEdit) {
+              // Two different rendering layers need two different fixes:
+              // - CLIENT-rendered text (this page's own column headers,
+              //   buttons, etc.) is driven by LocaleProvider's React state,
+              //   a plain useState(initialLocale) that only reads that
+              //   argument on first mount (see LocaleClientProvider.tsx's
+              //   own comment) — router.refresh() alone never updates it.
+              //   setLocale() does, immediately, and its onLocaleChange
+              //   also persists the matching cookie client-side.
+              // - SERVER-rendered text (the sidebar nav — see
+              //   app/(dashboard)/layout.tsx's getServerT()) is the
+              //   opposite: it's baked into the RSC payload at request
+              //   time and setLocale() can't touch it at all. Only a
+              //   fresh server render — router.refresh() — picks up the
+              //   cookie setLocale() just wrote.
+              // Both are required; each fixes exactly one half.
+              setLocale(saved.language);
+              refetchCurrentUser();
+              router.refresh();
+            }
           }}
         />
       )}

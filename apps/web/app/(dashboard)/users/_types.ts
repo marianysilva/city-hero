@@ -1,4 +1,5 @@
-import type { TFunction } from "@city-hero/i18n";
+import type { Locale, TFunction } from "@city-hero/i18n";
+import { SUPPORTED_LOCALES } from "@city-hero/i18n";
 
 import type { BadgeVariant } from "@/components/atoms/Badge";
 import type { SortEntry } from "@/components/organisms/DataTable";
@@ -31,6 +32,7 @@ export interface UserRow {
   authProvider: string;
   isActive: boolean;
   avatarUrl: string | null;
+  language: Locale;
   createdAt: string;
   deletedAt: string | null;
 }
@@ -55,6 +57,30 @@ export function getRoleOptions(t: TFunction): { value: Role; label: string }[] {
     { value: "mayor", label: t("users.roleFullMayor") },
     { value: "admin", label: t("users.roleFullAdmin") },
   ];
+}
+
+const LANGUAGE_LABEL_KEYS: Record<Locale, "languageEnUS" | "languagePtBR"> = {
+  "en-US": "languageEnUS",
+  "pt-BR": "languagePtBR",
+};
+
+/** Translated label for a single locale — used by both the read-only
+ * Language column (page.tsx) and getLanguageOptions below, so the table
+ * cell and the <select> options can never show different text for the
+ * same value. */
+export function getLanguageLabel(t: TFunction, locale: Locale): string {
+  return t(`users.${LANGUAGE_LABEL_KEYS[locale]}`);
+}
+
+// Options for the language <select> dropdown (create + edit forms). Unlike
+// getRoleOptions above, this list is derived from SUPPORTED_LOCALES rather
+// than a hand-written literal array — there are only two locales today, but
+// a third would only need a new LANGUAGE_LABEL_KEYS entry, not a change here.
+export function getLanguageOptions(t: TFunction): { value: Locale; label: string }[] {
+  return SUPPORTED_LOCALES.map((locale) => ({
+    value: locale,
+    label: getLanguageLabel(t, locale),
+  }));
 }
 
 export const ROLE_BADGE_VARIANT: Record<Role, BadgeVariant> = {

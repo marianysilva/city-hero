@@ -1,6 +1,11 @@
 from pydantic import EmailStr, field_validator
 
-from app.schemas._validators import validate_name, validate_password_strength, validate_role_slug
+from app.schemas._validators import (
+    validate_language_code,
+    validate_name,
+    validate_password_strength,
+    validate_role_slug,
+)
 from app.schemas.auth import UserOut
 from app.schemas.base import CamelBase
 
@@ -10,6 +15,9 @@ class AdminUserCreateRequest(CamelBase):
     name: str
     password: str
     role: str = "citizen"
+    # Optional: defaults to the User model's "en-US" if omitted. See
+    # RegisterRequest.language (schemas/auth.py) for the same pattern.
+    language: str | None = None
 
     @field_validator("password")
     @classmethod
@@ -26,11 +34,17 @@ class AdminUserCreateRequest(CamelBase):
     def role_must_be_valid(cls, v: str) -> str:
         return validate_role_slug(v)
 
+    @field_validator("language")
+    @classmethod
+    def language_supported(cls, v: str | None) -> str | None:
+        return validate_language_code(v)
+
 
 class UserUpdateRequest(CamelBase):
     name: str | None = None
     role: str | None = None
     is_active: bool | None = None
+    language: str | None = None
 
     @field_validator("name")
     @classmethod
@@ -43,6 +57,11 @@ class UserUpdateRequest(CamelBase):
     @classmethod
     def role_must_be_valid(cls, v: str | None) -> str | None:
         return validate_role_slug(v)
+
+    @field_validator("language")
+    @classmethod
+    def language_supported(cls, v: str | None) -> str | None:
+        return validate_language_code(v)
 
 
 class ResetPasswordRequest(CamelBase):

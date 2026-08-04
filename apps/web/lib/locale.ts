@@ -1,6 +1,6 @@
 import { FALLBACK_LOCALE, isSupportedLocale, resolveDefaultLocale } from "@city-hero/i18n";
 import type { Locale } from "@city-hero/i18n";
-import type { NextRequest } from "next/server";
+import type { NextRequest, NextResponse } from "next/server";
 
 // Plain (non-httpOnly) cookie — a language preference isn't sensitive, so a
 // client component can write it directly with `document.cookie` and the
@@ -9,6 +9,7 @@ import type { NextRequest } from "next/server";
 // to import: referencing it doesn't touch `document`, only calling
 // `persistLocale` below does, and the server never calls that.
 export const LOCALE_COOKIE = "cityhero_language";
+const LOCALE_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
 
 let current: Locale = FALLBACK_LOCALE;
 
@@ -28,10 +29,43 @@ export function getCurrentLocale(): Locale {
   return current;
 }
 
-/** Client-side persistence, passed as `LocaleProvider`'s `onLocaleChange`. */
+/** Client-side persistence, passed as `LocaleProvider`'s `onLocaleChange`.
+ * `secure` is conditional on the page's own protocol (mirrors
+ * `syncLocaleCookie`'s `NODE_ENV === "production"` check below: a site
+ * served over HTTPS is exactly what "production" means here) — some
+ * browsers silently drop a `Secure` cookie set from a `http:` page, and an
+ * unconditional `; secure` would break local HTTP development. */
 export function persistLocale(locale: Locale): void {
   setCurrentLocale(locale);
-  document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=31536000; samesite=lax`;
+  const secure = typeof window !== "undefined" && window.location.protocol === "https:";
+  document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=${LOCALE_COOKIE_MAX_AGE_SECONDS}; samesite=lax${secure ? "; secure" : ""}`;
+}
+
+/**
+ * Server-side counterpart of `persistLocale` — writes (or clears) the
+ * `cityhero_language` cookie on a Route Handler's response from a user's
+ * stored `language` value. Shared by every Route Handler that returns a
+ * user object carrying a fresh `language` (login, `/users/me`) so the two
+ * write paths can't drift apart the way client/server settings once did
+ * here. Explicitly clears any existing cookie when `language` is missing or
+ * unsupported, rather than leaving a stale value in place — otherwise the
+ * only way to ever correct a bad cookie would be a future call that
+ * happens to carry a valid language.
+ */
+export function syncLocaleCookie(
+  response: NextResponse,
+  language: string | null | undefined,
+): void {
+  if (isSupportedLocale(language)) {
+    response.cookies.set(LOCALE_COOKIE, language, {
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: LOCALE_COOKIE_MAX_AGE_SECONDS,
+      path: "/",
+    });
+  } else {
+    response.cookies.delete(LOCALE_COOKIE);
+  }
 }
 
 /** Splits an `Accept-Language` header into tags ordered by descending `q`

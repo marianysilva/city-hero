@@ -30,10 +30,10 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const locale = resolveLocaleFromRequest(request);
-  let email: unknown, name: unknown, password: unknown, role: unknown;
+  let email: unknown, name: unknown, password: unknown, role: unknown, language: unknown;
   try {
     const body = await request.json();
-    ({ email, name, password, role } = body);
+    ({ email, name, password, role, language } = body);
   } catch {
     return NextResponse.json(
       { error: translate(LOCALE_DICTS, locale, "errors.invalidRequestBody") },
@@ -47,6 +47,7 @@ export async function POST(request: NextRequest) {
       name: name as string,
       password: password as string,
       role: role as string | undefined,
+      language: language as string | undefined,
     });
     return NextResponse.json(result, { status: 201 });
   } catch (error) {

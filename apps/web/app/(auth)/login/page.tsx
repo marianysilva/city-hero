@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslation } from "@city-hero/i18n";
+import { useLocaleContext } from "@city-hero/i18n";
 import { useRouter } from "next/navigation";
 import { useState, FormEvent } from "react";
 
@@ -11,7 +11,7 @@ import { FormField } from "@/components/molecules/FormField";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { t } = useTranslation();
+  const { t, setLocale } = useLocaleContext();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -32,11 +32,22 @@ export default function LoginPage() {
 
     setLoading(false);
 
+    const data = await res.json();
+
     if (!res.ok) {
-      const data = await res.json();
       setError(data.error ?? t("auth.invalidCredentials"));
       return;
     }
+
+    // The login page itself may have mounted with no locale cookie yet
+    // (falling back to the browser's Accept-Language), and router.push +
+    // router.refresh are both client-side — they don't remount the root
+    // layout's LocaleProvider, so its state would otherwise stay wrong
+    // for the rest of this session regardless of what the login response
+    // says. setLocale updates it immediately and persists the matching
+    // cookie via onLocaleChange — see UserFormModal's onSaved for the
+    // same fix applied to a self-edit mid-session.
+    if (data.user?.language) setLocale(data.user.language);
 
     router.push("/");
     router.refresh();

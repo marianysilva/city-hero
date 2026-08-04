@@ -26,6 +26,7 @@ from app.schemas.auth import (
     user_to_out,
 )
 from app.schemas.user import AdminUserCreateRequest, ResetPasswordRequest, UsersListResponse, UserUpdateRequest
+from app.services._helpers import optional_kwarg
 
 # Role hierarchy: lower number = higher privilege (sorts first when ASC).
 # Used only for ORDER BY — canonical rank lives in roles.rank in the DB.
@@ -183,6 +184,7 @@ async def create_user(db: AsyncSession, body: AdminUserCreateRequest, current_us
         role_id=resolve_role_id(body.role),
         auth_provider="email",
         is_active=True,
+        **optional_kwarg("language", body.language),
     )
     db.add(user)
     try:
@@ -219,6 +221,8 @@ async def update_user(db: AsyncSession, user_id: UUID, body: UserUpdateRequest, 
         user.role_id = resolve_role_id(body.role)
     if body.is_active is not None:
         user.is_active = body.is_active
+    if body.language is not None:
+        user.language = body.language
 
     await db.commit()
     await db.refresh(user)

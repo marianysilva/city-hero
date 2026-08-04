@@ -16,7 +16,11 @@ import validationEnUS from "./locales/en-US/validation.json";
 
 export type Locale = "pt-BR" | "en-US";
 
-export const SUPPORTED_LOCALES: readonly Locale[] = ["pt-BR", "en-US"];
+// en-US first, matching FALLBACK_LOCALE below — the only order-dependent
+// consumer is apps/web's language <select> (getLanguageOptions in
+// app/(dashboard)/users/_types.ts), where this order is also the dropdown's
+// display order.
+export const SUPPORTED_LOCALES: readonly Locale[] = ["en-US", "pt-BR"];
 
 // English is the app-wide default per product decision (2026-07-22, see
 // docs/tasks/00-foundation/13-i18n.md Status) — device/system locale is still

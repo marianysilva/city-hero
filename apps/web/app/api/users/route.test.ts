@@ -105,6 +105,44 @@ describe("POST /api/users", () => {
     expect(data.email).toBe("new@example.com");
   });
 
+  it("forwards language to the backend", async () => {
+    server.use(
+      http.post(`${BACKEND_URL}/users`, async ({ request }) => {
+        const body = (await request.json()) as { email: string; language?: string };
+        expect(body.language).toBe("pt-BR");
+        return HttpResponse.json(
+          {
+            id: "new-id",
+            email: body.email,
+            name: "Someone",
+            role: "field_team",
+            authProvider: "password",
+            isActive: true,
+            avatarUrl: null,
+            language: body.language,
+            createdAt: "2026-01-01T00:00:00Z",
+            deletedAt: null,
+          },
+          { status: 201 },
+        );
+      }),
+    );
+
+    const response = await POST(
+      createRequest({
+        email: "new@example.com",
+        name: "Someone",
+        password: "Sup3rSecret!",
+        role: "field_team",
+        language: "pt-BR",
+      }),
+    );
+
+    expect(response.status).toBe(201);
+    const data = await response.json();
+    expect(data.language).toBe("pt-BR");
+  });
+
   it("returns the validation array as detail on a 422", async () => {
     server.use(
       http.post(`${BACKEND_URL}/users`, () =>

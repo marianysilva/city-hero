@@ -10,6 +10,7 @@ const meUser = {
   authProvider: "password",
   isActive: true,
   avatarUrl: null,
+  language: "en-US",
   createdAt: "2026-01-01T00:00:00Z",
   deletedAt: null,
   roleInfo: { name: "citizen", rank: 0, isSuperuser: false },
