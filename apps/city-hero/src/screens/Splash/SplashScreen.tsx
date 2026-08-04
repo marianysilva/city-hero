@@ -78,7 +78,10 @@ export function SplashScreen({ isReady = true, onReady = () => {} }: SplashScree
       );
     }
 
-    const loadingTimer = setTimeout(() => setShowLoading(true), SHOW_LOADING_AFTER_MS);
+    const loadingTimer = setTimeout(() => {
+      if (navigatedRef.current) return;
+      setShowLoading(true);
+    }, SHOW_LOADING_AFTER_MS);
     const hardTimeoutTimer = setTimeout(() => {
       if (navigatedRef.current) return;
       navigatedRef.current = true;

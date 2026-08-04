@@ -77,6 +77,17 @@ test("surfaces the loading indicator only after the 5s threshold", async () => {
   expect(screen.getByTestId("splash-loading-indicator")).toBeTruthy();
 });
 
+test("never surfaces the loading indicator once already navigated before the 5s threshold", async () => {
+  const onReady = jest.fn();
+  await renderSplash({ isReady: true, onReady });
+
+  await advanceTime(800);
+  expect(onReady).toHaveBeenCalledWith("ready");
+
+  await advanceTime(5000);
+  expect(screen.queryByTestId("splash-loading-indicator")).toBeNull();
+});
+
 test("force-navigates with a timeout reason after the 10s hard timeout", async () => {
   const onReady = jest.fn();
   await renderSplash({ isReady: false, onReady });
