@@ -4,7 +4,29 @@
 > **Screen:** SCREEN 01 · Splash / Welcome\
 > **Effort:** S (≤1 day)\
 > **Dependencies:** `00-foundation/02-design-tokens.md`\
-> **Status:** ⬜ Not started\
+> **Status:** 🟢 Done (this task only — 02-05 in this folder are still not started; no parent
+> `onReady`/routing hand-off exists yet, see Definition of Done) —
+> `apps/city-hero/src/screens/Splash` (`SplashScreen.tsx` +
+> `components/AnimatedLogo.tsx`/`LoadingIndicator.tsx`), mounted at the app's `index` route (the
+> stock Expo Router tab template — `(tabs)/`, `modal.tsx`, and their only consumers
+> `EditScreenInfo`/`ExternalLink`/`useClientOnlyValue` — were removed as dead mock boilerplate,
+> along with the now-unused `expo-symbols`/`expo-web-browser` dependencies). Uses
+> `expo-linear-gradient` (newly added) for the logo mark's brand-orange → civic-purple gradient and
+> the subtle brand-50 → white background gradient; entrance animation via Reanimated respects
+> `useReducedMotion()`. Name/tagline render through `useTranslation()` (`common.appName`/
+> `common.appTagline`), so the existing `EXPO_PUBLIC_DEFAULT_LOCALE` dev override
+> (`00-foundation/13-i18n.md`) flips the splash between pt-BR/en-US on restart with no additional
+> wiring — verified in a browser build with the env var toggled both ways. Telemetry
+> (`splash.mounted`/`splash.timeout`/`splash.navigated`) is a `console.info` placeholder pending the
+> real observability package (`00-foundation/20-observability-package.md`). **Diverges from the
+> current prototype file** (`design/src/screens/01-splash.js`, which now shows confetti, 6 rotating
+> taglines, and email/Gov.br CTA buttons for a later onboarding/login revision) — this
+> implementation follows this task's own Acceptance Criteria instead (single static tagline, no
+> CTAs, no routing logic), since tasks 02 (init sequence), 03 (routing decision), and the login
+> screen's own task (`01a-login/02-email-password-auth.md`) own that behavior and aren't built yet.
+> Not built: snapshot tests (no snapshot-testing convention exists yet in this repo) and the
+> background-pause/resume animation edge case (listed under Edge Cases, not part of this task's
+> Acceptance Criteria).\
 > **Labels:** `mobile`, `frontend`, `screen`, `ui`
 
 ## Context
@@ -156,15 +178,17 @@ Not applicable (no user data).
 
 ## Definition of Done
 
-- [ ] SplashScreen implemented matching the prototype layout
-- [ ] Entrance animation
-- [ ] Minimum display time enforced
-- [ ] Conditional loading indicator after threshold
-- [ ] Hard timeout with telemetry
-- [ ] Accessibility: live region, label, reduce-motion respected
-- [ ] Dark mode functional
-- [ ] Unit tests
-- [ ] Snapshot tests
+- [x] SplashScreen implemented matching this task's Acceptance Criteria (not the current prototype
+      file's later onboarding/login revision — see Status)
+- [x] Entrance animation
+- [x] Minimum display time enforced
+- [x] Conditional loading indicator after threshold
+- [x] Hard timeout with telemetry (placeholder `console.info` pending
+      `00-foundation/20-observability-package.md` — see Status)
+- [x] Accessibility: live region, label, reduce-motion respected
+- [x] Dark mode functional
+- [x] Unit tests
+- [ ] Snapshot tests — not built, no snapshot-testing convention exists yet in this repo
 - [ ] Code review approved
 
 ## Standards & References

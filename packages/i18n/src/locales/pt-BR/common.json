@@ -1,5 +1,6 @@
 {
   "appName": "CityHero",
+  "appTagline": "Sua cidade nas suas mãos",
   "loading": "Carregando…",
   "retry": "Tentar novamente",
   "cancel": "Cancelar",
@@ -12,13 +13,7 @@
   "pageOfTotal": "Página {{page}} de {{totalPages}}",
   "previous": "Anterior",
   "next": "Próxima",
-  "tabOneTitle": "Aba Um",
-  "tabTwoTitle": "Aba Dois",
-  "modalTitle": "Modal",
   "notFoundTitle": "Oops!",
   "notFoundMessage": "Esta tela não existe.",
-  "goToHomeScreen": "Ir para a tela inicial!",
-  "editScreenInstructionsOpen": "Abra o código desta tela:",
-  "editScreenInstructionsChange": "Altere qualquer texto, salve o arquivo e o app vai atualizar automaticamente.",
-  "editScreenHelp": "Toque aqui se o app não atualizar automaticamente após as mudanças"
+  "goToHomeScreen": "Ir para a tela inicial!"
 }
