@@ -47,7 +47,7 @@ export default {
 
         <div class="w-full">
           <button data-nav="next" class="w-full py-3.5 rounded-2xl bg-white text-brand-700 font-extrabold shadow-lg hover:bg-brand-50 transition">
-            Começar — sou cidadão
+            Entrar com e-mail
           </button>
           <button data-nav="gov" class="mt-2.5 w-full py-3.5 rounded-2xl bg-white/15 border border-white/25 backdrop-blur text-white font-bold flex items-center justify-center gap-2 hover:bg-white/20 transition">
             <span class="w-5 h-5 rounded-full bg-gradient-to-br from-yellow-300 to-green-400"></span>

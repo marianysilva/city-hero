@@ -53,6 +53,12 @@ docs/tasks/
 │   ├── 03-routing-decision.md
 │   ├── 04-force-update-flow.md
 │   └── 05-cold-start-offline.md
+├── 01a-login/                       ← SCREEN 01a · Login
+│   ├── _README.md
+│   ├── 01-render-login-ui.md
+│   ├── 02-email-password-auth.md
+│   ├── 03-forgot-password-flow.md
+│   └── 04-create-account-flow.md
 ├── 02-city-select/                  ← SCREEN 02
 ├── 03-onboarding-camera/            ← SCREEN 03
 ├── 04-onboarding-gamification/      ← SCREEN 04
@@ -153,7 +159,7 @@ Or via UI: New issue → paste content → add labels → assign to Project.
 
 | features.md section                          | Coverage                                                                                                                                                                                                                       |
 | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1. Citizen App                               | 32 screens (30 numeradas + 04b Pacto Cidadão + 21b Políticos eleitos) + foundation                                                                                                                                             |
+| 1. Citizen App                               | 33 screens (31 numeradas + 04b Pacto Cidadão + 21b Políticos eleitos) + foundation                                                                                                                                             |
 | 2. Field Team App                            | ❌ out of MVP scope (planned for a follow-up after the citizen app)                                                                                                                                                            |
 | 3. Operational Management Panel (`apps/web`) | ❌ out of MVP scope — the Next.js admin panel mentioned in `CLAUDE.md` has no task specs yet and is paused per product decision (2026-06-19). The `architecture-patterns.md` section on Next.js is kept for when this resumes. |
 | 4. Data Intelligence & BI                    | partial (NPS) — elected-officials ingestion and the city-profile insights card moved to `docs/out-of-mvp/` (hard Airflow/dbt dependency)                                                                                       |
@@ -161,12 +167,7 @@ Or via UI: New issue → paste content → add labels → assign to Project.
 | 6. Citizen ++                                | partial (anonymous, i18n, a11y)                                                                                                                                                                                                |
 | 11. Scope Expansion                          | ❌ v2                                                                                                                                                                                                                          |
 
-> **Dev-only workaround for no login flow yet:** while real auth is on hold (see
-> `docs/engineering/open-questions.md` Q2), the **profile switcher** in
-> `28-citizen-profile/07-profile-switcher.md` lets QA swap between persona types (citizen,
-> prefecture manager, field team) to exercise role-specific UI in dev and staging builds.
-
 ---
 
-_Last updated: 2026-07-22 · 32 screens (30 numeradas + 04b Pacto Cidadão + 21b Políticos eleitos) +
+_Last updated: 2026-08-04 · 33 screens (31 numeradas + 04b Pacto Cidadão + 21b Políticos eleitos) +
 19 foundation tasks · 2 tasks moved to `docs/out-of-mvp/`_
