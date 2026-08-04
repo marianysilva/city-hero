@@ -376,19 +376,24 @@ export default function UsersPage() {
             setModal(null);
             fetchUsers(urlPage, sort, urlQ, urlTab);
             if (isSelfEdit) {
-              // Drive the visible locale directly from the saved response —
-              // LocaleProvider's state is a plain useState(initialLocale)
-              // that only reads that argument on first mount (see
-              // LocaleClientProvider.tsx's own comment), so neither
-              // router.refresh() nor a refetch of /api/users/me ever
-              // updates the text already on screen: both only affect the
-              // NEXT full page load, which a client-side navigation (the
-              // normal way a user moves around this app) never triggers.
-              // setLocale() updates the mounted provider immediately and,
-              // via its onLocaleChange, also persists the matching cookie
-              // client-side.
+              // Two different rendering layers need two different fixes:
+              // - CLIENT-rendered text (this page's own column headers,
+              //   buttons, etc.) is driven by LocaleProvider's React state,
+              //   a plain useState(initialLocale) that only reads that
+              //   argument on first mount (see LocaleClientProvider.tsx's
+              //   own comment) — router.refresh() alone never updates it.
+              //   setLocale() does, immediately, and its onLocaleChange
+              //   also persists the matching cookie client-side.
+              // - SERVER-rendered text (the sidebar nav — see
+              //   app/(dashboard)/layout.tsx's getServerT()) is the
+              //   opposite: it's baked into the RSC payload at request
+              //   time and setLocale() can't touch it at all. Only a
+              //   fresh server render — router.refresh() — picks up the
+              //   cookie setLocale() just wrote.
+              // Both are required; each fixes exactly one half.
               setLocale(saved.language);
               refetchCurrentUser();
+              router.refresh();
             }
           }}
         />
