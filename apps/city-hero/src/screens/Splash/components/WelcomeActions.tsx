@@ -1,6 +1,7 @@
+import { Button } from "@city-hero/design-system";
 import { useTranslation } from "@city-hero/i18n";
 import { LinearGradient } from "expo-linear-gradient";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 // Screens 01a-login (email) and the Gov.br/privacy-policy integrations don't
 // exist yet — these are stub hand-offs so the buttons are tappable and
@@ -14,29 +15,33 @@ export function WelcomeActions() {
 
   return (
     <View style={styles.container}>
-      <Pressable
+      <Button
         testID="splash-cta-email"
-        accessibilityRole="button"
-        style={styles.primaryButton}
+        variant="inverse"
+        size="lg"
         onPress={() => notImplemented("email login")}
       >
-        <Text style={styles.primaryButtonText}>{t("splash.ctaEmail")}</Text>
-      </Pressable>
+        {t("splash.ctaEmail")}
+      </Button>
 
-      <Pressable
-        testID="splash-cta-govbr"
-        accessibilityRole="button"
-        style={styles.secondaryButton}
-        onPress={() => notImplemented("Gov.br login")}
-      >
-        <LinearGradient
-          colors={["#FDE047", "#4ADE80"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.govBrIcon}
-        />
-        <Text style={styles.secondaryButtonText}>{t("splash.ctaGovBr")}</Text>
-      </Pressable>
+      <View style={styles.secondaryButtonSpacing}>
+        <Button
+          testID="splash-cta-govbr"
+          variant="glass"
+          size="lg"
+          icon={
+            <LinearGradient
+              colors={["#FDE047", "#4ADE80"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.govBrIcon}
+            />
+          }
+          onPress={() => notImplemented("Gov.br login")}
+        >
+          {t("splash.ctaGovBr")}
+        </Button>
+      </View>
 
       <Text style={styles.privacyText}>
         {t("splash.privacyBeforeLink")}
@@ -55,49 +60,20 @@ export function WelcomeActions() {
 }
 
 const styles = StyleSheet.create({
+  // No `alignItems` override — Button (a Pressable) stretches to fill this
+  // 100%-width container via Flexbox's default `alignItems: "stretch"`,
+  // matching the prototype's `w-full` buttons without Button needing to
+  // expose a `style`/`className` prop (deliberately omitted — see Button.tsx).
   container: {
     width: "100%",
   },
-  primaryButton: {
-    width: "100%",
-    paddingVertical: 14,
-    borderRadius: 16,
-    backgroundColor: "#FFFFFF",
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#0F172A",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.2,
-    shadowRadius: 16,
-    elevation: 4,
-  },
-  primaryButtonText: {
-    color: "#C2410C",
-    fontSize: 16,
-    fontWeight: "800",
-  },
-  secondaryButton: {
+  secondaryButtonSpacing: {
     marginTop: 10,
-    width: "100%",
-    paddingVertical: 14,
-    borderRadius: 16,
-    backgroundColor: "rgba(255,255,255,0.15)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.25)",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
   },
   govBrIcon: {
     width: 20,
     height: 20,
     borderRadius: 10,
-  },
-  secondaryButtonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "700",
   },
   privacyText: {
     marginTop: 12,

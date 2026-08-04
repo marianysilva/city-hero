@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@city-hero/design-system";
 import { LocaleProvider } from "@city-hero/i18n";
 import { fireEvent, render, screen } from "@testing-library/react-native";
 
@@ -5,9 +6,11 @@ import { WelcomeActions } from "./WelcomeActions";
 
 function renderActions() {
   return render(
-    <LocaleProvider initialLocale="en-US">
-      <WelcomeActions />
-    </LocaleProvider>,
+    <ThemeProvider>
+      <LocaleProvider initialLocale="en-US">
+        <WelcomeActions />
+      </LocaleProvider>
+    </ThemeProvider>,
   );
 }
 

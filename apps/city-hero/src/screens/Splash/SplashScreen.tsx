@@ -1,4 +1,4 @@
-import { useReducedMotion } from "@city-hero/design-system";
+import { useReducedMotion, useTheme } from "@city-hero/design-system";
 import { useTranslation } from "@city-hero/i18n";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
@@ -53,6 +53,7 @@ function logTelemetryEvent(event: string, props?: Record<string, unknown>) {
 
 export function SplashScreen({ isReady = true, onReady = () => {} }: SplashScreenProps) {
   const { t } = useTranslation();
+  const { colors } = useTheme();
   const reduceMotion = useReducedMotion();
   const [showLoading, setShowLoading] = useState(false);
 
@@ -128,7 +129,7 @@ export function SplashScreen({ isReady = true, onReady = () => {} }: SplashScree
     <View style={styles.container}>
       <StatusBar style="light" />
       <LinearGradient
-        colors={["#F97316", "#EA580C", "#7C3AED"]}
+        colors={[colors.brand[500], colors.brand[600], colors.civic.purple]}
         locations={[0, 0.35, 1]}
         start={{ x: 0.35, y: 0 }}
         end={{ x: 0.65, y: 1 }}

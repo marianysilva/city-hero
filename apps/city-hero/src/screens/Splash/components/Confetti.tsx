@@ -17,7 +17,12 @@ type Dot = {
 };
 
 // Positions/colors/delays ported from the prototype
-// (design/src/screens/01-splash.js's four `.confetti` divs).
+// (design/src/screens/01-splash.js's four `.confetti` divs). These specific
+// hex values are decorative accents, not a design-system token — they don't
+// match any `civic`/`brand` swatch closely enough to substitute one without
+// changing the look, so they're kept as literals here rather than forced
+// onto an unrelated token.
+
 const DOTS: Dot[] = [
   { color: "#FCD34D", position: { top: 80, left: 50 }, delayMs: 200 },
   { color: "#34D399", position: { top: 140, right: 60 }, delayMs: 600 },

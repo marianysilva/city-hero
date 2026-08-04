@@ -25,12 +25,25 @@
 > prototype's own media-query override), and the two CTA buttons + privacy-policy link
 > (`WelcomeActions.tsx`, `splash.ctaEmail`/`ctaGovBr`/`privacy*` keys) — since screens 01a-login and
 > the Gov.br/privacy integrations don't exist yet, all three just `console.log` a "Not implemented
-> yet" stub instead of navigating. The stable `common.appTagline` key (used only for the screen's
-> `accessibilityLabel`) is deliberately kept separate from the rotating `splash.tagline*` keys, so a
-> screen reader isn't re-announced every 3 seconds. Language still comes from the existing
-> `EXPO_PUBLIC_DEFAULT_LOCALE` dev override (`00-foundation/13-i18n.md`) with no additional wiring —
-> verified in a browser build with the env var toggled both ways, rotating taglines advancing on
-> schedule, and all three stub actions logging correctly. Telemetry
+> yet" stub instead of navigating. **Design-system reuse** (follow-up — the first pass of
+> `WelcomeActions.tsx` built the CTAs from scratch instead of reusing `@city-hero/design-system`):
+> the shared `Button` atom (`packages/design_system/src/atoms/Button/Button.tsx`) gained two
+> on-color variants — `inverse` (white bg, brand-700 text) and `glass` (translucent white, for a CTA
+> sitting on top of a colorful background rather than the default surface) — plus an optional `icon`
+> prop (renders before the label, used here for the Gov.br provider mark), with matching Storybook
+> stories. `WelcomeActions.tsx` now renders `<Button variant="inverse">`/
+> `<Button variant="glass" icon={...}>` instead of raw `Pressable`s; full-width sizing comes from
+> Flexbox's default `alignItems: "stretch"` on the wrapping container, since `Button` deliberately
+> doesn't expose a `style`/`className` prop. `SplashScreen.tsx`/`AnimatedLogo.tsx`'s brand/civic
+> colors (the background and logo-mark gradients) now read from `useTheme()` instead of duplicating
+> the same hex values as literals; `Confetti.tsx`'s dot colors are intentionally left as literals
+> (documented inline) since they're decorative accents that don't match any existing token closely
+> enough to substitute one without changing the look. The stable `common.appTagline` key (used only
+> for the screen's `accessibilityLabel`) is deliberately kept separate from the rotating
+> `splash.tagline*` keys, so a screen reader isn't re-announced every 3 seconds. Language still
+> comes from the existing `EXPO_PUBLIC_DEFAULT_LOCALE` dev override (`00-foundation/13-i18n.md`)
+> with no additional wiring — verified in a browser build with the env var toggled both ways,
+> rotating taglines advancing on schedule, and all three stub actions logging correctly. Telemetry
 > (`splash.mounted`/`splash.timeout`/`splash.navigated`) is a `console.info` placeholder pending the
 > real observability package (`00-foundation/20-observability-package.md`). **Test-harness note:**
 > `WelcomeActions`' `Pressable`s and `Confetti`'s infinite `withRepeat` both fight Jest fake timers

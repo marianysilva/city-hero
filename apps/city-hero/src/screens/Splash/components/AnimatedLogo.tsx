@@ -1,3 +1,4 @@
+import { useTheme } from "@city-hero/design-system";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect } from "react";
 import { StyleSheet, Text } from "react-native";
@@ -16,6 +17,7 @@ export type AnimatedLogoProps = {
  * square. Fades in and scales from 0.85 to 1.0 on mount.
  */
 export function AnimatedLogo({ reduceMotion }: AnimatedLogoProps) {
+  const { colors } = useTheme();
   const opacity = useSharedValue(reduceMotion ? 1 : 0);
   const scale = useSharedValue(reduceMotion ? 1 : 0.85);
 
@@ -37,7 +39,7 @@ export function AnimatedLogo({ reduceMotion }: AnimatedLogoProps) {
   return (
     <Animated.View style={[styles.frame, animatedStyle]} testID="splash-logo">
       <LinearGradient
-        colors={["#FFFFFF", "#FFEDD5"]}
+        colors={["#FFFFFF", colors.brand[100]]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.mark}

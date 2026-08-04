@@ -11,16 +11,17 @@ const meta: Meta<typeof Button> = {
       description: {
         component:
           "Primary action atom. Variant is a discriminated union (`primary` | " +
-          "`secondary` | `ghost` | `destructive`), not boolean flags — see " +
-          "`docs/engineering/design-system.md`. Every visual value comes from " +
-          "design tokens (colors, spacing, radius, typography), never a literal.",
+          "`secondary` | `ghost` | `destructive` | `inverse` | `glass`), not boolean flags — see " +
+          "`docs/engineering/design-system.md`. `inverse`/`glass` are the on-color pair, for CTAs " +
+          "sitting on a colorful/photo background instead of the default surface. Every visual " +
+          "value comes from design tokens (colors, spacing, radius, typography), never a literal.",
       },
     },
   },
   argTypes: {
     variant: {
       control: "select",
-      options: ["primary", "secondary", "ghost", "destructive"],
+      options: ["primary", "secondary", "ghost", "destructive", "inverse", "glass"],
     },
     size: {
       control: "select",
@@ -60,6 +61,54 @@ export const Destructive: Story = {
   args: { variant: "destructive", children: "Excluir relato" },
 };
 
+export const Inverse: Story = {
+  args: { variant: "inverse", children: "Entrar com e-mail" },
+  parameters: {
+    docs: { description: { story: "White-on-color CTA — see Splash's primary welcome action." } },
+  },
+  decorators: [
+    (Story) => (
+      <View style={{ padding: 24, backgroundColor: "#7C3AED" }}>
+        <Story />
+      </View>
+    ),
+  ],
+};
+
+export const Glass: Story = {
+  args: { variant: "glass", children: "Entrar com Gov.br" },
+  parameters: {
+    docs: {
+      description: { story: "Translucent secondary CTA — see Splash's Gov.br welcome action." },
+    },
+  },
+  decorators: [
+    (Story) => (
+      <View style={{ padding: 24, backgroundColor: "#7C3AED" }}>
+        <Story />
+      </View>
+    ),
+  ],
+};
+
+export const WithIcon: Story = {
+  args: {
+    variant: "glass",
+    children: "Entrar com Gov.br",
+    icon: <View style={{ width: 20, height: 20, borderRadius: 10, backgroundColor: "#4ADE80" }} />,
+  },
+  parameters: {
+    docs: { description: { story: "`icon` renders before the label — e.g. a provider mark." } },
+  },
+  decorators: [
+    (Story) => (
+      <View style={{ padding: 24, backgroundColor: "#7C3AED" }}>
+        <Story />
+      </View>
+    ),
+  ],
+};
+
 export const AllVariants: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
@@ -68,6 +117,10 @@ export const AllVariants: Story = {
       <Button variant="secondary">Secondary</Button>
       <Button variant="ghost">Ghost</Button>
       <Button variant="destructive">Destructive</Button>
+      <View style={{ gap: 12, alignItems: "flex-start", padding: 12, backgroundColor: "#7C3AED" }}>
+        <Button variant="inverse">Inverse</Button>
+        <Button variant="glass">Glass</Button>
+      </View>
     </View>
   ),
 };
