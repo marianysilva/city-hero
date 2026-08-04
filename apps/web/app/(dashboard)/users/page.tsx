@@ -38,7 +38,7 @@ import {
 } from "./_types";
 
 export default function UsersPage() {
-  const { t, formatDateTime } = useLocaleContext();
+  const { t, formatDateTime, setLocale } = useLocaleContext();
   const TAB_LABELS: Record<UserStatus, string> = {
     active: t("users.tabActive"),
     inactive: t("users.tabInactive"),
@@ -371,20 +371,24 @@ export default function UsersPage() {
           canChangeRole={isAdmin}
           assignableRoles={assignableRoles}
           onClose={() => setModal(null)}
-          onSaved={async () => {
+          onSaved={(saved) => {
             const isSelfEdit = modal.mode === "edit" && modal.user.id === currentUser?.id;
             setModal(null);
             fetchUsers(urlPage, sort, urlQ, urlTab);
             if (isSelfEdit) {
-              // A self-edit may have changed `language`. GET /api/users/me
-              // (unlike the PATCH we just sent) is what syncs the locale
-              // cookie — refetch it first, then refresh so the server
-              // components actually re-render with that new cookie. Without
-              // this, the change wouldn't take effect until the *next*
-              // full navigation after this one, since router.refresh()
-              // alone would just re-render with the still-stale cookie.
-              await refetchCurrentUser();
-              router.refresh();
+              // Drive the visible locale directly from the saved response —
+              // LocaleProvider's state is a plain useState(initialLocale)
+              // that only reads that argument on first mount (see
+              // LocaleClientProvider.tsx's own comment), so neither
+              // router.refresh() nor a refetch of /api/users/me ever
+              // updates the text already on screen: both only affect the
+              // NEXT full page load, which a client-side navigation (the
+              // normal way a user moves around this app) never triggers.
+              // setLocale() updates the mounted provider immediately and,
+              // via its onLocaleChange, also persists the matching cookie
+              // client-side.
+              setLocale(saved.language);
+              refetchCurrentUser();
             }
           }}
         />

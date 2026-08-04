@@ -13,14 +13,23 @@ import { FormField } from "@/components/molecules/FormField";
 import { Modal } from "@/components/organisms/Modal";
 
 import { apiFetch } from "../_api";
-import { getLanguageOptions, getRoleOptions, type ModalState, type Role } from "../_types";
+import {
+  getLanguageOptions,
+  getRoleOptions,
+  type ModalState,
+  type Role,
+  type UserRow,
+} from "../_types";
 
 interface UserFormModalProps {
   modal: NonNullable<ModalState>;
   canChangeRole: boolean;
   assignableRoles: Role[];
   onClose: () => void;
-  onSaved: () => void;
+  // Receives the backend's saved user (including its resolved `language`)
+  // so a caller can tell whether this was a self-edit and react to a
+  // language change immediately — see page.tsx's onSaved handler.
+  onSaved: (saved: UserRow) => void;
 }
 
 export function UserFormModal({
@@ -58,22 +67,23 @@ export function UserFormModal({
     setError(null);
     setLoading(true);
     try {
+      let saved: UserRow | undefined;
       if (isEdit && editUser) {
         const payload: Record<string, unknown> = { name, isActive, language };
         if (canChangeRole) payload.role = role;
-        await apiFetch(`/api/users/${editUser.id}`, {
+        saved = await apiFetch<UserRow>(`/api/users/${editUser.id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
       } else {
-        await apiFetch("/api/users", {
+        saved = await apiFetch<UserRow>("/api/users", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, name, password, role, language }),
         });
       }
-      onSaved();
+      if (saved) onSaved(saved);
     } catch (err) {
       setError(err instanceof Error ? err.message : t("errors.unknown"));
     } finally {
