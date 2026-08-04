@@ -113,7 +113,6 @@ export const Button = forwardRef<React.ComponentRef<typeof Pressable>, ButtonPro
         accessibilityRole="button"
         accessibilityState={{ disabled: isDisabled, busy: loading }}
         disabled={isDisabled}
-        className="flex-row items-center justify-center"
         onPressIn={(e) => {
           setPressed(true);
           onPressIn?.(e);
@@ -123,6 +122,17 @@ export const Button = forwardRef<React.ComponentRef<typeof Pressable>, ButtonPro
           onPressOut?.(e);
         }}
         style={{
+          // Layout via inline style, not `className` — the `flex-row
+          // items-center justify-center` Tailwind classes silently failed
+          // to resolve to any CSS in apps/city-hero's Metro/web bundle
+          // (computed flexDirection stayed "column"), stacking `icon` above
+          // the label instead of beside it. Only visible once a consumer
+          // (Splash's Gov.br button) passed both `icon` and text — a single
+          // child looked fine either way. Same reasoning as the
+          // color/spacing/radius values below.
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
           ...metrics,
           gap: spacing.sm,
           backgroundColor: pressed && !isDisabled ? bgPressed : bg,
