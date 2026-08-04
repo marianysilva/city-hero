@@ -4,28 +4,42 @@
 > **Screen:** SCREEN 01 · Splash / Welcome\
 > **Effort:** S (≤1 day)\
 > **Dependencies:** `00-foundation/02-design-tokens.md`\
-> **Status:** 🟢 Done (this task only — 02-05 in this folder are still not started; no parent
-> `onReady`/routing hand-off exists yet, see Definition of Done) —
+> **Status:** 🟢 Done, now at full prototype fidelity (this task only — 02-05 in this folder are
+> still not started; no parent `onReady`/routing hand-off exists yet, see Definition of Done) —
 > `apps/city-hero/src/screens/Splash` (`SplashScreen.tsx` +
-> `components/AnimatedLogo.tsx`/`LoadingIndicator.tsx`), mounted at the app's `index` route (the
-> stock Expo Router tab template — `(tabs)/`, `modal.tsx`, and their only consumers
-> `EditScreenInfo`/`ExternalLink`/`useClientOnlyValue` — were removed as dead mock boilerplate,
-> along with the now-unused `expo-symbols`/`expo-web-browser` dependencies). Uses
-> `expo-linear-gradient` (newly added) for the logo mark's brand-orange → civic-purple gradient and
-> the subtle brand-50 → white background gradient; entrance animation via Reanimated respects
-> `useReducedMotion()`. Name/tagline render through `useTranslation()` (`common.appName`/
-> `common.appTagline`), so the existing `EXPO_PUBLIC_DEFAULT_LOCALE` dev override
-> (`00-foundation/13-i18n.md`) flips the splash between pt-BR/en-US on restart with no additional
-> wiring — verified in a browser build with the env var toggled both ways. Telemetry
+> `components/AnimatedLogo.tsx`/`LoadingIndicator.tsx`/`Confetti.tsx`/`RotatingTagline.tsx`/
+> `WelcomeActions.tsx`), mounted at the app's `index` route (the stock Expo Router tab template —
+> `(tabs)/`, `modal.tsx`, and their only consumers `EditScreenInfo`/`ExternalLink`/
+> `useClientOnlyValue` — were removed as dead mock boilerplate, along with the now-unused
+> `expo-symbols`/`expo-web-browser` dependencies). Uses `expo-linear-gradient` (newly added) for the
+> full-screen brand-orange → civic-purple background gradient, the logo mark's translucent frame +
+> white-to-brand-100 inner gradient, and the Gov.br button's icon; entrance animation via Reanimated
+> respects `useReducedMotion()`. **Matches the current prototype file**
+> (`design/src/screens/01-splash.js`) element-for-element — an earlier revision of this task
+> deliberately simplified to this task's original Acceptance Criteria text (single static tagline,
+> no CTAs), but the user asked for full fidelity instead, so this now also includes: 4 floating
+> confetti dots (`Confetti.tsx`, ported from the prototype's `.confetti`/`@keyframes float` CSS,
+> frozen when reduce-motion is on), 6 rotating taglines cycling every 3s/18s-loop
+> (`RotatingTagline.tsx`, new `splash` i18n namespace — `splash.tagline1..6`, ported from
+> `.rot-line`/`@keyframes rot-cycle`; freezes on tagline1 under reduce-motion, matching the
+> prototype's own media-query override), and the two CTA buttons + privacy-policy link
+> (`WelcomeActions.tsx`, `splash.ctaEmail`/`ctaGovBr`/`privacy*` keys) — since screens 01a-login and
+> the Gov.br/privacy integrations don't exist yet, all three just `console.log` a "Not implemented
+> yet" stub instead of navigating. The stable `common.appTagline` key (used only for the screen's
+> `accessibilityLabel`) is deliberately kept separate from the rotating `splash.tagline*` keys, so a
+> screen reader isn't re-announced every 3 seconds. Language still comes from the existing
+> `EXPO_PUBLIC_DEFAULT_LOCALE` dev override (`00-foundation/13-i18n.md`) with no additional wiring —
+> verified in a browser build with the env var toggled both ways, rotating taglines advancing on
+> schedule, and all three stub actions logging correctly. Telemetry
 > (`splash.mounted`/`splash.timeout`/`splash.navigated`) is a `console.info` placeholder pending the
-> real observability package (`00-foundation/20-observability-package.md`). **Diverges from the
-> current prototype file** (`design/src/screens/01-splash.js`, which now shows confetti, 6 rotating
-> taglines, and email/Gov.br CTA buttons for a later onboarding/login revision) — this
-> implementation follows this task's own Acceptance Criteria instead (single static tagline, no
-> CTAs, no routing logic), since tasks 02 (init sequence), 03 (routing decision), and the login
-> screen's own task (`01a-login/02-email-password-auth.md`) own that behavior and aren't built yet.
-> Not built: snapshot tests (no snapshot-testing convention exists yet in this repo) and the
-> background-pause/resume animation edge case (listed under Edge Cases, not part of this task's
+> real observability package (`00-foundation/20-observability-package.md`). **Test-harness note:**
+> `WelcomeActions`' `Pressable`s and `Confetti`'s infinite `withRepeat` both fight Jest fake timers
+> when rendered inside `SplashScreen.test.tsx`'s min-duration/timeout tests (overlapping `act()`
+> warnings silently swallow the splash's own `setTimeout` state updates) — each interactive/animated
+> child now has its own dedicated test file (`WelcomeActions.test.tsx`, `RotatingTagline.test.tsx`)
+> and is mocked out in `SplashScreen.test.tsx`, which stays focused on the splash's own timing
+> behavior. Not built: snapshot tests (no snapshot-testing convention exists yet in this repo) and
+> the background-pause/resume animation edge case (listed under Edge Cases, not part of this task's
 > Acceptance Criteria).\
 > **Labels:** `mobile`, `frontend`, `screen`, `ui`
 
@@ -178,8 +192,8 @@ Not applicable (no user data).
 
 ## Definition of Done
 
-- [x] SplashScreen implemented matching this task's Acceptance Criteria (not the current prototype
-      file's later onboarding/login revision — see Status)
+- [x] SplashScreen implemented matching the prototype layout (confetti, rotating taglines, CTA
+      buttons + privacy link — see Status)
 - [x] Entrance animation
 - [x] Minimum display time enforced
 - [x] Conditional loading indicator after threshold

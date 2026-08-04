@@ -11,9 +11,9 @@ export type AnimatedLogoProps = {
 };
 
 /**
- * The CityHero mark: a rounded gradient square (brand-orange → civic-purple,
- * constant across light/dark — see 01-render-splash-ui.md's "System dark
- * mode" scenario) that fades in and scales from 0.85 to 1.0 on mount.
+ * The CityHero mark, per the prototype (design/src/screens/01-splash.js): a
+ * translucent rounded frame around an inner white-to-brand-100 gradient
+ * square. Fades in and scales from 0.85 to 1.0 on mount.
  */
 export function AnimatedLogo({ reduceMotion }: AnimatedLogoProps) {
   const opacity = useSharedValue(reduceMotion ? 1 : 0);
@@ -35,9 +35,9 @@ export function AnimatedLogo({ reduceMotion }: AnimatedLogoProps) {
   }));
 
   return (
-    <Animated.View style={animatedStyle} testID="splash-logo">
+    <Animated.View style={[styles.frame, animatedStyle]} testID="splash-logo">
       <LinearGradient
-        colors={["#F97316", "#7C3AED"]}
+        colors={["#FFFFFF", "#FFEDD5"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.mark}
@@ -49,14 +49,24 @@ export function AnimatedLogo({ reduceMotion }: AnimatedLogoProps) {
 }
 
 const styles = StyleSheet.create({
-  mark: {
+  frame: {
     width: 96,
     height: 96,
     borderRadius: 24,
+    backgroundColor: "rgba(255,255,255,0.15)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.2)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  mark: {
+    width: 64,
+    height: 64,
+    borderRadius: 16,
     alignItems: "center",
     justifyContent: "center",
   },
   icon: {
-    fontSize: 40,
+    fontSize: 30,
   },
 });

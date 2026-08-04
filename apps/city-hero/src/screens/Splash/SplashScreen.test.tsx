@@ -4,6 +4,18 @@ import { act, render, screen } from "@testing-library/react-native";
 
 import { SplashScreen } from "./SplashScreen";
 
+// Confetti (infinite withRepeat(-1)) and the interactive children
+// (WelcomeActions' Pressables, RotatingTagline's setInterval) all fight fake
+// timers when combined with this file's min-duration/loading/timeout tests —
+// overlapping act() warnings that silently swallow the splash's own
+// setTimeout-driven state updates. Each has its own dedicated test file
+// (WelcomeActions.test.tsx, RotatingTagline.test.tsx) with no such
+// conflicts, so they're mocked out here and this file stays focused on the
+// splash's own timing/accessibility behavior.
+jest.mock("./components/Confetti", () => ({ Confetti: () => null }));
+jest.mock("./components/RotatingTagline", () => ({ RotatingTagline: () => null }));
+jest.mock("./components/WelcomeActions", () => ({ WelcomeActions: () => null }));
+
 function renderSplash(props: React.ComponentProps<typeof SplashScreen> = {}) {
   return render(
     <ThemeProvider>
@@ -28,12 +40,11 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
-test("renders the logo, app name, and tagline", async () => {
+test("renders the logo and app name", async () => {
   await renderSplash();
 
   expect(screen.getByTestId("splash-logo")).toBeTruthy();
   expect(screen.getByText("CityHero")).toBeTruthy();
-  expect(screen.getByText("Your city in your hands")).toBeTruthy();
 });
 
 test("does not call onReady before the minimum display time elapses, even when already ready", async () => {

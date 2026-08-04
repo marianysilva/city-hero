@@ -64,8 +64,9 @@ function Screen() {
 ```
 
 - Keys are `"namespace.key"` (`common`, `home`, `camera`, `report`, `auth`, `errors`, `dashboard`,
-  `users`, `validation` — one JSON file per namespace under `src/locales/<locale>/`. `dashboard`,
-  `users`, and `validation` are `apps/web`-specific; the rest are shared or mobile-specific).
+  `users`, `validation`, `splash` — one JSON file per namespace under `src/locales/<locale>/`.
+  `dashboard`, `users`, and `validation` are `apps/web`-specific; `splash` is mobile-specific; the
+  rest are shared).
 - Plurals: a value can be `{ zero?, one, other }` instead of a string; resolved via
   `Intl.PluralRules`, with an exact-value override for `count === 0` (pt-BR's CLDR "one" category
   covers both 0 and 1, but the product wants distinct copy for zero).

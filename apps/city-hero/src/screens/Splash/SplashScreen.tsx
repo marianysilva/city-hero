@@ -1,4 +1,4 @@
-import { useReducedMotion, useTheme } from "@city-hero/design-system";
+import { useReducedMotion } from "@city-hero/design-system";
 import { useTranslation } from "@city-hero/i18n";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
@@ -12,7 +12,10 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { AnimatedLogo } from "./components/AnimatedLogo";
+import { Confetti } from "./components/Confetti";
 import { LoadingIndicator } from "./components/LoadingIndicator";
+import { RotatingTagline } from "./components/RotatingTagline";
+import { WelcomeActions } from "./components/WelcomeActions";
 import { styles } from "./SplashScreen.styles";
 
 const MIN_SPLASH_DURATION_MS = 800;
@@ -50,7 +53,6 @@ function logTelemetryEvent(event: string, props?: Record<string, unknown>) {
 
 export function SplashScreen({ isReady = true, onReady = () => {} }: SplashScreenProps) {
   const { t } = useTranslation();
-  const theme = useTheme();
   const reduceMotion = useReducedMotion();
   const [showLoading, setShowLoading] = useState(false);
 
@@ -120,35 +122,41 @@ export function SplashScreen({ isReady = true, onReady = () => {} }: SplashScree
     transform: [{ translateY: textTranslateY.value }],
   }));
 
-  const isDark = theme.scheme === "dark";
-  const backgroundColors: [string, string] = isDark
-    ? [theme.colors.background, theme.colors.background]
-    : [theme.colors.brand[50], "#FFFFFF"];
-  const textColor = theme.colors.text.primary;
-  const taglineColor = theme.colors.text.secondary;
-
   const accessibilityLabel = `${t("common.appName")}. ${t("common.appTagline")}. ${t("common.loading")}`;
 
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      <LinearGradient colors={backgroundColors} style={styles.container}>
+      <LinearGradient
+        colors={["#F97316", "#EA580C", "#7C3AED"]}
+        locations={[0, 0.35, 1]}
+        start={{ x: 0.35, y: 0 }}
+        end={{ x: 0.65, y: 1 }}
+        style={styles.container}
+      >
+        <Confetti reduceMotion={reduceMotion} />
+
         <View
           style={styles.content}
           accessible
           accessibilityLiveRegion="polite"
           accessibilityLabel={accessibilityLabel}
         >
-          <View style={styles.logoWrap}>
+          <View />
+
+          <View style={styles.middleWrap}>
             <AnimatedLogo reduceMotion={reduceMotion} />
+
+            <Animated.View style={[styles.textWrap, textAnimatedStyle]}>
+              <Text style={styles.name}>{t("common.appName")}</Text>
+            </Animated.View>
+
+            <RotatingTagline reduceMotion={reduceMotion} />
+
+            {showLoading && <LoadingIndicator color="rgba(255,255,255,0.85)" />}
           </View>
 
-          <Animated.View style={[styles.textWrap, textAnimatedStyle]}>
-            <Text style={[styles.name, { color: textColor }]}>{t("common.appName")}</Text>
-            <Text style={[styles.tagline, { color: taglineColor }]}>{t("common.appTagline")}</Text>
-          </Animated.View>
-
-          {showLoading && <LoadingIndicator color={taglineColor} />}
+          <WelcomeActions />
         </View>
       </LinearGradient>
     </View>

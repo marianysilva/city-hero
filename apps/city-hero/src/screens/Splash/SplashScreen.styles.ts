@@ -1,9 +1,11 @@
 import { StyleSheet } from "react-native";
 
 /**
- * Layout-only styles (no color tokens — those are theme-dependent and
- * applied inline in SplashScreen.tsx, same convention as the design
- * system's Button atom).
+ * Layout mirrors the prototype's flex column
+ * (design/src/screens/01-splash.js: `justify-between`, empty top spacer,
+ * centered middle block, bottom CTA block). Colors are white/translucent-
+ * white throughout — the background is a fixed brand gradient (see
+ * SplashScreen.tsx), not theme-dependent.
  */
 export const styles = StyleSheet.create({
   container: {
@@ -12,26 +14,23 @@ export const styles = StyleSheet.create({
   content: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 32,
+    justifyContent: "space-between",
+    paddingHorizontal: 28,
+    paddingTop: 8,
+    paddingBottom: 56,
   },
-  logoWrap: {
+  middleWrap: {
+    alignItems: "center",
+    marginTop: 16,
+  },
+  textWrap: {
     alignItems: "center",
   },
   name: {
     marginTop: 16,
-    fontSize: 32,
-    fontWeight: "800",
+    fontSize: 36,
+    fontWeight: "900",
     letterSpacing: -0.5,
-  },
-  tagline: {
-    marginTop: 8,
-    fontSize: 15,
-    fontWeight: "600",
-    textAlign: "center",
-    maxWidth: 260,
-  },
-  textWrap: {
-    alignItems: "center",
+    color: "#FFFFFF",
   },
 });
