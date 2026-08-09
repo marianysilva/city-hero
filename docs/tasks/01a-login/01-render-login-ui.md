@@ -194,9 +194,14 @@ Not applicable (no data is sent in this task — purely UI).
   visibility toggle works; back button triggers navigation; keyboard "Next" moves focus to password
   and "Go" submits; focus border color changes; long-email and empty-password edge cases; light/dark
   gradient colors (stands in for snapshot tests, per the repo not having that convention yet); the
-  Splash → Login navigation wiring itself (`WelcomeActions.test.tsx`, `app/index.test.tsx`).
+  Splash → Login navigation wiring itself (`WelcomeActions.test.tsx`, `__tests__/index.test.tsx`).
 - **Snapshot**: not built — see Status.
-- **E2E**: not built — see Status.
+- **E2E**: `apps/city-hero/e2e/login.spec.ts` (Playwright against a real `expo start --web`, see
+  `./scripts/test-e2e-mobile.sh`) — Splash → Login → Splash navigation (both directions), form
+  renders, password visibility toggle, "Next" keyboard focus handoff, dark mode. Found and fixed a
+  real bug in the process: `router.back()` is a no-op with nothing to fall back to when `/login` is
+  reached without a prior in-app navigation (e.g. a direct page load) — `app/login.tsx` now checks
+  `router.canGoBack()` and falls back to `router.replace("/")`.
 
 ## Definition of Done
 

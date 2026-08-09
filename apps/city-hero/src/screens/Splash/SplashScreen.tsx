@@ -157,6 +157,7 @@ export function SplashScreen({
         start={{ x: 0.35, y: 0 }}
         end={{ x: 0.65, y: 1 }}
         style={styles.container}
+        testID="splash-background"
       >
         <Confetti reduceMotion={reduceMotion} />
 
