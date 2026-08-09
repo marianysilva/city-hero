@@ -1,7 +1,5 @@
-import { useTheme } from "@city-hero/design-system";
-import { LinearGradient } from "expo-linear-gradient";
+import { LogoMark } from "@city-hero/design-system";
 import { useEffect } from "react";
-import { StyleSheet, Text } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 const ENTRANCE_DURATION_MS = 400;
@@ -12,12 +10,13 @@ export type AnimatedLogoProps = {
 };
 
 /**
- * The CityHero mark, per the prototype (design/src/screens/01-splash.js): a
- * translucent rounded frame around an inner white-to-brand-100 gradient
- * square. Fades in and scales from 0.85 to 1.0 on mount.
+ * Fades in and scales the shared `LogoMark` atom (`on-color` variant, see
+ * `packages/design_system/src/atoms/LogoMark`) from 0.85 to 1.0 on mount.
+ * The mark itself — frame, gradient, emoji — is design-system-owned and
+ * also used statically by Login's header; this component only adds the
+ * Splash-specific entrance animation around it.
  */
 export function AnimatedLogo({ reduceMotion }: AnimatedLogoProps) {
-  const { colors } = useTheme();
   const opacity = useSharedValue(reduceMotion ? 1 : 0);
   const scale = useSharedValue(reduceMotion ? 1 : 0.85);
 
@@ -37,38 +36,8 @@ export function AnimatedLogo({ reduceMotion }: AnimatedLogoProps) {
   }));
 
   return (
-    <Animated.View style={[styles.frame, animatedStyle]} testID="splash-logo">
-      <LinearGradient
-        colors={["#FFFFFF", colors.brand[100]]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.mark}
-      >
-        <Text style={styles.icon}>🦸</Text>
-      </LinearGradient>
+    <Animated.View style={animatedStyle} testID="splash-logo">
+      <LogoMark variant="on-color" size="lg" />
     </Animated.View>
   );
 }
-
-const styles = StyleSheet.create({
-  frame: {
-    width: 96,
-    height: 96,
-    borderRadius: 24,
-    backgroundColor: "rgba(255,255,255,0.15)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.2)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  mark: {
-    width: 64,
-    height: 64,
-    borderRadius: 16,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  icon: {
-    fontSize: 30,
-  },
-});

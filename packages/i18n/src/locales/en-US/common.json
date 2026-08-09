@@ -13,6 +13,7 @@
   "pageOfTotal": "Page {{page}} of {{totalPages}}",
   "previous": "Previous",
   "next": "Next",
+  "back": "Back",
   "notFoundTitle": "Oops!",
   "notFoundMessage": "This screen doesn't exist.",
   "goToHomeScreen": "Go to home screen!"
