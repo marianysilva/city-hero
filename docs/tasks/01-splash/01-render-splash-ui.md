@@ -4,7 +4,75 @@
 > **Screen:** SCREEN 01 · Splash / Welcome\
 > **Effort:** S (≤1 day)\
 > **Dependencies:** `00-foundation/02-design-tokens.md`\
-> **Status:** ⬜ Not started\
+> **Status:** 🟢 Done, now at full prototype fidelity (this task only — 02-05 in this folder are
+> still not started; no parent `onReady`/routing hand-off exists yet, see Definition of Done) —
+> `apps/city-hero/src/screens/Splash` (`SplashScreen.tsx` +
+> `components/AnimatedLogo.tsx`/`LoadingIndicator.tsx`/`Confetti.tsx`/`RotatingTagline.tsx`/
+> `WelcomeActions.tsx`), mounted at the app's `index` route (the stock Expo Router tab template —
+> `(tabs)/`, `modal.tsx`, and their only consumers `EditScreenInfo`/`ExternalLink`/
+> `useClientOnlyValue` — were removed as dead mock boilerplate, along with the now-unused
+> `expo-symbols`/`expo-web-browser` dependencies). Uses `expo-linear-gradient` (newly added) for the
+> full-screen brand-orange → civic-purple background gradient, the logo mark's translucent frame +
+> white-to-brand-100 inner gradient, and the Gov.br button's icon; entrance animation via Reanimated
+> respects `useReducedMotion()`. **Matches the current prototype file**
+> (`design/src/screens/01-splash.js`) element-for-element — an earlier revision of this task
+> deliberately simplified to this task's original Acceptance Criteria text (single static tagline,
+> no CTAs), but the user asked for full fidelity instead, so this now also includes: 4 floating
+> confetti dots (`Confetti.tsx`, ported from the prototype's `.confetti`/`@keyframes float` CSS,
+> frozen when reduce-motion is on), 6 rotating taglines cycling every 3s/18s-loop
+> (`RotatingTagline.tsx`, new `splash` i18n namespace — `splash.tagline1..6`, ported from
+> `.rot-line`/`@keyframes rot-cycle`; freezes on tagline1 under reduce-motion, matching the
+> prototype's own media-query override), and the two CTA buttons + privacy-policy link
+> (`WelcomeActions.tsx`, `splash.ctaEmail`/`ctaGovBr`/`privacy*` keys) — since screens 01a-login and
+> the Gov.br/privacy integrations don't exist yet, all three just `console.log` a "Not implemented
+> yet" stub instead of navigating. **Design-system reuse** (follow-up — the first pass of
+> `WelcomeActions.tsx` built the CTAs from scratch instead of reusing `@city-hero/design-system`):
+> the shared `Button` atom (`packages/design_system/src/atoms/Button/Button.tsx`) gained two
+> on-color variants — `inverse` (white bg, brand-700 text) and `glass` (translucent white, for a CTA
+> sitting on top of a colorful background rather than the default surface) — plus an optional `icon`
+> prop (renders before the label, used here for the Gov.br provider mark), with matching Storybook
+> stories. `WelcomeActions.tsx` now renders `<Button variant="inverse">`/
+> `<Button variant="glass" icon={...}>` instead of raw `Pressable`s; full-width sizing comes from
+> Flexbox's default `alignItems: "stretch"` on the wrapping container, since `Button` deliberately
+> doesn't expose a `style`/`className` prop. `SplashScreen.tsx`/`AnimatedLogo.tsx`'s brand/civic
+> colors (the background and logo-mark gradients) now read from `useTheme()` instead of duplicating
+> the same hex values as literals; `Confetti.tsx`'s dot colors are intentionally left as literals
+> (documented inline) since they're decorative accents that don't match any existing token closely
+> enough to substitute one without changing the look. The stable `common.appTagline` key (used only
+> for the screen's `accessibilityLabel`) is deliberately kept separate from the rotating
+> `splash.tagline*` keys, so a screen reader isn't re-announced every 3 seconds. Language still
+> comes from the existing `EXPO_PUBLIC_DEFAULT_LOCALE` dev override (`00-foundation/13-i18n.md`)
+> with no additional wiring — verified in a browser build with the env var toggled both ways,
+> rotating taglines advancing on schedule, and all three stub actions logging correctly. Telemetry
+> (`splash.mounted`/`splash.timeout`/`splash.navigated`) is a `console.info` placeholder pending the
+> real observability package (`00-foundation/20-observability-package.md`). **Test-harness note:**
+> `WelcomeActions`' `Pressable`s and `Confetti`'s infinite `withRepeat` both fight Jest fake timers
+> when rendered inside `SplashScreen.test.tsx`'s min-duration/timeout tests (overlapping `act()`
+> warnings silently swallow the splash's own `setTimeout` state updates) — each interactive/animated
+> child now has its own dedicated test file (`WelcomeActions.test.tsx`, `RotatingTagline.test.tsx`)
+> and is mocked out in `SplashScreen.test.tsx`, which stays focused on the splash's own timing
+> behavior. Not built: snapshot tests (no snapshot-testing convention exists yet in this repo) and
+> the background-pause/resume animation edge case (listed under Edge Cases, not part of this task's
+> Acceptance Criteria).\
+> **Post-review fixes** (code review found the reduce-motion/dark-mode/a11y items below were broken
+> or missing despite being checked off; all now fixed and covered by tests): the CTAs/privacy-link
+> were unreachable by screen readers because `accessible` wrapped the whole `content` view instead
+> of just the branding block, collapsing `WelcomeActions`' interactive children into one
+> non-interactive group — narrowed to `middleWrap` only. Reduce-motion for the name-text entrance
+> used the design-system's `AccessibilityInfo`-based hook, whose first render is always `false`
+> before the async check resolves — `SplashScreen`/`AnimatedLogo`/`Confetti` now read
+> `useReducedMotion()` from `react-native-reanimated` itself instead (a synchronous replacement for
+> `AccessibilityInfo.isReduceMotionEnabled()`), and `Confetti` also now snaps its dots back to rest
+> if reduce-motion turns on mid-session instead of only skipping _new_ animations. Dark mode was
+> unimplemented (background never read the theme) — `SplashScreen` now switches the background
+> gradient to a deep-slate pair (`colors.slate[900]`→`colors.slate[800]`) in dark mode per the AC,
+> while `AnimatedLogo`'s own gradient stays constant. `accessibilityLiveRegion` is Android-only, so
+> mount now also calls `AccessibilityInfo.announceForAccessibility()` for iOS. New tests:
+> `AnimatedLogo.test.tsx` (new file) and two added cases in `SplashScreen.test.tsx` assert the
+> `reduceMotion === true` entrance state directly (mocking `react-native-reanimated`'s
+> `useReducedMotion` via a read-through `Proxy` — a plain object spread over
+> `jest.requireActual("react-native-reanimated")` silently drops the `Animated` default export and
+> breaks every `Animated.View` in the tree).\
 > **Labels:** `mobile`, `frontend`, `screen`, `ui`
 
 ## Context
@@ -156,15 +224,17 @@ Not applicable (no user data).
 
 ## Definition of Done
 
-- [ ] SplashScreen implemented matching the prototype layout
-- [ ] Entrance animation
-- [ ] Minimum display time enforced
-- [ ] Conditional loading indicator after threshold
-- [ ] Hard timeout with telemetry
-- [ ] Accessibility: live region, label, reduce-motion respected
-- [ ] Dark mode functional
-- [ ] Unit tests
-- [ ] Snapshot tests
+- [x] SplashScreen implemented matching the prototype layout (confetti, rotating taglines, CTA
+      buttons + privacy link — see Status)
+- [x] Entrance animation
+- [x] Minimum display time enforced
+- [x] Conditional loading indicator after threshold
+- [x] Hard timeout with telemetry (placeholder `console.info` pending
+      `00-foundation/20-observability-package.md` — see Status)
+- [x] Accessibility: live region, label, reduce-motion respected
+- [x] Dark mode functional
+- [x] Unit tests
+- [ ] Snapshot tests — not built, no snapshot-testing convention exists yet in this repo
 - [ ] Code review approved
 
 ## Standards & References

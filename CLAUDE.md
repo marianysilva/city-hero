@@ -49,6 +49,17 @@ IMPORTANT: Every photo upload pipeline MUST include the automatic anonymization 
 blur) BEFORE the image becomes publicly visible. Never skip or defer this step. This is a legal
 requirement.
 
+## Code Quality & Review Standards
+
+Reviews must be skeptical, not a rubber stamp — verify logic actually works rather than assuming it
+does. Architecture/design-pattern quality, a security baseline, and exemplary test coverage (happy
+path AND error/edge cases, always) are codified in `.claude/agents/code-reviewer.md` — invoke it
+explicitly for any non-trivial change (e.g. "use the code-reviewer subagent"). For auth, PII, GPS,
+migrations, or unfamiliar/version-sensitive libraries, escalate to
+`.claude/agents/code-reviewer-deep.md` and/or `.claude/agents/security-reviewer.md`. The
+anonymization rule above is the one standard that stays active regardless of whether a review was
+requested.
+
 ## Workflow
 
 - Run backend tests: `cd apps/backend && pytest`

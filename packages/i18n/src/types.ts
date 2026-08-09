@@ -11,6 +11,7 @@ import dashboardEnUS from "./locales/en-US/dashboard.json";
 import errorsEnUS from "./locales/en-US/errors.json";
 import homeEnUS from "./locales/en-US/home.json";
 import reportEnUS from "./locales/en-US/report.json";
+import splashEnUS from "./locales/en-US/splash.json";
 import usersEnUS from "./locales/en-US/users.json";
 import validationEnUS from "./locales/en-US/validation.json";
 
@@ -61,7 +62,8 @@ export type Namespace =
   | "errors"
   | "dashboard"
   | "users"
-  | "validation";
+  | "validation"
+  | "splash";
 
 export type LocaleDict = Record<Namespace, NamespaceDict>;
 
@@ -75,6 +77,7 @@ type NamespaceKeys = {
   dashboard: keyof typeof dashboardEnUS;
   users: keyof typeof usersEnUS;
   validation: keyof typeof validationEnUS;
+  splash: keyof typeof splashEnUS;
 };
 
 /**
