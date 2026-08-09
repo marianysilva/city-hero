@@ -26,6 +26,10 @@ skip under time pressure — each one caused a real problem in this project when
    API that changed, a path that doesn't exist) — this happens often enough in a fast-moving repo
    that it's not an edge case — reconcile it in the implementation and say so explicitly rather than
    building the wrong thing to match a stale spec. The task spec is the starting point, not scripture.
+   Before writing any new UI component, check `packages/design_system/` for an existing
+   atom/molecule that already covers it — even if the task spec doesn't explicitly say to reuse one.
+   Extend a close-but-not-quite match rather than forking it locally; never duplicate a pattern that
+   already exists in another screen.
 
 4. **Verify beyond the package you touched.** Foundation-tier changes (design tokens, shared
    components, shared config) are consumed elsewhere — `apps/city-hero` and `apps/web` both pull
@@ -41,13 +45,25 @@ skip under time pressure — each one caused a real problem in this project when
    the mobile app on paper. If a consuming app breaks or was already broken, fix it as part of this
    task rather than leaving a known-broken `tsc`/lint/test run behind.
 
-5. **Update the task file's own header `Status` and `Definition of Done`** to reflect exactly what
+   "Tests pass" is not the bar — **exemplary coverage** is: the happy path from the task's own Tests
+   section, AND the error/failure paths (invalid input, permission denial, timeout, offline), AND
+   the documented edge cases (boundary values, empty/max states). A test suite that only exercises
+   the success case is an incomplete implementation, not a follow-up.
+
+5. **Review before considering it done.** Run the `code-reviewer` subagent against the diff — this
+   is not optional for a non-trivial change, per `CLAUDE.md`'s Code Quality & Review Standards.
+   Escalate to `code-reviewer-deep` and/or `security-reviewer` if the task touches auth, PII, GPS,
+   migrations, or an unfamiliar/version-sensitive library. Address what it flags (or explicitly note
+   why a finding doesn't apply) before moving on to committing — a review that ran but whose
+   findings were ignored is equivalent to skipping it.
+
+6. **Update the task file's own header `Status` and `Definition of Done`** to reflect exactly what
    shipped — not a rubber stamp. If something was deliberately descoped (see
    `docs-consistency-sweep` for how to handle that without duplicating explanations across other
    files), say so in one line and point to wherever the full reasoning lives, rather than leaving a
    checkbox checked for something that isn't real.
 
-6. **Branch discipline before committing.** Check the current branch first:
+7. **Branch discipline before committing.** Check the current branch first:
 
    ```
    git branch --show-current
@@ -58,7 +74,7 @@ skip under time pressure — each one caused a real problem in this project when
    `CLAUDE.md`'s convention (`feat/`, `fix/`, `chore/`) before committing. Don't commit new task
    work directly to the default branch.
 
-7. **Format and commit.** Run `npm run format:check`, fix with `npx prettier --write` if flagged,
+8. **Format and commit.** Run `npm run format:check`, fix with `npx prettier --write` if flagged,
    then commit. Keep the commit message's "why" tied to the task file (which AC it satisfies, what
    was discovered along the way) rather than just restating the diff.
 
@@ -71,3 +87,7 @@ skip under time pressure — each one caused a real problem in this project when
   spec itself doesn't mention.
 - Don't silently work around a blocked dependency by inventing a placeholder — flag it and ask, or
   stop and report, per the project's general escalation norms.
+- Don't commit before the review step ran and its findings were addressed — "the code works" and
+  "the code passed review" are different claims; only make the second one if it's true.
+- Don't treat "the happy-path test passes" as sufficient coverage — an untested error path or edge
+  case is a gap to close now, not a note for later.
