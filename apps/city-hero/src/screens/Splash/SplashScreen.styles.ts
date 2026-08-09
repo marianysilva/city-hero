@@ -3,9 +3,10 @@ import { StyleSheet } from "react-native";
 /**
  * Layout mirrors the prototype's flex column
  * (design/src/screens/01-splash.js: `justify-between`, empty top spacer,
- * centered middle block, bottom CTA block). Colors are white/translucent-
- * white throughout — the background is a fixed brand gradient (see
- * SplashScreen.tsx), not theme-dependent.
+ * centered middle block, bottom CTA block). Text/CTA colors stay
+ * white/translucent-white in both themes; the background gradient itself
+ * switches between brand (light) and deep slate (dark) — see
+ * SplashScreen.tsx.
  */
 export const styles = StyleSheet.create({
   container: {

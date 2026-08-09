@@ -50,7 +50,15 @@ function ConfettiDot({ dot, reduceMotion }: { dot: Dot; reduceMotion: boolean })
   const rotate = useSharedValue(0);
 
   useEffect(() => {
-    if (reduceMotion) return;
+    if (reduceMotion) {
+      // Snaps back to rest — a plain value assignment (not wrapped in an
+      // animation) immediately stops whatever withRepeat loop was already
+      // running, so a dot doesn't keep floating after reduce-motion turns
+      // on mid-session.
+      translateY.value = 0;
+      rotate.value = 0;
+      return;
+    }
 
     translateY.value = withDelay(
       dot.delayMs,

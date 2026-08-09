@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@city-hero/design-system";
 import { LocaleProvider } from "@city-hero/i18n";
 import { act, render, screen } from "@testing-library/react-native";
+import { StyleSheet } from "react-native";
 
 import { SplashScreen } from "./SplashScreen";
 
@@ -15,6 +16,22 @@ import { SplashScreen } from "./SplashScreen";
 jest.mock("./components/Confetti", () => ({ Confetti: () => null }));
 jest.mock("./components/RotatingTagline", () => ({ RotatingTagline: () => null }));
 jest.mock("./components/WelcomeActions", () => ({ WelcomeActions: () => null }));
+
+// A spread copy (`{ ...actual, useReducedMotion: ... }`) silently drops
+// Reanimated's `Animated` default export (breaks every `Animated.View` in
+// the tree, incl. AnimatedLogo's) — its exports aren't plain enumerable
+// copies. A read-through Proxy overrides just the one export without
+// touching how the rest resolve.
+const mockUseReducedMotion = jest.fn(() => false);
+jest.mock("react-native-reanimated", () => {
+  const actual = jest.requireActual("react-native-reanimated");
+  return new Proxy(actual, {
+    get(target, prop, receiver) {
+      if (prop === "useReducedMotion") return () => mockUseReducedMotion();
+      return Reflect.get(target, prop, receiver);
+    },
+  });
+});
 
 function renderSplash(props: React.ComponentProps<typeof SplashScreen> = {}) {
   return render(
@@ -34,6 +51,7 @@ async function advanceTime(ms: number) {
 
 beforeEach(() => {
   jest.useFakeTimers();
+  mockUseReducedMotion.mockReturnValue(false);
 });
 
 afterEach(() => {
@@ -105,4 +123,26 @@ test("force-navigates with a timeout reason after the 10s hard timeout", async (
 
   await advanceTime(10000);
   expect(onReady).toHaveBeenCalledWith("timeout");
+});
+
+test("shows the app name at full opacity immediately, with no fade-in, when reduce-motion is on", async () => {
+  mockUseReducedMotion.mockReturnValue(true);
+  await renderSplash();
+
+  const { opacity, transform } = StyleSheet.flatten(
+    screen.getByText("CityHero").parent?.props.style,
+  );
+  expect(opacity).toBe(1);
+  expect(transform).toEqual([{ translateY: 0 }]);
+});
+
+test("still animates the app name's entrance when reduce-motion is off", async () => {
+  mockUseReducedMotion.mockReturnValue(false);
+  await renderSplash();
+
+  const { opacity, transform } = StyleSheet.flatten(
+    screen.getByText("CityHero").parent?.props.style,
+  );
+  expect(opacity).toBe(0);
+  expect(transform).toEqual([{ translateY: 8 }]);
 });

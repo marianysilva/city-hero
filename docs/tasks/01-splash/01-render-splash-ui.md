@@ -54,6 +54,25 @@
 > behavior. Not built: snapshot tests (no snapshot-testing convention exists yet in this repo) and
 > the background-pause/resume animation edge case (listed under Edge Cases, not part of this task's
 > Acceptance Criteria).\
+> **Post-review fixes** (code review found the reduce-motion/dark-mode/a11y items below were broken
+> or missing despite being checked off; all now fixed and covered by tests): the CTAs/privacy-link
+> were unreachable by screen readers because `accessible` wrapped the whole `content` view instead
+> of just the branding block, collapsing `WelcomeActions`' interactive children into one
+> non-interactive group — narrowed to `middleWrap` only. Reduce-motion for the name-text entrance
+> used the design-system's `AccessibilityInfo`-based hook, whose first render is always `false`
+> before the async check resolves — `SplashScreen`/`AnimatedLogo`/`Confetti` now read
+> `useReducedMotion()` from `react-native-reanimated` itself instead (a synchronous replacement for
+> `AccessibilityInfo.isReduceMotionEnabled()`), and `Confetti` also now snaps its dots back to rest
+> if reduce-motion turns on mid-session instead of only skipping _new_ animations. Dark mode was
+> unimplemented (background never read the theme) — `SplashScreen` now switches the background
+> gradient to a deep-slate pair (`colors.slate[900]`→`colors.slate[800]`) in dark mode per the AC,
+> while `AnimatedLogo`'s own gradient stays constant. `accessibilityLiveRegion` is Android-only, so
+> mount now also calls `AccessibilityInfo.announceForAccessibility()` for iOS. New tests:
+> `AnimatedLogo.test.tsx` (new file) and two added cases in `SplashScreen.test.tsx` assert the
+> `reduceMotion === true` entrance state directly (mocking `react-native-reanimated`'s
+> `useReducedMotion` via a read-through `Proxy` — a plain object spread over
+> `jest.requireActual("react-native-reanimated")` silently drops the `Animated` default export and
+> breaks every `Animated.View` in the tree).\
 > **Labels:** `mobile`, `frontend`, `screen`, `ui`
 
 ## Context

@@ -1,11 +1,12 @@
-import { useReducedMotion, useTheme } from "@city-hero/design-system";
+import { useTheme } from "@city-hero/design-system";
 import { useTranslation } from "@city-hero/i18n";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useRef, useState } from "react";
-import { Text, View } from "react-native";
+import { AccessibilityInfo, Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
+  useReducedMotion,
   useSharedValue,
   withDelay,
   withTiming,
@@ -53,7 +54,12 @@ function logTelemetryEvent(event: string, props?: Record<string, unknown>) {
 
 export function SplashScreen({ isReady = true, onReady = () => {} }: SplashScreenProps) {
   const { t } = useTranslation();
-  const { colors } = useTheme();
+  const { colors, scheme } = useTheme();
+  // Reanimated's own hook (not the design-system's AccessibilityInfo-based
+  // one): it's a direct, *synchronous* replacement for
+  // AccessibilityInfo.isReduceMotionEnabled(), so the very first render
+  // already has the correct value — no async-resolution race that would
+  // let the entrance animation play once regardless of the OS setting.
   const reduceMotion = useReducedMotion();
   const [showLoading, setShowLoading] = useState(false);
 
@@ -63,23 +69,15 @@ export function SplashScreen({ isReady = true, onReady = () => {} }: SplashScree
   const textOpacity = useSharedValue(reduceMotion ? 1 : 0);
   const textTranslateY = useSharedValue(reduceMotion ? 0 : 8);
 
+  const accessibilityLabel = `${t("common.appName")}. ${t("common.appTagline")}. ${t("common.loading")}`;
+
   useEffect(() => {
     mountedAtRef.current = Date.now();
     logTelemetryEvent("splash.mounted");
-
-    if (reduceMotion) {
-      textOpacity.value = 1;
-      textTranslateY.value = 0;
-    } else {
-      textOpacity.value = withDelay(
-        TEXT_ENTRANCE_DELAY_MS,
-        withTiming(1, { duration: TEXT_ENTRANCE_DURATION_MS }),
-      );
-      textTranslateY.value = withDelay(
-        TEXT_ENTRANCE_DELAY_MS,
-        withTiming(0, { duration: TEXT_ENTRANCE_DURATION_MS }),
-      );
-    }
+    // accessibilityLiveRegion (below) is Android-only; this is the
+    // cross-platform equivalent so iOS VoiceOver also announces on mount
+    // instead of only if the group happens to receive focus.
+    AccessibilityInfo.announceForAccessibility(accessibilityLabel);
 
     const loadingTimer = setTimeout(() => {
       if (navigatedRef.current) return;
@@ -96,9 +94,27 @@ export function SplashScreen({ isReady = true, onReady = () => {} }: SplashScree
       clearTimeout(loadingTimer);
       clearTimeout(hardTimeoutTimer);
     };
-    // Timers and the entrance animation only ever run once, on mount.
+    // Telemetry/timers only ever run once, on mount; onReady is intentionally
+    // excluded (the min-duration effect below owns that dependency), and
+    // accessibilityLabel is derived from static translation keys, not state.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (reduceMotion) {
+      textOpacity.value = 1;
+      textTranslateY.value = 0;
+      return;
+    }
+    textOpacity.value = withDelay(
+      TEXT_ENTRANCE_DELAY_MS,
+      withTiming(1, { duration: TEXT_ENTRANCE_DURATION_MS }),
+    );
+    textTranslateY.value = withDelay(
+      TEXT_ENTRANCE_DELAY_MS,
+      withTiming(0, { duration: TEXT_ENTRANCE_DURATION_MS }),
+    );
+  }, [reduceMotion, textOpacity, textTranslateY]);
 
   useEffect(() => {
     if (!isReady || navigatedRef.current) return;
@@ -123,29 +139,36 @@ export function SplashScreen({ isReady = true, onReady = () => {} }: SplashScree
     transform: [{ translateY: textTranslateY.value }],
   }));
 
-  const accessibilityLabel = `${t("common.appName")}. ${t("common.appTagline")}. ${t("common.loading")}`;
+  // Per the task's "System dark mode" AC: background follows the theme
+  // (brand gradient in light, deep slate in dark) while the logo mark's own
+  // gradient (AnimatedLogo) stays constant — brand identity doesn't change.
+  const backgroundColors =
+    scheme === "dark"
+      ? ([colors.slate[900], colors.slate[800]] as const)
+      : ([colors.brand[500], colors.brand[600], colors.civic.purple] as const);
+  const backgroundLocations = scheme === "dark" ? ([0, 1] as const) : ([0, 0.35, 1] as const);
 
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
       <LinearGradient
-        colors={[colors.brand[500], colors.brand[600], colors.civic.purple]}
-        locations={[0, 0.35, 1]}
+        colors={backgroundColors}
+        locations={backgroundLocations}
         start={{ x: 0.35, y: 0 }}
         end={{ x: 0.65, y: 1 }}
         style={styles.container}
       >
         <Confetti reduceMotion={reduceMotion} />
 
-        <View
-          style={styles.content}
-          accessible
-          accessibilityLiveRegion="polite"
-          accessibilityLabel={accessibilityLabel}
-        >
+        <View style={styles.content}>
           <View />
 
-          <View style={styles.middleWrap}>
+          <View
+            style={styles.middleWrap}
+            accessible
+            accessibilityLiveRegion="polite"
+            accessibilityLabel={accessibilityLabel}
+          >
             <AnimatedLogo reduceMotion={reduceMotion} />
 
             <Animated.View style={[styles.textWrap, textAnimatedStyle]}>
