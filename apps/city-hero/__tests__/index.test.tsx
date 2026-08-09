@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react-native";
 
-import Index from "./index";
+import Index from "../app/index";
 
 const mockPush = jest.fn();
 jest.mock("expo-router", () => ({
