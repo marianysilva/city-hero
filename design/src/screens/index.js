@@ -1,7 +1,7 @@
 /**
  * Screen registry
  *
- * Importa todas as 30 telas e as exporta em ordem narrativa (fluxo do usuário).
+ * Importa todas as 29 telas e as exporta em ordem narrativa (fluxo do usuário).
  * A ordem aqui é canônica — o renderer usa diretamente o array.
  *
  * Grupos (informados em cada Screen object):
@@ -12,7 +12,6 @@
  */
 
 import splash from "./01-splash.js";
-import login from "./01a-login.js";
 import citySelect from "./02-city-select.js";
 import onbCamera from "./03-onboarding-camera.js";
 import onbGame from "./04-onboarding-gamification.js";
@@ -47,7 +46,6 @@ import ranking from "./29-neighborhood-ranking.js";
 export const SCREENS = [
   // 01 · Entrada & Onboarding
   splash,
-  login,
   citySelect,
   onbCamera,
   onbGame,

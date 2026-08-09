@@ -12,29 +12,14 @@ const GROUP_HOST = {
   support: "group-core", // telas "de apoio" moram junto com o núcleo
 };
 
-/**
- * Gera o label "TELA XX" respeitando screen.label quando presente.
- * Telas com label customizado (ex: "01a") não consomem o contador,
- * mantendo a numeração original das demais.
- */
-const buildLabels = (SCREENS) => {
-  let counter = 0;
-  return SCREENS.map((screen) => {
-    if (screen.label) return screen.label;
-    counter++;
-    return String(counter).padStart(2, "0");
-  });
-};
-
 /** renderiza o grid estático (mode = All screens) */
 export const renderGrid = (SCREENS) => {
-  const labels = buildLabels(SCREENS);
   SCREENS.forEach((screen, i) => {
     const tpl = document.getElementById("tpl-phone-wrap").content.cloneNode(true);
     const bodyEl = tpl.querySelector(".body");
     bodyEl.innerHTML = screen.html();
 
-    tpl.querySelector(".label-index").textContent = `TELA ${labels[i]}`;
+    tpl.querySelector(".label-index").textContent = `TELA ${String(i + 1).padStart(2, "0")}`;
     tpl.querySelector(".label-title").textContent = screen.title;
     tpl.querySelector(".label-summary").textContent = screen.summary || "";
 
@@ -56,7 +41,6 @@ export const renderGrid = (SCREENS) => {
 export const createFlow = (SCREENS) => {
   let flowIdx = 0;
   let activeMount = null;
-  const labels = buildLabels(SCREENS);
 
   const nav = document.getElementById("flow-nav");
   const body = document.getElementById("flow-phone-body");
@@ -69,7 +53,7 @@ export const createFlow = (SCREENS) => {
       btn.className =
         "w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-slate-100 flex items-center gap-2 nav-item";
       btn.innerHTML = `
-        <span class="text-[10px] font-bold text-slate-400 w-6">${labels[i]}</span>
+        <span class="text-[10px] font-bold text-slate-400 w-6">${String(i + 1).padStart(2, "0")}</span>
         <span class="font-semibold text-slate-700">${screen.title}</span>`;
       btn.onclick = () => select(i);
       nav.appendChild(btn);
