@@ -20,6 +20,7 @@ const dicts: Record<"pt-BR" | "en-US", LocaleDict> = {
     dashboard: {},
     users: {},
     validation: {},
+    splash: {},
   },
   "en-US": {
     common: { greeting: "Hello, {{name}}!", onlyInEnglish: "English only" },
@@ -33,6 +34,7 @@ const dicts: Record<"pt-BR" | "en-US", LocaleDict> = {
     dashboard: {},
     users: {},
     validation: {},
+    splash: {},
   },
 };
 
