@@ -49,6 +49,40 @@ IMPORTANT: Every photo upload pipeline MUST include the automatic anonymization 
 blur) BEFORE the image becomes publicly visible. Never skip or defer this step. This is a legal
 requirement.
 
+## Code Quality & Review Standards
+
+IMPORTANT: This applies to every change you write AND every change you review — not just when the
+user explicitly asks for a "review". Never skip it, regardless of diff size.
+
+- **Cohesion across layers:** when you touch an endpoint, its request/response shape, the DB model
+  behind it, and every frontend/mobile consumer of it must stay in sync. Before finishing a change,
+  check that API contracts, stored schema, and UI/consumer code all agree — don't leave one layer
+  updated and the others stale.
+- **Component reuse & centralization:** before adding a new UI component in `apps/web` or
+  `apps/city-hero`, check `packages/design_system/` for an existing atom/molecule first. The same
+  visual or behavioral pattern must not be duplicated across apps — extract it into
+  `packages/design_system/` instead. Prefer extending a shared component over forking a local copy.
+- **No duplication:** repeated code (styles, layout logic, helper functions, backend utilities)
+  across files/modules must be deduplicated into a shared component/util, not copy-pasted.
+- **Validate against current best practices, not memory:** for the specific technology a change
+  touches, cross-check the approach against that technology's _current_ documented best practices —
+  fetched live via Context7 (`resolve-library-id` + `query-docs`) or web search, not just recalled
+  from training data, since these evolve with library versions. Applies per layer:
+  - Backend: FastAPI (routing/DI, async, validation, auth, pagination), SQLAlchemy 2.0 + Alembic
+    (session management, N+1 avoidance, backward-compatible migrations), PostGIS/PostgreSQL (spatial
+    indexing, `ST_` functions, SRID consistency)
+  - API layer: Open311 GeoReport v2 compliance
+  - Web (`apps/web`): Next.js App Router (server/client boundaries, caching), React (hooks rules,
+    memoization), TypeScript strictness
+  - Mobile (`apps/city-hero`): Expo/React Native (navigation, list performance, camera/location
+    permissions, offline-first sync)
+  - Analytics: dbt (layering, testing, materialization), Airflow (idempotency, retries), Superset
+    embedding (guest tokens, RLS)
+- **Use the `code-reviewer` and `security-reviewer` subagents proactively** (see `.claude/agents/`)
+  before considering a non-trivial change done, even without an explicit request — their checklists
+  (correctness, performance, convention adherence, design & architecture quality, testing) are the
+  concrete, standing bar for this project's code quality.
+
 ## Workflow
 
 - Run backend tests: `cd apps/backend && pytest`
