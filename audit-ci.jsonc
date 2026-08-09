@@ -25,5 +25,32 @@
         "expiry": "22 October 2026",
       },
     },
+    // image-size <=2.0.2 — DoS (infinite loop) parsing malformed ICNS/JXL/
+    // HEIF files. Transitive dep of metro (expo/react-native's bundler,
+    // pulled in via @city-hero/design-system > react-native and its
+    // Storybook/testing tooling) — build/dev-server tooling only, never
+    // shipped in the app runtime or reachable from CityHero's own
+    // photo-upload/anonymization pipeline (a separate Python backend
+    // service). No live attack surface: image-size only ever parses
+    // developer-supplied local asset files during bundling, not
+    // user-uploaded content. No fixed version exists yet — 2.0.2 is
+    // latest and still in the vulnerable range for both advisories.
+    // (Each advisory needs its own allowlist-array entry — audit-ci only
+    // honors the first GHSA key of an object, so a single object holding
+    // multiple advisories silently drops the rest.)
+    {
+      "GHSA-w3rx-r6r6-pgpr": {
+        "active": true,
+        "notes": "metro>image-size, build-time only, no fix available upstream (2.0.2 is latest and still vulnerable)",
+        "expiry": "9 November 2026",
+      },
+    },
+    {
+      "GHSA-5p2g-fcmc-qvqq": {
+        "active": true,
+        "notes": "metro>image-size, build-time only, no fix available upstream (2.0.2 is latest and still vulnerable)",
+        "expiry": "9 November 2026",
+      },
+    },
   ],
 }
