@@ -50,6 +50,11 @@ test.describe("Login flow", () => {
     // prop), so this page validates empty fields in JS instead of relying
     // on native HTML5 constraint validation — assert on the resulting
     // visible error, not on input validity.
+    let loginRequested = false;
+    page.on("request", (r) => {
+      if (r.url().includes("/api/auth/login")) loginRequested = true;
+    });
+
     await page.click("#login-submit");
 
     const errorAlert = page.getByRole("alert").filter({ hasText: /\S/ });
@@ -57,9 +62,11 @@ test.describe("Login flow", () => {
     const text = await errorAlert.textContent();
     expect(text?.trim()).toBeTruthy();
 
-    // No network call should have been made for an empty submit.
-    const emailValue = await page.$eval("#email", (el) => (el as HTMLInputElement).value);
-    expect(emailValue).toBe("");
+    // Give a real network call a moment to have fired if the JS guard were
+    // broken, rather than only proving the (never-filled) field is empty —
+    // that would pass even if a request went out alongside the error.
+    await page.waitForTimeout(300);
+    expect(loginRequested).toBe(false);
   });
 
   test("should show error on wrong credentials", async ({ page }) => {

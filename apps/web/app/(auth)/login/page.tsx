@@ -8,6 +8,8 @@ import type { TextInput as RNTextInput } from "react-native";
 
 import { AlertMessage } from "@/components/molecules/AlertMessage";
 
+import { GradientLogoMark } from "./GradientLogoMark";
+
 export default function LoginPage() {
   const router = useRouter();
   const { t, setLocale } = useLocaleContext();
@@ -73,25 +75,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-orange-50 px-4">
       <div className="w-full max-w-sm space-y-6">
         <div className="flex flex-col items-center text-center">
-          {/* Same visual as the mobile app's LogoMark ("on-light" variant,
-              packages/design_system/src/atoms/LogoMark) and the same design
-              tokens, but not that component directly: expo-linear-gradient's
-              web implementation doesn't currently render under this app's
-              Turbopack setup (confirmed by inspecting the rendered DOM in a
-              real browser — the gradient's background-image was simply
-              absent; Next's documented `turbopack.resolveExtensions` fix for
-              this exact class of problem didn't resolve it either). Tracked
-              as a known gap to revisit rather than blocking this page on it. */}
-          <div
-            className="w-16 h-16 rounded-2xl flex items-center justify-center"
-            style={{
-              backgroundImage: `linear-gradient(135deg, ${colors.brand[500]}, ${colors.civic.purple})`,
-            }}
-          >
-            <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-2xl">
-              🦸
-            </div>
-          </div>
+          <GradientLogoMark />
           <h1 className="mt-3 text-2xl font-extrabold tracking-tight text-zinc-900">
             {t("auth.loginHeadingAdmin")}
           </h1>
