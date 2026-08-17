@@ -4,7 +4,41 @@
 > **Screen(s):** All\
 > **Effort:** S (≤1 day)\
 > **Dependencies:** `00-foundation/02-design-tokens.md`\
-> **Status:** ⬜ Not started\
+> **Status:** 🟡 In progress — `useStatusBarVariant` is implemented in
+> `packages/design_system/src/hooks/useStatusBarVariant.ts` per spec: `light`/`dark`/`auto`
+> (resolved from `useTheme().scheme`), applied via `expo-router`'s `useFocusEffect` using the
+> current SDK 56 `expo-status-bar` API (`StatusBar.setStyle`/`setHidden`, not the deprecated pre-56
+> names), with an `options.hidden` escape hatch for full-screen experiences. No Storybook story,
+> matching `useTheme`/`useReducedMotion` (headless hooks, no visual output).
+>
+> **Deviation from the original spec, discovered during implementation**: `packages/design_system`
+> is consumed by both `apps/city-hero` (Expo, has `expo-router`/`expo-status-bar`) and `apps/web`
+> (Next.js, does not — and can't parse their native React Native source through Vite). Barrel-
+> exporting the hook from `src/hooks/index.ts` (as the sibling hooks are) broke `apps/web`'s
+> `__tests__/design-system.test.tsx` — confirmed via `git stash`, reproducing the failure on a clean
+> tree with only the barrel export added. Fixed by NOT re-exporting the hook from the shared barrel
+> (a comment in `hooks/index.ts` explains why) and instead adding a dedicated
+> `@city-hero/design-system/hooks/useStatusBarVariant` subpath export — `apps/city-hero`-only.
+> `expo-router`/`expo-status-bar` were added as optional `peerDependencies` (+ matching
+> `devDependencies`, pinned to `apps/city-hero`'s versions) so the package's own `tsc`/`vitest` can
+> resolve and mock them.
+>
+> That subpath is served by a **physical** file at
+> `packages/design_system/hooks/useStatusBarVariant.ts` (re-exporting
+> `../src/hooks/useStatusBarVariant`), not just a `package.json` `exports` map entry pointing into
+> `src/`: Metro (`apps/city-hero`'s bundler) doesn't enable `unstable_enablePackageExports` for
+> client bundles by default, so it falls back to classic resolution — a literal
+> `hooks/useStatusBarVariant.*` file relative to the package root. Verified empirically, not just by
+> static analysis: temporarily wired the hook into `apps/city-hero/app/_layout.tsx`, ran
+> `npx expo export -p web`, confirmed a clean 1331-module bundle with the hook's code present in the
+> output, then reverted the temporary wiring (`git diff` on `_layout.tsx` is clean).
+>
+> **Still open**: no screen in `apps/city-hero` calls `useStatusBarVariant` yet (there are only two
+> real screens today, Splash and Login, and wiring them is a product/design decision — which exact
+> variant each screen wants — not something this foundation task should decide unilaterally). The
+> "Used by all screens in the app" DoD item below is left unchecked for that reason; the Acceptance
+> Criteria's Splash/Civic-Feed scenarios are implemented and unit-tested but not yet manually
+> verified against a real running screen.\
 > **Labels:** `mobile`, `frontend`, `component`, `foundation`
 
 ## Context
@@ -139,14 +173,21 @@ Not applicable (purely visual).
 
 ## Tests
 
-- **Unit** (`renderHook` from `@testing-library/react-native`, per `testing-strategy.md`): calling
-  the hook with each variant triggers the expected `expo-status-bar` imperative call
+- **Unit** (implemented with `renderHook` from `@testing-library/react`, not
+  `@testing-library/react-native` as originally written here — `testing-strategy.md`'s own
+  "Frontend" section is explicit that `packages/design_system` runs on Vitest + RTL, since it
+  renders through `react-native-web`, never native RN; `@testing-library/react-native` is
+  `apps/city-hero`'s Jest-only tool. `expo-router` and `expo-status-bar` are mocked with `vi.mock`):
+  calling the hook with each variant triggers the expected `expo-status-bar` imperative call
   (`StatusBar.setStyle`/`StatusBar.setHidden`, mocked); `auto` resolves the correct style from a
-  mocked `useTheme()` for both light and dark theme; unmounting before the focus effect fires
-  triggers no orphan call.
-- **Integration**: two screens using the hook with different variants, mounted inside an
-  `expo-router` stack — focusing each in turn applies its variant and restores the previous one on
-  blur.
+  real `<ThemeProvider>` for both light and dark theme; never gaining focus (including through
+  unmount) triggers no orphan call; a dependency change while focused re-applies without needing to
+  regain focus.
+- **Integration**: two screens using the hook with different variants, both kept mounted throughout
+  (matching `react-native-screens`' real behavior of never unmounting a screen just because it lost
+  focus) — focusing each in turn applies its variant, and blurring the top one restores the
+  underlying screen's variant, with neither ever remounting. The `expo-router` mock models real
+  `focus`/`blur` events (not mount/unmount as a stand-in) specifically so this scenario is faithful.
 - **Manual/visual**: no Storybook story is required — this ships as a headless hook with no visual
   output, consistent with `useTheme`/`useReducedMotion` (neither has a `.stories.tsx` sibling in
   `packages/design_system/src/hooks/` today). Verify the two documented reference states manually:
@@ -155,15 +196,21 @@ Not applicable (purely visual).
 
 ## Definition of Done
 
-- [ ] `useStatusBarVariant` hook implemented in `packages/design_system/src/hooks/`
-- [ ] Focus-effect-based application via `expo-router`'s `useFocusEffect` (auto-apply on screen
-      focus, restore previous variant on blur)
-- [ ] Auto mode honors the active theme (`useTheme()`)
-- [ ] Uses the current SDK 56 `expo-status-bar` imperative API (`setStyle`/`setHidden`), not the
+- [x] `useStatusBarVariant` hook implemented in `packages/design_system/src/hooks/`
+- [x] Focus-effect-based application via `expo-router`'s `useFocusEffect` (auto-apply on screen
+      focus, restore previous variant on blur) — holds for any screen/overlay that is its own
+      `expo-router` route (see the code comment on the hook for the precondition; an in-tree overlay
+      component, not a routed one, would not get the restore-on-blur behavior for free)
+- [x] Auto mode honors the active theme (`useTheme()`)
+- [x] Uses the current SDK 56 `expo-status-bar` imperative API (`setStyle`/`setHidden`), not the
       renamed pre-56 `setStatusBarStyle`/`setStatusBarHidden` names
-- [ ] No Storybook story (headless hook — see Tests section); manual QA covers the visual variants
-- [ ] Unit tests passing
-- [ ] Used by all screens in the app
+- [x] No Storybook story (headless hook — see Tests section); manual QA of the visual variants is
+      **not** done — nothing calls the hook yet (see "Still open" in Status above), so there's no
+      running screen to verify against
+- [x] Unit tests passing
+      (`cd packages/design_system && npx vitest run src/hooks/useStatusBarVariant.test.tsx` — 9/9;
+      full `npx turbo run lint typecheck test` also green across the monorepo)
+- [ ] Used by all screens in the app — not done; see "Still open" in Status above
 
 ## Standards & References
 

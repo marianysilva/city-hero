@@ -12,6 +12,10 @@
     "./tokens": {
       "types": "./src/tokens/index.ts",
       "default": "./src/tokens/index.ts"
+    },
+    "./hooks/useStatusBarVariant": {
+      "types": "./hooks/useStatusBarVariant.ts",
+      "default": "./hooks/useStatusBarVariant.ts"
     }
   },
   "scripts": {
@@ -23,8 +27,18 @@
     "build-storybook": "storybook build"
   },
   "peerDependencies": {
+    "expo-router": ">=56.0.0",
+    "expo-status-bar": ">=56.0.0",
     "react": ">=19.0.0",
     "react-native": ">=0.85.0"
+  },
+  "peerDependenciesMeta": {
+    "expo-router": {
+      "optional": true
+    },
+    "expo-status-bar": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^10.4.6",
@@ -37,6 +51,8 @@
     "eslint": "^9.39.4",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-native": "^5.0.0",
+    "expo-router": "~56.2.11",
+    "expo-status-bar": "~56.0.4",
     "jsdom": "^29.1.1",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
