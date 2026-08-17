@@ -10,4 +10,4 @@ pydantic[email]>=2.13.4
 bcrypt>=5.0.0
 pyjwt[crypto]>=2.13.0
 strawberry-graphql[fastapi]>=0.323.2
-alembic>=1.18.5
+alembic>=1.19.1
