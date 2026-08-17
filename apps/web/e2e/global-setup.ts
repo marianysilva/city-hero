@@ -24,7 +24,10 @@ async function globalSetup(config: FullConfig) {
 
   await page.fill("#email", ADMIN_EMAIL);
   await page.fill("#password", ADMIN_PASSWORD);
-  await page.click('button[type="submit"]');
+  // The design-system Button (react-native-web Pressable) always renders as
+  // <button type="button"> — RNW doesn't forward a `type` override — so the
+  // submit control is targeted by id instead of [type="submit"].
+  await page.click("#login-submit");
 
   // Wait for redirect away from /login
   await page.waitForURL((url) => !url.pathname.startsWith("/login"), { timeout: 10000 });

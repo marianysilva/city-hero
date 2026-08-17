@@ -204,6 +204,17 @@ Runs `apps/web`'s Playwright suite against its own isolated, disposable Postgres
 `./scripts/dev.sh start` is already up; see
 [`docs/tasks/00-foundation/21-e2e-test-database.md`](docs/tasks/00-foundation/21-e2e-test-database.md).
 
+### Running `apps/city-hero`'s e2e tests
+
+```bash
+./scripts/test-e2e-mobile.sh
+```
+
+Runs `apps/city-hero`'s Playwright suite against a real `expo start --web` on its own port (`:8082`,
+started and torn down automatically) — safe to run alongside a dev `./scripts/dev.sh mobile` on
+`:8081`. No backend/database needed yet since the screens under e2e coverage (Splash, Login) are
+pure UI; see [`apps/city-hero/e2e/`](apps/city-hero/e2e/).
+
 ---
 
 ## 3. Ecosystem Architecture

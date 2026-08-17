@@ -64,7 +64,9 @@ requested.
 
 - Run backend tests: `cd apps/backend && pytest`
 - Run web tests: `cd apps/web && npm test`
-- Run mobile tests: `cd apps/city-hero && npx expo test`
+- Run mobile tests: `cd apps/city-hero && npm test`
+- Run mobile e2e tests: `./scripts/test-e2e-mobile.sh` (Playwright against a real `expo start --web`
+  on its own port — see `apps/city-hero/e2e/`)
 - Lint Python: `ruff check .`
 - Lint TypeScript: `npx eslint .`
 - Type-check web: `cd apps/web && npx tsc --noEmit`

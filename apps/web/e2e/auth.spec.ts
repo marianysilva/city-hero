@@ -45,15 +45,28 @@ test.describe("Login flow", () => {
     await page.goto("/login");
     await page.waitForSelector("#email");
 
-    // HTML5 validation prevents submission with empty required fields.
-    // Click submit and check the email field reports validity.
-    await page.click('button[type="submit"]');
+    // The design-system TextInput (react-native-web) doesn't forward
+    // `required` to the DOM at all (confirmed: RNW's TextInput has no such
+    // prop), so this page validates empty fields in JS instead of relying
+    // on native HTML5 constraint validation — assert on the resulting
+    // visible error, not on input validity.
+    let loginRequested = false;
+    page.on("request", (r) => {
+      if (r.url().includes("/api/auth/login")) loginRequested = true;
+    });
 
-    // page.$eval is Playwright's typed DOM-query API — it serializes the
-    // typed callback and runs it inside the browser against the matched
-    // element. It is NOT the global eval(); no arbitrary string is executed.
-    const emailValid = await page.$eval("#email", (el) => (el as HTMLInputElement).validity.valid);
-    expect(emailValid).toBe(false);
+    await page.click("#login-submit");
+
+    const errorAlert = page.getByRole("alert").filter({ hasText: /\S/ });
+    await expect(errorAlert).toBeVisible();
+    const text = await errorAlert.textContent();
+    expect(text?.trim()).toBeTruthy();
+
+    // Give a real network call a moment to have fired if the JS guard were
+    // broken, rather than only proving the (never-filled) field is empty —
+    // that would pass even if a request went out alongside the error.
+    await page.waitForTimeout(300);
+    expect(loginRequested).toBe(false);
   });
 
   test("should show error on wrong credentials", async ({ page }) => {
@@ -70,7 +83,7 @@ test.describe("Login flow", () => {
       page.waitForResponse(
         (r) => r.url().includes("/api/auth/login") && r.request().method() === "POST",
       ),
-      page.click('button[type="submit"]'),
+      page.click("#login-submit"),
     ]);
 
     expect(response.status()).not.toBe(200);
@@ -153,7 +166,7 @@ test.describe("Login flow", () => {
 
     await page.fill("#email", ADMIN_EMAIL);
     await page.fill("#password", ADMIN_PASSWORD);
-    await page.click('button[type="submit"]');
+    await page.click("#login-submit");
 
     // After login, middleware redirects to / (dashboard)
     await page.waitForURL((url) => !url.pathname.startsWith("/login"), { timeout: 15000 });
