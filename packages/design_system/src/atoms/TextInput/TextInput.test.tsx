@@ -56,18 +56,23 @@ describe("TextInput", () => {
     expect(screen.getByText("VER")).toBeTruthy();
   });
 
-  it("applies the focus border color on focus and reverts on blur", () => {
+  it("applies the focus border color and ring on focus, and reverts on blur", () => {
     renderInput();
     const input = screen.getByPlaceholderText("seu@email.com");
     const field = input.parentElement as HTMLElement;
 
     expect(field).toHaveStyle({ borderColor: "#E2E8F0" });
+    expect(field.style.boxShadow).toBeFalsy();
 
     fireEvent.focus(input);
     expect(field).toHaveStyle({ borderColor: "#FB923C" });
+    // Locks in the shadowColor/shadowOffset/shadowOpacity/shadowRadius ->
+    // boxShadow migration (react-native-web deprecated the former set).
+    expect(field.style.boxShadow).toBe("0px 0px 4px #FFEDD5");
 
     fireEvent.blur(input);
     expect(field).toHaveStyle({ borderColor: "#E2E8F0" });
+    expect(field.style.boxShadow).toBeFalsy();
   });
 
   it("passes secureTextEntry through so password content is masked", () => {

@@ -1,33 +1,49 @@
 "use client";
 
+import { Button, TextInput, useTheme } from "@city-hero/design-system";
 import { useLocaleContext } from "@city-hero/i18n";
 import { useRouter } from "next/navigation";
-import { useState, FormEvent } from "react";
+import { useRef, useState } from "react";
+import type { TextInput as RNTextInput } from "react-native";
 
-import { Button } from "@/components/atoms/Button";
-import { Input } from "@/components/atoms/Input";
 import { AlertMessage } from "@/components/molecules/AlertMessage";
-import { FormField } from "@/components/molecules/FormField";
 
 export default function LoginPage() {
   const router = useRouter();
   const { t, setLocale } = useLocaleContext();
+  const { colors } = useTheme();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const passwordRef = useRef<RNTextInput>(null);
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  // Design-system TextInput wraps React Native's TextInput, which has no
+  // `required` concept (confirmed: react-native-web's TextInput doesn't
+  // forward it to the DOM at all) — so unlike the plain-HTML version this
+  // page used to have, empty-field validation is explicit here rather than
+  // relying on native HTML5 constraint validation.
+  async function performLogin() {
+    // The password field's onSubmitEditing (Enter key) calls this directly,
+    // bypassing Button's own loading/disabled gating (which only guards the
+    // onPress path) — without this, two fast Enter presses fire two
+    // concurrent POST /api/auth/login requests.
+    if (loading) return;
+
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+    if (!trimmedEmail || !trimmedPassword) {
+      setError(t("auth.emailPasswordRequired"));
+      return;
+    }
     setError(null);
     setLoading(true);
-
-    const form = new FormData(e.currentTarget);
-    const email = form.get("email") as string;
-    const password = form.get("password") as string;
 
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email: trimmedEmail, password: trimmedPassword }),
     });
 
     setLoading(false);
@@ -54,39 +70,128 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-50">
-      <div className="w-full max-w-sm bg-white rounded-2xl shadow p-8 space-y-6">
-        <div>
-          <h1 className="text-2xl font-semibold text-zinc-900">CityHero</h1>
-          <p className="text-sm text-zinc-500 mt-1">{t("dashboard.managerPanelSubtitle")}</p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-orange-50 px-4">
+      <div className="w-full max-w-sm space-y-6">
+        <div className="flex flex-col items-center text-center">
+          {/* Same visual as the mobile app's LogoMark ("on-light" variant,
+              packages/design_system/src/atoms/LogoMark) and the same design
+              tokens, but not that component directly: expo-linear-gradient's
+              web implementation doesn't currently render under this app's
+              Turbopack setup (confirmed by inspecting the rendered DOM in a
+              real browser — the gradient's background-image was simply
+              absent; Next's documented `turbopack.resolveExtensions` fix for
+              this exact class of problem didn't resolve it either). Tracked
+              as a known gap to revisit rather than blocking this page on it. */}
+          <div
+            className="w-16 h-16 rounded-2xl flex items-center justify-center"
+            style={{
+              backgroundImage: `linear-gradient(135deg, ${colors.brand[500]}, ${colors.civic.purple})`,
+            }}
+          >
+            <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-2xl">
+              🦸
+            </div>
+          </div>
+          <h1 className="mt-3 text-2xl font-extrabold tracking-tight text-zinc-900">
+            {t("auth.loginHeadingAdmin")}
+          </h1>
+          <p className="mt-1 text-sm text-zinc-500">{t("dashboard.managerPanelSubtitle")}</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <FormField label={t("auth.emailLabel")} htmlFor="email" required>
-            <Input id="email" name="email" type="email" required autoComplete="email" />
-          </FormField>
+        <form
+          className="space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            performLogin();
+          }}
+        >
+          <TextInput
+            label={t("auth.emailLabel")}
+            placeholder={t("auth.emailPlaceholder")}
+            value={email}
+            onChangeText={setEmail}
+            nativeID="email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
+            textContentType="emailAddress"
+            autoComplete="email"
+            returnKeyType="next"
+            onSubmitEditing={() => passwordRef.current?.focus()}
+            blurOnSubmit={false}
+          />
 
-          <FormField label={t("auth.passwordLabel")} htmlFor="password" required>
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              required
-              autoComplete="current-password"
-            />
-          </FormField>
+          <TextInput
+            ref={passwordRef}
+            label={t("auth.passwordLabel")}
+            placeholder={t("auth.passwordPlaceholder")}
+            value={password}
+            onChangeText={setPassword}
+            nativeID="password"
+            secureTextEntry={!passwordVisible}
+            autoCapitalize="none"
+            autoCorrect={false}
+            textContentType="password"
+            autoComplete="current-password"
+            returnKeyType="go"
+            onSubmitEditing={performLogin}
+            rightElement={
+              <button
+                type="button"
+                onClick={() => setPasswordVisible((visible) => !visible)}
+                aria-label={
+                  passwordVisible ? t("auth.hidePasswordA11y") : t("auth.showPasswordA11y")
+                }
+                style={{ color: colors.brand[500], fontSize: 11, fontWeight: 700 }}
+              >
+                {passwordVisible ? t("auth.hidePassword") : t("auth.showPassword")}
+              </button>
+            }
+          />
 
           {error && <AlertMessage variant="error">{error}</AlertMessage>}
 
-          <Button
-            type="submit"
-            loading={loading}
-            loadingText={t("common.loading")}
-            className="w-full"
-          >
-            {t("auth.signIn")}
-          </Button>
+          <div className="flex justify-end">
+            {/* No forgot-password flow exists yet (mobile's own
+                01a-login/03-forgot-password-flow.md isn't built either) —
+                same presentational-only placeholder mobile ships today. */}
+            <button
+              type="button"
+              onClick={() => console.log("[Login] Not implemented yet: forgot password")}
+              className="text-xs font-semibold"
+              style={{ color: colors.brand[600] }}
+            >
+              {t("auth.forgotPassword")}
+            </button>
+          </div>
+
+          <div className="w-full">
+            <Button
+              variant="primary"
+              size="lg"
+              nativeID="login-submit"
+              onPress={performLogin}
+              loading={loading}
+            >
+              {t("auth.signIn")}
+            </Button>
+          </div>
         </form>
+
+        <p className="text-center text-sm text-zinc-500">
+          {t("auth.noAccountPrompt")}
+          {/* No admin self-service account creation flow exists — admin
+              accounts are provisioned, not self-registered. Same
+              presentational-only placeholder mobile ships today. */}
+          <button
+            type="button"
+            onClick={() => console.log("[Login] Not implemented yet: create account")}
+            className="font-bold"
+            style={{ color: colors.brand[600] }}
+          >
+            {t("auth.createAccount")}
+          </button>
+        </p>
       </div>
     </div>
   );

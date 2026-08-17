@@ -25,19 +25,15 @@ export type TextInputProps = Omit<RNTextInputProps, "style" | "placeholderTextCo
  * callers compose those via `rightElement`/`secureTextEntry`/`onChangeText`.
  *
  * The "ring" around the border on focus is approximated with a colored
- * shadow rather than a second wrapping view. `shadowColor`/`shadowOpacity`
- * only render on iOS; Android needs `elevation` too (and even then can't
- * render a *colored* shadow — elevation is grayscale-only there), so the
- * border-width/color change is the primary focus cue on Android, with
- * elevation as a secondary depth cue. First-pass approximation, matching
- * this repo's "refine against real designs" tolerance (see
- * design-system.md's Storybook setup section).
+ * `boxShadow` (RN 0.76+'s spec-compliant, cross-platform shadow prop —
+ * superseded the platform-specific `shadowColor`/`shadowOffset`/
+ * `shadowOpacity`/`shadowRadius` set, which react-native-web now warns are
+ * deprecated) rather than a second wrapping view. Android still needs
+ * `elevation` for outset shadows to render at all pre-Android 10, as a
+ * secondary depth cue alongside the border-width/color change. First-pass
+ * approximation, matching this repo's "refine against real designs"
+ * tolerance (see design-system.md's Storybook setup section).
  */
-// Named per docs/engineering/design-system.md's inline-style convention —
-// react-native/no-color-literals only allows a literal when it's a variable
-// reference, not written directly inside a `style` object.
-const NO_SHADOW = "transparent";
-
 export const TextInput = forwardRef<RNTextInput, TextInputProps>(
   ({ label, icon, rightElement, onFocus, onBlur, accessibilityLabel, ...props }, ref) => {
     const { colors, spacing, radius, typography, scheme } = useTheme();
@@ -69,10 +65,7 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>(
             backgroundColor: colors.surface,
             borderWidth: focused ? 2 : 1,
             borderColor: focused ? colors.brand[400] : colors.border,
-            shadowColor: focused ? colors.brand[100] : NO_SHADOW,
-            shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: focused ? 1 : 0,
-            shadowRadius: 4,
+            boxShadow: focused ? `0px 0px 4px ${colors.brand[100]}` : undefined,
             elevation: focused ? 3 : 0,
           }}
         >
