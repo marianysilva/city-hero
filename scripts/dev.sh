@@ -57,6 +57,22 @@ DESIGN_PID="$PID_DIR/design.pid"
 # ── Helpers ───────────────────────────────────────────────────────────────────
 ensure_dirs() { mkdir -p "$LOG_DIR" "$PID_DIR"; }
 
+resolve_python() {
+  # On Windows, `python3` on PATH often resolves to the WindowsApps "App
+  # execution alias" stub (a no-op that prints an install-from-Store prompt
+  # and exits non-zero) when Python wasn't installed via that alias — even
+  # though a real interpreter (python.exe / the `py` launcher) is available.
+  # Probe each candidate with --version rather than trusting `command -v`.
+  local candidate
+  for candidate in python3 python py; do
+    if command -v "$candidate" > /dev/null 2>&1 && "$candidate" --version > /dev/null 2>&1; then
+      echo "$candidate"
+      return 0
+    fi
+  done
+  return 1
+}
+
 wait_for_url() {
   local url="$1" label="$2" timeout="${3:-60}"
   printf "  Waiting for %s" "$label"
@@ -206,8 +222,17 @@ start_design() {
   ensure_dirs
   echo -e "${CYAN}${BOLD}-> Starting Prototype (design/)...${RESET}"
 
+  local python_bin
+  if ! python_bin="$(resolve_python)"; then
+    echo -e "${RED}  x No working Python interpreter found (tried python3, python, py) — aborting${RESET}"
+    echo "    If Python is installed but 'python3' does nothing, disable its Windows"
+    echo "    App execution alias: Settings > Apps > Advanced app settings > App"
+    echo "    execution aliases."
+    return 1
+  fi
+
   cd "$ROOT/design"
-  python3 -m http.server 5173 > "$DESIGN_LOG" 2>&1 &
+  "$python_bin" -m http.server 5173 > "$DESIGN_LOG" 2>&1 &
   echo $! > "$DESIGN_PID"
   cd "$ROOT"
 

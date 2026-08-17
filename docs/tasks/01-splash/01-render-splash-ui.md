@@ -220,7 +220,11 @@ Not applicable (no user data).
   parent signals readiness immediately; reduce-motion preference disables animation; the loading
   indicator surfaces after the configured threshold.
 - **Snapshot**: light and dark variants.
-- **E2E**: cold start opens the app, splash is visible, navigates after a reasonable delay.
+- **E2E**: `apps/city-hero/e2e/splash.spec.ts` (Playwright against a real `expo start --web`, see
+  `./scripts/test-e2e-mobile.sh`) — loads `/` and renders without crashing, shows both CTAs and the
+  privacy link, renders in dark mode. Added alongside the Login screen's own e2e suite, after a
+  unit-tested-but-e2e-untested bug (a stray file under `app/` got scanned as a route by Expo Router
+  and crashed the entire web bundle) shipped and only an e2e-level check could have caught.
 
 ## Definition of Done
 

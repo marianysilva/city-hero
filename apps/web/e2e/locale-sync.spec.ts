@@ -38,7 +38,7 @@ async function loginRetryingRateLimit(page: import("@playwright/test").Page) {
       page.waitForResponse(
         (r) => r.url().includes("/api/auth/login") && r.request().method() === "POST",
       ),
-      page.click('button[type="submit"]'),
+      page.click("#login-submit"),
     ]);
     if (response.status() !== 429) return response;
   }

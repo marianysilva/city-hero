@@ -13,6 +13,7 @@
   "pageOfTotal": "Página {{page}} de {{totalPages}}",
   "previous": "Anterior",
   "next": "Próxima",
+  "back": "Voltar",
   "notFoundTitle": "Oops!",
   "notFoundMessage": "Esta tela não existe.",
   "goToHomeScreen": "Ir para a tela inicial!"

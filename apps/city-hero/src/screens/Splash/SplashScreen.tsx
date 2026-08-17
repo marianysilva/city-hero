@@ -12,6 +12,8 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
+import { logTelemetryEvent } from "@/lib/telemetry";
+
 import { AnimatedLogo } from "./components/AnimatedLogo";
 import { Confetti } from "./components/Confetti";
 import { LoadingIndicator } from "./components/LoadingIndicator";
@@ -41,18 +43,16 @@ export type SplashScreenProps = {
    * time elapsed, or the 10s hard timeout was reached. Defaults to a no-op.
    */
   onReady?: (reason: SplashReadyReason) => void;
+  /** Forwarded to WelcomeActions' email CTA — see 01a-login/01-render-login-ui.md. Defaults to
+   * WelcomeActions' own "not implemented" stub for standalone rendering (e.g. tests). */
+  onEmailLogin?: () => void;
 };
 
-// Placeholder until the shared observability package
-// (00-foundation/20-observability-package.md) ships — see
-// docs/engineering/observability.md.
-function logTelemetryEvent(event: string, props?: Record<string, unknown>) {
-  if (__DEV__) {
-    console.info(`[telemetry] ${event}`, props);
-  }
-}
-
-export function SplashScreen({ isReady = true, onReady = () => {} }: SplashScreenProps) {
+export function SplashScreen({
+  isReady = true,
+  onReady = () => {},
+  onEmailLogin,
+}: SplashScreenProps) {
   const { t } = useTranslation();
   const { colors, scheme } = useTheme();
   // Reanimated's own hook (not the design-system's AccessibilityInfo-based
@@ -157,6 +157,7 @@ export function SplashScreen({ isReady = true, onReady = () => {} }: SplashScree
         start={{ x: 0.35, y: 0 }}
         end={{ x: 0.65, y: 1 }}
         style={styles.container}
+        testID="splash-background"
       >
         <Confetti reduceMotion={reduceMotion} />
 
@@ -180,7 +181,7 @@ export function SplashScreen({ isReady = true, onReady = () => {} }: SplashScree
             {showLoading && <LoadingIndicator color="rgba(255,255,255,0.85)" />}
           </View>
 
-          <WelcomeActions />
+          <WelcomeActions onEmailLogin={onEmailLogin} />
         </View>
       </LinearGradient>
     </View>

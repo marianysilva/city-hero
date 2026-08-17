@@ -3,24 +3,28 @@ import { useTranslation } from "@city-hero/i18n";
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, View } from "react-native";
 
-// Screens 01a-login (email) and the Gov.br/privacy-policy integrations don't
-// exist yet — these are stub hand-offs so the buttons are tappable and
-// visibly wired, per the prototype (design/src/screens/01-splash.js).
+// The Gov.br and privacy-policy integrations don't exist yet — these stay
+// stub hand-offs so the buttons are tappable and visibly wired, per the
+// prototype (design/src/screens/01-splash.js). Email login now has a real
+// screen (01a-login) to hand off to.
 function notImplemented(action: string) {
   console.log(`[Splash] Not implemented yet: ${action}`);
 }
 
-export function WelcomeActions() {
+export type WelcomeActionsProps = {
+  /** Defaults to the same "not implemented" stub the other two actions use,
+   * for standalone rendering (e.g. Storybook, tests) without a router. */
+  onEmailLogin?: () => void;
+};
+
+export function WelcomeActions({
+  onEmailLogin = () => notImplemented("email login"),
+}: WelcomeActionsProps) {
   const { t } = useTranslation();
 
   return (
     <View style={styles.container}>
-      <Button
-        testID="splash-cta-email"
-        variant="inverse"
-        size="lg"
-        onPress={() => notImplemented("email login")}
-      >
+      <Button testID="splash-cta-email" variant="inverse" size="lg" onPress={onEmailLogin}>
         {t("splash.ctaEmail")}
       </Button>
 

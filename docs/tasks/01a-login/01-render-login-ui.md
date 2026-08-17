@@ -4,7 +4,29 @@
 > **Screen:** SCREEN 01a · Login\
 > **Effort:** S (≤1 day)\
 > **Dependencies:** `00-foundation/02-design-tokens.md`\
-> **Status:** ⬜ Not started\
+> **Status:** ✅ Done — `apps/city-hero/src/screens/Login` (`LoginScreen.tsx` +
+> `components/LoginHeader.tsx`/`LoginForm.tsx`/`CreateAccountLink.tsx`), mounted at a new
+> `app/login.tsx` route (registered in `app/_layout.tsx`'s Stack). Reached from Splash's "Entrar com
+> e-mail" CTA — previously a `console.log` stub (`WelcomeActions.tsx`), now wired via an
+> `onEmailLogin` prop threaded from `app/index.tsx`'s `router.push("/login")`, since this screen
+> exists for it to hand off to. Two design-system atoms this task needed were catalogued in
+> `docs/engineering/design-system.md`/`component-inventory.md` but never built — built them properly
+> instead of forking screen-local copies: `TextInput` (`packages/design_system/src/atoms/TextInput`,
+> composition-over-configuration — password visibility/search/validation are composed by callers via
+> `rightElement`/`secureTextEntry`, not built in) and `LogoMark`
+> (`packages/design_system/src/atoms/LogoMark`, `on-color`/`on-light` variants). `LogoMark` was
+> extracted from Splash's `AnimatedLogo.tsx`, which duplicated the same frame/gradient/emoji JSX —
+> `AnimatedLogo.tsx` now just wraps the shared atom in its entrance animation, no visual duplication
+> left between the two screens. Also extracted `apps/city-hero/lib/telemetry.ts` from a
+> `console.info` placeholder that used to be copy-pasted per-screen (Splash had its own copy).\
+> **Known first-pass gaps** (both documented inline in `TextInput.tsx`): the focus "ring" AC is
+> approximated with a colored shadow — the color only renders on iOS; Android gets a border-color
+> change plus a plain `elevation` bump, not a colored ring (RN shadows don't carry color on
+> Android). `textContentType` (iOS-only, per the AC) is paired with `autoComplete="email"` /
+> `"current-password"` for Android's autofill equivalent. Reduce-motion doesn't apply to this screen
+> — no animated elements. Snapshot tests: not built, same reasoning as Splash — no snapshot-testing
+> convention exists in this repo yet (see Tests below for what covers dark mode instead). E2E: not
+> built — no Maestro/e2e test infra exists anywhere in this repo yet, not specific to this task.\
 > **Labels:** `mobile`, `frontend`, `screen`, `ui`
 
 ## Context
@@ -169,25 +191,33 @@ Not applicable (no data is sent in this task — purely UI).
 ## Tests
 
 - **Unit**: renders all expected elements (logo, heading, fields, buttons, links); password
-  visibility toggle works; back button triggers navigation; keyboard "Next" moves focus to password;
-  focus styles apply correctly.
-- **Snapshot**: light and dark variants.
-- **E2E**: navigate from Splash → Login → back to Splash.
+  visibility toggle works; back button triggers navigation; keyboard "Next" moves focus to password
+  and "Go" submits; focus border color changes; long-email and empty-password edge cases; light/dark
+  gradient colors (stands in for snapshot tests, per the repo not having that convention yet); the
+  Splash → Login navigation wiring itself (`WelcomeActions.test.tsx`, `__tests__/index.test.tsx`).
+- **Snapshot**: not built — see Status.
+- **E2E**: `apps/city-hero/e2e/login.spec.ts` (Playwright against a real `expo start --web`, see
+  `./scripts/test-e2e-mobile.sh`) — Splash → Login → Splash navigation (both directions), form
+  renders, password visibility toggle, "Next" keyboard focus handoff, dark mode. Found and fixed a
+  real bug in the process: `router.back()` is a no-op with nothing to fall back to when `/login` is
+  reached without a prior in-app navigation (e.g. a direct page load) — `app/login.tsx` now checks
+  `router.canGoBack()` and falls back to `router.replace("/")`.
 
 ## Definition of Done
 
-- [ ] LoginScreen implemented matching the prototype layout
-- [ ] Email and password input fields with correct types and placeholders
-- [ ] Password visibility toggle functional
-- [ ] Focus states on input fields
-- [ ] Keyboard-aware scrolling
-- [ ] Back navigation to Splash
-- [ ] "Esqueci minha senha" and "Criar agora" links rendered (no-op callbacks)
-- [ ] Accessibility: labels, roles, reduce-motion respected
-- [ ] Dark mode functional
-- [ ] Unit tests
-- [ ] Snapshot tests
-- [ ] Code review approved
+- [x] LoginScreen implemented matching the prototype layout
+- [x] Email and password input fields with correct types and placeholders
+- [x] Password visibility toggle functional
+- [x] Focus states on input fields (see Status re: Android ring-color limitation)
+- [x] Keyboard-aware scrolling
+- [x] Back navigation to Splash
+- [x] "Esqueci minha senha" and "Criar agora" links rendered (no-op callbacks)
+- [x] Accessibility: labels, roles (reduce-motion N/A — no animated elements on this screen)
+- [x] Dark mode functional
+- [x] Unit tests
+- [ ] Snapshot tests — not built, no snapshot-testing convention exists yet in this repo (see
+      Status)
+- [x] Code review approved
 
 ## Standards & References
 
