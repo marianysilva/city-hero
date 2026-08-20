@@ -1,7 +1,7 @@
 import { useTheme } from "@city-hero/design-system";
+import { useStatusBarVariant } from "@city-hero/design-system/hooks/useStatusBarVariant";
 import { useTranslation } from "@city-hero/i18n";
 import { LinearGradient } from "expo-linear-gradient";
-import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import {
   AccessibilityInfo,
@@ -44,6 +44,7 @@ export function LoginScreen({
 }: LoginScreenProps) {
   const { t } = useTranslation();
   const { colors, scheme } = useTheme();
+  useStatusBarVariant("auto");
 
   const accessibilityLabel = `${t("auth.loginHeading")}. ${t("auth.loginSubtitle")}`;
 
@@ -80,7 +81,6 @@ export function LoginScreen({
 
   return (
     <View style={styles.container}>
-      <StatusBar style={scheme === "dark" ? "light" : "dark"} />
       <LinearGradient colors={backgroundColors} style={styles.container} testID="login-background">
         <KeyboardAvoidingView
           style={styles.container}

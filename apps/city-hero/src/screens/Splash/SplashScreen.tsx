@@ -1,7 +1,7 @@
 import { useTheme } from "@city-hero/design-system";
+import { useStatusBarVariant } from "@city-hero/design-system/hooks/useStatusBarVariant";
 import { useTranslation } from "@city-hero/i18n";
 import { LinearGradient } from "expo-linear-gradient";
-import { StatusBar } from "expo-status-bar";
 import { useEffect, useRef, useState } from "react";
 import { AccessibilityInfo, Text, View } from "react-native";
 import Animated, {
@@ -55,6 +55,11 @@ export function SplashScreen({
 }: SplashScreenProps) {
   const { t } = useTranslation();
   const { colors, scheme } = useTheme();
+  // Splash's background is high-contrast/saturated in both themes — deep
+  // slate in dark mode, a vivid brand/purple gradient in light mode (see
+  // backgroundColors below) — so it wants light icons either way, fixed
+  // rather than 'auto'.
+  useStatusBarVariant("light");
   // Reanimated's own hook (not the design-system's AccessibilityInfo-based
   // one): it's a direct, *synchronous* replacement for
   // AccessibilityInfo.isReduceMotionEnabled(), so the very first render
@@ -150,7 +155,6 @@ export function SplashScreen({
 
   return (
     <View style={styles.container}>
-      <StatusBar style="light" />
       <LinearGradient
         colors={backgroundColors}
         locations={backgroundLocations}

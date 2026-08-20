@@ -5,6 +5,22 @@ import { StyleSheet } from "react-native";
 
 import { SplashScreen } from "./SplashScreen";
 
+// SplashScreen calls useStatusBarVariant, which uses expo-router's
+// useFocusEffect — that needs a real navigation container this standalone
+// unit test doesn't provide ("Couldn't find a navigation object"). Faking
+// it as "always focused" (a plain effect) is enough here: the hook's own
+// focus/blur semantics have dedicated coverage in
+// packages/design_system/src/hooks/useStatusBarVariant.test.tsx.
+jest.mock("expo-router", () => ({
+  useFocusEffect: (effect: () => void | (() => void)) => {
+    // jest.mock factories can't reference out-of-scope imports (Jest's
+    // hoisting), so this is a require(), not a top-level import.
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { useEffect } = require("react");
+    useEffect(effect, [effect]);
+  },
+}));
+
 // Confetti (infinite withRepeat(-1)) and the interactive children
 // (WelcomeActions' Pressables, RotatingTagline's setInterval) all fight fake
 // timers when combined with this file's min-duration/loading/timeout tests —
