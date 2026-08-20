@@ -5,15 +5,46 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  # Whole-tree dependency audits (js-deps/python-deps below) run on a weekly
+  # cadence so newly-published advisories against already-shipped deps surface
+  # on `main` without gating unrelated feature PRs. See the per-job `if:` guards.
+  schedule:
+    - cron: "0 6 * * 1" # Mondays 06:00 UTC
 
 concurrency:
   group: security-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  # ── Dependency vulnerabilities ─────────────────────────────────────────────
+  # ── PR dependency gate (diff-scoped) ───────────────────────────────────────
+  # Runs only on PRs. Unlike the whole-tree audits below, this compares the
+  # PR's base against its head and fails only on vulnerabilities the PR itself
+  # *introduces* (npm + pip). That's the fair thing to block a feature PR on —
+  # a brand-new upstream advisory against a dep the PR never touched should not
+  # turn an unrelated PR red (that's what the scheduled whole-tree audit is for).
+  dependency-review:
+    name: Dependency review (PR diff)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+          comment-summary-in-pr: on-failure
+
+  # ── Whole-tree dependency vulnerabilities (push to main + weekly) ──────────
+  # Deliberately NOT run on pull_request: `pip-audit`/`npm audit` scan the
+  # entire installed tree, so a newly-published advisory against a transitive
+  # dep would fail PRs that changed nothing about dependencies. The PR-time
+  # signal is `dependency-review` above; here we keep monitoring `main` and get
+  # a weekly heads-up on the full tree via the `schedule` trigger.
   python-deps:
     name: Python deps (pip-audit)
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -25,6 +56,7 @@ jobs:
 
   js-deps:
     name: JS deps (npm audit)
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
