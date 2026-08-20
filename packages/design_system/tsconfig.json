@@ -6,5 +6,5 @@
     "noEmit": true,
     "types": ["react", "react-native"]
   },
-  "include": ["src", "nativewind-env.d.ts"]
+  "include": ["src", "hooks", "nativewind-env.d.ts"]
 }
