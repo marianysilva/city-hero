@@ -13,9 +13,12 @@ import type { BottomNavTabKey } from "./BottomNav.types";
  * route" edge case where no icon is highlighted.
  */
 export function resolveActiveTab(pathname: string): BottomNavTabKey | null {
-  // Normalize: drop query/hash, trailing slash, and a leading slash.
-  const path = pathname.split(/[?#]/)[0].replace(/\/+$/, "").replace(/^\//, "");
-  const segment = path.split("/")[0] ?? "";
+  // Drop any query/hash, then take the first non-empty path segment. Done with
+  // plain splits (no anchored `\/+` regex) so an adversarial pathname with a
+  // long run of slashes can't trigger polynomial backtracking (ReDoS) — this
+  // runs on uncontrolled router input on every navigation.
+  const pathOnly = pathname.split(/[?#]/, 1)[0];
+  const segment = pathOnly.split("/").find((part) => part.length > 0) ?? "";
 
   switch (segment) {
     case "":

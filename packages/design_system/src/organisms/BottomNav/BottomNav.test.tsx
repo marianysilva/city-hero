@@ -216,4 +216,17 @@ describe("resolveActiveTab", () => {
     expect(resolveActiveTab("/profile#stats")).toBe("profile");
     expect(resolveActiveTab("/my-reports/123")).toBe("more");
   });
+
+  it("collapses repeated slashes to the first real segment", () => {
+    expect(resolveActiveTab("//feed//")).toBe("feed");
+    expect(resolveActiveTab("///")).toBe("home");
+  });
+
+  it("handles a pathological run of slashes quickly (no ReDoS)", () => {
+    const evil = `${"/".repeat(100_000)}x`;
+    const start = Date.now();
+    expect(resolveActiveTab(evil)).toBeNull();
+    // Linear work — comfortably under a second even for 100k slashes.
+    expect(Date.now() - start).toBeLessThan(1000);
+  });
 });
