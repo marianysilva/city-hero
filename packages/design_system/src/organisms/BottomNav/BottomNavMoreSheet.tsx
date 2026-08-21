@@ -69,6 +69,7 @@ export function BottomNavMoreSheet({
         {/* Stop taps on the panel itself from bubbling to the backdrop.
             `accessible={false}` for the same subtree-collapse reason. */}
         <Pressable
+          testID="more-sheet-panel"
           accessible={false}
           onPress={() => {}}
           style={{

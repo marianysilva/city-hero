@@ -1,0 +1,15 @@
+{
+  "map": "Mapa",
+  "feed": "Feed",
+  "camera": "Câmera",
+  "profile": "Perfil",
+  "more": "Mais",
+  "cameraA11yLabel": "Registrar um problema com a câmera",
+  "closeMore": "Fechar",
+  "notifications": "Notificações",
+  "myReports": "Meus Relatos",
+  "settings": "Configurações",
+  "logout": "Sair",
+  "wipTitle": "Em breve",
+  "wipBody": "Esta tela ainda não foi implementada."
+}

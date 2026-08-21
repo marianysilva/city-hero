@@ -10,6 +10,7 @@ import commonEnUS from "./locales/en-US/common.json";
 import dashboardEnUS from "./locales/en-US/dashboard.json";
 import errorsEnUS from "./locales/en-US/errors.json";
 import homeEnUS from "./locales/en-US/home.json";
+import navEnUS from "./locales/en-US/nav.json";
 import reportEnUS from "./locales/en-US/report.json";
 import splashEnUS from "./locales/en-US/splash.json";
 import usersEnUS from "./locales/en-US/users.json";
@@ -56,6 +57,7 @@ export type NamespaceDict = Record<string, TranslationValue>;
 export type Namespace =
   | "common"
   | "home"
+  | "nav"
   | "camera"
   | "report"
   | "auth"
@@ -70,6 +72,7 @@ export type LocaleDict = Record<Namespace, NamespaceDict>;
 type NamespaceKeys = {
   common: keyof typeof commonEnUS;
   home: keyof typeof homeEnUS;
+  nav: keyof typeof navEnUS;
   camera: keyof typeof cameraEnUS;
   report: keyof typeof reportEnUS;
   auth: keyof typeof authEnUS;

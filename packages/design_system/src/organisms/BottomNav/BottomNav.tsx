@@ -106,6 +106,21 @@ export function BottomNav({
     return map;
   }, [items, activateTab]);
 
+  // Selecting a More item dismisses the sheet (then runs the item's own
+  // handler). The nav bar is persistent chrome, so without this the sheet
+  // would stay open on top of whatever screen the item navigated to.
+  const sheetItems = useMemo(
+    () =>
+      moreItems.map((item) => ({
+        ...item,
+        onPress: () => {
+          setMoreVisible(false);
+          item.onPress();
+        },
+      })),
+    [moreItems],
+  );
+
   // Split the tabs around the center FAB: for the canonical 4 tabs this is
   // [home, feed] | FAB | [profile, more].
   const mid = Math.ceil(items.length / 2);
@@ -160,7 +175,7 @@ export function BottomNav({
         <BottomNavMoreSheet
           testID="nav-more-sheet"
           visible
-          items={moreItems}
+          items={sheetItems}
           onClose={() => setMoreVisible(false)}
           closeAccessibilityLabel={moreCloseAccessibilityLabel}
         />

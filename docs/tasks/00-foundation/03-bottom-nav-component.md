@@ -5,16 +5,17 @@
 > More (drawer)\
 > **Effort:** M (2 days)\
 > **Dependencies:** `00-foundation/02-design-tokens.md`, `00-foundation/13-i18n.md`\
-> **Status:** 🟡 Component shipped; app-level wiring deferred (no tab screens exist yet). The four
-> presentational pieces — `BottomNav`, `BottomNavTab`, `BottomNavFab`, `BottomNavMoreSheet` — are
-> implemented in `packages/design_system/src/organisms/BottomNav/` (Organisms tier, per
-> `component-inventory.md`), plus a pure `resolveActiveTab(pathname)` route→tab mapper and a shared
-> `formatBadgeCount` util. Exported from the shared barrel (`src/index.ts` → `./organisms`) — safe
-> to barrel-export unlike `useStatusBarVariant`, because it pulls in no native-only module: haptics,
-> analytics, navigation, and safe-area inset are all delegated to caller callbacks/props, so it
-> renders through `react-native-web` (Storybook + Vitest). 33 unit tests + 7 Storybook stories
-> (light/dark via the global theme toolbar); `npx turbo run lint typecheck test` green across the
-> monorepo (design-system 64 tests total).
+> **Status:** 🟡 Component shipped and wired into the mobile app over placeholder screens (the real
+> per-screen UIs are separate tasks; haptics + a device a11y pass remain). The four presentational
+> pieces — `BottomNav`, `BottomNavTab`, `BottomNavFab`, `BottomNavMoreSheet` — are implemented in
+> `packages/design_system/src/organisms/BottomNav/` (Organisms tier, per `component-inventory.md`),
+> plus a pure `resolveActiveTab(pathname)` route→tab mapper and a shared `formatBadgeCount` util.
+> Exported from the shared barrel (`src/index.ts` → `./organisms`) — safe to barrel-export unlike
+> `useStatusBarVariant`, because it pulls in no native-only module: haptics, analytics, navigation,
+> and safe-area inset are all delegated to caller callbacks/props, so it renders through
+> `react-native-web` (Storybook + Vitest). 33 unit tests + 7 Storybook stories (light/dark via the
+> global theme toolbar); `npx turbo run lint typecheck test` green across the monorepo
+> (design-system 64 tests total).
 >
 > **Deliberate reconciliation of the spec (discovered during implementation):** the spec's More
 > sheet references `@gorhom/bottom-sheet` + `react-native-gesture-handler`, and its Haptics section
@@ -26,13 +27,16 @@
 > `@gorhom` sheet and wiring `expo-haptics` are app-level upgrades that land with the actual
 > screens.
 >
-> **Deferred because the tab screens don't exist yet** (only Splash + Login exist; Home 06 / Feed 07
-> / My Reports 16 / Citizen Profile 28 are all `⬜ Not started`): the physical
-> `app/(tabs)/_layout.tsx` wiring into Expo Router's low-level `Tabs`/`TabList`/`TabTrigger`
-> primitives, the E2E happy path, "applied across all 5 root screens", and the manual VoiceOver/
-> TalkBack pass. `resolveActiveTab` is the tested, platform-agnostic core of that wiring, ready to
-> plug `usePathname()` into when the first tab screen lands (each screen picks this up as part of
-> its own task, not a gap in this one — same pattern as `04-status-bar-component`).
+> **Now wired into the app over placeholder screens** (the real Home 06 / Feed 07 / My Reports 16 /
+> Citizen Profile 28 are still `⬜ Not started`): `app/(tabs)/_layout.tsx` renders `AppBottomNav`
+> (`src/navigation/AppBottomNav.tsx`) as `Tabs`' custom `tabBar`, and a `PlaceholderScreen` ("não
+> implementado") backs each route — `home`/`feed`/`profile` tabs, the `/camera` modal, and the More
+> destinations (`notifications`/`my-reports`/`settings`). Labels come from a new `nav` i18n
+> namespace. A submit on Login now drops into `/home` so the shell is reachable. Verified
+> end-to-end: `e2e/bottom-nav.spec.ts` drives the nav on a real `expo start --web` (15/15 mobile e2e
+> green). Each real screen replaces its placeholder as part of its own task — same pattern as
+> `04-status-bar-component`. **Still pending:** haptics (`expo-haptics`, not yet a dependency; no-op
+> on web anyway) and the manual VoiceOver/TalkBack pass on a device.
 >
 > **Reviewed:** ran the `code-reviewer` subagent; addressed its blocking finding (backdrop/panel
 > `Pressable`s set `accessible={false}` so the sheet's rows aren't collapsed out of the native a11y
@@ -283,11 +287,14 @@ Not applicable — the component holds no personal data.
 
 - [x] BottomNav, BottomNavTab, BottomNavFab, and BottomNavMoreSheet implemented in
       `packages/design_system` (+ `resolveActiveTab` route mapper and `formatBadgeCount` util)
-- [ ] Custom tab bar wired into Expo Router's `Tabs`/`expo-router/ui` low-level tab primitives —
-      **deferred**: no tab screens exist yet (Home/Feed/My Reports/Profile are all Not started), so
-      there is nothing to wire `app/(tabs)/_layout.tsx` into. `resolveActiveTab(pathname)` is the
-      tested core of this wiring, ready to plug `usePathname()` into when the first tab screen
-      lands.
+- [x] Custom tab bar wired into Expo Router — `app/(tabs)/_layout.tsx` uses `Tabs` with a custom
+      `tabBar` rendering `AppBottomNav` (`src/navigation/AppBottomNav.tsx`), which maps
+      `usePathname()` through `resolveActiveTab` and turns each callback into a real `router`
+      navigation (tabs → `/home`·`/feed`·`/profile`, FAB → `/camera` modal, More items → their
+      routes). Used the standard `Tabs` + `tabBar` render prop rather than the `expo-router/ui`
+      low-level primitives — the presentational `BottomNav` already renders the raised FAB itself.
+      The routed screens are **placeholders** (`PlaceholderScreen` — "não implementado") until each
+      screen's own task lands.
 - [x] Storybook with all states (Default, FeedActive, MoreActive, UnknownRoute, WithTabBadge,
       MoreSheetOpen, Interactive; light/dark via the global theme toolbar)
 - [~] A11y verified — **code-level done** (`role="tab"`/`"tablist"`/`"menuitem"`,
@@ -299,14 +306,18 @@ Not applicable — the component holds no personal data.
   presentational and native-`expo-haptics`-free so it stays web-renderable); the caller fires
   light/medium/soft feedback in `onTabPress`/`fab.onPress`/`onMorePress`. Wired when the app
   integrates it.
-- [x] Tests: unit (33 tests, happy + error/edge: unknown route, zero/capped badges, tap-inside vs
-      tap-outside, non-string icon) — **unit done**; the 1 E2E happy path is deferred with the app
-      wiring (no root screens to drive yet).
+- [x] Tests: unit (33 tests, happy + error/edge: unknown route, zero/capped badges, panel-tap vs
+      backdrop-tap, select-dismiss, non-string icon) **and** an E2E happy path
+      (`e2e/bottom-nav.spec.ts`: nav renders on a root screen, tab switch flips `aria-selected`,
+      More sheet opens→navigates→dismisses, Camera FAB opens the modal and closes back to Home) —
+      15/15 mobile e2e green against a real `expo start --web`.
 - [x] Storybook docs and prop documentation (JSDoc on every prop + per-story descriptions)
 - [x] Code review approved (`code-reviewer` subagent run; blocking + high + medium findings
       addressed)
-- [ ] Applied across all 5 root screens — **deferred**: those screens don't exist yet; each adopts
-      this component as part of its own task (same pattern as `04-status-bar-component`)
+- [~] Applied across all 5 root screens — the nav now renders across the whole tab shell
+  (Home/Feed/Profile tabs + the More destinations), but on **placeholder** screens; each real screen
+  adopts the finished UI as part of its own task (same pattern as `04-status-bar-component`).
+  Haptics wiring (`expo-haptics`) is the remaining app-side follow-up.
 
 ## Standards & References
 

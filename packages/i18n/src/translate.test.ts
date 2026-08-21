@@ -13,6 +13,7 @@ const dicts: Record<"pt-BR" | "en-US", LocaleDict> = {
   "pt-BR": {
     common: { greeting: "Olá, {{name}}!" },
     home: {},
+    nav: {},
     camera: {},
     report: { supportsCount: { zero: "sem apoios", one: "1 apoio", other: "{{count}} apoios" } },
     auth: {},
@@ -25,6 +26,7 @@ const dicts: Record<"pt-BR" | "en-US", LocaleDict> = {
   "en-US": {
     common: { greeting: "Hello, {{name}}!", onlyInEnglish: "English only" },
     home: {},
+    nav: {},
     camera: {},
     report: {
       supportsCount: { zero: "0 supports", one: "1 support", other: "{{count}} supports" },

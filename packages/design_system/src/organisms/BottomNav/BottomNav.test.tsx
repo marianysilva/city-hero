@@ -107,14 +107,16 @@ describe("BottomNav", () => {
     expect(syncRow.textContent).not.toContain("0");
   });
 
-  it("fires a More item's own onPress when tapped", () => {
+  it("fires a More item's own onPress and dismisses the sheet on select", () => {
     const settingsPress = vi.fn();
-    const {} = renderNav({
+    renderNav({
       moreItems: [{ key: "settings", label: "Configurações", onPress: settingsPress }],
     });
     fireEvent.click(screen.getByTestId("nav-tab-more"));
     fireEvent.click(screen.getByTestId("more-item-settings"));
     expect(settingsPress).toHaveBeenCalledTimes(1);
+    // Selecting an item closes the sheet (the bar is persistent chrome).
+    expect(screen.queryByTestId("more-item-settings")).toBeNull();
   });
 
   it("closes the More sheet when the backdrop (tap-outside) is pressed", () => {
@@ -126,17 +128,15 @@ describe("BottomNav", () => {
     expect(screen.queryByTestId("more-item-settings")).toBeNull();
   });
 
-  it("does NOT close the sheet when a tap lands inside the panel (below the rows)", () => {
-    // Guards the inner stop-propagation Pressable: tapping a row fires its own
-    // onPress but must not bubble to the backdrop and dismiss the sheet.
-    const settingsPress = vi.fn();
-    renderNav({
-      moreItems: [{ key: "settings", label: "Configurações", onPress: settingsPress }],
-    });
+  it("does NOT close the sheet when a tap lands on the panel background (not a row)", () => {
+    // Guards the inner stop-propagation Pressable: a tap on the panel itself
+    // (padding/handle area) must not bubble to the backdrop and dismiss.
+    renderNav();
     fireEvent.click(screen.getByTestId("nav-tab-more"));
-    fireEvent.click(screen.getByTestId("more-item-settings"));
-    // Row handler fired, but the sheet is still open (row still queryable).
-    expect(settingsPress).toHaveBeenCalledTimes(1);
+    expect(screen.getByTestId("more-item-settings")).toBeTruthy();
+
+    fireEvent.click(screen.getByTestId("more-sheet-panel"));
+    // Still open — only the backdrop or selecting a row dismisses.
     expect(screen.getByTestId("more-item-settings")).toBeTruthy();
   });
 
