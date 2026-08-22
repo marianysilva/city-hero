@@ -1,0 +1,15 @@
+{
+  "map": "Map",
+  "feed": "Feed",
+  "camera": "Camera",
+  "profile": "Profile",
+  "more": "More",
+  "cameraA11yLabel": "Report a problem with the camera",
+  "closeMore": "Close",
+  "notifications": "Notifications",
+  "myReports": "My Reports",
+  "settings": "Settings",
+  "logout": "Log out",
+  "wipTitle": "Coming soon",
+  "wipBody": "This screen isn't implemented yet."
+}

@@ -18,5 +18,12 @@ export default function Login() {
     }
   };
 
-  return <LoginScreen onBack={handleBack} />;
+  // Real email/password auth isn't built yet (01a-login/02); until then, a
+  // submit drops the user into the main tab shell so the bottom nav and the
+  // placeholder screens are reachable. `replace` so Back doesn't return here.
+  const handleSubmit = () => {
+    router.replace("/home");
+  };
+
+  return <LoginScreen onBack={handleBack} onSubmit={handleSubmit} />;
 }
