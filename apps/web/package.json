@@ -13,7 +13,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@apollo/client": "^4.2.3",
+    "@apollo/client": "^4.2.12",
     "@apollo/client-integration-nextjs": "^0.14.5",
     "@city-hero/api-client": "*",
     "@city-hero/design-system": "*",
